@@ -13,8 +13,6 @@ services:
         NEXT_PUBLIC_ENV_DOMAIN: ${NEXT_PUBLIC_ENV_DOMAIN}
     environment:
       TZ: "Asia/Seoul"
-    # volumes:
-    #   - "./frontend/.next/standalone:/usr/src/nextjs"
     networks:
       - server-network
 
