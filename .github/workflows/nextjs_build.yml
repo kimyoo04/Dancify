@@ -2,14 +2,11 @@ name: Next.js Build
 
 on:
   push:
-    branches-ignore:
-      - '**'
-  push:
     branches:
-      - 'FE-feature/*'
+      - "FE-feature/*"
 
 jobs:
-  build:
+  nextjs-build:
     runs-on: ubuntu-20.04
 
     steps:
