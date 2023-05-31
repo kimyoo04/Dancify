@@ -8,14 +8,14 @@ from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 
 
-class HelloWorldView(View):
+class CheerUpView(View):
     def get(self, request):
         return JsonResponse({'message': '하고싶은 것 다하조 화이팅!'})
 
 schema_view = get_schema_view(
     openapi.Info(
-        title="KT Django API v1.0", default_version='v1',
-        contact=openapi.Contact(email="blackdew7@gmail.com"),
+        title="Dancify API v1.0", default_version='v1',
+        contact=openapi.Contact(email="kimyoo04eco@gmail.com"),
         license=openapi.License(name="BSD License"),
     ),
     public=True,
@@ -23,7 +23,7 @@ schema_view = get_schema_view(
 )
 
 urlpatterns = [
-    path('', HelloWorldView.as_view()),
+    path('', CheerUpView.as_view()),
     path('admin', admin.site.urls),
 
     # API 문서
