@@ -25,6 +25,13 @@
 - 작업 했던 브렌치명 그대로 Pull Request 명에 사용
 - reviewer, assignee, label, issue 연결
 
+## ✅ Labels
+
+- 💎 AI / 🔥 backend / 🌈 frontend, 🎨 UI / 🗃 infra
+- 💫 feat / 📝 docs / 🐛 bug / ⚙️ chore / ♻️ refactor
+- ✅ test / ❓question
+- [참고 링크](https://lusida-coding.tistory.com/140)
+
 ## ✅ Merge
 
 - 자동 생성되는 텍스트 그대로 사용
