@@ -1,0 +1,33 @@
+/* 채팅 기능 감싸는 최상위 태그 */
+.chat-popup {
+  @apply h-full w-full origin-bottom-right overflow-hidden rounded-lg border border-main_color bg-white shadow-md transition-all;
+}
+
+/* 챗봇 창의 헤더 */
+.chat-header {
+  @apply flex w-full items-center justify-between bg-main_color px-3 py-2;
+}
+.chat-header h2 {
+  @apply text-xl font-medium text-font_white;
+}
+
+/* 메시지 상자 */
+.chat-textbox {
+  @apply flex max-w-[800px] items-center gap-2 rounded-lg px-2 py-1 shadow-sm shadow-black/20;
+}
+
+/* 주고 받는 메시지의 정렬 */
+.sent-text {
+  @apply flex flex-col items-end pl-10 sm:pl-28 md:pl-36 lg:pl-72;
+}
+.received-text {
+  @apply flex items-start justify-start gap-2 pr-10 sm:pr-28 md:pr-36 lg:pr-72;
+}
+
+/* 주고 받는 메시지의 배경 */
+.sent-bg {
+  @apply rounded-br-none bg-main_color/5;
+}
+.received-bg {
+  @apply rounded-tl-none;
+}

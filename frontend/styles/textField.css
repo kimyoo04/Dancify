@@ -1,0 +1,22 @@
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+  -webkit-text-fill-color: black;
+  -webkit-box-shadow: 0 0 0px 1000px #fbfbfb inset;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+/* 커스텀 */
+.textfield {
+  @apply border border-gray_2 placeholder:text-sm hover:border-main_color focus:border-main_color focus:outline-none;
+}
+
+input {
+  @apply border-b-gray_3 py-1 focus:border-b-main_color focus:outline-none;
+}

@@ -1,3 +1,7 @@
+# custom
+.vscode
+.test
+
 # Logs
 logs
 *.log
