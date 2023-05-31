@@ -12,6 +12,7 @@ class CheerUpView(View):
     def get(self, request):
         return JsonResponse({'message': '하고싶은 것 다하조 화이팅!'})
 
+
 schema_view = get_schema_view(
     openapi.Info(
         title="Dancify API v1.0", default_version='v1',
@@ -25,13 +26,13 @@ schema_view = get_schema_view(
 urlpatterns = [
     path('', CheerUpView.as_view()),
     path('admin', admin.site.urls),
-
     # API 문서
     path('api/schema',
-        schema_view.without_ui(cache_timeout=0), name='schema-json'),
-    path('api/swagger', schema_view.with_ui('swagger',
-                                            cache_timeout=0), name='schema-swagger-ui'),
-
+         schema_view.without_ui(cache_timeout=0), name='schema-json'),
+    path('api/swagger',
+         schema_view.with_ui('swagger',
+                             cache_timeout=0),
+         name='schema-swagger-ui'),
     # API URL
     path('api', include([
         # path('/auth', include('auth.urls')),
