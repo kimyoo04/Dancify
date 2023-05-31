@@ -5,7 +5,7 @@ services:
     container_name: nextjs
     restart: "always"
     build:
-      context: ./seoul-competition-frontend
+      context: ./frontend
       dockerfile: Dockerfile
       args:
         NEXT_PUBLIC_ENV_API_DOMAIN: ${NEXT_PUBLIC_ENV_API_DOMAIN}
@@ -14,7 +14,7 @@ services:
     environment:
       TZ: "Asia/Seoul"
     # volumes:
-    #   - "./seoul-competition-frontend/.next/standalone:/usr/src/nextjs"
+    #   - "./frontend/.next/standalone:/usr/src/nextjs"
     networks:
       - server-network
 
