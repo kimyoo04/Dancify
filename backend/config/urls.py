@@ -10,7 +10,7 @@ from drf_yasg import openapi
 
 class HelloWorldView(View):
     def get(self, request):
-        return JsonResponse({'message': 'Hello, World!'})
+        return JsonResponse({'message': '하고싶은 것 다하조 화이팅!'})
 
 schema_view = get_schema_view(
     openapi.Info(
