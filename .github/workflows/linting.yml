@@ -1,0 +1,49 @@
+name: Actions on Pull Request to Develop
+
+on:
+  pull_request:
+    branches:
+      - develop
+
+jobs:
+  django-lint:
+    runs-on: ubuntu-20.04
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: 3.8
+
+      - name: Install dependencies
+        run: pip install flake8
+
+      - name: Run Flake8
+        run: |
+          cd backend
+          flake8
+
+  nextjs-build:
+    runs-on: ubuntu-20.04
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install dependencies
+        run: |
+          cd frontend
+          npm ci
+
+      - name: Build Next.js app
+        run: |
+          cd frontend
+          npm run build
