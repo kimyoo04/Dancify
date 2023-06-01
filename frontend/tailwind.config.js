@@ -1,49 +1,90 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  mode: "jit",
-  content: ["./src/**/*.{js,ts,jsx,tsx}", "./pages/**/*.{js,ts,jsx,tsx}"],
-  darkMode: "media",
+  content: ["./pages/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}"],
+  darkMode: ["class"],
   theme: {
+    container: {
+      center: true,
+      padding: "2rem",
+      screens: {
+        "2xl": "1400px",
+      },
+    },
     extend: {
       colors: {
-        main_color: "#3da5a3",
-        sub_color: "#6DDDB2",
-        back_color: "#c2d1ff",
+        // custom
+        main_color_blue: "#2d2aff",
+        main_color_green: "#14c79f",
+        main_color_yellow: "#91d36f",
 
-        gray_1: "#303030",
-        gray_2: "#808080",
-        gray_3: "#BDBDBD",
-        gray_4: "#EEEEEE",
+        gray_1: "#373737",
+        gray_2: "#565656",
+        gray_3: "#828385",
+        gray_4: "#A0A1A4",
+        gray_5: "#C0C0C2",
 
         bg_1: "#FBFBFB",
-
-        font_black: "#101010",
-        font_white: "#ffffff",
-        font_gray: "#808080",
 
         alert_success: "#219653",
         alert_warning: "#F2C94C",
         alert_danger: "#EB5757",
         alert_info: "#2F80ED",
+
+        // shadcn UI
+        border: "hsl(var(--border))",
+        input: "hsl(var(--input))",
+        ring: "hsl(var(--ring))",
+        background: "hsl(var(--background))",
+        foreground: "hsl(var(--foreground))",
+        primary: {
+          DEFAULT: "hsl(var(--primary))",
+          foreground: "hsl(var(--primary-foreground))",
+        },
+        secondary: {
+          DEFAULT: "hsl(var(--secondary))",
+          foreground: "hsl(var(--secondary-foreground))",
+        },
+        destructive: {
+          DEFAULT: "hsl(var(--destructive))",
+          foreground: "hsl(var(--destructive-foreground))",
+        },
+        muted: {
+          DEFAULT: "hsl(var(--muted))",
+          foreground: "hsl(var(--muted-foreground))",
+        },
+        accent: {
+          DEFAULT: "hsl(var(--accent))",
+          foreground: "hsl(var(--accent-foreground))",
+        },
+        popover: {
+          DEFAULT: "hsl(var(--popover))",
+          foreground: "hsl(var(--popover-foreground))",
+        },
+        card: {
+          DEFAULT: "hsl(var(--card))",
+          foreground: "hsl(var(--card-foreground))",
+        },
       },
-      fontFamily: {
-        base: "IBM Plex Sans KR, system-ui, sans-serif",
+      borderRadius: {
+        lg: "var(--radius)",
+        md: "calc(var(--radius) - 2px)",
+        sm: "calc(var(--radius) - 4px)",
       },
-      fontSize: {
-        h1: "68px",
-        h2: "42px",
-        h3: "26px",
-        h4: "20px",
-        medium: "16px",
-        small: "14px",
+      keyframes: {
+        "accordion-down": {
+          from: { height: 0 },
+          to: { height: "var(--radix-accordion-content-height)" },
+        },
+        "accordion-up": {
+          from: { height: "var(--radix-accordion-content-height)" },
+          to: { height: 0 },
+        },
       },
-      maxWidth: {
-        container: "1080px",
-      },
-      minWidth: {
-        sidebar: "320px",
+      animation: {
+        "accordion-down": "accordion-down 0.2s ease-out",
+        "accordion-up": "accordion-up 0.2s ease-out",
       },
     },
   },
-  plugins: [],
+  plugins: [require("tailwindcss-animate")],
 };
