@@ -14,9 +14,9 @@ select:-webkit-autofill:focus {
 
 /* 커스텀 */
 .textfield {
-  @apply border border-gray_2 placeholder:text-sm hover:border-main_color focus:border-main_color focus:outline-none;
+  @apply border-gray_2 hover:border-main_color_yellow focus:border-main_color_yellow border placeholder:text-sm focus:outline-none;
 }
 
 input {
-  @apply border-b-gray_3 py-1 focus:border-b-main_color focus:outline-none;
+  @apply border-b-gray_3 focus:border-b-main_color_yellow py-1 focus:outline-none;
 }

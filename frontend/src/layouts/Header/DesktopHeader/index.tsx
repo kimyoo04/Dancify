@@ -17,7 +17,7 @@ export default function DesktopHeader() {
       >
         <Link
           href={"/signin"}
-          className="col-center rounded-full bg-main_color px-4 py-1 text-font_white"
+          className="col-center rounded-full bg-main_color_yellow px-4 py-1 text-white"
         >
           <button>로그인</button>
         </Link>

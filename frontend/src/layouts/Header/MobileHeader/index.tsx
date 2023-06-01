@@ -36,12 +36,14 @@ export default function MobileHeader({
               // router.back()
             }
           >
-            <i className="ri-arrow-left-s-line text-4xl text-main_color"></i>
-            <span className="text-lg font-medium text-main_color">목록</span>
+            <i className="ri-arrow-left-s-line text-4xl text-main_color_yellow"></i>
+            <span className="text-lg font-medium text-main_color_yellow">
+              목록
+            </span>
           </button>
 
           <div className="col-center">
-            <h2 className="text-xl font-medium text-main_color">
+            <h2 className="text-xl font-medium text-main_color_yellow">
               {currentPage.educations
                 ? "교육 정보"
                 : currentPage.posts

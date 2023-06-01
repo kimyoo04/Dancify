@@ -2,14 +2,10 @@ import Loading from "@components/Loading";
 import Header from "./PostDetailItem/Header";
 import Content from "./PostDetailItem/Content";
 import ScrollButton from "@components/ScrollButton";
-import UserForm from "@components/UserForm";
 
 import { useReadPost } from "@api/posts/readPost";
-import { useAppSelector } from "@toolkit/hook";
 
 export default function PostDetail({ id }: { id: string }) {
-  const showModal = useAppSelector((state) => state.userForm.showModal);
-
   // 게시글 불어오기
   const { data, isLoading, error } = useReadPost(id);
 
@@ -34,9 +30,6 @@ export default function PostDetail({ id }: { id: string }) {
 
       {/* 최상단 이동 버튼 */}
       <ScrollButton />
-
-      {/* 유저폼 모달 */}
-      {showModal && <UserForm />}
     </>
   );
 }
