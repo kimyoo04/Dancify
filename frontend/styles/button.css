@@ -3,7 +3,7 @@
 .accent_btn_fill,
 .accent_btn_border,
 .border_btn {
-  @apply rounded-3xl bg-white px-4 py-2 font-bold text-font_black shadow-md;
+  @apply rounded-3xl bg-white px-4 py-2 font-bold shadow-md;
 }
 
 /* 버튼 커스텀 */
@@ -11,19 +11,19 @@
 }
 
 .unaccent_btn_fill {
-  @apply bg-sub_color shadow-back_color;
+  @apply bg-main_color_green shadow-gray_3;
 }
 
 .accent_btn_fill {
-  @apply bg-main_color text-font_white shadow-back_color;
+  @apply bg-main_color_yellow text-white shadow-gray_3;
 }
 
 .unaccent_btn_border {
-  @apply border text-font_gray shadow-back_color;
+  @apply border text-gray_2 shadow-gray_3;
 }
 
 .accent_btn_border {
-  @apply border border-main_color text-main_color shadow-back_color;
+  @apply border text-main_color_yellow shadow-gray_3;
 }
 
 .border_btn {
@@ -37,7 +37,7 @@
 /* 컴포넌트용 */
 
 .create_btn {
-  @apply rounded-lg border-2 border-main_color bg-main_color/20 px-2 text-sm;
+  @apply rounded-lg border-2 bg-main_color_yellow/20 px-2 text-sm;
 }
 
 .delete_btn {

@@ -15,7 +15,7 @@ export default function ChatGPTIntro() {
             height={70}
             alt={"chatgpt_logo"}
           />
-          <span className="text-4xl font-bold text-main_color">+</span>
+          <span className="text-main_color_yellow text-4xl font-bold">+</span>
           <Image
             src={"/images/bardai.png"}
             width={270}

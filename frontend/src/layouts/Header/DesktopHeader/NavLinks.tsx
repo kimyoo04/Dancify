@@ -6,7 +6,7 @@ export default function NavLinks() {
   const router = useRouter();
   const pathsArr = router.asPath.split("/");
   const hilightedText = (path: string) =>
-    pathsArr.includes(path) ? "font-bold text-main_color" : "";
+    pathsArr.includes(path) ? "font-bold text-main_color_yellow" : "";
 
   return (
     <div className="flex gap-3 text-xl font-medium">

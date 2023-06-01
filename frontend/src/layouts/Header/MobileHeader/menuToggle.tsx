@@ -11,14 +11,14 @@ export default function MenuToggle({
     <>
       {showMenu ? (
         <button onClick={() => setShowMenu(false)}>
-          <i className="ri-close-line text-3xl font-bold text-main_color" />
+          <i className="ri-close-line text-3xl font-bold text-main_color_yellow" />
         </button>
       ) : (
         <button
           className="col-center h-8 w-8"
           onClick={() => setShowMenu(true)}
         >
-          <i className="ri-menu-3-line text-2xl font-bold text-main_color" />
+          <i className="ri-menu-3-line text-2xl font-bold text-main_color_yellow" />
         </button>
       )}
     </>

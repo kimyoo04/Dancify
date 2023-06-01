@@ -9,7 +9,7 @@ export default function Content({ data }: IContentProps) {
   return (
     <>
       {/* 내용 영역*/}
-      <div className="mb-16 text-font_black ">{data}</div>
+      <div className="mb-16">{data}</div>
     </>
   );
 }

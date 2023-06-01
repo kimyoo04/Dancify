@@ -2,15 +2,11 @@ import { configureStore } from "@reduxjs/toolkit";
 
 import alertReducer from "@features/alert/alertSlice";
 import authReducer from "@features/auth/authSlice";
-import userFormReducer from "@features/userForm/userFormSlice";
-import chatReducer from "@features/chat/chatSlice";
 
 export const store = configureStore({
   reducer: {
     alert: alertReducer,
     auth: authReducer,
-    userForm: userFormReducer,
-    chat: chatReducer,
   },
   // middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
 });

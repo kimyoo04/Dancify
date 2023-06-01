@@ -118,7 +118,7 @@ export default function AddPost() {
             <ButtonWrapper>
               <button
                 type="submit"
-                className="rounded-lg  bg-main_color px-2 py-1 text-font_white"
+                className="rounded-lg  bg-main_color_yellow px-2 py-1 text-white"
               >
                 작성 완료
               </button>

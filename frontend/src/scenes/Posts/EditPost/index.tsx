@@ -124,7 +124,7 @@ export default function EditPost({ id }: { id: string }) {
                 <ButtonWrapper>
                   <button
                     type="submit"
-                    className="rounded-lg bg-main_color px-2 py-1 text-font_white"
+                    className="rounded-lg bg-main_color_yellow px-2 py-1 text-white"
                   >
                     수정 완료
                   </button>

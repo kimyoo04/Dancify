@@ -15,15 +15,17 @@ export default function Menu({ currentPage }: { currentPage: ICurrentPage }) {
         transition={{ duration: 0.2 }}
         className="absolute left-0 top-16 w-screen bg-white font-medium shadow-sm"
       >
-        <div className="col-center border-t border-main_color/30">
+        <div className="col-center border-t border-black/30">
           <Link
             href={"/chat"}
-            className="col-center w-full border-b border-main_color/30 py-2"
+            className="col-center w-full border-b border-black/30 py-2"
           >
             <ButtonWrapper>
               <span
                 className={`text-lg ${
-                  currentPage.educations ? "font-bold text-main_color" : ""
+                  currentPage.educations
+                    ? "font-bold text-main_color_yellow"
+                    : ""
                 }`}
               >
                 챗봇 대화
@@ -32,12 +34,14 @@ export default function Menu({ currentPage }: { currentPage: ICurrentPage }) {
           </Link>
           <Link
             href={"/signLanguage"}
-            className="col-center w-full border-b border-main_color/30 py-2"
+            className="col-center w-full border-b border-black/30 py-2"
           >
             <ButtonWrapper>
               <span
                 className={`text-lg ${
-                  currentPage.educations ? "font-bold text-main_color" : ""
+                  currentPage.educations
+                    ? "font-bold text-main_color_yellow"
+                    : ""
                 }`}
               >
                 수어 번역
@@ -46,12 +50,12 @@ export default function Menu({ currentPage }: { currentPage: ICurrentPage }) {
           </Link>
           <Link
             href={"/posts"}
-            className="col-center w-full border-b border-main_color/30 py-2"
+            className="col-center w-full border-b border-black/30 py-2"
           >
             <ButtonWrapper>
               <span
                 className={`text-lg ${
-                  currentPage.posts ? "font-bold text-main_color" : ""
+                  currentPage.posts ? "font-bold text-main_color_yellow" : ""
                 }`}
               >
                 자유게시판
@@ -60,12 +64,12 @@ export default function Menu({ currentPage }: { currentPage: ICurrentPage }) {
           </Link>
           <Link
             href={"/signin"}
-            className="col-center w-full border-b border-main_color/30 py-2"
+            className="col-center w-full border-b border-black/30 py-2"
           >
             <ButtonWrapper>
               <span
                 className={`text-lg ${
-                  currentPage.posts ? "font-bold text-main_color" : ""
+                  currentPage.posts ? "font-bold text-main_color_yellow" : ""
                 }`}
               >
                 로그인
