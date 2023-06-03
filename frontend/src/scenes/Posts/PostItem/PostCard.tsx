@@ -3,7 +3,7 @@ import { timeYmd } from "@util/dateTime";
 import { truncateString } from "@util/truncateString";
 import Link from "next/link";
 
-export default function PostItem({ post }: { post: IPostData }) {
+export default function PostCard({ post }: { post: IPostData }) {
   return (
     // postDetail로 링크
     <Link

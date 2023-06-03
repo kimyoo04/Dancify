@@ -1,6 +1,6 @@
 import { IPostData } from "@type/posts";
 
-import PostItem from "@scenes/Posts/PostItem";
+import PostItem from "@scenes/Posts/PostItem/PostCard";
 import PostListLoader from "./PostListLoader";
 
 import { useReadPosts } from "@api/posts/readPosts";
