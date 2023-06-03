@@ -3,6 +3,7 @@ import { useAppSelector } from "@toolkit/hook";
 
 import Header from "./Header";
 import Footer from "./Footer";
+import TabBar from "./TabBar";
 import Alert from "@components/Alert";
 
 export default function DetailPageLayout({
@@ -24,13 +25,12 @@ export default function DetailPageLayout({
         </div>
       </motion.div>
 
-      {/* 해더 영역 */}
+      {/* 레이아웃 요소 */}
       <Header />
-
-      {/* 푸터 영역 */}
       <Footer />
+      <TabBar />
 
-      {/* Alert */}
+      {/* 알림창 */}
       {isAlert && <Alert />}
     </>
   );

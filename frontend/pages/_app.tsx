@@ -34,7 +34,7 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <>
       <Head>
-        <title>AIVLE School 3기 4조</title>
+        <title>Dancify</title>
         <meta name="description" content="description here" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="msapplication-TileColor" content="#ffffff" />
