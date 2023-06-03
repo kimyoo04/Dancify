@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { useAppSelector } from "@toolkit/hook";
 
 import Header from "./Header";
-import Footer from "./Footer";
+import TabBar from "./TabBar";
 import Alert from "@components/Alert";
 
 export default function OnePageLayout({
@@ -25,17 +25,11 @@ export default function OnePageLayout({
         </div>
       </motion.div>
 
-      {/* 해더 영역 */}
-      <div className="fixed top-0 w-full">
-        <Header />
-      </div>
+      {/* 레이아웃 요소 */}
+      <Header />
+      <TabBar />
 
-      {/* 푸터 영역 */}
-      <div className="fixed bottom-0 w-full">
-        <Footer />
-      </div>
-
-      {/* Alert */}
+      {/* 알림창 */}
       {isAlert && <Alert />}
     </>
   );
