@@ -20,7 +20,7 @@ INSTALLED_APPS = [
     'boto3',
 
     # !apps
-    # 'auth',
+    'accounts',
     # 'posts',
     # 'user',
 ]
