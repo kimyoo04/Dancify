@@ -31,6 +31,8 @@
       "@features/*": ["./src/features/*"],
       "@layouts": ["./src/layouts"],
       "@layouts/*": ["./src/layouts/*"],
+      "@lib": ["./src/lib"],
+      "@lib/*": ["./src/lib/*"],
       "@scenes": ["./src/scenes"],
       "@scenes/*": ["./src/scenes/*"],
       "@toolkit": ["./src/toolkit"],
