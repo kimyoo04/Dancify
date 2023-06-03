@@ -1,15 +1,11 @@
 import ScrollButton from "@components/ScrollButton";
-import PostList from "./PostList";
-import CreateButton from "./CreateButton";
+import Link from "next/link";
 
 export default function Posts() {
   return (
     <div className="w-full">
-      {/* 자유게시판 fetch 결과 출력 */}
-      <PostList />
-
-      {/* 게시글 추가 버튼 */}
-      <CreateButton />
+      <Link href="/posts/free">자유게시판</Link>
+      <Link href="/posts/video">영상자랑게시판</Link>
 
       {/* 최상단 이동 버튼 */}
       <ScrollButton />

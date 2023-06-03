@@ -1,6 +1,6 @@
 import Loading from "@components/Loading";
-import Header from "./PostDetailItem/Header";
-import Content from "./PostDetailItem/Content";
+import Header from "./FreeDetailItem/Header";
+import Content from "./FreeDetailItem/Content";
 import ScrollButton from "@components/ScrollButton";
 
 import { useReadPost } from "@api/posts/readPost";
