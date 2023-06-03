@@ -8,3 +8,4 @@ mysqlclient==2.1.1
 boto3==1.26.143
 flake8==6.0.0
 python-dotenv==1.0.0
+django-extensions==3.2.1

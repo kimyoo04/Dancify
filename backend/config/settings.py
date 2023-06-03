@@ -18,6 +18,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_simplejwt',
     'boto3',
+    'django_extensions',
 
     # !apps
     'accounts',
@@ -140,3 +141,6 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 CSRF_TRUSTED_ORIGINS = [os.environ.get('DJANGO_NEXTJS_URL')]
+
+# 사용자 정의 User 모델 사용
+AUTH_USER_MODEL = 'accounts.User'
