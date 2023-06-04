@@ -19,7 +19,7 @@ export default function AuthLayout({
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
       >
-        <div className="col-center h-screen w-screen">{children}</div>
+        <div className="col-center container h-screen w-full">{children}</div>
       </motion.div>
 
       {/* 레이아웃 요소 */}
