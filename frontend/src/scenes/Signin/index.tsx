@@ -1,85 +1,67 @@
 import Link from "next/link";
-import { useRouter } from "next/router";
-import { useForm } from "react-hook-form";
-
-import { signin } from "@api/auth/signin";
-import { ISignInForm } from "@type/signin";
-
-import ErrorMsg from "@components/TextField/ErrorMsg";
-import { TextField } from "@components/TextField";
-
-import { useAppDispatch } from "@toolkit/hook";
-import { authActions } from "@features/auth/authSlice";
+import { Command } from "lucide-react";
+import UserSignInForm from "./UserSignInForm";
 
 export default function Signin() {
-  const router = useRouter();
-  const dispatch = useAppDispatch();
-
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<ISignInForm>({
-    defaultValues: {},
-  });
-
-  const onValid = async (data: ISignInForm) => {
-    const response = await signin(data);
-
-    // 로그인 요청 (성공 시 authState 변경 및 메인 페이지로 이동)
-    if (response) {
-      dispatch(authActions.signin({ ...response.data }));
-      router.replace("/");
-      await new Promise((resolve) => setTimeout(resolve, 500));
-    }
-  };
-
   return (
-    <form onSubmit={handleSubmit(onValid)}>
-      <TextField
-        id="userId"
-        label="ID"
-        error={errors.userId?.message as string}
-        inputProps={{
-          ...register("userId", {
-            required: "ID를 입력해주세요.",
-            maxLength: {
-              value: 16,
-              message: "ID는 17 보다 작아야 합니다.",
-            },
-          }),
-        }}
-      />
-
-      <TextField
-        id="password"
-        label="password"
-        type="password"
-        error={errors.password?.message as string}
-        autoComplete="current-password"
-        inputProps={{
-          ...register("password", {
-            required: "Password를 입력해주세요.",
-            minLength: {
-              value: 6,
-              message: "Password는 5보다 길어야 합니다.",
-            },
-            maxLength: {
-              value: 16,
-              message: "Password는 17보다 짧아야 합니다.",
-            },
-          }),
-        }}
-      />
-
-      <ErrorMsg>{errors?.extraError?.message}</ErrorMsg>
-
-      <div className="mt-4 flex items-center justify-between">
-        <Link href="/signup">
-          <span>회원가입</span>
-        </Link>
-        <button type="submit">로그인</button>
+    <div className="container relative grid h-[800px] flex-col items-center justify-center lg:max-w-none lg:grid-cols-2 lg:px-0">
+      <div className="relative hidden h-full flex-col bg-muted p-10 text-white dark:border-r lg:flex">
+        <div
+          className="absolute inset-0 bg-cover"
+          style={{
+            backgroundImage:
+              "url(https://images.unsplash.com/photo-1590069261209-f8e9b8642343?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1376&q=80)",
+          }}
+        />
+        <div className="relative z-20 flex items-center text-lg font-medium">
+          <Command className="mr-2 h-6 w-6" /> Acme Inc
+        </div>
+        <div className="relative z-20 mt-auto">
+          <blockquote className="space-y-2">
+            <p className="text-lg">
+              &ldquo;This library has saved me countless hours of work and
+              helped me deliver stunning designs to my clients faster than ever
+              before. Highly recommended!&rdquo;
+            </p>
+            <footer className="text-sm">Sofia Davis</footer>
+          </blockquote>
+        </div>
       </div>
-    </form>
+
+      <div className="lg:p-8">
+        <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
+          <div className="flex flex-col space-y-2 text-center">
+            <h1 className="text-2xl font-semibold tracking-tight">
+              Sign In Dancify
+            </h1>
+            <p className="text-sm text-muted-foreground">
+              Enter your email and password
+            </p>
+          </div>
+
+          {/* 로그인 폼 */}
+          <UserSignInForm />
+
+          {/* 정책 설명 */}
+          <p className="px-8 text-center text-sm text-muted-foreground">
+            By clicking continue, you agree to our{" "}
+            <Link
+              href="/terms"
+              className="underline underline-offset-4 hover:text-primary"
+            >
+              Terms of Service
+            </Link>{" "}
+            and{" "}
+            <Link
+              href="/privacy"
+              className="underline underline-offset-4 hover:text-primary"
+            >
+              Privacy Policy
+            </Link>
+            .
+          </p>
+        </div>
+      </div>
+    </div>
   );
 }
