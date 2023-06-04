@@ -12,6 +12,7 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "@components/ui/dropdown-menu";
+import DarkToggle from "@components/ui/darkToggle";
 
 // !nickname, email, profile_img, jwt를 통해 받기
 
@@ -36,11 +37,15 @@ export function UserNav() {
       <DropdownMenuContent className="w-56" align="end" forceMount>
         {/* 유저 정보 */}
         <DropdownMenuLabel className="font-normal">
-          <div className="flex flex-col space-y-1">
-            <p className="text-sm font-medium leading-none">shadcn</p>
-            <p className="text-xs leading-none text-muted-foreground">
-              m@example.com
-            </p>
+          <div className="flex items-center justify-between">
+            <div className="flex flex-col space-y-1">
+              <p className="text-sm font-medium leading-none">shadcn</p>
+              <p className="text-xs leading-none text-muted-foreground">
+                m@example.com
+              </p>
+            </div>
+
+            <DarkToggle />
           </div>
         </DropdownMenuLabel>
 
