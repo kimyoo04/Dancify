@@ -3,8 +3,8 @@ import Link from "next/link";
 
 export default function TabBar() {
   return (
-    <div className="container fixed bottom-0 flex h-16 w-screen items-center justify-between border-t md:hidden">
-      <Link href="/home" className="col-center">
+    <div className="container fixed bottom-0 grid h-16 w-screen grid-cols-4 justify-between border-t md:hidden">
+      <Link href="/" className="col-center">
         <Home />
         <span className="text-xs">Home</span>
       </Link>
