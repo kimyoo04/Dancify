@@ -6,19 +6,19 @@ export default function TabBar() {
     <div className="container fixed bottom-0 flex h-16 w-screen items-center justify-between border-t md:hidden">
       <Link href="/home" className="col-center">
         <Home />
-        <span className="text-sm">Home</span>
+        <span className="text-xs">Home</span>
       </Link>
       <Link href="/posts" className="col-center">
         <Book />
-        <span className="text-sm">Posts</span>
+        <span className="text-xs">Posts</span>
       </Link>
       <Link href="/likes" className="col-center">
         <Heart />
-        <span className="text-sm">Likes</span>
+        <span className="text-xs">Likes</span>
       </Link>
       <Link href="/storage" className="col-center">
         <ShoppingBagIcon />
-        <span className="text-sm">Storage</span>
+        <span className="text-xs">Storage</span>
       </Link>
     </div>
   );
