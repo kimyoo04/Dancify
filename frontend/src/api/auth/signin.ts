@@ -3,15 +3,15 @@ import { ISignInForm } from "@type/signin";
 
 export const signin = async (data: ISignInForm) => {
   try {
-    const response = await axios.post("/account/signin/", {
+    const response = await axios.post("/auth/signin", {
       userId: data.userId,
       password: data.password,
     });
 
-    console.log(response);
+    console.log(response.data);
     return response.data;
   } catch (err) {
-    console.error(err);
+    console.log("🚀 signin.tsx", err);
     return false;
   }
 };
