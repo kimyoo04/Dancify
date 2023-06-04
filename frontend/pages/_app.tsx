@@ -15,6 +15,7 @@ import { Provider } from "react-redux";
 import { store } from "@toolkit/store";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useState } from "react";
+import { ThemeProvider } from "next-themes";
 
 export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
@@ -41,16 +42,18 @@ export default function App({ Component, pageProps }: AppProps) {
         <meta name="msapplication-TileImage" content="/ms-icon-144x144.png" />
       </Head>
 
-      <Provider store={store}>
-        <QueryClientProvider client={queryClient}>
-          <AnimatePresence mode="wait">
-            <main>
-              <Component {...pageProps} key={router.route} />
-              <ReactQueryDevtools initialIsOpen={true} />
-            </main>
-          </AnimatePresence>
-        </QueryClientProvider>
-      </Provider>
+      <ThemeProvider attribute="class">
+        <Provider store={store}>
+          <QueryClientProvider client={queryClient}>
+            <AnimatePresence mode="wait">
+              <main>
+                <Component {...pageProps} key={router.route} />
+                <ReactQueryDevtools initialIsOpen={true} />
+              </main>
+            </AnimatePresence>
+          </QueryClientProvider>
+        </Provider>
+      </ThemeProvider>
     </>
   );
 }
