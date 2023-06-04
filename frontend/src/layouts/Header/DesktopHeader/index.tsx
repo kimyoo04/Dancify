@@ -6,7 +6,7 @@ import { UserNav } from "./UserNav";
 export default function DesktopHeader() {
   return (
     <div className="fixed top-0 hidden w-full border-b md:block">
-      <div className="container flex h-16 w-full items-center justify-between gap-4 bg-white">
+      <div className="container flex h-16 w-full items-center justify-between gap-4">
         <div className="row-center">
           {/* 로고 */}
           <Logo />
