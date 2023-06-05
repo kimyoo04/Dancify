@@ -18,11 +18,11 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_simplejwt',
     'boto3',
-    'django_extensions',
+    # 'django_extensions',
 
     # !apps
     'accounts',
-    # 'posts',
+    'posts',
     # 'user',
 ]
 
