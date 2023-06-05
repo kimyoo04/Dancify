@@ -1,16 +1,17 @@
-from django.contrib.auth.models import AbstractUser, UserManager
+from django.contrib.auth.models import AbstractUser
+from django.contrib.auth.models import UserManager
 from django.db import models
 import uuid
 
 
 # contrib.auth.models.AbstractUser의 기본적인 메소드와 필드들을 상속받음
 class CustomUserManager(UserManager):
-    def create_user(self, userId, password, nickname,
+    def create_user(self, user_id, password, nickname,
                     email, phone, **extra_fields):
         extra_fields.setdefault('is_staff', False)
         extra_fields.setdefault('is_superuser', False)
 
-        user = self.model(user_id=userId, email=email,
+        user = self.model(user_id=user_id, email=email,
                           nickname=nickname,
                           phone=phone, **extra_fields)
 
@@ -19,13 +20,13 @@ class CustomUserManager(UserManager):
 
         return user
 
-    def create_superuser(self, userId, password,
+    def create_superuser(self, user_id, password,
                          nickname, email, phone, **extra_fields):
 
         extra_fields.setdefault('is_staff', False)
         extra_fields.setdefault('is_superuser', False)
 
-        user = self.model(user_id=userId, email=email,
+        user = self.model(user_id=user_id, email=email,
                           nickname=nickname,
                           phone=phone, **extra_fields)
 
