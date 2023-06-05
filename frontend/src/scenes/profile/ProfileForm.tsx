@@ -29,17 +29,19 @@ const profileFormSchema = z.object({
     }),
   email: z
     .string({
-      required_error: "Please select an email to display.",
+      required_error: "Please type an email to display.",
     })
-    .email(),
+    .email("Not a valid email"),
   description: z.string().max(160).min(4),
 });
 
 type ProfileFormValues = z.infer<typeof profileFormSchema>;
 
-// This can come from your database or API.
+//! This can come from your database or API.
 const defaultValues: Partial<ProfileFormValues> = {
-  description: "I own a computer.",
+  nickname: "",
+  email: "",
+  description: "",
 };
 
 export default function ProfileForm() {
