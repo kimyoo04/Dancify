@@ -18,7 +18,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_simplejwt',
     'boto3',
-    # 'django_extensions',
+    'django_extensions',
 
     # !apps
     'accounts',
@@ -105,19 +105,19 @@ DATABASES = {
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.\
-            UserAttributeSimilarityValidator',
+UserAttributeSimilarityValidator',
     },
     {
         'NAME': 'django.contrib.auth.password_validation.\
-            MinimumLengthValidator',
+MinimumLengthValidator',
     },
     {
         'NAME': 'django.contrib.auth.password_validation.\
-            CommonPasswordValidator',
+CommonPasswordValidator',
     },
     {
         'NAME': 'django.contrib.auth.password_validation.\
-            NumericPasswordValidator',
+NumericPasswordValidator',
     },
 ]
 
