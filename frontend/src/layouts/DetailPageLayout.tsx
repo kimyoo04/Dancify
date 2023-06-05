@@ -1,4 +1,3 @@
-import { motion } from "framer-motion";
 import { useAppSelector } from "@toolkit/hook";
 
 import Header from "./Header";
@@ -15,15 +14,11 @@ export default function DetailPageLayout({
   return (
     <>
       {/* 메인 영역 */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-      >
+      <div>
         <div className="ol-center container mx-auto px-0 pt-20 md:px-4">
           {children}
         </div>
-      </motion.div>
+      </div>
 
       {/* 레이아웃 요소 */}
       <Header />

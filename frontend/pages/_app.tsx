@@ -45,13 +45,11 @@ export default function App({ Component, pageProps }: AppProps) {
       <ThemeProvider attribute="class">
         <Provider store={store}>
           <QueryClientProvider client={queryClient}>
-            <AnimatePresence mode="wait">
-              <main>
-                <Component {...pageProps} key={router.route} />
-                <ReactQueryDevtools initialIsOpen={true} />
-                <Toaster />
-              </main>
-            </AnimatePresence>
+            <main>
+              <Component {...pageProps} key={router.route} />
+              <ReactQueryDevtools initialIsOpen={true} />
+              <Toaster />
+            </main>
           </QueryClientProvider>
         </Provider>
       </ThemeProvider>
