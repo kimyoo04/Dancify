@@ -1,19 +1,20 @@
+from .models import User
+
 from django.http import JsonResponse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
 from django.views.decorators.csrf import csrf_exempt
 
 from rest_framework import status
 import json
 
 
-def check_duplicate_username(username):
+def check_duplicate_userId(userId):
     """
     아이디 중복 확인 함수
     """
     try:
-        User.objects.get(username=username)
+        User.objects.get(user_id=userId)
         return True
     except User.DoesNotExist:
         return False
@@ -24,18 +25,26 @@ def signup(request):
     if request.method == 'POST':
         json_data = json.loads(request.body)
 
-        username = json_data['username']
+        userId = json_data['userId']
         password = json_data['password']
         password_check = json_data['password_check']
+        email = json_data['email']
+        nickname = json_data['nickname']
+        phone = json_data['phone']
+        is_dancer = json_data['is_dancer']
 
-        if check_duplicate_username(username):
+        if check_duplicate_userId(userId):
             return JsonResponse({"message": "이미 존재하는 아이디입니다."},
                                 status=status.HTTP_409_CONFLICT)
 
         if password == password_check:
             user = User.objects.create_user(
-                username=username,
+                userId=userId,
                 password=password,
+                email=email,
+                nickname=nickname,
+                phone=phone,
+                is_dancer=is_dancer
             )
             user.save()
 
@@ -51,10 +60,10 @@ def signin(request):
     if request.method == 'POST':
         json_data = json.loads(request.body)
 
-        username = json_data['username']
+        userId = json_data['userId']
         password = json_data['password']
 
-        user = authenticate(request, username=username, password=password)
+        user = authenticate(request, user_id=userId, password=password)
 
         if user is not None:
             login(request, user)
