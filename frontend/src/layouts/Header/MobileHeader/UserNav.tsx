@@ -13,6 +13,7 @@ import {
   DropdownMenuTrigger,
 } from "@components/ui/dropdown-menu";
 import DarkToggle from "@components/ui/darkToggle";
+import Link from "next/link";
 
 export function UserNav() {
   return (
@@ -53,9 +54,11 @@ export function UserNav() {
         {/* 메뉴 목록 */}
         <DropdownMenuGroup>
           <DropdownMenuItem>
-            <User className="mr-2 h-4 w-4" />
-            <span>Profile</span>
-            <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
+            <Link href="/profile" className="row-between w-full">
+              <User className="mr-2 h-4 w-4" />
+              <span>Profile</span>
+              <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
+            </Link>
           </DropdownMenuItem>
         </DropdownMenuGroup>
 

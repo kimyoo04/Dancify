@@ -13,6 +13,7 @@ import {
   DropdownMenuTrigger,
 } from "@components/ui/dropdown-menu";
 import DarkToggle from "@components/ui/darkToggle";
+import Link from "next/link";
 
 // !nickname, email, profile_img, jwt를 통해 받기
 
@@ -55,19 +56,25 @@ export function UserNav() {
         {/* 메뉴 목록 */}
         <DropdownMenuGroup>
           <DropdownMenuItem>
-            <User className="mr-2 h-4 w-4" />
-            <span>Profile</span>
-            <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
+            <Link href="/profile" className="row-between w-full">
+              <User className="mr-2 h-4 w-4" />
+              <span>Profile</span>
+              <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
+            </Link>
           </DropdownMenuItem>
           <DropdownMenuItem>
-            <Heart className="mr-2 h-4 w-4" />
-            <span>likes</span>
-            <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
+            <Link href="/likes" className="row-between w-full">
+              <Heart className="mr-2 h-4 w-4" />
+              <span>likes</span>
+              <DropdownMenuShortcut>⌘L</DropdownMenuShortcut>
+            </Link>
           </DropdownMenuItem>
           <DropdownMenuItem>
-            <ShoppingBagIcon className="mr-2 h-4 w-4" />
-            <span>storage</span>
-            <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
+            <Link href="/storage" className="row-between w-full">
+              <ShoppingBagIcon className="mr-2 h-4 w-4" />
+              <span>storage</span>
+              <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
+            </Link>
           </DropdownMenuItem>
         </DropdownMenuGroup>
 
