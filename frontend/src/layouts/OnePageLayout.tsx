@@ -15,15 +15,11 @@ export default function OnePageLayout({
   return (
     <>
       {/* 메인 영역 */}
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-      >
+      <div>
         <div className="col-center container mx-auto h-screen w-screen px-4 pb-[70px] pt-20 ">
           {children}
         </div>
-      </motion.div>
+      </div>
 
       {/* 레이아웃 요소 */}
       <Header />

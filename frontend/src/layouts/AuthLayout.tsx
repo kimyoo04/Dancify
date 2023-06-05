@@ -1,5 +1,3 @@
-import { motion } from "framer-motion";
-
 import Header from "@layouts/Header";
 import TabBar from "@layouts/TabBar";
 import Alert from "@components/Alert";
@@ -14,13 +12,9 @@ export default function AuthLayout({
 
   return (
     <>
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-      >
-        <div className="col-center h-screen w-screen">{children}</div>
-      </motion.div>
+      <div>
+        <div className="col-center container h-screen w-full">{children}</div>
+      </div>
 
       {/* 레이아웃 요소 */}
       <Header />

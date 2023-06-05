@@ -1,6 +1,5 @@
 import "../styles/globals.css";
 import "../styles/button.css";
-import "../styles/textField.css";
 import "../styles/filter.css";
 import "../styles/chat.css";
 
@@ -16,6 +15,7 @@ import { store } from "@toolkit/store";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useState } from "react";
 import { ThemeProvider } from "next-themes";
+import { Toaster } from "@components/ui/toaster";
 
 export default function App({ Component, pageProps }: AppProps) {
   const router = useRouter();
@@ -45,12 +45,11 @@ export default function App({ Component, pageProps }: AppProps) {
       <ThemeProvider attribute="class">
         <Provider store={store}>
           <QueryClientProvider client={queryClient}>
-            <AnimatePresence mode="wait">
-              <main>
-                <Component {...pageProps} key={router.route} />
-                <ReactQueryDevtools initialIsOpen={true} />
-              </main>
-            </AnimatePresence>
+            <main>
+              <Component {...pageProps} key={router.route} />
+              <ReactQueryDevtools initialIsOpen={true} />
+              <Toaster />
+            </main>
           </QueryClientProvider>
         </Provider>
       </ThemeProvider>

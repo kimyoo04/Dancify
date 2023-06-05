@@ -1,16 +1,16 @@
 import AuthLayout from "@layouts/AuthLayout";
-import Signup from "@scenes/SignUp";
+import Search from "@scenes/Search";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Sign Up",
-  description: "Sign Up forms built using the components.",
+  title: "Search",
+  description: "Search forms built using the components.",
 };
 
-export default function SignupPage() {
+export default function SearchPage() {
   return (
     <AuthLayout>
-      <Signup />
+      <Search />
     </AuthLayout>
   );
 }
