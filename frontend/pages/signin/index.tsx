@@ -1,5 +1,5 @@
 import AuthLayout from "@layouts/AuthLayout";
-import Signin from "@scenes/SignIn";
+import SignIn from "@scenes/SignIn";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -7,10 +7,10 @@ export const metadata: Metadata = {
   description: "Sign In forms built using the components.",
 };
 
-export default function SigninPage() {
+export default function SignInPage() {
   return (
     <AuthLayout>
-      <Signin />
+      <SignIn />
     </AuthLayout>
   );
 }

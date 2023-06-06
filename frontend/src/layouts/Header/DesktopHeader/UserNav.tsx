@@ -55,27 +55,27 @@ export function UserNav() {
 
         {/* 메뉴 목록 */}
         <DropdownMenuGroup>
-          <DropdownMenuItem>
-            <Link href="/profile" className="row-between w-full">
+          <Link href="/profile">
+            <DropdownMenuItem className="row-between w-full">
               <User className="mr-2 h-4 w-4" />
               <span>Profile</span>
               <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
-            </Link>
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            <Link href="/likes" className="row-between w-full">
+            </DropdownMenuItem>
+          </Link>
+          <Link href="/likes">
+            <DropdownMenuItem className="row-between w-full">
               <Heart className="mr-2 h-4 w-4" />
               <span>likes</span>
               <DropdownMenuShortcut>⌘L</DropdownMenuShortcut>
-            </Link>
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            <Link href="/storage" className="row-between w-full">
+            </DropdownMenuItem>
+          </Link>
+          <Link href="/storage">
+            <DropdownMenuItem className="row-between w-full">
               <ShoppingBagIcon className="mr-2 h-4 w-4" />
               <span>storage</span>
               <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
-            </Link>
-          </DropdownMenuItem>
+            </DropdownMenuItem>
+          </Link>
         </DropdownMenuGroup>
 
         {/* 경계선 */}

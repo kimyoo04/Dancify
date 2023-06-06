@@ -4,7 +4,7 @@ import Webcam from "react-webcam";
 import dynamic from "next/dynamic";
 const ReactPlayer = dynamic(() => import("react-player/lazy"), { ssr: false });
 
-export default function SignupPage() {
+export default function SignUpPage() {
   return (
     <AuthLayout>
       <Webcam />

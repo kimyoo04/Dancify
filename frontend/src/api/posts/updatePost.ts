@@ -1,6 +1,6 @@
 import axios from "@api/axiosInstance";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { IUpdatePostForm } from "@type/posts";
+import { IUpdatePostForm } from "@type/videoPosts";
 import { useRouter } from "next/router";
 
 // 게시글 Update

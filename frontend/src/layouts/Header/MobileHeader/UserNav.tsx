@@ -53,13 +53,13 @@ export function UserNav() {
 
         {/* 메뉴 목록 */}
         <DropdownMenuGroup>
-          <DropdownMenuItem>
-            <Link href="/profile" className="row-between w-full">
+          <Link href="/profile">
+            <DropdownMenuItem className="row-between w-full">
               <User className="mr-2 h-4 w-4" />
               <span>Profile</span>
               <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
-            </Link>
-          </DropdownMenuItem>
+            </DropdownMenuItem>
+          </Link>
         </DropdownMenuGroup>
 
         {/* 경계선 */}

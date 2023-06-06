@@ -1,13 +1,13 @@
 import Loading from "@components/Loading";
-import Header from "./FreeDetailItem/Header";
-import Content from "./FreeDetailItem/Content";
+import Header from "./VideoDetailItem/Header";
+import Content from "./VideoDetailItem/Content";
 import ScrollButton from "@components/ScrollButton";
 
-import { useReadFreePost } from "@api/posts/readFreePost";
+import { useReadVideoPost } from "@api/posts/readVideoPost";
 
-export default function FreePostDetail({ id }: { id: string }) {
+export default function VideoPostDetail({ id }: { id: string }) {
   // 게시글 불어오기
-  const { data, isLoading, error } = useReadFreePost(id);
+  const { data, isLoading, error } = useReadVideoPost(id);
 
   return (
     <>

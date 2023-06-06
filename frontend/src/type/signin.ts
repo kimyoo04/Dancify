@@ -1,11 +1,9 @@
+import { TPassword, TUserId } from "./auth";
+
+// 로그인 시 요청 데이터
 export interface ISignInForm {
   userId: TUserId;
-  username: TUsername;
-  password: string;
+  password: TPassword;
+
   extraError?: string;
 }
-
-export type TUserId = string;
-export type TUsername = string;
-export type TEmail = string;
-export type TPassword = string;

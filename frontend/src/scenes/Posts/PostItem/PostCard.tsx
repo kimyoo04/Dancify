@@ -1,32 +1,36 @@
-import { IPostData } from "@type/posts";
+import { IFreePost } from "@type/freePosts";
+import { IVideoPost } from "@type/videoPosts";
 import { timeYmd } from "@util/dateTime";
 import { truncateString } from "@util/truncateString";
 import Link from "next/link";
+import { isVideoPost } from "./isPostCategory";
 
-export default function PostCard({ post }: { post: IPostData }) {
+export default function PostCard({ data }: { data: IFreePost | IVideoPost }) {
   return (
     // postDetail로 링크
     <Link
-      href={`/posts/${post.postId}`}
+      href={`/posts/${
+        isVideoPost(data) && data.thumbnailImage ? "video" : "free"
+      }/${data.postId}`}
       className="flex w-full flex-col gap-4 rounded-2xl bg-white p-4 shadow-md"
     >
       {/* 유저 이름 */}
       <div className="mb-2 flex items-center justify-between">
-        <div className="text-sm text-gray-500">{post.username}</div>
+        <div className="text-sm text-gray-500">{data.nickname}</div>
       </div>
 
       {/* 제목과 잘린 내용 */}
       <div>
-        <div className="mb-2 text-lg font-bold">{post.title}</div>
+        <div className="mb-2 text-lg font-bold">{data.title}</div>
         <div className="overflow-hidden text-gray-800">
-          {truncateString(post.content, 40)}
+          {truncateString(data.content, 40)}
         </div>
       </div>
 
       {/* 생성날짜 */}
       <div className="mt-4 flex justify-between">
-        <div className="text-sm text-gray-500">조회 {post.views}</div>
-        <div className="text-sm text-gray-500">{timeYmd(post.createdAt)}</div>
+        <div className="text-sm text-gray-500">조회 {data.views}</div>
+        <div className="text-sm text-gray-500">{timeYmd(data.createDate)}</div>
       </div>
     </Link>
   );
