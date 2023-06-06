@@ -3,11 +3,11 @@ import Header from "./FreeDetailItem/Header";
 import Content from "./FreeDetailItem/Content";
 import ScrollButton from "@components/ScrollButton";
 
-import { useReadPost } from "@api/posts/readPost";
+import { useReadFreePost } from "@api/posts/readFreePost";
 
 export default function PostDetail({ id }: { id: string }) {
   // 게시글 불어오기
-  const { data, isLoading, error } = useReadPost(id);
+  const { data, isLoading, error } = useReadFreePost(id);
 
   return (
     <>

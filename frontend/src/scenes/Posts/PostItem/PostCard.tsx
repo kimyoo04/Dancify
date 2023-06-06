@@ -1,4 +1,4 @@
-import { IPostData } from "@type/posts";
+import { IPostData } from "@type/videoPosts";
 import { timeYmd } from "@util/dateTime";
 import { truncateString } from "@util/truncateString";
 import Link from "next/link";

@@ -1,31 +1,46 @@
-import { IPostData } from "@type/posts";
+import { Fragment, useEffect } from "react";
+import { useInView } from "react-intersection-observer";
 
-import PostItem from "@scenes/Posts/PostItem/PostCard";
 import PostListLoader from "./PostListLoader";
+import { IUseInfnitePosts } from "@type/useInfiniteQueries";
+import PostNotFound from "./PostNotFound";
+import PostThumbnail from "./PostThumbnail";
 
-import { useReadPosts } from "@api/posts/readPosts";
+export default function PostList({ post }: { post: IUseInfnitePosts }) {
+  const {
+    data,
+    error,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    status,
+  } = post;
 
-export default function PostList() {
-  // page 단위로 educationdata GET 요청 및 캐싱
-  const { data, isLoading, isError, error } = useReadPosts();
+  // ref가 연결된 태그의 확인 + 하단 페이지에 도달시 fetchNextPage 요청
+  const { ref, inView } = useInView();
+  useEffect(() => {
+    if (inView && hasNextPage && !isFetchingNextPage) fetchNextPage();
+  }, [inView]);
 
   return (
     <section className="col-center w-full gap-4">
-      {isLoading ? (
+      {status === "loading" ? (
         <PostListLoader />
-      ) : isError ? (
+      ) : status === "error" ? (
         <>{error && <p>Error: {error.message}</p>}</>
-      ) : data.data.length !== 0 ? (
-        <>
+      ) : data ? (
+        <ul className="grid w-full grid-cols-1 gap-4">
           {/* //! 자유게시판 검색결과 무한 스크롤 영역 */}
-          <ul className="grid w-full grid-cols-1 gap-4">
-            {data.data.map((post, indx) => (
-              <PostItem key={post.postId + indx} post={post as IPostData} />
-            ))}
-          </ul>
-        </>
+          {data.pages.map((group, indx) => (
+            <Fragment key={indx + "page"}>
+              {group.data.map((data, indx) => (
+                <PostThumbnail key={indx + data.postId} data={data} />
+              ))}
+            </Fragment>
+          ))}
+        </ul>
       ) : (
-        <div>결과가 없습니다!</div>
+        <PostNotFound />
       )}
     </section>
   );
