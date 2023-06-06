@@ -1,8 +1,15 @@
-# from django.urls import path
+from django.urls import path, include
 
-# from . import posts_views
+from rest_framework import routers
+
+from . import posts_views
 
 
-# urlpatterns = [
+router = routers.DefaultRouter()
 
-# ]
+router.register(r'/free', posts_views.FreePostViewSet)
+
+
+urlpatterns = [
+    path('', include(router.urls))
+]

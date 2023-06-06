@@ -3,11 +3,9 @@ from django.views import View
 from django.contrib import admin
 from django.http import JsonResponse
 
-from rest_framework import permissions, routers
+from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
-
-from posts import posts_views
 
 
 class CheerUpView(View):
@@ -26,11 +24,6 @@ schema_view = get_schema_view(
 )
 
 
-router = routers.DefaultRouter()
-
-router.register(r'/free-post', posts_views.FreePostViewSet)
-
-
 urlpatterns = [
     path('', CheerUpView.as_view()),
     path('admin', admin.site.urls),
@@ -43,7 +36,7 @@ urlpatterns = [
          name='schema-swagger-ui'),
     # API URL
     path('api', include([
-        path('', include(router.urls)),
+        path('/posts', include('posts.urls')),
         path('/auth', include('accounts.urls')),
         # path('/posts', include('posts.urls')),
         # path('/user', include('user.urls')),

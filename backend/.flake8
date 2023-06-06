@@ -7,3 +7,7 @@ exclude =
     __pycache__,
     .venv,
     .env
+
+ignore =
+    E501
+    
