@@ -2,15 +2,15 @@ import ButtonWrapper from "@components/Animation/ButtonWrapper";
 import ScrollButton from "@components/ScrollButton";
 
 import { SubmitHandler, useForm } from "react-hook-form";
-import { IPostForm, IUpdatePostForm } from "@type/posts";
+import { IPostForm, IUpdatePostForm } from "@type/videoPosts";
 import { useUpdatePostMutation } from "@api/posts/updatePost";
 import ErrorMsg from "@components/TextField/ErrorMsg";
 import Loading from "@components/Loading";
-import { useReadPost } from "@api/posts/readPost";
+import { useReadFreePost } from "@api/posts/readFreePost";
 
 export default function EditPost({ id }: { id: string }) {
   // 게시글 불러오기
-  const { data: oldPost, isLoading: isReadLoading } = useReadPost(id);
+  const { data: oldPost, isLoading: isReadLoading } = useReadFreePost(id);
   // 게시글 수정하기
   const { mutateAsync } = useUpdatePostMutation();
 

@@ -1,5 +1,5 @@
 import axios from "@api/axiosInstance";
-import { IDeletePost } from "@type/posts";
+import { IDeletePost } from "@type/videoPosts";
 
 export const deletePost = async (data: IDeletePost) => {
   try {

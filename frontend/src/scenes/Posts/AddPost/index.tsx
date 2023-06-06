@@ -3,7 +3,7 @@ import { useCreateMutation } from "@api/posts/createPost";
 
 import ButtonWrapper from "@components/Animation/ButtonWrapper";
 import ScrollButton from "@components/ScrollButton";
-import { IPostForm } from "@type/posts";
+import { IPostForm } from "@type/videoPosts";
 import ErrorMsg from "@components/TextField/ErrorMsg";
 
 // 게시물 Create 페이지
