@@ -1,6 +1,7 @@
 import { TNickname } from "./auth";
 import { TComment } from "./comments";
 import {
+  TCommentCount,
   TContent,
   TPostId,
   TThumbnailImage,
@@ -19,7 +20,7 @@ export interface IVideoPost {
   thumbnailImage: TThumbnailImage;
   videoUrl: TVideoUrl;
   views: TViews;
-  commentsCount: TComment[];
+  commentsCount: TCommentCount;
 }
 
 export interface IVideoPostsPerPage {

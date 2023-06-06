@@ -1,10 +1,10 @@
 import { TNickname } from "./auth";
 import { TComment } from "./comments";
 import {
+  TCommentCount,
   TContent,
   TPostId,
   TPostImage,
-  TThumbnailImage,
   TTitle,
   TViews,
   TcreateDate,
@@ -17,9 +17,9 @@ export interface IFreePost {
   nickname: TNickname;
   content: TContent;
   createDate: TcreateDate;
-  thumbnailImage: TThumbnailImage;
+  postImage: TPostImage;
   views: TViews;
-  commentsCount: TComment[];
+  commentsCount: TCommentCount;
 }
 
 export interface IFreePostsPerPage {

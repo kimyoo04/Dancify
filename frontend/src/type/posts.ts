@@ -6,3 +6,4 @@ export type TcreateDate = string;
 export type TPostImage = string;
 export type TVideoUrl = string;
 export type TThumbnailImage = string;
+export type TCommentCount = number;
