@@ -1,6 +1,6 @@
 import UserSignUpForm from "./UserSignUpForm";
 
-export default function Signup() {
+export default function SignUp() {
   return (
     <div className="container relative grid h-[800px] flex-col items-center justify-center lg:max-w-none lg:px-0">
       <div className="lg:p-8">

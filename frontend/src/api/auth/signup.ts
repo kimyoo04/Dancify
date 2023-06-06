@@ -1,5 +1,5 @@
 import axios from "@api/axiosInstance";
-import { ISignUpForm } from "@type/signup";
+import { ISignUpForm } from "@type/signUp";
 
 export const signup = async (data: ISignUpForm) => {
   try {

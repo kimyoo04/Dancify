@@ -1,5 +1,5 @@
 import AuthLayout from "@layouts/AuthLayout";
-import Signup from "@scenes/Signup";
+import SignUp from "@scenes/SignUp";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -7,10 +7,10 @@ export const metadata: Metadata = {
   description: "Sign Up forms built using the components.",
 };
 
-export default function SignupPage() {
+export default function SignUpPage() {
   return (
     <AuthLayout>
-      <Signup />
+      <SignUp />
     </AuthLayout>
   );
 }
