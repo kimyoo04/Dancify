@@ -1,5 +1,5 @@
 import AuthLayout from "@layouts/AuthLayout";
-import Signin from "@scenes/SignIn";
+import Signin from "@scenes/Signin";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
