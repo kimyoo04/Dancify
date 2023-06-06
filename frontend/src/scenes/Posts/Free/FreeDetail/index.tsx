@@ -5,7 +5,7 @@ import ScrollButton from "@components/ScrollButton";
 
 import { useReadFreePost } from "@api/posts/readFreePost";
 
-export default function PostDetail({ id }: { id: string }) {
+export default function FreePostDetail({ id }: { id: string }) {
   // 게시글 불어오기
   const { data, isLoading, error } = useReadFreePost(id);
 

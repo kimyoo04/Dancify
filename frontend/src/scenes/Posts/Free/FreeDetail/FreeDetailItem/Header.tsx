@@ -1,8 +1,8 @@
-import { IFreePost } from "@type/freePosts";
+import { IFreePostDetail } from "@type/freePosts";
 import { timeYmd } from "@util/dateTime";
 
 interface IHeaderProps {
-  data: IFreePost;
+  data: IFreePostDetail;
 }
 
 export default function Header({ data }: IHeaderProps) {

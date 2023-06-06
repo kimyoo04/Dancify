@@ -1,6 +1,6 @@
 import ScrollButton from "@components/ScrollButton";
 import PostList from "@scenes/Posts/PostItem/PostList";
-import CreateButton from "@scenes/Posts/PostItem/CreateButton";
+import CreateButton from "@scenes/Posts/Free/FreeItem/CreateButton";
 import { useReadFreePostsPerPage } from "@api/posts/readFreePostsPerPage";
 
 export default function FreePosts() {
