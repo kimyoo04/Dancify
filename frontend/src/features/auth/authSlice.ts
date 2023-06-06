@@ -1,6 +1,6 @@
 // redux-toolkit
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { AuthState, userPayload } from "@type/user";
+import { AuthState, userPayload } from "@type/auth";
 
 const initialState: AuthState = {
   loading: true,

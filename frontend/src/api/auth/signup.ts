@@ -7,8 +7,10 @@ export const signup = async (data: ISignUpForm) => {
       userId: data.userId,
       nickname: data.nickname,
       email: data.email,
+      phone: data.phone,
       password: data.password,
       passwordCheck: data.passwordCheck,
+      isDancer: data.isDancer,
     });
 
     console.log(response.data);
