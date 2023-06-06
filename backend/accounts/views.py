@@ -29,11 +29,11 @@ def signup(request):
 
         user_id_json = json_data['userId']
         password_json = json_data['password']
-        password_check_json = json_data['password_check']
+        password_check_json = json_data['passwordCheck']
         email_json = json_data['email']
         nickname_json = json_data['nickname']
         phone_json = json_data['phone']
-        is_dancer_json = json_data['is_dancer']
+        is_dancer_json = json_data['isDancer']
 
         if check_duplicate_userId(user_id_json):
             return JsonResponse({"message": "이미 존재하는 아이디입니다."},
