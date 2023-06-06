@@ -1,5 +1,5 @@
 import axios from "@api/axiosInstance";
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import { IVideoPostsPerPage } from "@type/videoPosts";
 import { AxiosError } from "axios";
 
@@ -15,9 +15,16 @@ export const readVideoPostsPerPage = async (page: number) => {
 };
 
 export const useReadVideoPostsPerPage = () => {
-  return useQuery<IVideoPostsPerPage, AxiosError>({
-    queryKey: ["read", "posts"],
+  return useInfiniteQuery<IVideoPostsPerPage, AxiosError>({
+    queryKey: [`/posts/video`],
     queryFn: ({ pageParam = 0 }) => readVideoPostsPerPage(pageParam),
+    getNextPageParam: (lastPage) => {
+      if (lastPage.currentPage < lastPage.totalPages) {
+        return lastPage.currentPage + 1;
+      } else {
+        return undefined;
+      }
+    },
     cacheTime: 300000, // 5분
     staleTime: 240000, // 4분
     refetchOnMount: true, //페이지 재방문시 refetch 적용

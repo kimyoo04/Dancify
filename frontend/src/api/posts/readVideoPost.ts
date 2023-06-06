@@ -1,8 +1,8 @@
 import axios from "@api/axiosInstance";
 import { useQuery } from "@tanstack/react-query";
-import { IVideoPost } from "@type/videoPosts";
+import { IVideoPostDetail } from "@type/videoPosts";
 
-export const readPost = async (id: string) => {
+export const readVideoPost = async (id: string) => {
   try {
     const response = await axios.get(`/posts/video/${id}`);
     return response.data;
@@ -12,10 +12,10 @@ export const readPost = async (id: string) => {
   }
 };
 
-export const useReadPost = (id: string) => {
-  return useQuery<IVideoPost>({
+export const useReadVideoPost = (id: string) => {
+  return useQuery<IVideoPostDetail>({
     queryKey: [`/posts/video/${id}`],
-    queryFn: () => readPost(id),
+    queryFn: () => readVideoPost(id),
     refetchOnMount: "always", // 유저폼 활성화를 위해 설정
   });
 };
