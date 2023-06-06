@@ -5,20 +5,13 @@ import { timeYmd } from "@util/dateTime";
 import { truncateString } from "@util/truncateString";
 import Image from "next/image";
 import Link from "next/link";
+import { isFreePost, isVideoPost } from "./isPostCategory";
 
 export default function PostThumbnail({
   data,
 }: {
   data: IVideoPost | IFreePost;
 }) {
-  const isVideoPost = (data: IVideoPost | IFreePost): data is IVideoPost => {
-    return (data as IVideoPost).thumbnailImage !== undefined;
-  };
-
-  const isFreePost = (data: IVideoPost | IFreePost): data is IFreePost => {
-    return (data as IFreePost).postImage !== undefined;
-  };
-
   return (
     // post detail로 링크
     <Link
