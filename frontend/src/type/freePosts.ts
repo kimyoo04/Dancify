@@ -10,7 +10,7 @@ import {
   TcreateDate,
 } from "./posts";
 
-// 자유게시판 데이터
+// 자유게시판의 1개 게시글
 export interface IFreePost {
   postId: TPostId;
   title: TTitle;
@@ -22,6 +22,7 @@ export interface IFreePost {
   commentsCount: TCommentCount;
 }
 
+// 자유게시판의 무한스크롤 데이터
 export interface IFreePostsPerPage {
   data: IFreePost[];
   totalPages: number;
@@ -29,6 +30,7 @@ export interface IFreePostsPerPage {
   totalCount: number;
 }
 
+// 자유게시글 1개 데이터
 export interface IFreePostDetail {
   postId: TPostId;
   title: TTitle;
@@ -49,12 +51,14 @@ export interface IFreePostDataArr {
 export interface IPostForm {
   title: TTitle;
   content: TContent;
+  postImage: string;
 }
 //게시글 업데이트 폼
 export interface IUpdatePostForm {
   postId: TPostId; // url에 포함
   title: TTitle;
   content: TContent;
+  postImage: string;
 }
 
 // 게시글 삭제 시 전송할 데이터
