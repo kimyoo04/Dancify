@@ -18,7 +18,10 @@ import { cn } from "@lib/utils";
 import { Button } from "@components/ui/button";
 import { Input } from "@components/ui/input";
 import { Icons } from "@components/ui/icons";
-import { Checkbox } from "@components/ui/checkbox";
+import { cx } from "class-variance-authority";
+import classNames from "classnames";
+import { ISignUpForm } from "@type/signUp";
+import { signUp } from "@api/auth/signUp";
 
 const profileFormSchema = z.object({
   userId: z
@@ -64,30 +67,29 @@ const profileFormSchema = z.object({
     })
     .max(160)
     .min(4),
-  isDancer: z.boolean(),
 });
 
 type ProfileFormValues = z.infer<typeof profileFormSchema>;
 
 type UserAuthFormProps = React.HTMLAttributes<HTMLDivElement>;
 
-//! This can come from your database or API.
-const defaultValues: Partial<ProfileFormValues> = {
-  userId: "",
-  nickname: "",
-  phone: "",
-  email: "",
-  password: "",
-  passwordCheck: "",
-  isDancer: false,
-};
-
 export default function UserSignUpForm({
   className,
   ...props
 }: UserAuthFormProps) {
+  const [isDancer, setIsDancer] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const { toast } = useToast();
+
+  //! This can come from your database or API.
+  const defaultValues: Partial<ProfileFormValues> = {
+    userId: "",
+    nickname: "",
+    phone: "",
+    email: "",
+    password: "",
+    passwordCheck: "",
+  };
 
   const form = useForm<ProfileFormValues>({
     resolver: zodResolver(profileFormSchema),
@@ -96,197 +98,205 @@ export default function UserSignUpForm({
   });
 
   async function onSubmit(data: ProfileFormValues) {
-    console.log(data);
-    toast({
-      title: "You submitted the following values:",
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
-    });
+    // 비밀번호와 체크 불일치 유무 확인
+    if (data.password !== data.passwordCheck) {
+      toast({
+        title: "password error",
+        description: "Your password and password check is not match",
+      });
+      return;
+    }
+
+    const signUpData: ISignUpForm = { ...data, isDancer };
+
+    await signUp(signUpData);
   }
 
+  const isDancableBg = classNames({
+    "bg-main_color_green": !isDancer,
+  });
+  const isDancerBg = classNames({
+    "bg-main_color_green": isDancer,
+  });
+
   return (
-    <Form {...form}>
-      <div className={cn("grid gap-6", className)} {...props}>
-        <form onSubmit={form.handleSubmit(onSubmit)}>
-          <div className="grid gap-2">
-            <FormField
-              control={form.control}
-              name="userId"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="sr-only" htmlFor="UserId">
-                    UserId
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      id="userId"
-                      placeholder="User Id"
-                      type="text"
-                      autoCapitalize="none"
-                      autoComplete="userId"
-                      autoCorrect="off"
-                      disabled={isLoading}
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="phone"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="sr-only" htmlFor="Phone">
-                    Phone
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      id="phone"
-                      placeholder="Phone"
-                      type="tel"
-                      autoCapitalize="none"
-                      autoComplete="phone"
-                      autoCorrect="off"
-                      disabled={isLoading}
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="sr-only" htmlFor="Email">
-                    Email
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      id="email"
-                      placeholder="Email"
-                      type="email"
-                      autoCapitalize="none"
-                      autoComplete="email"
-                      autoCorrect="off"
-                      disabled={isLoading}
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="nickname"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="sr-only" htmlFor="Nickname">
-                    Nickname
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      id="nickname"
-                      placeholder="Nickname"
-                      type="text"
-                      autoCapitalize="none"
-                      autoComplete="nickname"
-                      autoCorrect="off"
-                      disabled={isLoading}
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="password"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="sr-only" htmlFor="Password">
-                    Password
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      id="password"
-                      placeholder="Password"
-                      type="password"
-                      autoCapitalize="none"
-                      autoComplete="password"
-                      autoCorrect="off"
-                      disabled={isLoading}
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="passwordCheck"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="sr-only" htmlFor="PasswordCheck">
-                    Password Check
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      id="passwordCheck"
-                      placeholder="Password Check"
-                      type="password"
-                      autoCapitalize="none"
-                      autoComplete="passwordCheck"
-                      autoCorrect="off"
-                      disabled={isLoading}
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="isDancer"
-              render={({ field }) => (
-                <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-4">
-                  <FormControl>
-                    <Checkbox
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                    />
-                  </FormControl>
-                  <div className="space-y-1 leading-none">
-                    <FormLabel>
-                      if you want to teach users, please check.
-                    </FormLabel>
-                  </div>
-                </FormItem>
-              )}
-            />
-
-            <Button disabled={isLoading}>
-              {isLoading && (
-                <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-              )}
-              Sign Up
-            </Button>
-          </div>
-        </form>
+    <>
+      <div className="row-center h-12 w-full gap-4">
+        <Button
+          className={`h-full w-full hover:bg-main_color_green/70 ${isDancableBg}`}
+          onClick={() => setIsDancer(false)}
+        >
+          Dancable
+        </Button>
+        <Button
+          className={`h-full w-full hover:bg-main_color_green/70 ${isDancerBg}`}
+          onClick={() => setIsDancer(true)}
+        >
+          Dancer
+        </Button>
       </div>
-    </Form>
+
+      <Form {...form}>
+        <div className={cn("grid gap-6", className)} {...props}>
+          <form onSubmit={form.handleSubmit(onSubmit)}>
+            <div className="grid gap-2">
+              <FormField
+                control={form.control}
+                name="userId"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="sr-only" htmlFor="UserId">
+                      UserId
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        id="userId"
+                        placeholder="User Id"
+                        type="text"
+                        autoCapitalize="none"
+                        autoComplete="userId"
+                        autoCorrect="off"
+                        disabled={isLoading}
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="phone"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="sr-only" htmlFor="Phone">
+                      Phone
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        id="phone"
+                        placeholder="Phone"
+                        type="tel"
+                        autoCapitalize="none"
+                        autoComplete="phone"
+                        autoCorrect="off"
+                        disabled={isLoading}
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="sr-only" htmlFor="Email">
+                      Email
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        id="email"
+                        placeholder="Email"
+                        type="email"
+                        autoCapitalize="none"
+                        autoComplete="email"
+                        autoCorrect="off"
+                        disabled={isLoading}
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="nickname"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="sr-only" htmlFor="Nickname">
+                      Nickname
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        id="nickname"
+                        placeholder="Nickname"
+                        type="text"
+                        autoCapitalize="none"
+                        autoComplete="nickname"
+                        autoCorrect="off"
+                        disabled={isLoading}
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="sr-only" htmlFor="Password">
+                      Password
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        id="password"
+                        placeholder="Password"
+                        type="password"
+                        autoCapitalize="none"
+                        autoComplete="password"
+                        autoCorrect="off"
+                        disabled={isLoading}
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="passwordCheck"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="sr-only" htmlFor="PasswordCheck">
+                      Password Check
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        id="passwordCheck"
+                        placeholder="Password Check"
+                        type="password"
+                        autoCapitalize="none"
+                        autoComplete="passwordCheck"
+                        autoCorrect="off"
+                        disabled={isLoading}
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <Button disabled={isLoading}>
+                {isLoading && (
+                  <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+                )}
+                Sign Up
+              </Button>
+            </div>
+          </form>
+        </div>
+      </Form>
+    </>
   );
 }

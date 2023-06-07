@@ -1,7 +1,7 @@
 import axios from "@api/axiosInstance";
 import { ISignUpForm } from "@type/signUp";
 
-export const signup = async (data: ISignUpForm) => {
+export const signUp = async (data: ISignUpForm) => {
   try {
     const response = await axios.post(`/auth/signup`, {
       userId: data.userId,
