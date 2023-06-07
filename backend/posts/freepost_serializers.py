@@ -20,11 +20,12 @@ class GetSerializer(serializers.HyperlinkedModelSerializer):
     nickname = serializers.CharField(source='user.nickname')
     createDate = serializers.DateField(source='create_date')
     postImage = serializers.URLField(source='post_image')
+    userPK = serializers.UUIDField(source='user.user_pk')
 
     class Meta:
         model = FreePost
-        fields = ['postId', 'title', 'nickname',
-                  'content', 'createDate', 'postImage', 'views']
+        fields = ['postId', 'title', 'nickname', 'content',
+                  'createDate', 'postImage', 'views', 'userPK']
 
 
 class InputSerializer(serializers.HyperlinkedModelSerializer):

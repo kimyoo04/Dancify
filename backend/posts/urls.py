@@ -5,7 +5,7 @@ from rest_framework import routers
 from . import posts_views
 
 
-router = routers.DefaultRouter()
+router = routers.SimpleRouter(trailing_slash=False)
 
 router.register(r'/free', posts_views.FreePostViewSet)
 
