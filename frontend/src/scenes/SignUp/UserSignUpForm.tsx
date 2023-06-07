@@ -102,7 +102,7 @@ export default function UserSignUpForm({
     if (data.password !== data.passwordCheck) {
       toast({
         title: "password error",
-        description: "Your password and password check is not match",
+        description: "Your password and password check are not match",
       });
       return;
     }
