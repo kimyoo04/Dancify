@@ -1,5 +1,6 @@
 from rest_framework import viewsets, status
 from rest_framework.response import Response
+from rest_framework.pagination import PageNumberPagination
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 
@@ -7,16 +8,29 @@ from . import freepost_serializers
 from .models import FreePost
 
 
+class FreePostPagination(PageNumberPagination):
+    page_size = 20  # 페이지당 보여질 개체 수
+
+    def get_paginated_response(self, data):
+        return Response({
+            'data': data,
+            'totalPages': self.page.paginator.num_pages,
+            'currentPage': self.page.number,
+            'totalCount': self.page.paginator.count
+        })
+
+
 class FreePostViewSet(viewsets.ModelViewSet):
     queryset = FreePost.objects.all()
     serializer_class = freepost_serializers.GetSerializer
+    pagination_class = FreePostPagination
 
     def get_serializer_class(self):
         if self.action in ('create', 'update', 'partial_update'):
             return freepost_serializers.InputSerializer
 
-        if self.action in ('retrieve', 'list'):
-            return freepost_serializers.GetSerializer
+        # if self.action in ('retrieve', 'list'):
+        #     return freepost_serializers.GetSerializer
 
         return super().get_serializer_class()
 
@@ -68,17 +82,7 @@ class FreePostViewSet(viewsets.ModelViewSet):
         }
     )
     def list(self, request, *args, **kwargs):
-        queryset = FreePost.objects.all()
-        serializer = freepost_serializers.GetSerializer(queryset, many=True)
-
-        data = {
-            'data': serializer.data,
-            'totalPages': 10,
-            'currentPage': 1,
-            'totalCount': queryset.count()
-        }
-
-        return Response(data, status=status.HTTP_200_OK)
+        return super().list(request, *args, **kwargs)
 
     @swagger_auto_schema(
         operation_summary='게시글 조회',
