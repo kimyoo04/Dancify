@@ -29,43 +29,52 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
-    'django.middleware.common.CommonMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-
-# CORS
-CORS_ORIGIN_ALLOW_ALL = True
-CORS_ALLOW_ALL_ORIGINS = True
-CORS_ALLOW_CREDENTIALS = True
-CORS_ORIGIN_WHITELIST = [
-    'http://localhost:3000',
-]
 CORS_ALLOW_METHODS = [
     'DELETE',
     'GET',
     'OPTIONS',
     'PATCH',
     'POST',
-    'PUT',
 ]
-CORS_ALLOW_HEADERS = [
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True
+CSRF_TRUSTED_ORIGINS = (
+    'localhost:8000',
+    '127.0.0.1:8000',
+)
+CORS_ORIGIN_WHITELIST = (
+    'http://localhost:8000',
+    'http://127.0.0.1:8000',
+)
+CORS_ALLOW_HEADERS = (
+    'access-control-allow-credentials',
+    'access-control-allow-origin',
+    'access-control-request-method',
+    'access-control-request-headers',
     'accept',
     'accept-encoding',
+    'accept-language',
     'authorization',
+    'connection',
     'content-type',
     'dnt',
+    'credentials',
+    'host',
     'origin',
     'user-agent',
-    'x-csrftoken',
+    'X-CSRFToken',
+    'csrftoken',
     'x-requested-with',
-]
-
+)
 
 ROOT_URLCONF = 'config.urls'
 
@@ -140,7 +149,7 @@ APPEND_SLASH = False
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
-CSRF_TRUSTED_ORIGINS = [os.environ.get('DJANGO_NEXTJS_URL')]
+CSRF_TRUSTED_ORIGINS = ['http://localhost', 'http://127.0.0.1']
 
 # 사용자 정의 User 모델 사용
 AUTH_USER_MODEL = 'accounts.User'
