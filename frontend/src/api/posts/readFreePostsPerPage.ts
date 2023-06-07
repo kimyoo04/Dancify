@@ -17,7 +17,7 @@ export const readFreePostsPerPage = async (page: number) => {
 export const useReadFreePostsPerPage = () => {
   return useInfiniteQuery<IFreePostsPerPage, AxiosError>({
     queryKey: [`/posts/free`],
-    queryFn: ({ pageParam = 0 }) => readFreePostsPerPage(pageParam),
+    queryFn: ({ pageParam = 1 }) => readFreePostsPerPage(pageParam),
     getNextPageParam: (lastPage) => {
       if (lastPage.currentPage < lastPage.totalPages) {
         return lastPage.currentPage + 1;
