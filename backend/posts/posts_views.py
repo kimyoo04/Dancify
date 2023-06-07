@@ -115,21 +115,8 @@ class FreePostViewSet(viewsets.ModelViewSet):
         }
     )
     def retrieve(self, request, *args, **kwargs):
-        post_id = request.GET.get('post_id')
-        if post_id:
-            try:
-                post = FreePost.objects.get(post_id=post_id)
-                serializer = freepost_serializers.GetSerializer(post)
-
-                data = serializer.data
-                # data['comments'] = []
-                data['user'] = post.user.pk
-
-                return Response(data, status=status.HTTP_200_OK)
-            except FreePost.DoesNotExist:
-                return Response(status=status.HTTP_404_NOT_FOUND)
-        else:
-            return Response(status=status.HTTP_400_BAD_REQUEST)
+        # !좋아요랑 댓글, userPK 보내줘야 함
+        return super().retrieve(request, *args, **kwargs)
 
     # @login_required
     @swagger_auto_schema(
