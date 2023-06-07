@@ -1,0 +1,5 @@
+https://medium.com/@b1azer/detecting-pose-similarity-between-two-videos-with-javascript-4fcb0b7df651
+
+https://github.com/freshsomebody/posenet-similarity/issues/2
+
+https://ivdevlog.tistory.com/2
