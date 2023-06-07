@@ -18,10 +18,10 @@ import { cn } from "@lib/utils";
 import { Button } from "@components/ui/button";
 import { Input } from "@components/ui/input";
 import { Icons } from "@components/ui/icons";
-import { cx } from "class-variance-authority";
 import classNames from "classnames";
 import { ISignUpForm } from "@type/signUp";
 import { signUp } from "@api/auth/signUp";
+import { useRouter } from "next/router";
 
 const profileFormSchema = z.object({
   userId: z
@@ -77,6 +77,7 @@ export default function UserSignUpForm({
   className,
   ...props
 }: UserAuthFormProps) {
+  const router = useRouter();
   const [isDancer, setIsDancer] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const { toast } = useToast();
@@ -108,8 +109,30 @@ export default function UserSignUpForm({
     }
 
     const signUpData: ISignUpForm = { ...data, isDancer };
+    const response = await signUp(signUpData);
 
-    await signUp(signUpData);
+    if (response === true) {
+      // 회원가입 성공 후 로그인 페이지로 이동
+      router.replace("/signin");
+      await new Promise((resolve) => setTimeout(resolve, 500));
+      return;
+    } else {
+      // 에러 메시지 UI 전달
+      const setErrors = (errors: Record<string, string>) => {
+        Object.entries(errors).forEach(([key, value]) => {
+          form.setError(
+            key as "userId" | "email" | "nickname" | "phone" | "password",
+            {
+              message: value,
+            }
+          );
+        });
+      };
+      const errorMessage: { [key: string]: string } = response.data;
+      console.log(errorMessage);
+      setErrors(errorMessage);
+      return;
+    }
   }
 
   const isDancableBg = classNames({
