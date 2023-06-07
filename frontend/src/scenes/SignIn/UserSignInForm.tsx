@@ -18,6 +18,8 @@ import { cn } from "@lib/utils";
 import { Button } from "@components/ui/button";
 import { Input } from "@components/ui/input";
 import { Icons } from "@components/ui/icons";
+import { signIn } from "@api/auth/signIn";
+import { useRouter } from "next/router";
 
 const profileFormSchema = z.object({
   userId: z
@@ -52,6 +54,7 @@ export default function UserSignInForm({
   className,
   ...props
 }: UserAuthFormProps) {
+  const router = useRouter();
   const [isLoading, setIsLoading] = React.useState<boolean>(false);
   const { toast } = useToast();
 
@@ -62,15 +65,24 @@ export default function UserSignInForm({
   });
 
   async function onSubmit(data: ProfileFormValues) {
-    console.log(data);
-    toast({
-      title: "You submitted the following values:",
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
-    });
+    const response = await signIn(data);
+    console.log(
+      "🚀 ~ file: UserSignInForm.tsx:69 ~ onSubmit ~ response:",
+      response
+    );
+
+    if (response === true) {
+      // 회원가입 성공 후 로그인 페이지로 이동
+      router.replace("/");
+      await new Promise((resolve) => setTimeout(resolve, 500));
+      return;
+    } else {
+      toast({
+        title: "로그인 인증",
+        description: "이메일과 비밀번호를 확인해주세요.",
+      });
+      return;
+    }
   }
 
   return (
@@ -91,7 +103,7 @@ export default function UserSignInForm({
                     <FormControl>
                       <Input
                         id="userId"
-                        placeholder="User Id"
+                        placeholder="Id"
                         type="text"
                         autoCapitalize="none"
                         autoComplete="userId"

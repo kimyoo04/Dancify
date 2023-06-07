@@ -1,7 +1,7 @@
 import axios from "@api/axiosInstance";
 import { ISignUpForm } from "@type/signUp";
 
-export const signup = async (data: ISignUpForm) => {
+export const signUp = async (data: ISignUpForm) => {
   try {
     const response = await axios.post(`/auth/signup`, {
       userId: data.userId,
@@ -14,9 +14,9 @@ export const signup = async (data: ISignUpForm) => {
     });
 
     console.log(response.data);
-    return response.data;
-  } catch (err) {
+    return true;
+  } catch (err: any) {
     console.log("🚀 signup.tsx", err);
-    return false;
+    return err.response;
   }
 };
