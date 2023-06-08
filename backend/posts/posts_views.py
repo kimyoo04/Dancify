@@ -29,9 +29,6 @@ class FreePostViewSet(viewsets.ModelViewSet):
         if self.action in ('create', 'update', 'partial_update'):
             return freepost_serializers.InputSerializer
 
-        # if self.action in ('retrieve', 'list'):
-        #     return freepost_serializers.GetSerializer
-
         return super().get_serializer_class()
 
     @swagger_auto_schema(
@@ -120,7 +117,14 @@ class FreePostViewSet(viewsets.ModelViewSet):
     )
     def retrieve(self, request, *args, **kwargs):
         # !좋아요랑 댓글, userPK 보내줘야 함
-        return super().retrieve(request, *args, **kwargs)
+        instance = self.get_object()
+
+        # 조회수 증가
+        instance.views += 1
+        instance.save()
+
+        serializer = self.get_serializer(instance)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
     # @login_required
     @swagger_auto_schema(
@@ -151,7 +155,6 @@ class FreePostViewSet(viewsets.ModelViewSet):
 
         try:
             serializer.save(user=self.request.user)
-            self.perform_create(serializer)
 
             return Response(status=status.HTTP_201_CREATED)
         except PermissionError:
