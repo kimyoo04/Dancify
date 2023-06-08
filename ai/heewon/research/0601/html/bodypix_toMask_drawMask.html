@@ -1,0 +1,47 @@
+<html>
+
+<head>
+
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.11.0/dist/tf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/body-pix@2.2.0/dist/body-pix.min.js"></script>
+
+</head>
+
+<body>
+    <img id='image' src='../images/persons.jpg' crossorigin='anonymous' />
+    <!-- 그래픽을 그리기 위한 영역을 생성 -->
+    <canvas id="canvas"></canvas>
+</body>
+
+<script>
+    const img = document.getElementById('image');
+    const canvas = document.getElementById("canvas");
+    /* 2D 그래픽 컨텍스트를 가져오는 메서드
+    (선, 도형, 텍스트, 이미지 등을 그릴 수 있고, 스타일, 색상, 투명도 등을 조작)*/
+    const context = canvas.getContext("2d");
+
+    loadAndPredict();
+
+    async function loadAndPredict() {
+        /* body-pix 모델을 로드 */
+        const net = await bodyPix.load();
+        const segmentation = await net.segmentMultiPerson(img);
+        console.log(segmentation);
+        /* body-pix 모델을 로드 */
+        //const backgroundDarkeningMask = bodyPix.toMask(segmentation); //분할결과 이용해 마스크 생성
+        const foregroundColor = { r: 0, g: 0, b: 0, a: 255 }; //사람 부분의 색상 지정 (검은색)
+        const backgroundColor = { r: 255, g: 192, b: 203, a: 100 }; //배경 부분의 색상 지정 (핑크색)
+        const backgroundDarkeningMask = bodyPix.toMask(segmentation, foregroundColor, backgroundColor);
+        const opacity = 0.7; //투명도
+        const flipHorizontal = false; //좌우반전
+        const maskBlurAmount = 3; //블러효과 강도
+        /* 캔버스에 이미지와 분할된 마스크를 그림 */
+        bodyPix.drawMask(
+            canvas, img, backgroundDarkeningMask, opacity, maskBlurAmount,
+            flipHorizontal);
+    }
+
+</script>
+
+
+</html>
