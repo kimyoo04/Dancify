@@ -1,8 +1,5 @@
 from django.contrib.auth import authenticate
-from django.http import JsonResponse
 from rest_framework import serializers
-
-from rest_framework import status
 
 
 class LoginSerializer(serializers.Serializer):
