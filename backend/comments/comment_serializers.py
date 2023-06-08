@@ -3,7 +3,7 @@ from rest_framework import serializers
 from .models import Comment
 
 
-class GetSerializer(serializers.HyperlinkedModelSerializer):
+class CommentGetSerializer(serializers.HyperlinkedModelSerializer):
     commentId = serializers.UUIDField(source='comment_id')
     userId = serializers.UUIDField(source='user.user_id')
     postId = serializers.UUIDField(source='post_id')
@@ -16,7 +16,7 @@ class GetSerializer(serializers.HyperlinkedModelSerializer):
                   'content', 'createDate', 'postId']
 
 
-class InputSerializer(serializers.HyperlinkedModelSerializer):
+class CommentInputSerializer(serializers.HyperlinkedModelSerializer):
     postId = serializers.UUIDField(source='post_id')
 
     class Meta:
