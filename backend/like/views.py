@@ -1,6 +1,6 @@
 from rest_framework import status
 from rest_framework.response import Response
-from rest_framework.generics import CreateAPIView, DestroyAPIView, get_object_or_404
+from rest_framework.generics import CreateAPIView, DestroyAPIView
 
 from .models import Like
 from .serializers import LikePostDeleteSerializer
