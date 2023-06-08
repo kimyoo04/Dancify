@@ -1,19 +1,16 @@
-import ScrollButton from "@components/ScrollButton";
+import { Metadata } from "next";
 import Link from "next/link";
 
-import { Metadata } from "next";
-
 import { Button } from "@components/ui/button";
-import { Separator } from "@components/ui/separator";
-import { ScrollArea, ScrollBar } from "@components/ui/scroll-area";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@components/ui/tabs";
+import { Tabs, TabsList, TabsTrigger } from "@components/ui/tabs";
+
+import { playlists } from "./data/playlists";
+import { ShoppingBag } from "lucide-react";
 
 import SideBar from "./SideBar";
-import AlbumArtwork from "./AlbumArtwork";
-import PodcastEmptyPlaceholder from "./PodcastEmptyPlaceholder";
-import { listenNowAlbums, madeForYouAlbums } from "./data/albums";
-import { playlists } from "./data/playlists";
-import { PlusCircle } from "lucide-react";
+import AllPosts from "./All";
+import FreePosts from "./Free";
+import VideoPosts from "./Video";
 
 export const metadata: Metadata = {
   title: "Music App",
@@ -22,122 +19,38 @@ export const metadata: Metadata = {
 
 export default function Posts() {
   return (
-    <div className="w-full">
-      <Link href="/posts/free">자유게시판</Link>
-      <Link href="/posts/video">영상자랑게시판</Link>
-
-      {/* 최상단 이동 버튼 */}
-      <ScrollButton />
-    </div>
-  );
-}
-export function MusicPage() {
-  return (
     <>
-      <div className="hidden md:block">
-        <div>
-          <div className="bg-background">
-            <div className="grid lg:grid-cols-5">
-              <SideBar playlists={playlists} className="hidden lg:block" />
-              <div className="col-span-3 lg:col-span-4 lg:border-l">
-                <div className="h-full px-4 py-6 lg:px-8">
-                  <Tabs defaultValue="music" className="h-full space-y-6">
-                    <div className="space-between flex items-center">
-                      <TabsList>
-                        <TabsTrigger value="music" className="relative">
-                          Music
-                        </TabsTrigger>
-                        <TabsTrigger value="podcasts">Podcasts</TabsTrigger>
-                        <TabsTrigger value="live" disabled>
-                          Live
-                        </TabsTrigger>
-                      </TabsList>
-                      <div className="ml-auto mr-4">
-                        <Button>
-                          <PlusCircle className="mr-2 h-4 w-4" />
-                          Add music
-                        </Button>
-                      </div>
-                    </div>
-                    <TabsContent
-                      value="music"
-                      className="border-none p-0 outline-none"
-                    >
-                      <div className="flex items-center justify-between">
-                        <div className="space-y-1">
-                          <h2 className="text-2xl font-semibold tracking-tight">
-                            Listen Now
-                          </h2>
-                          <p className="text-sm text-muted-foreground">
-                            Top picks for you. Updated daily.
-                          </p>
-                        </div>
-                      </div>
-                      <Separator className="my-4" />
-                      <div className="relative">
-                        <ScrollArea>
-                          <div className="flex space-x-4 pb-4">
-                            {listenNowAlbums.map((album) => (
-                              <AlbumArtwork
-                                key={album.name}
-                                album={album}
-                                className="w-[250px]"
-                                aspectRatio="portrait"
-                                width={250}
-                                height={330}
-                              />
-                            ))}
-                          </div>
-                          <ScrollBar orientation="horizontal" />
-                        </ScrollArea>
-                      </div>
-                      <div className="mt-6 space-y-1">
-                        <h2 className="text-2xl font-semibold tracking-tight">
-                          Made for You
-                        </h2>
-                        <p className="text-sm text-muted-foreground">
-                          Your personal playlists. Updated daily.
-                        </p>
-                      </div>
-                      <Separator className="my-4" />
-                      <div className="relative">
-                        <ScrollArea>
-                          <div className="flex space-x-4 pb-4">
-                            {madeForYouAlbums.map((album) => (
-                              <AlbumArtwork
-                                key={album.name}
-                                album={album}
-                                className="w-[150px]"
-                                aspectRatio="square"
-                                width={150}
-                                height={150}
-                              />
-                            ))}
-                          </div>
-                          <ScrollBar orientation="horizontal" />
-                        </ScrollArea>
-                      </div>
-                    </TabsContent>
-                    <TabsContent
-                      value="podcasts"
-                      className="h-full flex-col border-none p-0 data-[state=active]:flex"
-                    >
-                      <div className="flex items-center justify-between">
-                        <div className="space-y-1">
-                          <h2 className="text-2xl font-semibold tracking-tight">
-                            New Episodes
-                          </h2>
-                          <p className="text-sm text-muted-foreground">
-                            Your favorite podcasts. Updated daily.
-                          </p>
-                        </div>
-                      </div>
-                      <Separator className="my-4" />
-                      <PodcastEmptyPlaceholder />
-                    </TabsContent>
-                  </Tabs>
+      <div className="container bg-background">
+        <div className="grid grid-cols-3 lg:grid-cols-5">
+          <SideBar playlists={playlists} className="hidden lg:block" />
+          <div className="col-span-3 lg:col-span-4 lg:border-l">
+            <div className="h-full py-6 lg:px-8">
+              <Tabs defaultValue="all" className="h-full space-y-6">
+                <div className="row-center">
+                  {/* 게시판 고르는 탭 목록 */}
+                  <TabsList>
+                    <TabsTrigger value="all">전체</TabsTrigger>
+                    <TabsTrigger value="video">자랑게시판</TabsTrigger>
+                    <TabsTrigger value="free">자유게시판</TabsTrigger>
+                  </TabsList>
+
+                  {/* 게시글 쓰기 버튼*/}
+                  <Link href={"/storage"} className="ml-auto">
+                    <Button>
+                      <ShoppingBag className="mr-2 h-4 w-4" />내 보관함
+                    </Button>
+                  </Link>
                 </div>
-              </div>
+
+                {/* 전체 보기 */}
+                <AllPosts />
+
+                {/* 자유게시판 보기 */}
+                <VideoPosts />
+
+                {/* 자유게시판 보기 */}
+                <FreePosts />
+              </Tabs>
             </div>
           </div>
         </div>

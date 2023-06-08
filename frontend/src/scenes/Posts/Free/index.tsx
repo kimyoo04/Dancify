@@ -2,6 +2,7 @@ import ScrollButton from "@components/ScrollButton";
 import PostList from "@scenes/Posts/PostItem/PostList";
 import CreateButton from "@scenes/Posts/Free/FreeItem/CreateButton";
 import { useReadFreePostsPerPage } from "@api/posts/readFreePostsPerPage";
+import { TabsContent } from "@components/ui/tabs";
 
 export default function FreePosts() {
   const {
@@ -14,7 +15,12 @@ export default function FreePosts() {
   } = useReadFreePostsPerPage();
 
   return (
-    <div className="w-full">
+    <TabsContent
+      value="free"
+      className="h-full flex-col border-none p-0 data-[state=active]:flex"
+    >
+      <></>
+
       {/* 자유게시판 fetch 결과 출력 */}
       <PostList
         post={{
@@ -32,6 +38,6 @@ export default function FreePosts() {
 
       {/* 최상단 이동 버튼 */}
       <ScrollButton />
-    </div>
+    </TabsContent>
   );
 }
