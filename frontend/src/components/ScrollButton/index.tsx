@@ -1,4 +1,25 @@
+import { useMotionValueEvent, useScroll } from "framer-motion";
+import { ChevronUp } from "lucide-react";
+import { useState } from "react";
+
 export default function ScrollButton() {
+  const [isTop, setIsTop] = useState(true);
+  const { scrollY } = useScroll();
+
+  useMotionValueEvent(scrollY, "change", (position) => {
+    if (
+      position !== 0 &&
+      position + window.innerHeight + 20 < document.body.scrollHeight
+    ) {
+      setIsTop(false);
+    } else if (position !== 0) {
+      setIsTop(false);
+    } else {
+      setIsTop(true);
+    }
+  });
+
+  // 최상단으로 이동
   const scrollToTop = () => {
     window.scrollTo(0, 0);
   };
@@ -6,9 +27,11 @@ export default function ScrollButton() {
   return (
     <button
       onClick={() => scrollToTop()}
-      className="col-center shadow-gray_1 group fixed bottom-8 right-4 z-10 h-10 w-10 rounded-full bg-white shadow-sm transition-all hover:scale-125"
+      className={`col-center group fixed bottom-20 right-4 z-10 h-8 w-8 rounded-full bg-white shadow-sm shadow-gray_1 transition-all hover:scale-110 md:bottom-4 ${
+        isTop ? "cursor-default opacity-0" : ""
+      }`}
     >
-      <i className="ri-arrow-up-s-line text-3xl font-bold text-main_color_yellow transition-all "></i>
+      <ChevronUp />
     </button>
   );
 }
