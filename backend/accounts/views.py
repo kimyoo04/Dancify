@@ -1,14 +1,18 @@
-from django.contrib.auth import authenticate
-from django.contrib.auth import login
-from django.contrib.auth import logout
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 
+from rest_framework.views import APIView
 from rest_framework import status
 import json
+from drf_yasg import openapi
+from drf_yasg.utils import swagger_auto_schema
+from django.utils.decorators import method_decorator
+
 
 from accounts.models import User
+from accounts.serializers import LoginSerializer
 
 
 def check_duplicate_userId(user_id_json):
@@ -57,29 +61,42 @@ def signup(request):
                                 status=status.HTTP_400_BAD_REQUEST)
 
 
-@csrf_exempt
-def signin(request):
-    if request.method == 'POST':
-        json_data = json.loads(request.body)
+class SignIn(APIView):
+    @swagger_auto_schema(
+        request_body=openapi.Schema(
+            type=openapi.TYPE_OBJECT,
+            properties={
+                'userId': openapi.Schema(type=openapi.TYPE_STRING),
+                'password': openapi.Schema(type=openapi.TYPE_STRING)
+            }
+        )
+    )
 
-        user_id_json = json_data['userId']
-        password_json = json_data['password']
-
-        user = authenticate(request, user_id=user_id_json,
-                            password=password_json)
-
-        if user is not None:
-            login(request, user)
-
-            return JsonResponse({'message': '로그인이 성공하였습니다.'},
-                                status=status.HTTP_200_OK)
-        else:
+    def post(self, request):
+        serializer = LoginSerializer(data=request.data)
+        try:
+            serializer.is_valid(raise_exception=True)
+        except:
             return JsonResponse({'message': '아이디 또는 비밀번호가 틀렸습니다.'},
                                 status=status.HTTP_400_BAD_REQUEST)
 
+        user_id_json = serializer.validated_data['userId'] # type: ignore
+        password_json = serializer.validated_data['password'] # type: ignore
 
-@login_required
-def signout(request):
-    logout(request)
-    return JsonResponse({'message': '로그아웃이 성공하였습니다.'},
+        # 로그인 처리 / 이미 is_valid 통해 유효성 검사를 했기 때문에 로그인 진행
+        user = authenticate(user_id=user_id_json, password=password_json)
+        login(request, user)
+
+        return JsonResponse({'message': '로그인이 성공하였습니다.'},
+                                status=status.HTTP_200_OK)
+
+# @method_decorator(login_required, name='get')
+class SignOut(APIView):
+    def get(self, request):
+        try:
+            logout(request)
+        except:
+            return JsonResponse({'message': '잘못된 요청. 로그인을 먼저 하세요!'},
+                        status=status.HTTP_401_UNAUTHORIZED)
+        return JsonResponse({'message': '로그아웃이 성공하였습니다.'},
                         status=status.HTTP_200_OK)
