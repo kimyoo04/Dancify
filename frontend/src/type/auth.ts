@@ -37,5 +37,5 @@ export type TEmail = string;
 export type TPhone = string;
 export type TDescription = string;
 export type TPassword = string;
-export type TIsDancer = string;
+export type TIsDancer = boolean;
 export type TProfileImg = string;

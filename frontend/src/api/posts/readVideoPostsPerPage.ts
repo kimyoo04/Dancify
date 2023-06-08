@@ -17,7 +17,7 @@ export const readVideoPostsPerPage = async (page: number) => {
 export const useReadVideoPostsPerPage = () => {
   return useInfiniteQuery<IVideoPostsPerPage, AxiosError>({
     queryKey: [`/posts/video`],
-    queryFn: ({ pageParam = 0 }) => readVideoPostsPerPage(pageParam),
+    queryFn: ({ pageParam = 1 }) => readVideoPostsPerPage(pageParam),
     getNextPageParam: (lastPage) => {
       if (lastPage.currentPage < lastPage.totalPages) {
         return lastPage.currentPage + 1;

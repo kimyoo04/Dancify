@@ -6,6 +6,8 @@ const API_URL = process.env.NEXT_PUBLIC_ENV_API_URL;
 const instance = axios.create({
   baseURL: API_URL, // 도메인 허용
   withCredentials: true, // CORS 허용
+  xsrfCookieName: "csrftoken",
+  xsrfHeaderName: "X-CSRFToken",
   headers: {
     "Content-Type": "application/json", // json
     "Access-Control-Allow-Origin": API_DOMAIN, // 허용할 도메인 주소

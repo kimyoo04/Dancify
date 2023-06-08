@@ -6,6 +6,9 @@ from django.http import JsonResponse
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
+from rest_framework.routers import SimpleRouter
+
+router = SimpleRouter(trailing_slash=False)
 
 
 class CheerUpView(View):
@@ -36,8 +39,12 @@ urlpatterns = [
          name='schema-swagger-ui'),
     # API URL
     path('api', include([
+        path('', include(router.urls)),
         path('/posts', include('posts.urls')),
         path('/auth', include('accounts.urls')),
         path('/likes', include('like.urls')),
+        path('/comments', include('comments.urls')),
+        # path('/posts', include('posts.urls')),
+        # path('/user', include('user.urls')),
     ]))
 ]
