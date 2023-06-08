@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Movenet 예제</title>
+  </head>
+  <body>
+    <h1>Movenet 예제</h1>
+    <video id="webcam" width="640" height="480" autoplay></video>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.8.0/dist/tf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/pose-detection@2.1.0/dist/pose-detection.min.js"></script>
+    <script src="movetest.js"></script>
+    <script>
+      // 웹캠에서 자세 감지
+    const runPoseDetection = async () => {
+    const webcamElement = document.getElementById('webcam');
+
+    // 웹캠 스트림 가져오기
+    const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+    webcamElement.srcObject = stream;
+
+    const detectorConfig = { modelType: 'movenet' };
+    const detector = await poseDetection.createDetector(poseDetection.SupportedModels.MoveNet, detectorConfig);
+
+    const estimatePoses = async () => {
+      const poses = await detector.estimatePoses(webcamElement); // 웹캠에서 자세 추정
+
+      // 추정된 자세 정보 사용
+      if (poses.length > 0) {
+        console.log(poses[0]); // 첫 번째 자세 정보만 표시
+      }
+
+      requestAnimationFrame(estimatePoses);
+    };
+
+    // 모델 로드 후 자세 감지 시작
+    await detector.waitForModelLoading();
+    estimatePoses();
+  };
+
+  // 웹페이지가 로드되면 자세 감지 실행
+  window.onload = () => {
+    runPoseDetection().catch(console.error);
+  };
+
+    </script>
+  </body>
+</html>

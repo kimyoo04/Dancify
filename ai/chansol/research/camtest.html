@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>웹캠 테스트</title>
+</head>
+<body>
+    <video id="videoElement" width="640" height="480" autoplay></video>
+
+    <script>
+        // 웹캠 스트림을 가져와 video 요소에 출력하는 함수
+        function startVideo() {
+            // getUserMedia를 사용하여 웹캠 스트림 가져오기
+            navigator.mediaDevices.getUserMedia({ video: true })
+                .then(function(stream) {
+                    var videoElement = document.getElementById('videoElement');
+                    videoElement.srcObject = stream;
+                })
+                .catch(function(error) {
+                    console.error('웹캠을 가져올 수 없습니다:', error);
+                });
+        }
+
+        // 페이지 로드 시 웹캠 시작
+        window.onload = startVideo;
+    </script>
+</body>
+</html>
