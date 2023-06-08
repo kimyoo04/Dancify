@@ -38,7 +38,6 @@ urlpatterns = [
     path('api', include([
         path('/posts', include('posts.urls')),
         path('/auth', include('accounts.urls')),
-        # path('/posts', include('posts.urls')),
-        # path('/user', include('user.urls')),
+        path('/likes', include('like.urls')),
     ]))
 ]
