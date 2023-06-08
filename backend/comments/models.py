@@ -8,7 +8,7 @@ class Comment(models.Model):
     posts = models.ForeignKey(FreePost, on_delete=models.CASCADE)
     comment_id = models.UUIDField(
         primary_key=True, default=uuid.uuid4, editable=False, )
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     nickname = models.CharField(max_length=20)
     content = models.CharField(max_length=1000)
     create_date = models.DateField(auto_now_add=True)
@@ -17,5 +17,5 @@ class Comment(models.Model):
     # def __str__(self):
     #     return self.content
 
-    class Meta:
-        db_table = 'comments'
+    # class Meta:
+    #     db_table = 'comments'
