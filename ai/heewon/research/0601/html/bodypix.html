@@ -1,0 +1,36 @@
+<html>
+
+<head>
+    <!-- body pix 모델 호출 :
+    1) Tfjs 라이브러리 불러옴
+    2) bocy-pix 모델 불러옴-->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.11.0/dist/tf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/body-pix@2.2.0/dist/body-pix.min.js"></script>
+</head>
+
+<body>
+    <img id='image' src='../images/persons.jpg' crossorigin='anonymous' />
+</body>
+<script>
+    /* 이미지 변수 할당 */
+    const img = document.getElementById('image');
+    /* loadAndPredict 비동기 함수 정의 */
+    async function loadAndPredict() {
+        console.log(bodyPix);
+        /* body-pix 모델을 로드 */
+        const net = await bodyPix.load();
+        /**
+         * One of:
+         *   - net.segmentPerson : 사람의 윤곽(실루엣)만 배경과 분류
+         *   - net.segmentPersonParts : 사람의 실루엣 + 신체 분할
+         *   - net.segmentMultiPerson : 여러 명의 윤곽(실루엣)만 배경과 분류
+         *   - net.segmentMultiPersonParts : 여러 명의 실루엣 + 신체 분할
+         */
+        /* 이미지 분할 수행 */
+        const segmentation = await net.segmentMultiPersonParts(img);
+        console.log(segmentation);
+    }
+    loadAndPredict();
+</script>
+
+</html>
