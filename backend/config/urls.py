@@ -7,7 +7,7 @@ from rest_framework import permissions, routers
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 
-from comments.views import CommentViewSet
+from comments.comment_views import CommentViewSet
 from rest_framework.routers import SimpleRouter
 
 class CheerUpView(View):
