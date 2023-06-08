@@ -23,7 +23,7 @@ INSTALLED_APPS = [
     # !apps
     'accounts',
     'posts',
-    # 'user',
+    'like',
 ]
 
 
