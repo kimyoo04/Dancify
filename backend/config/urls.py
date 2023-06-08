@@ -42,6 +42,7 @@ urlpatterns = [
         path('', include(router.urls)),
         path('/posts', include('posts.urls')),
         path('/auth', include('accounts.urls')),
+        path('/likes', include('like.urls')),
         path('/comments', include('comments.urls')),
         # path('/posts', include('posts.urls')),
         # path('/user', include('user.urls')),
