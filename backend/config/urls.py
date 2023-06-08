@@ -3,12 +3,13 @@ from django.views import View
 from django.contrib import admin
 from django.http import JsonResponse
 
-from rest_framework import permissions, routers
+from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
-
-from comments.comment_views import CommentViewSet
 from rest_framework.routers import SimpleRouter
+
+router = SimpleRouter(trailing_slash=False)
+
 
 class CheerUpView(View):
     def get(self, request):
@@ -24,10 +25,6 @@ schema_view = get_schema_view(
     public=True,
     permission_classes=[permissions.AllowAny],
 )
-
-router = SimpleRouter(trailing_slash=False)
-
-router.register(r'/comments', CommentViewSet)
 
 
 urlpatterns = [
@@ -45,7 +42,7 @@ urlpatterns = [
         path('', include(router.urls)),
         path('/posts', include('posts.urls')),
         path('/auth', include('accounts.urls')),
-        path('/comments', include(router.urls)),
+        path('/comments', include('comments.urls')),
         # path('/posts', include('posts.urls')),
         # path('/user', include('user.urls')),
     ]))

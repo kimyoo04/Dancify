@@ -3,10 +3,10 @@ from .comment_serializers import GetSerializer, InputSerializer
 from rest_framework import viewsets, status
 from rest_framework.response import Response
 
+
 class CommentViewSet(viewsets.ModelViewSet):
     queryset = Comment.objects.all()
     serializer_class = GetSerializer
-
 
     def get_serializer_class(self):
         # 'create', 'update', 'partial_update' 에 대한 시리얼라이저 클래스 생성
@@ -26,7 +26,6 @@ class CommentViewSet(viewsets.ModelViewSet):
         try:
             serializer.save(user_id=self.request.user)
             self.perform_create(serializer)
-            headers = self.get_success_headers(serializer.data)
 
             return Response("성공", status=status.HTTP_201_CREATED)
         except PermissionError:
