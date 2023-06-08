@@ -29,9 +29,6 @@ class FreePostViewSet(viewsets.ModelViewSet):
         if self.action in ('create', 'update', 'partial_update'):
             return freepost_serializers.InputSerializer
 
-        # if self.action in ('retrieve', 'list'):
-        #     return freepost_serializers.GetSerializer
-
         return super().get_serializer_class()
 
     @swagger_auto_schema(
@@ -158,7 +155,6 @@ class FreePostViewSet(viewsets.ModelViewSet):
 
         try:
             serializer.save(user=self.request.user)
-            self.perform_create(serializer)
 
             return Response(status=status.HTTP_201_CREATED)
         except PermissionError:
