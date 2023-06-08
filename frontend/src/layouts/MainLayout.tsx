@@ -15,14 +15,14 @@ export default function MainLayout({
     <>
       {/* 메인 영역 */}
       <main>
-        <div className="col-center container mx-auto px-4 pt-20">
+        <div className="col-center pb-20 pt-20 md:pb-0">
           {children}
+          <Footer />
         </div>
       </main>
 
       {/* 레이아웃 요소 */}
       <Header />
-      <Footer />
       <TabBar />
 
       {/* 알림창 */}

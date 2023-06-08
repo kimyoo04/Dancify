@@ -4,7 +4,7 @@ import { UserNav } from "./UserNav";
 
 export default function MobileHeader() {
   return (
-    <div className="fixed top-0 w-full border-b md:hidden">
+    <div className="fixed top-0 w-full border-b bg-background md:hidden">
       <div className="container flex h-16 w-full items-center justify-between gap-4">
         <div className="row-center">
           {/* 로고 */}

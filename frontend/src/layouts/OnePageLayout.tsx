@@ -1,4 +1,3 @@
-import { motion } from "framer-motion";
 import { useAppSelector } from "@toolkit/hook";
 
 import Header from "./Header";
