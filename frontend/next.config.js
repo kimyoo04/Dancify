@@ -5,6 +5,16 @@ const nextConfig = (phase) => {
   if (phase === PHASE_DEVELOPMENT_SERVER) {
     return {
       reactStrictMode: false,
+      images: {
+        remotePatterns: [
+          {
+            protocol: "https",
+            hostname: "images.unsplash.com",
+            port: "",
+            pathname: "/**",
+          },
+        ],
+      },
       env: {
         NEXT_PUBLIC_ENV_API_DOMAIN: "http://localhost:8000",
         NEXT_PUBLIC_ENV_API_URL: "http://localhost:8000/api",
