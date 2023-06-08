@@ -120,7 +120,14 @@ class FreePostViewSet(viewsets.ModelViewSet):
     )
     def retrieve(self, request, *args, **kwargs):
         # !좋아요랑 댓글, userPK 보내줘야 함
-        return super().retrieve(request, *args, **kwargs)
+        instance = self.get_object()
+
+        # 조회수 증가
+        instance.views += 1
+        instance.save()
+
+        serializer = self.get_serializer(instance)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
     # @login_required
     @swagger_auto_schema(
