@@ -17,11 +17,11 @@ class CommentGetSerializer(serializers.HyperlinkedModelSerializer):
 
 class CommentPostSerializer(serializers.HyperlinkedModelSerializer):
     postId = serializers.UUIDField(source='post_id')
-    boardCategory = serializers.CharField(source='board_category')
+    postCategory = serializers.CharField(source='post_category')
 
     class Meta:
         model = Comment
-        fields = ['postId', 'content', 'boardCategory']
+        fields = ['postId', 'content', 'postCategory']
 
 
 class CommentPatchDeleteSerializer(serializers.HyperlinkedModelSerializer):

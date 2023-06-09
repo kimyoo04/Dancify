@@ -17,6 +17,6 @@ class Comment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     content = models.CharField(max_length=1000)
     create_date = models.DateField(auto_now_add=True)
-    board_category = models.CharField(max_length=10,
+    post_category = models.CharField(max_length=10,
                                       choices=CATEGORY_CHOICES)
     post_id = models.UUIDField(editable=False)
