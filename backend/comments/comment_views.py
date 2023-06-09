@@ -1,9 +1,8 @@
-from .models import Comment
-from .comment_serializers import CommentGetSerializer, CommentInputSerializer
 from rest_framework import viewsets, status
 from rest_framework.response import Response
 
-from drf_yasg.utils import swagger_auto_schema
+from .models import Comment
+from .comment_serializers import CommentGetSerializer, CommentPostSerializer, CommentPatchDeleteSerializer
 
 
 class CommentViewSet(viewsets.ModelViewSet):
@@ -12,25 +11,22 @@ class CommentViewSet(viewsets.ModelViewSet):
     lookup_field = 'comment_id'
 
     def get_serializer_class(self):
-        # 'create', 'update', 'partial_update' 에 대한 시리얼라이저 클래스 생성
-        if self.action in ('create', 'update', 'partial_update'):
-            return CommentInputSerializer
+        if self.action in ('create'):
+            return CommentPostSerializer
+
+        if self.action in ('partial_update', 'destroy'):
+            return CommentPatchDeleteSerializer
 
         return super().get_serializer_class()
 
-    @swagger_auto_schema(
-        operation_summary='댓글 생성'
-    )
     def create(self, request, *args, **kwargs):
-        # 요청 데이터에 대한 시리얼라이저 생성
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
         try:
-            serializer.save(user_id=self.request.user)
-            self.perform_create(serializer)
+            serializer.save(user=self.request.user)
 
-            return Response("성공", status=status.HTTP_201_CREATED)
+            return Response(status=status.HTTP_201_CREATED)
         except PermissionError:
             return Response(status=status.HTTP_401_UNAUTHORIZED)
 
@@ -39,7 +35,7 @@ comment_create = CommentViewSet.as_view({
     'post': 'create',
 })
 
-comment_delete_patch = CommentViewSet.as_view({
+comment_patch_delete = CommentViewSet.as_view({
     'delete': 'destroy',
     'patch': 'partial_update'
 })
