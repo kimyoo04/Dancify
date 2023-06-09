@@ -5,7 +5,6 @@ from .models import Comment
 
 class CommentGetSerializer(serializers.HyperlinkedModelSerializer):
     commentId = serializers.UUIDField(source='comment_id')
-    userId = serializers.UUIDField(source='user.user_id')
     postId = serializers.UUIDField(source='post_id')
     nickname = serializers.CharField(source='user.nickname')
     createDate = serializers.DateField(source='create_date')
@@ -16,9 +15,16 @@ class CommentGetSerializer(serializers.HyperlinkedModelSerializer):
                   'content', 'createDate', 'postId']
 
 
-class CommentInputSerializer(serializers.HyperlinkedModelSerializer):
+class CommentPostSerializer(serializers.HyperlinkedModelSerializer):
     postId = serializers.UUIDField(source='post_id')
+    boardCategory = serializers.CharField(source='board_category')
 
     class Meta:
         model = Comment
-        fields = ['postId', 'content']
+        fields = ['postId', 'content', 'boardCategory']
+
+
+class CommentPatchDeleteSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Comment
+        fields = ['content']
