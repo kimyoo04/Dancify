@@ -18,6 +18,5 @@ class Comment(models.Model):
     content = models.CharField(max_length=1000)
     create_date = models.DateField(auto_now_add=True)
     board_category = models.CharField(max_length=10,
-                                      choices=CATEGORY_CHOICES,
-                                      null=False, blank=False)
+                                      choices=CATEGORY_CHOICES)
     post_id = models.UUIDField(editable=False)
