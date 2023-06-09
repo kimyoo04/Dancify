@@ -2,9 +2,7 @@ from rest_framework import viewsets, status
 from rest_framework.response import Response
 
 from .models import Comment
-from .comment_serializers import CommentGetSerializer, \
-                                CommentPostSerializer, \
-                                CommentPatchDeleteSerializer
+from .comment_serializers import CommentGetSerializer, CommentPostSerializer, CommentPatchDeleteSerializer
 
 
 class CommentViewSet(viewsets.ModelViewSet):
