@@ -1,0 +1,13 @@
+
+
+.slick-list {
+    width: 100%;
+    margin: auto;
+}
+
+@media (max-width: 1000px) {
+    .slick-list{
+        width: 100%;
+    }
+}
+  

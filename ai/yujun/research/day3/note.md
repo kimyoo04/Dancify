@@ -3,6 +3,7 @@
 ## GPoleto27/Movenet_Webcam_App 🏫[link](https://github.com/GPoleto27/Movenet_Webcam_App)
 - Python 기반 코드
 - 위 링크의 `README.md`에서 `git clone`한 후, `movenet.py`를 수정
+- `original.py`가 원작자의 파일
 - COCO Topology 기반 17개 keypoint를 추론
 - 현재 point로 keypoint를 찍고, 이 point는 RGB 코드를 통해 색상 변경 가능
 - 스켈레톤을 원한다면, keypoint를 튜플로 엮어 line을 생성할 수 있음
