@@ -2,8 +2,11 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.generics import CreateAPIView, DestroyAPIView
 
+from accounts.authentication import decode_access_token
+from rest_framework_simplejwt.exceptions import TokenError
 from .models import Like
 from .serializers import LikePostDeleteSerializer
+from accounts.models import User
 
 
 class LikeView(CreateAPIView, DestroyAPIView):
@@ -27,8 +30,13 @@ class LikeView(CreateAPIView, DestroyAPIView):
             return super().destroy(request, *args, **kwargs)
 
         try:
-            serializer.save(user=self.request.user, post_id=post_id)
+            access_token = request.COOKIES['Access-Token']
+            user_info = decode_access_token(access_token)
+
+            user_id = user_info['userId']
+            serializer.save(user=User.objects.get(user_id=user_id),
+                            post_id=post_id)
 
             return Response(status=status.HTTP_201_CREATED)
-        except PermissionError:
+        except  (TokenError, KeyError):
             return Response(status=status.HTTP_401_UNAUTHORIZED)

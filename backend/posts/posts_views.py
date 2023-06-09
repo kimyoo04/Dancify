@@ -4,8 +4,11 @@ from rest_framework.pagination import PageNumberPagination
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 
+from accounts.authentication import decode_access_token
+from rest_framework_simplejwt.exceptions import TokenError
 from . import freepost_serializers
 from .models import FreePost
+from accounts.models import User
 
 
 class FreePostPagination(PageNumberPagination):
@@ -154,10 +157,14 @@ class FreePostViewSet(viewsets.ModelViewSet):
         serializer.is_valid(raise_exception=True)
 
         try:
-            serializer.save(user=self.request.user)
+            access_token = request.COOKIES['Access-Token']
+            user_info = decode_access_token(access_token)
+
+            user_id = user_info['userId']
+            serializer.save(user=User.objects.get(user_id=user_id))
 
             return Response(status=status.HTTP_201_CREATED)
-        except PermissionError:
+        except (TokenError, KeyError):
             return Response(status=status.HTTP_401_UNAUTHORIZED)
 
     @swagger_auto_schema(
