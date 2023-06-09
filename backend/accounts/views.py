@@ -1,9 +1,10 @@
-from django.contrib.auth import authenticate, login, logout
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 
 from rest_framework.views import APIView
 from rest_framework import status, serializers
+from rest_framework_simplejwt.exceptions import TokenError
+from rest_framework_simplejwt.tokens import RefreshToken
 import json
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
@@ -11,6 +12,10 @@ from drf_yasg.utils import swagger_auto_schema
 
 from accounts.models import User
 from accounts.serializers import LoginSerializer
+from accounts.authentication import decode_access_token
+from accounts.authentication import create_jwt_token
+from accounts.authentication import check_access_token_exp,\
+    validate_access_token, validate_refresh_token
 
 
 def check_duplicate_userId(user_id_json):
@@ -25,10 +30,11 @@ def check_duplicate_userId(user_id_json):
 
 
 @csrf_exempt
-def signup(request):
+def SignUpView(request):
     if request.method == 'POST':
         json_data = json.loads(request.body)
 
+        # serializer 구현이 필요
         user_id_json = json_data['userId']
         password_json = json_data['password']
         password_check_json = json_data['passwordCheck']
@@ -59,7 +65,11 @@ def signup(request):
                                 status=status.HTTP_400_BAD_REQUEST)
 
 
-class SignIn(APIView):
+class SignInView(APIView):
+    def is_duplicate_login(self, token):
+        if token is None:
+            return False
+
     @swagger_auto_schema(
         request_body=openapi.Schema(
             type=openapi.TYPE_OBJECT,
@@ -78,26 +88,83 @@ class SignIn(APIView):
                                 status=status.HTTP_400_BAD_REQUEST)
 
         user_id_json = serializer.validated_data['userId']  # type: ignore
-        password_json = serializer.validated_data['password']  # type: ignore
 
-        # 로그인 처리 / 이미 is_valid 통해 유효성 검사를 했기 때문에 로그인 진행
-        user = authenticate(user_id=user_id_json, password=password_json)
-        login(request, user)
+        # 로그인 : 토큰 발급
+        refresh_token = create_jwt_token(user_id_json, 'refresh')
+        acccess_token = create_jwt_token(user_id_json, 'access')
 
-        return JsonResponse({'message': '로그인이 성공하였습니다.'},
-                            status=status.HTTP_200_OK)
+        response = JsonResponse({'message': '로그인이 성공하였습니다.'},
+                                status=status.HTTP_200_OK)
+
+        response.set_cookie('Refresh-Token', refresh_token)
+        response.set_cookie('Access-Token', acccess_token)
+
+        return response
 
 
-class SignOut(APIView):
-    def get(self, request):
+class SignOutView(APIView):
+    def post(self, request):
+        try:
+            response = JsonResponse({'message': '로그아웃이 성공하였습니다.'},
+                                    status=status.HTTP_200_OK)
 
-        logout(request)
+            refresh_token = request.COOKIES['Refresh-Token']
+            refresh_token = RefreshToken(refresh_token)
+            refresh_token.blacklist()
 
-        """
-        추후에 토큰 만료확인 로직 추가 후에 분기 설정 예정
-        JsonResponse({'message': '잘못된 요청. 로그인을 먼저 하세요!'},
-        status=status.HTTP_401_UNAUTHORIZED)
-        """
+        except TokenError:
+            result_message = '유효하지 않은 토큰입니다.'
+            response = JsonResponse({'message': result_message},
+                                    status=status.HTTP_401_UNAUTHORIZED)
 
-        return JsonResponse({'message': '로그아웃이 성공하였습니다.'},
-                            status=status.HTTP_200_OK)
+        return response
+
+
+"""
+1. refreshtoken이 변조되었거나 만료되었으면 쿠키삭제
+2. accessToken이 시간은 우효하지만 변조되었다면 쿠키삭제
+3. 나머지 경우는 access, refresh 재발급
+"""
+
+
+class JWTRefreshView(APIView):
+    def handle_invalid_token(self):
+        response = JsonResponse({'user': False}, status=status.HTTP_401_UNAUTHORIZED)
+
+        response.delete_cookie('Access-Token')
+        response.delete_cookie('Refresh-Token')
+
+        return response
+
+    def post(self, request):
+        try:
+            # 토큰을 쿠키에서 지워주는 코드인데... postman에서 작동이 안되는 것으로 보임
+            access_token = request.COOKIES['Access-Token']
+            refresh_token = request.COOKIES['Refresh-Token']
+            user_info = decode_access_token(access_token)
+
+            # 1번 시나리오
+            if not validate_refresh_token(refresh_token):
+                return self.handle_invalid_token()
+
+            # 2번 시나리오, 유효기간 정상이지만 변조되거나 서명이 잘못된경우
+            if check_access_token_exp and not validate_access_token:
+                return self.handle_invalid_token()
+
+            # 그 외의 경우에는 토큰 재발급 진행
+            new_refresh_token = create_jwt_token(user_info['userId'],
+                                                 'refresh', user_info)
+            new_acccess_token = create_jwt_token(user_info['userId'],
+                                                 'access', user_info)
+
+            response = JsonResponse({'user': True},
+                                    status=status.HTTP_200_OK)
+
+            response.set_cookie('Refresh-Token', new_refresh_token)
+            response.set_cookie('Access-Token', new_acccess_token)
+
+            return response
+
+        except (TokenError, KeyError):
+            return JsonResponse({'user': False},
+                                status=status.HTTP_401_UNAUTHORIZED)
