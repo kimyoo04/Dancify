@@ -25,15 +25,16 @@ class LikeView(CreateAPIView, DestroyAPIView):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
 
-        if Like.objects.filter(user_id=self.request.user,
-                               post_id=post_id).exists():
-            return super().destroy(request, *args, **kwargs)
-
         try:
             access_token = request.COOKIES['Access-Token']
             user_info = decode_access_token(access_token)
 
             user_id = user_info['userId']
+
+            if Like.objects.filter(user=User.objects.get(user_id=user_id),
+                                post_id=post_id).exists():
+                return super().destroy(request, *args, **kwargs)
+
             serializer.save(user=User.objects.get(user_id=user_id),
                             post_id=post_id)
 
