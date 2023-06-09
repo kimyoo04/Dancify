@@ -32,12 +32,12 @@ class LikeView(CreateAPIView, DestroyAPIView):
             user_id = user_info['userId']
 
             if Like.objects.filter(user=User.objects.get(user_id=user_id),
-                                post_id=post_id).exists():
+                                   post_id=post_id).exists():
                 return super().destroy(request, *args, **kwargs)
 
             serializer.save(user=User.objects.get(user_id=user_id),
                             post_id=post_id)
 
             return Response(status=status.HTTP_201_CREATED)
-        except  (TokenError, KeyError):
+        except (TokenError, KeyError):
             return Response(status=status.HTTP_401_UNAUTHORIZED)

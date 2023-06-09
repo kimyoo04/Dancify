@@ -2,7 +2,6 @@ from rest_framework import viewsets, status
 from rest_framework.response import Response
 
 from accounts.authentication import decode_access_token
-from rest_framework_simplejwt.exceptions import TokenError
 from .models import Comment
 from .comment_serializers import CommentGetSerializer, CommentPostSerializer, CommentPatchDeleteSerializer
 from accounts.models import User
