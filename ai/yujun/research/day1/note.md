@@ -1,4 +1,4 @@
-# TFJS / 생활코딩 TFJS ~4강 / TFJS-pose-detection
+# 필기 노트 1
 
 ## TensorFlow.js 시작하기 🏫[link](https://www.tensorflow.org/js/tutorials?hl=ko)
 - tfjs 공식문서 튜토리얼을 통해 Node.js와 yarn 환경설정
