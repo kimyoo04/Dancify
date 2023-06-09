@@ -1,0 +1,35 @@
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding:wght@700&family=Gothic+A1:wght@700&display=swap');
+
+html{
+  overflow: auto;
+}
+html,
+body {
+  font-family: 'Gothic A1', sans-serif;
+  height: 100%;
+}
+
+#root {
+  height : 100%;
+  /*
+  background: -webkit-linear-gradient(110deg, #849fbd 40%, #459fc9 40%);
+  background: -o-linear-gradient(110deg,   #6085d4 40%, #459fc9 40%);
+  background: -moz-linear-gradient(110deg,  #6085d4 40%, #459fc9 40%);
+  background: linear-gradient(110deg,   #6085d4 40%, #459fc9 40%);
+  */
+}
+.App {
+  height :100%;
+  width :100%;
+  display : table;
+  text-align: center;
+}
+.main_div {
+  display : table-cell;
+  vertical-align: middle;
+}
+.main {
+  color : black;
+  font-size : 5em;
+  padding : 25px;
+}
