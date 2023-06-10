@@ -6,14 +6,14 @@ from drf_yasg.utils import swagger_auto_schema
 
 from accounts.authentication import decode_access_token
 from rest_framework_simplejwt.exceptions import TokenError
-from ..serializers.videopost_serializers import (
+from ..serializers.free_post_serializers import (
     GetListSerializer, GetRetrieveSerializer, PostPatchSerializer)
-from ..models import VideoPost
+from ..models import FreePost
 from accounts.models import User
 from comments.models import Comment
 
 
-class VideoPostPagination(PageNumberPagination):
+class FreePostPagination(PageNumberPagination):
     page_size = 20  # 페이지당 보여질 개체 수
 
     def get_paginated_response(self, data):
@@ -25,9 +25,9 @@ class VideoPostPagination(PageNumberPagination):
         })
 
 
-class VideoPostViewSet(viewsets.ModelViewSet):
-    queryset = VideoPost.objects.all()
-    pagination_class = VideoPostPagination
+class FreePostViewSet(viewsets.ModelViewSet):
+    queryset = FreePost.objects.all()
+    pagination_class = FreePostPagination
 
     def get_serializer_class(self):
         if self.action in ('list'):
@@ -48,11 +48,10 @@ class VideoPostViewSet(viewsets.ModelViewSet):
                 <li>nickname: 작성자 닉네임</li>
                 <li>content: 게시글 내용</li>
                 <li>createDate: 작성 일자</li>
-                <li>video: 비디오 URL</li>
+                <li>postImage: 사진 URL</li>
                 <li>views: 게시글 조회수</li>
                 <li>likesCount: 좋아요 개수</li>
                 <li>commentsCount: 댓글 개수</li>
-                <li>totalVideoLength: 전체 영상 길이</li>
                 <li>totalPages: 전체 페이지 수</li>
                 <li>currentPage: 현재 페이지</li>
                 <li>totalCount: 총 게시글 수</li>
@@ -74,10 +73,10 @@ class VideoPostViewSet(viewsets.ModelViewSet):
                                     'nickname': openapi.Schema(type=openapi.TYPE_STRING),
                                     'content': openapi.Schema(type=openapi.TYPE_STRING),
                                     'createDate': openapi.Schema(type=openapi.TYPE_STRING),
-                                    'video': openapi.Schema(type=openapi.TYPE_STRING),
+                                    'postImage': openapi.Schema(type=openapi.TYPE_STRING),
+                                    'views': openapi.Schema(type=openapi.TYPE_INTEGER),
                                     'likesCount': openapi.Schema(type=openapi.TYPE_INTEGER),
                                     'commentsCount': openapi.Schema(type=openapi.TYPE_INTEGER),
-                                    'totalVideoLength': openapi.Schema(type=openapi.TYPE_STRING),
                                 }
                             )
                         ),
@@ -101,11 +100,10 @@ class VideoPostViewSet(viewsets.ModelViewSet):
                 <li>nickname: 작성자 닉네임</li>
                 <li>content: 게시글 내용</li>
                 <li>createDate: 작성 일자</li>
-                <li>video: 영상 URL</li>
-                <li>totalVideoLength: 전체 영상 길이</li>
+                <li>postImage: 사진 URL</li>
                 <li>views: 게시글 조회수</li>
-                <li>userLike: 유저 좋아요 여부</li>
                 <li>likesCount: 좋아요 개수</li>
+                <li>userLike: 유저 좋아요 여부</li>
                 <li>comments: 댓글</li>
             </ul>
         """,
@@ -120,11 +118,10 @@ class VideoPostViewSet(viewsets.ModelViewSet):
                         'nickname': openapi.Schema(type=openapi.TYPE_STRING),
                         'content': openapi.Schema(type=openapi.TYPE_STRING),
                         'createDate': openapi.Schema(type=openapi.TYPE_STRING),
-                        'video': openapi.Schema(type=openapi.TYPE_STRING),
-                        'totalvideoLength': openapi.Schema(type=openapi.TYPE_STRING),
+                        'postImage': openapi.Schema(type=openapi.TYPE_STRING),
                         'views': openapi.Schema(type=openapi.TYPE_INTEGER),
-                        'userLike': openapi.Schema(type=openapi.TYPE_BOOLEAN),
                         'likesCount': openapi.Schema(type=openapi.TYPE_INTEGER),
+                        'userLike': openapi.Schema(type=openapi.TYPE_BOOLEAN),
                         'userId': openapi.Schema(type=openapi.TYPE_STRING),
                         'comments': openapi.Schema(
                             type=openapi.TYPE_ARRAY,
@@ -135,7 +132,7 @@ class VideoPostViewSet(viewsets.ModelViewSet):
                                     'userId': openapi.Schema(type=openapi.TYPE_STRING),
                                     'nickname': openapi.Schema(type=openapi.TYPE_STRING),
                                     'content': openapi.Schema(type=openapi.TYPE_STRING),
-                                    'createDate': openapi.Schema(type=openapi.TYPE_STRING),
+                                    'createDate': openapi.Schema(type=openapi.TYPE_STRING)
                                 }
                             )
                         )
@@ -160,7 +157,7 @@ class VideoPostViewSet(viewsets.ModelViewSet):
             <ul>
                 <li>title: 게시글 제목</li>
                 <li>content: 게시글 내용</li>
-                <li>video: 영상 URL</li>
+                <li>postImage: 사진 URL</li>
             </ul>
         """,
         request_body=openapi.Schema(
@@ -168,7 +165,7 @@ class VideoPostViewSet(viewsets.ModelViewSet):
             properties={
                 'title': openapi.Schema(type=openapi.TYPE_STRING),
                 'content': openapi.Schema(type=openapi.TYPE_STRING),
-                'video': openapi.Schema(type=openapi.TYPE_STRING)
+                'postImage': openapi.Schema(type=openapi.TYPE_STRING)
             },
             required=['title', 'content']
         ),
@@ -197,7 +194,7 @@ class VideoPostViewSet(viewsets.ModelViewSet):
             <ul>
                 <li>title: 게시글 제목</li>
                 <li>content: 게시글 내용</li>
-                <li>video: 영상 URL</li>
+                <li>postImage: 사진 URL</li>
             </ul>
         """,
         request_body=openapi.Schema(
@@ -205,7 +202,7 @@ class VideoPostViewSet(viewsets.ModelViewSet):
             properties={
                 'title': openapi.Schema(type=openapi.TYPE_STRING),
                 'content': openapi.Schema(type=openapi.TYPE_STRING),
-                'video': openapi.Schema(type=openapi.TYPE_STRING)
+                'postImage': openapi.Schema(type=openapi.TYPE_STRING)
             },
             required=['title', 'content']
         ),

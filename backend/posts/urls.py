@@ -2,8 +2,8 @@ from django.urls import path, include
 
 from rest_framework import routers
 
-from .views.freepost_view import FreePostViewSet
-from .views.videopost_view import VideoPostViewSet
+from .views.free_post_view import FreePostViewSet
+from .views.video_post_view import VideoPostViewSet
 
 
 router = routers.SimpleRouter(trailing_slash=False)
