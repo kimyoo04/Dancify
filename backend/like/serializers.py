@@ -3,7 +3,7 @@ from rest_framework import serializers
 from .models import Like
 
 
-class LikePostDeleteSerializer(serializers.HyperlinkedModelSerializer):
+class LikePostDeleteSerializer(serializers.ModelSerializer):
     """
     Post 요청이 들어오면 다음 Json을 받아 요청을 처리하는 Serializer
     ___

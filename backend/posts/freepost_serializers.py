@@ -5,7 +5,7 @@ from comments.models import Comment
 from like.models import Like
 
 
-class GetListSerializer(serializers.HyperlinkedModelSerializer):
+class GetListSerializer(serializers.ModelSerializer):
     """
     GET 요청이 들어와 List 액션을 실행할 때
     다음 Json을 반환하는 Serializer
@@ -41,8 +41,7 @@ class GetListSerializer(serializers.HyperlinkedModelSerializer):
                   'commentsCount', 'likesCount']
 
 
-
-class GetRetrieveSerializer(serializers.HyperlinkedModelSerializer):
+class GetRetrieveSerializer(serializers.ModelSerializer):
     """
     GET 요청이 들어와 Retrieve 액션을 실행할 때
     다음 Json을 반환하는 Serializer
