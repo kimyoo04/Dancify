@@ -134,7 +134,7 @@ class FreePostViewSet(viewsets.ModelViewSet):
                                     'createDate': openapi.Schema(type=openapi.TYPE_STRING)
                                 }
                             )
-                        ),
+                        )
                     }
                 )
             )

@@ -39,6 +39,7 @@ class GetListSerializer(serializers.ModelSerializer):
         fields = ['postId', 'title', 'nickname', 'content',
                   'createDate', 'postImage', 'views',
                   'commentsCount', 'likesCount']
+        ref_name = 'FreePostGetListSerializer'
 
 
 class GetRetrieveSerializer(serializers.ModelSerializer):
@@ -89,6 +90,7 @@ class GetRetrieveSerializer(serializers.ModelSerializer):
         fields = ['postId', 'title', 'userId', 'nickname',
                   'content', 'createDate', 'postImage',
                   'views', 'likesCount', 'comments']
+        ref_name = 'FreePostGetRetrieveSerializer'
 
 
 class PostPatchSerializer(serializers.HyperlinkedModelSerializer):
@@ -106,3 +108,5 @@ class PostPatchSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = FreePost
         fields = ['title', 'content', 'postImage']
+        ref_name = 'FreePostPostPatchSerializer'
+        

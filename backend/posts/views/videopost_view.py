@@ -138,7 +138,7 @@ class VideoPostViewSet(viewsets.ModelViewSet):
                                     'userId': openapi.Schema(type=openapi.TYPE_STRING)
                                 }
                             )
-                        ),
+                        )
                     }
                 )
             )
