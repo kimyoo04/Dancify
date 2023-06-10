@@ -39,7 +39,7 @@ class FreePost(PostBaseModel):
     post_image = models.URLField(max_length=500, null=True, blank=True)
 
 
-class VideoBoastPost(VideoPostBaseModel):
+class VideoPost(VideoPostBaseModel):
     pass
 
 
