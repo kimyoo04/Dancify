@@ -25,14 +25,17 @@ class FreePostPagination(PageNumberPagination):
 
 class FreePostViewSet(viewsets.ModelViewSet):
     queryset = FreePost.objects.all()
-    serializer_class = freepost_serializers.GetSerializer
     pagination_class = FreePostPagination
 
     def get_serializer_class(self):
-        if self.action in ('create', 'update', 'partial_update'):
-            return freepost_serializers.InputSerializer
+        if self.action in ('list'):
+            return freepost_serializers.GetListSerializer
 
-        return super().get_serializer_class()
+        if self.action in ('retrieve'):
+            return freepost_serializers.GetRetrieveSerializer
+
+        if self.action in ('create', 'update', 'partial_update'):
+            return freepost_serializers.PostPatchSerializer
 
     @swagger_auto_schema(
         operation_summary='게시글 목록 조회',
@@ -119,7 +122,6 @@ class FreePostViewSet(viewsets.ModelViewSet):
         }
     )
     def retrieve(self, request, *args, **kwargs):
-        # !좋아요랑 댓글, userPK 보내줘야 함
         instance = self.get_object()
 
         # 조회수 증가
