@@ -14,10 +14,6 @@ module.exports = {
     extend: {
       colors: {
         // custom
-        main_color_blue: "#2d2aff",
-        main_color_green: "#14c79f",
-        main_color_yellow: "#91d36f",
-
         gray_1: "#373737",
         gray_2: "#565656",
         gray_3: "#828385",
@@ -38,12 +34,16 @@ module.exports = {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         primary: {
-          DEFAULT: "hsl(var(--primary))",
+          DEFAULT: "var(--primary)",
           foreground: "hsl(var(--primary-foreground))",
         },
         secondary: {
-          DEFAULT: "hsl(var(--secondary))",
+          DEFAULT: "var(--secondary)",
           foreground: "hsl(var(--secondary-foreground))",
+        },
+        tertiary: {
+          DEFAULT: "var(--tertiary)",
+          foreground: "hsl(var(--tertiary-foreground))",
         },
         destructive: {
           DEFAULT: "hsl(var(--destructive))",
