@@ -55,7 +55,7 @@ export default function UserSignInForm({
   ...props
 }: UserAuthFormProps) {
   const router = useRouter();
-  const [isLoading, setIsLoading] = React.useState<boolean>(false);
+  const [isLoading] = React.useState<boolean>(false);
   const { toast } = useToast();
 
   const form = useForm<ProfileFormValues>({
