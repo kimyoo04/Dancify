@@ -14,3 +14,10 @@ class LikePostDeleteSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Like
         fields = ['postCategory']
+
+    def validate(self, attrs):
+        CATEGORY_CHOICES = ['FREE', 'VIDEO', 'DANCER']
+        post_category = attrs.get('post_category')
+        if post_category not in CATEGORY_CHOICES:
+            raise serializers.ValidationError('올바른 카테고리를 선택해야 합니다.', code='invalid')
+        return super().validate(attrs)
