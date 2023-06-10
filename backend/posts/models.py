@@ -29,7 +29,7 @@ class VideoPostBaseModel(PostBaseModel):
     이를 상속할 베이스 모델을 생성합니다.
     """
     video_url = models.URLField(max_length=500, null=False)
-    thumbnail_image = models.URLField(max_length=500, null=False)
+    thumbnail_url = models.URLField(max_length=500, null=False)
 
     class Meta:
         abstract = True
