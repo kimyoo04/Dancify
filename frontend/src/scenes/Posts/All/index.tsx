@@ -1,18 +1,15 @@
 import { Separator } from "@components/ui/separator";
 import { ScrollArea, ScrollBar } from "@components/ui/scroll-area";
-import { TabsContent, TabsList, TabsTrigger } from "@components/ui/tabs";
 
 import { listenNowAlbums, madeForYouAlbums } from "../data/albums";
 
 import PreviewFreePosts from "../Free/PreviewFreePosts";
 import PreviewVideoPosts from "../Video/PreviewVideoPosts";
+import PostViewMore from "../PostItem/PostViewMore";
 
 export default function AllPosts() {
   return (
-    <TabsContent
-      value="all"
-      className="space-y-10 border-none p-0 outline-none"
-    >
+    <div className="space-y-10 border-none p-0 outline-none">
       <div>
         {/* //!자랑게시판 헤더 */}
         <div>
@@ -26,9 +23,9 @@ export default function AllPosts() {
               </p>
             </div>
 
-            <TabsList>
-              <TabsTrigger value="video">더보기</TabsTrigger>
-            </TabsList>
+            <div>
+              <PostViewMore href="/posts/video"></PostViewMore>
+            </div>
           </div>
           <Separator className="my-4" />
         </div>
@@ -66,9 +63,9 @@ export default function AllPosts() {
               </p>
             </div>
 
-            <TabsList>
-              <TabsTrigger value="free">더보기</TabsTrigger>
-            </TabsList>
+            <div>
+              <PostViewMore href="/posts/free"></PostViewMore>
+            </div>
           </div>
           <Separator className="my-4" />
         </div>
@@ -85,6 +82,6 @@ export default function AllPosts() {
           </ScrollArea>
         </div>
       </div>
-    </TabsContent>
+    </div>
   );
 }
