@@ -31,6 +31,7 @@
     "@reduxjs/toolkit": "^1.9.5",
     "@tanstack/react-query": "^4.29.12",
     "@tensorflow/tfjs": "^4.6.0",
+    "@types/react-datepicker": "^4.11.2",
     "axios": "^1.4.0",
     "chart.js": "^4.3.0",
     "chartjs-plugin-datalabels": "^2.2.0",
