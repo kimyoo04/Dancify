@@ -5,7 +5,6 @@ import "../styles/chat.css";
 
 import Head from "next/head";
 import type { AppProps } from "next/app";
-import { AnimatePresence } from "framer-motion";
 import { useRouter } from "next/router";
 
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";

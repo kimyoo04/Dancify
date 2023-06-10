@@ -79,7 +79,7 @@ export default function UserSignUpForm({
 }: UserAuthFormProps) {
   const router = useRouter();
   const [isDancer, setIsDancer] = React.useState(false);
-  const [isLoading, setIsLoading] = React.useState<boolean>(false);
+  const [isLoading] = React.useState<boolean>(false);
   const { toast } = useToast();
 
   //! This can come from your database or API.
@@ -136,23 +136,23 @@ export default function UserSignUpForm({
   }
 
   const isDancableBg = classNames({
-    "bg-main_color_green": !isDancer,
+    "bg-primary": !isDancer,
   });
   const isDancerBg = classNames({
-    "bg-main_color_green": isDancer,
+    "bg-primary": isDancer,
   });
 
   return (
     <>
       <div className="row-center h-12 w-full gap-4">
         <Button
-          className={`h-full w-full hover:bg-main_color_green/70 ${isDancableBg}`}
+          className={`hover:bg-primary/70 h-full w-full ${isDancableBg}`}
           onClick={() => setIsDancer(false)}
         >
           Dancable
         </Button>
         <Button
-          className={`h-full w-full hover:bg-main_color_green/70 ${isDancerBg}`}
+          className={`hover:bg-primary/70 h-full w-full ${isDancerBg}`}
           onClick={() => setIsDancer(true)}
         >
           Dancer

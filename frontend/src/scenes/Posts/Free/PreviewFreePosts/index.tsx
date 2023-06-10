@@ -14,7 +14,7 @@ export default function PreviewFreePosts({
   ...props
 }: PreviewFreePostsProps) {
   return (
-    <div className="w-full space-y-2 border-b p-4" {...props}>
+    <div className="w-full space-y-2 border-b pb-4" {...props}>
       <div className="flex w-full items-start justify-between">
         {/* 제목과 내용 */}
         <div className="space-y-1">

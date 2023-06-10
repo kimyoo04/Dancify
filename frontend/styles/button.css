@@ -11,11 +11,11 @@
 }
 
 .unaccent_btn_fill {
-  @apply bg-main_color_green shadow-gray_3;
+  @apply bg-primary shadow-gray_3;
 }
 
 .accent_btn_fill {
-  @apply bg-main_color_yellow text-white shadow-gray_3;
+  @apply bg-tertiary text-white shadow-gray_3;
 }
 
 .unaccent_btn_border {
@@ -23,7 +23,7 @@
 }
 
 .accent_btn_border {
-  @apply border text-main_color_yellow shadow-gray_3;
+  @apply border text-tertiary shadow-gray_3;
 }
 
 .border_btn {
@@ -37,7 +37,7 @@
 /* 컴포넌트용 */
 
 .create_btn {
-  @apply rounded-lg border-2 bg-main_color_yellow/20 px-2 text-sm;
+  @apply rounded-lg border-2 bg-tertiary px-2 text-sm;
 }
 
 .delete_btn {

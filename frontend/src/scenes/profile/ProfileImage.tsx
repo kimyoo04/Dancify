@@ -14,7 +14,7 @@ export default function ProfileImage() {
         <AvatarFallback>CN</AvatarFallback>
 
         {/* 수정 버튼 */}
-        <button className="absolute -bottom-2 -right-2 rounded-full bg-main_color_green p-1">
+        <button className="absolute -bottom-2 -right-2 rounded-full bg-primary p-1">
           <Plus size={18} />
         </button>
       </Avatar>

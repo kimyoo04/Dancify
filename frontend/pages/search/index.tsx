@@ -1,4 +1,4 @@
-import AuthLayout from "@layouts/AuthLayout";
+import OnePageLayout from "@layouts/OnePageLayout";
 import Search from "@scenes/Search";
 import { Metadata } from "next";
 
@@ -9,8 +9,8 @@ export const metadata: Metadata = {
 
 export default function SearchPage() {
   return (
-    <AuthLayout>
+    <OnePageLayout>
       <Search />
-    </AuthLayout>
+    </OnePageLayout>
   );
 }
