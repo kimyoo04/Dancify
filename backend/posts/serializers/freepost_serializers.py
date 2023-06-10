@@ -109,4 +109,3 @@ class PostPatchSerializer(serializers.HyperlinkedModelSerializer):
         model = FreePost
         fields = ['title', 'content', 'postImage']
         ref_name = 'FreePostPostPatchSerializer'
-        

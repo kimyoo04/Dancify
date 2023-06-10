@@ -12,6 +12,7 @@ from ..models import VideoPost
 from accounts.models import User
 from comments.models import Comment
 
+
 class VideoPostPagination(PageNumberPagination):
     page_size = 20  # 페이지당 보여질 개체 수
 
@@ -135,7 +136,6 @@ class VideoPostViewSet(viewsets.ModelViewSet):
                                     'nickname': openapi.Schema(type=openapi.TYPE_STRING),
                                     'content': openapi.Schema(type=openapi.TYPE_STRING),
                                     'createDate': openapi.Schema(type=openapi.TYPE_STRING),
-                                    'userId': openapi.Schema(type=openapi.TYPE_STRING)
                                 }
                             )
                         )
