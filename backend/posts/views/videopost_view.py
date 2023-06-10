@@ -10,7 +10,7 @@ from ..serializers.videopost_serializers import (
     GetListSerializer, GetRetrieveSerializer, PostPatchSerializer)
 from ..models import VideoPost
 from accounts.models import User
-
+from comments.models import Comment
 
 class VideoPostPagination(PageNumberPagination):
     page_size = 20  # 페이지당 보여질 개체 수
@@ -145,7 +145,14 @@ class VideoPostViewSet(viewsets.ModelViewSet):
         }
     )
     def retrieve(self, request, *args, **kwargs):
-        return super().retrieve(request, *args, **kwargs)
+        instance = self.get_object()
+
+        # 조회수 증가
+        instance.views += 1
+        instance.save()
+
+        serializer = self.get_serializer(instance)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
     @swagger_auto_schema(
         operation_summary='게시글 생성',
@@ -170,7 +177,19 @@ class VideoPostViewSet(viewsets.ModelViewSet):
         }
     )
     def create(self, request, *args, **kwargs):
-        return super().create(request, *args, **kwargs)
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        try:
+            access_token = request.COOKIES['Access-Token']
+            user_info = decode_access_token(access_token)
+
+            user_id = user_info['userId']
+            serializer.save(user=User.objects.get(user_id=user_id))
+
+            return Response(status=status.HTTP_201_CREATED)
+        except (TokenError, KeyError):
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
 
     @swagger_auto_schema(
         operation_summary='게시글 수정',
@@ -204,4 +223,6 @@ class VideoPostViewSet(viewsets.ModelViewSet):
         }
     )
     def destroy(self, request, *args, **kwargs):
+        # 게시글을 삭제하면 댓글도 함께 지워지도록 처리
+        Comment.objects.filter(post_id=self.get_object().post_id).delete()
         return super().destroy(request, *args, **kwargs)
