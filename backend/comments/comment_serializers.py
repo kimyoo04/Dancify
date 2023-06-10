@@ -3,7 +3,7 @@ from rest_framework import serializers
 from .models import Comment
 
 
-class CommentGetSerializer(serializers.HyperlinkedModelSerializer):
+class CommentGetSerializer(serializers.ModelSerializer):
     commentId = serializers.UUIDField(source='comment_id')
     postId = serializers.UUIDField(source='post_id')
     nickname = serializers.CharField(source='user.nickname')
@@ -15,16 +15,15 @@ class CommentGetSerializer(serializers.HyperlinkedModelSerializer):
                   'content', 'createDate', 'postId']
 
 
-class CommentPostSerializer(serializers.HyperlinkedModelSerializer):
+class CommentPostSerializer(serializers.ModelSerializer):
     postId = serializers.UUIDField(source='post_id')
-    postCategory = serializers.CharField(source='post_category')
 
     class Meta:
         model = Comment
-        fields = ['postId', 'content', 'postCategory']
+        fields = ['postId', 'content']
 
 
-class CommentPatchDeleteSerializer(serializers.HyperlinkedModelSerializer):
+class CommentPatchDeleteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
         fields = ['content']
