@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import FreePost
+from ..models import VideoPost
 from comments.models import Comment
 from like.models import Like
 
@@ -16,15 +16,15 @@ class GetListSerializer(serializers.ModelSerializer):
     - nickname: 작성자 닉네임
     - content: 게시글 내용
     - createDate: 작성 일자
-    - postImage: 사진 URL
+    - video: 영상 URL
     - views: 게시글 조회수
-    - commentsCount: 댓글 개수
     - likesCount: 좋아요 개수
+    - commentsCount: 댓글 개수
+    - totalVideoLength: 전체 영상 길이
     """
     postId = serializers.UUIDField(source='post_id')
     nickname = serializers.CharField(source='user.nickname')
     createDate = serializers.DateField(source='create_date')
-    postImage = serializers.URLField(source='post_image')
     commentsCount = serializers.SerializerMethodField()
     likesCount = serializers.SerializerMethodField()
 
@@ -35,10 +35,11 @@ class GetListSerializer(serializers.ModelSerializer):
         return Like.objects.filter(post_id=instance.post_id).count()
 
     class Meta:
-        model = FreePost
+        model = VideoPost
         fields = ['postId', 'title', 'nickname', 'content',
-                  'createDate', 'postImage', 'views',
+                  'createDate', 'video', 'views',
                   'commentsCount', 'likesCount']
+        ref_name = 'VideoPostGetListSerializer'
 
 
 class GetRetrieveSerializer(serializers.ModelSerializer):
@@ -53,8 +54,10 @@ class GetRetrieveSerializer(serializers.ModelSerializer):
     - nickname: 작성자 닉네임
     - content: 게시글 내용
     - createDate: 작성 일자
-    - postImage: 사진 URL
+    - video: 영상 URL
+    - totalVideoLength: 전체 영상 길이
     - views: 게시글 조회수
+    - userLike: 유저 좋아요 여부
     - likesCount: 좋아요 개수
     - comments: 댓글 정보 리스트
     """
@@ -62,7 +65,6 @@ class GetRetrieveSerializer(serializers.ModelSerializer):
     userId = serializers.CharField(source='user.user_id')
     nickname = serializers.CharField(source='user.nickname')
     createDate = serializers.DateField(source='create_date')
-    postImage = serializers.URLField(source='post_image')
     likesCount = serializers.SerializerMethodField()
     comments = serializers.SerializerMethodField()
 
@@ -85,10 +87,11 @@ class GetRetrieveSerializer(serializers.ModelSerializer):
         return serialized_comments
 
     class Meta:
-        model = FreePost
+        model = VideoPost
         fields = ['postId', 'title', 'userId', 'nickname',
-                  'content', 'createDate', 'postImage',
+                  'content', 'createDate', 'video',
                   'views', 'likesCount', 'comments']
+        ref_name = 'VideoPostGetRetrieveSerializer'
 
 
 class PostPatchSerializer(serializers.HyperlinkedModelSerializer):
@@ -98,11 +101,11 @@ class PostPatchSerializer(serializers.HyperlinkedModelSerializer):
     ___
     - title: 게시글 제목
     - content: 게시글 내용
-    - postImage: 사진 URL
+    - video: 사진 URL
     """
-    postImage = serializers.URLField(source='post_image',
-                                     required=False, allow_blank=True)
+    video = serializers.URLField(required=False, allow_blank=True)
 
     class Meta:
-        model = FreePost
-        fields = ['title', 'content', 'postImage']
+        model = VideoPost
+        fields = ['title', 'content', 'video']
+        ref_name = 'VideoPostPostPatchSerializer'

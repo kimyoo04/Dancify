@@ -28,8 +28,8 @@ class VideoPostBaseModel(PostBaseModel):
     영상 게시판은 공통적으로 영상 주소와 썸네일 이미지를 가지므로
     이를 상속할 베이스 모델을 생성합니다.
     """
-    video_url = models.URLField(max_length=500, null=False)
-    thumbnail_url = models.URLField(max_length=500, null=False)
+    video = models.URLField(max_length=500, null=False)
+    thumbnail = models.URLField(max_length=500, null=False)
 
     class Meta:
         abstract = True
