@@ -10,6 +10,7 @@ from ..serializers.freepost_serializers import (
     GetListSerializer, GetRetrieveSerializer, PostPatchSerializer)
 from ..models import FreePost
 from accounts.models import User
+from comments.models import Comment
 
 
 class FreePostPagination(PageNumberPagination):
@@ -150,7 +151,6 @@ class FreePostViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(instance)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
-    # @login_required
     @swagger_auto_schema(
         operation_summary='게시글 생성',
         operation_description="""
@@ -220,4 +220,6 @@ class FreePostViewSet(viewsets.ModelViewSet):
         }
     )
     def destroy(self, request, *args, **kwargs):
+        # 게시글을 삭제하면 댓글도 함께 지워지도록 처리
+        Comment.objects.filter(post_id=self.get_object().post_id).delete()
         return super().destroy(request, *args, **kwargs)
