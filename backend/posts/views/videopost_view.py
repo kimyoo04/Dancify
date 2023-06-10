@@ -6,13 +6,13 @@ from drf_yasg.utils import swagger_auto_schema
 
 from accounts.authentication import decode_access_token
 from rest_framework_simplejwt.exceptions import TokenError
-from ..serializers.freepost_serializers import (
+from ..serializers.videopost_serializers import (
     GetListSerializer, GetRetrieveSerializer, PostPatchSerializer)
-from ..models import FreePost
+from ..models import VideoPost
 from accounts.models import User
 
 
-class FreePostPagination(PageNumberPagination):
+class VideoPostPagination(PageNumberPagination):
     page_size = 20  # 페이지당 보여질 개체 수
 
     def get_paginated_response(self, data):
@@ -24,9 +24,9 @@ class FreePostPagination(PageNumberPagination):
         })
 
 
-class FreePostViewSet(viewsets.ModelViewSet):
-    queryset = FreePost.objects.all()
-    pagination_class = FreePostPagination
+class VideoPostViewSet(viewsets.ModelViewSet):
+    queryset = VideoPost.objects.all()
+    pagination_class = VideoPostPagination
 
     def get_serializer_class(self):
         if self.action in ('list'):
@@ -47,10 +47,11 @@ class FreePostViewSet(viewsets.ModelViewSet):
                 <li>nickname: 작성자 닉네임</li>
                 <li>content: 게시글 내용</li>
                 <li>createDate: 작성 일자</li>
-                <li>postImage: 사진 URL</li>
+                <li>video: 비디오 URL</li>
                 <li>views: 게시글 조회수</li>
                 <li>likesCount: 좋아요 개수</li>
                 <li>commentsCount: 댓글 개수</li>
+                <li>totalVideoLength: 전체 영상 길이</li>
                 <li>totalPages: 전체 페이지 수</li>
                 <li>currentPage: 현재 페이지</li>
                 <li>totalCount: 총 게시글 수</li>
@@ -72,10 +73,10 @@ class FreePostViewSet(viewsets.ModelViewSet):
                                     'nickname': openapi.Schema(type=openapi.TYPE_STRING),
                                     'content': openapi.Schema(type=openapi.TYPE_STRING),
                                     'createDate': openapi.Schema(type=openapi.TYPE_STRING),
-                                    'postImage': openapi.Schema(type=openapi.TYPE_STRING),
-                                    'views': openapi.Schema(type=openapi.TYPE_INTEGER),
+                                    'video': openapi.Schema(type=openapi.TYPE_STRING),
                                     'likesCount': openapi.Schema(type=openapi.TYPE_INTEGER),
                                     'commentsCount': openapi.Schema(type=openapi.TYPE_INTEGER),
+                                    'totalVideoLength': openapi.Schema(type=openapi.TYPE_STRING),
                                 }
                             )
                         ),
@@ -99,10 +100,11 @@ class FreePostViewSet(viewsets.ModelViewSet):
                 <li>nickname: 작성자 닉네임</li>
                 <li>content: 게시글 내용</li>
                 <li>createDate: 작성 일자</li>
-                <li>postImage: 사진 URL</li>
+                <li>video: 영상 URL</li>
+                <li>totalVideoLength: 전체 영상 길이</li>
                 <li>views: 게시글 조회수</li>
-                <li>likesCount: 좋아요 개수</li>
                 <li>userLike: 유저 좋아요 여부</li>
+                <li>likesCount: 좋아요 개수</li>
                 <li>comments: 댓글</li>
             </ul>
         """,
@@ -117,10 +119,11 @@ class FreePostViewSet(viewsets.ModelViewSet):
                         'nickname': openapi.Schema(type=openapi.TYPE_STRING),
                         'content': openapi.Schema(type=openapi.TYPE_STRING),
                         'createDate': openapi.Schema(type=openapi.TYPE_STRING),
-                        'postImage': openapi.Schema(type=openapi.TYPE_STRING),
+                        'video': openapi.Schema(type=openapi.TYPE_STRING),
+                        'totalvideoLength': openapi.Schema(type=openapi.TYPE_STRING),
                         'views': openapi.Schema(type=openapi.TYPE_INTEGER),
-                        'likesCount': openapi.Schema(type=openapi.TYPE_INTEGER),
                         'userLike': openapi.Schema(type=openapi.TYPE_BOOLEAN),
+                        'likesCount': openapi.Schema(type=openapi.TYPE_INTEGER),
                         'userId': openapi.Schema(type=openapi.TYPE_STRING),
                         'comments': openapi.Schema(
                             type=openapi.TYPE_ARRAY,
@@ -131,7 +134,8 @@ class FreePostViewSet(viewsets.ModelViewSet):
                                     'userId': openapi.Schema(type=openapi.TYPE_STRING),
                                     'nickname': openapi.Schema(type=openapi.TYPE_STRING),
                                     'content': openapi.Schema(type=openapi.TYPE_STRING),
-                                    'createDate': openapi.Schema(type=openapi.TYPE_STRING)
+                                    'createDate': openapi.Schema(type=openapi.TYPE_STRING),
+                                    'userId': openapi.Schema(type=openapi.TYPE_STRING)
                                 }
                             )
                         ),
@@ -141,23 +145,15 @@ class FreePostViewSet(viewsets.ModelViewSet):
         }
     )
     def retrieve(self, request, *args, **kwargs):
-        instance = self.get_object()
+        return super().retrieve(request, *args, **kwargs)
 
-        # 조회수 증가
-        instance.views += 1
-        instance.save()
-
-        serializer = self.get_serializer(instance)
-        return Response(serializer.data, status=status.HTTP_200_OK)
-
-    # @login_required
     @swagger_auto_schema(
         operation_summary='게시글 생성',
         operation_description="""
             <ul>
                 <li>title: 게시글 제목</li>
                 <li>content: 게시글 내용</li>
-                <li>postImage: 사진 URL</li>
+                <li>video: 영상 URL</li>
             </ul>
         """,
         request_body=openapi.Schema(
@@ -165,7 +161,7 @@ class FreePostViewSet(viewsets.ModelViewSet):
             properties={
                 'title': openapi.Schema(type=openapi.TYPE_STRING),
                 'content': openapi.Schema(type=openapi.TYPE_STRING),
-                'postImage': openapi.Schema(type=openapi.TYPE_STRING)
+                'video': openapi.Schema(type=openapi.TYPE_STRING)
             },
             required=['title', 'content']
         ),
@@ -174,19 +170,7 @@ class FreePostViewSet(viewsets.ModelViewSet):
         }
     )
     def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-
-        try:
-            access_token = request.COOKIES['Access-Token']
-            user_info = decode_access_token(access_token)
-
-            user_id = user_info['userId']
-            serializer.save(user=User.objects.get(user_id=user_id))
-
-            return Response(status=status.HTTP_201_CREATED)
-        except (TokenError, KeyError):
-            return Response(status=status.HTTP_401_UNAUTHORIZED)
+        return super().create(request, *args, **kwargs)
 
     @swagger_auto_schema(
         operation_summary='게시글 수정',
@@ -194,7 +178,7 @@ class FreePostViewSet(viewsets.ModelViewSet):
             <ul>
                 <li>title: 게시글 제목</li>
                 <li>content: 게시글 내용</li>
-                <li>postImage: 사진 URL</li>
+                <li>video: 영상 URL</li>
             </ul>
         """,
         request_body=openapi.Schema(
@@ -202,7 +186,7 @@ class FreePostViewSet(viewsets.ModelViewSet):
             properties={
                 'title': openapi.Schema(type=openapi.TYPE_STRING),
                 'content': openapi.Schema(type=openapi.TYPE_STRING),
-                'postImage': openapi.Schema(type=openapi.TYPE_STRING)
+                'video': openapi.Schema(type=openapi.TYPE_STRING)
             },
             required=['title', 'content']
         ),
