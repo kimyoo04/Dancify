@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from .models import FreePost
+from ..models import FreePost
 from comments.models import Comment
 from like.models import Like
 

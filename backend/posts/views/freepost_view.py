@@ -6,8 +6,9 @@ from drf_yasg.utils import swagger_auto_schema
 
 from accounts.authentication import decode_access_token
 from rest_framework_simplejwt.exceptions import TokenError
-from . import freepost_serializers
-from .models import FreePost
+from ..serializers.freepost_serializers import (
+    GetListSerializer, GetRetrieveSerializer, PostPatchSerializer)
+from ..models import FreePost
 from accounts.models import User
 
 
@@ -29,13 +30,13 @@ class FreePostViewSet(viewsets.ModelViewSet):
 
     def get_serializer_class(self):
         if self.action in ('list'):
-            return freepost_serializers.GetListSerializer
+            return GetListSerializer
 
         if self.action in ('retrieve'):
-            return freepost_serializers.GetRetrieveSerializer
+            return GetRetrieveSerializer
 
         if self.action in ('create', 'update', 'partial_update'):
-            return freepost_serializers.PostPatchSerializer
+            return PostPatchSerializer
 
     @swagger_auto_schema(
         operation_summary='게시글 목록 조회',

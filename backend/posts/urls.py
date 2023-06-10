@@ -2,12 +2,12 @@ from django.urls import path, include
 
 from rest_framework import routers
 
-from . import freepost_view
+from .views.freepost_view import FreePostViewSet
 
 
 router = routers.SimpleRouter(trailing_slash=False)
 
-router.register(r'/free', freepost_view.FreePostViewSet)
+router.register(r'/free', FreePostViewSet)
 
 
 urlpatterns = [
