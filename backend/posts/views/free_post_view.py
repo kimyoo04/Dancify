@@ -12,6 +12,9 @@ from ..models import FreePost
 from accounts.models import User
 from comments.models import Comment
 
+from django.db.models import Count
+from like.models import Like
+
 
 class FreePostPagination(PageNumberPagination):
     page_size = 20  # 페이지당 보여질 개체 수
@@ -89,6 +92,14 @@ class FreePostViewSet(viewsets.ModelViewSet):
         }
     )
     def list(self, request, *args, **kwargs):
+        q = self.request.GET.get('q', None)
+        sort = self.request.GET.get('sort', None)
+        genre = self.request.GET.get('genre', None)
+
+        # 쿼리 파라미터에 검색어가 있을 경우
+        if q is not None:
+            self.queryset = FreePost.objects.filter(title__icontains=q)
+
         return super().list(request, *args, **kwargs)
 
     @swagger_auto_schema(
