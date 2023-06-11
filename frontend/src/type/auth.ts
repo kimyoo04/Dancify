@@ -1,24 +1,33 @@
-export type userPayload = {
-  id?: string;
-  username?: string;
-  email?: string;
-};
-
-export interface AuthState {
-  loading: boolean;
-  isAuthenticated: boolean;
-  user: userPayload;
+export interface IDecodedToken {
+  token_type: string;
+  exp: number;
+  iat: number;
+  jti: string;
+  userId: string;
+  nickname: string;
+  isDancer: boolean | undefined;
+  profileImage: string | null;
 }
 
-export interface IUser {
-  id: string;
-  username: string;
-  email: string;
+export interface userPayload {
+  userId: string;
+  nickname: string;
+  isDancer: boolean | undefined;
+  profileImage: string | null;
+}
+
+// authSlice에 사용
+export interface AuthState {
+  isLoading: boolean;
+  isAuthenticated: boolean;
+  userId: string;
+  nickname: string;
+  isDancer: boolean | undefined;
+  profileImage: string | null;
 }
 
 // 프로필 정보 수정
 export interface IProfileInfoForm {
-  userPk: TUserPk;
   userId: TUserId;
   nickname: TNickname;
   email: TEmail;
