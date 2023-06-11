@@ -37,7 +37,7 @@ class GetListSerializer(serializers.ModelSerializer):
     class Meta:
         model = VideoPost
         fields = ['postId', 'title', 'nickname', 'content',
-                  'createDate', 'video', 'views',
+                  'createDate', 'video', 'thumbnail', 'views',
                   'commentsCount', 'likesCount']
         ref_name = 'VideoPostGetListSerializer'
 
@@ -89,7 +89,7 @@ class GetRetrieveSerializer(serializers.ModelSerializer):
     class Meta:
         model = VideoPost
         fields = ['postId', 'title', 'userId', 'nickname',
-                  'content', 'createDate', 'video',
+                  'content', 'createDate', 'video', 'thumbnail',
                   'views', 'likesCount', 'comments']
         ref_name = 'VideoPostGetRetrieveSerializer'
 
@@ -103,9 +103,7 @@ class PostPatchSerializer(serializers.HyperlinkedModelSerializer):
     - content: 게시글 내용
     - video: 사진 URL
     """
-    video = serializers.URLField(required=False, allow_blank=True)
-
     class Meta:
         model = VideoPost
-        fields = ['title', 'content', 'video']
+        fields = ['title', 'content', 'video', 'thumbnail']
         ref_name = 'VideoPostPostPatchSerializer'
