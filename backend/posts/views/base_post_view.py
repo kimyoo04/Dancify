@@ -3,8 +3,6 @@ from django.db.models import Count, Q, Case, When
 from rest_framework import viewsets, status
 from rest_framework.response import Response
 from rest_framework.pagination import PageNumberPagination
-from drf_yasg import openapi
-from drf_yasg.utils import swagger_auto_schema
 
 from accounts.authentication import decode_access_token
 from rest_framework_simplejwt.exceptions import TokenError
