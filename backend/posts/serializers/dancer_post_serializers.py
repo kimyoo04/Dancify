@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from ..models import VideoPost
+from ..models import DancerPost
 from comments.models import Comment
 from like.models import Like
 
@@ -20,13 +20,15 @@ class GetListSerializer(serializers.ModelSerializer):
     - views: 게시글 조회수
     - likesCount: 좋아요 개수
     - commentsCount: 댓글 개수
-    - totalVideoLength: 전체 영상 길이
+    - !totalVideoLength: 전체 영상 길이
+    - feedbackPrice: 피드백 가격
     """
     postId = serializers.UUIDField(source='post_id')
     nickname = serializers.CharField(source='user.nickname')
     createDate = serializers.DateField(source='create_date')
     commentsCount = serializers.SerializerMethodField()
     likesCount = serializers.SerializerMethodField()
+    feedbackPrice = serializers.IntegerField(source='feedback_price')
 
     def get_commentsCount(self, instance):
         return Comment.objects.filter(post_id=instance.post_id).count()
@@ -35,11 +37,11 @@ class GetListSerializer(serializers.ModelSerializer):
         return Like.objects.filter(post_id=instance.post_id).count()
 
     class Meta:
-        model = VideoPost
+        model = DancerPost
         fields = ['postId', 'title', 'nickname', 'content',
-                  'createDate', 'video', 'views',
-                  'commentsCount', 'likesCount']
-        ref_name = 'VideoPostGetListSerializer'
+                  'createDate', 'video', 'thumbnail', 'views',
+                  'commentsCount', 'likesCount', 'feedbackPrice']
+        ref_name = 'DancerPostGetListSerializer'
 
 
 class GetRetrieveSerializer(serializers.ModelSerializer):
@@ -59,6 +61,7 @@ class GetRetrieveSerializer(serializers.ModelSerializer):
     - views: 게시글 조회수
     - userLike: 유저 좋아요 여부
     - likesCount: 좋아요 개수
+    - feedbackPrice: 피드백 가격
     - comments: 댓글 정보 리스트
     """
     postId = serializers.UUIDField(source='post_id')
@@ -66,6 +69,7 @@ class GetRetrieveSerializer(serializers.ModelSerializer):
     nickname = serializers.CharField(source='user.nickname')
     createDate = serializers.DateField(source='create_date')
     likesCount = serializers.SerializerMethodField()
+    feedbackPrice = serializers.IntegerField(source='feedback_price')
     comments = serializers.SerializerMethodField()
 
     def get_likesCount(self, instance):
@@ -87,11 +91,11 @@ class GetRetrieveSerializer(serializers.ModelSerializer):
         return serialized_comments
 
     class Meta:
-        model = VideoPost
+        model = DancerPost
         fields = ['postId', 'title', 'userId', 'nickname',
-                  'content', 'createDate', 'video',
-                  'views', 'likesCount', 'comments']
-        ref_name = 'VideoPostGetRetrieveSerializer'
+                  'content', 'createDate', 'video', 'thumbnail',
+                  'views', 'likesCount', 'feedbackPrice', 'comments']
+        ref_name = 'DancerPostGetRetrieveSerializer'
 
 
 class PostPatchSerializer(serializers.HyperlinkedModelSerializer):
@@ -103,9 +107,9 @@ class PostPatchSerializer(serializers.HyperlinkedModelSerializer):
     - content: 게시글 내용
     - video: 사진 URL
     """
-    video = serializers.URLField(required=False, allow_blank=True)
+    feedbackPrice = serializers.IntegerField(source='feedback_price')
 
     class Meta:
-        model = VideoPost
-        fields = ['title', 'content', 'video']
-        ref_name = 'VideoPostPostPatchSerializer'
+        model = DancerPost
+        fields = ['title', 'content', 'video', 'thumbnail', 'feedbackPrice']
+        ref_name = 'DancerPostPostPatchSerializer'
