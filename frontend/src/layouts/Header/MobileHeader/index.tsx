@@ -1,10 +1,16 @@
 import Logo from "@components/Logo";
 import Search from "@components/ui/search";
+
 import { UserNav } from "./UserNav";
 
+import { useAppSelector } from "@toolkit/hook";
+import SignInButton from "@layouts/Header/SignInButton";
+
 export default function MobileHeader() {
+  const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
+
   return (
-    <div className="fixed top-0 w-full border-b bg-background md:hidden">
+    <div className="w-full border-b bg-background md:hidden">
       <div className="container flex h-16 w-full items-center justify-between gap-4">
         <div className="row-center">
           {/* 로고 */}
@@ -12,10 +18,14 @@ export default function MobileHeader() {
         </div>
 
         <div className="ml-auto flex items-center space-x-4">
-          {/* 검색 아이콘 */}
-          <Search />
-          {/* 유저 프로필 드롭다운 */}
-          <UserNav />
+          {isAuthenticated ? (
+            <>
+              <Search />
+              <UserNav />
+            </>
+          ) : (
+            <SignInButton />
+          )}
         </div>
       </div>
     </div>
