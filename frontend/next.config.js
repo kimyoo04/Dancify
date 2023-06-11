@@ -15,11 +15,6 @@ const nextConfig = (phase) => {
           },
         ],
       },
-      env: {
-        NEXT_PUBLIC_ENV_API_DOMAIN: "http://localhost:8000",
-        NEXT_PUBLIC_ENV_API_URL: "http://localhost:8000/api",
-        NEXT_PUBLIC_ENV_DOMAIN: "http://localhost:3000",
-      },
     };
   }
 
