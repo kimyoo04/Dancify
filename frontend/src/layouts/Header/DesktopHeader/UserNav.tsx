@@ -14,22 +14,24 @@ import {
 } from "@components/ui/dropdown-menu";
 import DarkToggle from "@components/ui/darkToggle";
 import Link from "next/link";
-
-// !nickname, email, profile_img, jwt를 통해 받기
+import { logOut } from "@api/auth/logOuts";
+import { useAppSelector } from "@toolkit/hook";
 
 export function UserNav() {
+  const { nickname, profileImage } = useAppSelector((state) => state.auth);
+
   return (
     <DropdownMenu>
       {/* 프로필 토글 버튼 */}
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" className="relative h-8 w-8 rounded-full">
+          {/* 유저 프로필 이미지 */}
           <Avatar className="h-8 w-8">
             {/* 유저 프로필 이미지 */}
-            <AvatarImage src="/images/avatar.jpg" alt="profile_image" />
-            {/* 기본 프로필 이미지 */}
-            <AvatarFallback>
-              <AvatarImage src="/images/avatar.jpg" alt="profile_image" />
-            </AvatarFallback>
+            <AvatarImage
+              src={profileImage || "/images/avatar.jpg"}
+              alt="profile_image"
+            />
           </Avatar>
         </Button>
       </DropdownMenuTrigger>
@@ -40,10 +42,7 @@ export function UserNav() {
         <DropdownMenuLabel className="font-normal">
           <div className="flex items-center justify-between">
             <div className="flex flex-col space-y-1">
-              <p className="text-sm font-medium leading-none">shadcn</p>
-              <p className="text-xs leading-none text-muted-foreground">
-                m@example.com
-              </p>
+              <p className="text-sm font-medium leading-none">{nickname}</p>
             </div>
 
             <DarkToggle />
@@ -81,8 +80,8 @@ export function UserNav() {
         {/* 경계선 */}
         <DropdownMenuSeparator />
 
-        {/* 로그아웃 */}
-        <DropdownMenuItem>
+        {/* 로그아웃 버튼 */}
+        <DropdownMenuItem onClick={() => logOut()}>
           <LogOut className="mr-2 h-4 w-4" />
           <span>Log out</span>
           <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>

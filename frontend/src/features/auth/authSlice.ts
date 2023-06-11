@@ -3,9 +3,12 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AuthState, userPayload } from "@type/auth";
 
 const initialState: AuthState = {
-  loading: true,
+  isLoading: true,
   isAuthenticated: false,
-  user: { id: "", username: "", email: "" },
+  userId: "",
+  nickname: "",
+  isDancer: undefined,
+  profileImage: null,
 };
 
 const authSlice = createSlice({
@@ -13,15 +16,24 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     signIn(state, action: PayloadAction<userPayload>) {
+      const { userId, nickname, isDancer, profileImage } = action.payload;
+
+      state.isLoading = false;
       state.isAuthenticated = true;
-      state.user = action.payload;
+      state.userId = userId;
+      state.nickname = nickname;
+      state.isDancer = isDancer;
+      state.profileImage = profileImage;
     },
-    logout(state) {
+    logOut(state) {
       state.isAuthenticated = false;
-      state.user = { id: "", username: "", email: "" };
+      state.userId = "";
+      state.nickname = "";
+      state.isDancer = undefined;
+      state.profileImage = null;
     },
-    stopLoading(state) {
-      state.loading = false;
+    stopIsLoading(state) {
+      state.isLoading = false;
     },
   },
 });
