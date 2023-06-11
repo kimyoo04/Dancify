@@ -1,33 +1,16 @@
-from rest_framework import viewsets, status
-from rest_framework.response import Response
-from rest_framework.pagination import PageNumberPagination
+from rest_framework import status
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 
-from accounts.authentication import decode_access_token
-from rest_framework_simplejwt.exceptions import TokenError
 from ..serializers.video_post_serializers import (
     GetListSerializer, GetRetrieveSerializer, PostPatchSerializer)
+from .base_post_view import BasePostViewSet
 from ..models import VideoPost
-from accounts.models import User
-from comments.models import Comment
 
 
-class VideoPostPagination(PageNumberPagination):
-    page_size = 20  # 페이지당 보여질 개체 수
-
-    def get_paginated_response(self, data):
-        return Response({
-            'data': data,
-            'totalPages': self.page.paginator.num_pages,
-            'currentPage': self.page.number,
-            'totalCount': self.page.paginator.count
-        })
-
-
-class VideoPostViewSet(viewsets.ModelViewSet):
+class VideoPostViewSet(BasePostViewSet):
     queryset = VideoPost.objects.all()
-    pagination_class = VideoPostPagination
+    pagination_class = BasePostViewSet.pagination_class
 
     def get_serializer_class(self):
         if self.action in ('list'):
@@ -145,14 +128,7 @@ class VideoPostViewSet(viewsets.ModelViewSet):
         }
     )
     def retrieve(self, request, *args, **kwargs):
-        instance = self.get_object()
-
-        # 조회수 증가
-        instance.views += 1
-        instance.save()
-
-        serializer = self.get_serializer(instance)
-        return Response(serializer.data, status=status.HTTP_200_OK)
+        return super().retrieve(request, *args, **kwargs)
 
     @swagger_auto_schema(
         operation_summary='게시글 생성',
@@ -177,19 +153,7 @@ class VideoPostViewSet(viewsets.ModelViewSet):
         }
     )
     def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-
-        try:
-            access_token = request.COOKIES['Access-Token']
-            user_info = decode_access_token(access_token)
-
-            user_id = user_info['userId']
-            serializer.save(user=User.objects.get(user_id=user_id))
-
-            return Response(status=status.HTTP_201_CREATED)
-        except (TokenError, KeyError):
-            return Response(status=status.HTTP_401_UNAUTHORIZED)
+        return super().create(request, *args, **kwargs)
 
     @swagger_auto_schema(
         operation_summary='게시글 수정',
@@ -223,6 +187,4 @@ class VideoPostViewSet(viewsets.ModelViewSet):
         }
     )
     def destroy(self, request, *args, **kwargs):
-        # 게시글을 삭제하면 댓글도 함께 지워지도록 처리
-        Comment.objects.filter(post_id=self.get_object().post_id).delete()
         return super().destroy(request, *args, **kwargs)

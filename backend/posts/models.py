@@ -5,7 +5,7 @@ import uuid
 from accounts.models import User
 
 
-class PostBaseModel(models.Model):
+class BasePostModel(models.Model):
     """
     게시글마다 공통 컬럼이 있으므로 이를 상속할 베이스 모델을 생성합니다.
     """
@@ -15,16 +15,17 @@ class PostBaseModel(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     title = models.CharField(max_length=50)
     content = models.CharField(max_length=1000)
-    create_date = models.DateField(auto_now_add=True)
+    create_date = models.DateTimeField(auto_now_add=True)
     views = models.IntegerField(default=0)
 
     class Meta:
         abstract = True
+        ordering = ['-create_date']
 
 
-class VideoPostBaseModel(PostBaseModel):
+class BaseVideoPostModel(BasePostModel):
     """
-    PostBaseModel을 상속받아 게시글 공통 컬럼을 가지는 모델입니다.
+    BasePostModel을 상속받아 게시글 공통 컬럼을 가지는 모델입니다.
     영상 게시판은 공통적으로 영상 주소와 썸네일 이미지를 가지므로
     이를 상속할 베이스 모델을 생성합니다.
     """
@@ -35,13 +36,13 @@ class VideoPostBaseModel(PostBaseModel):
         abstract = True
 
 
-class FreePost(PostBaseModel):
+class FreePost(BasePostModel):
     post_image = models.URLField(max_length=500, null=True, blank=True)
 
 
-class VideoPost(VideoPostBaseModel):
+class VideoPost(BaseVideoPostModel):
     pass
 
 
-class DancerPost(VideoPostBaseModel):
+class DancerPost(BaseVideoPostModel):
     feedback_price = models.IntegerField()
