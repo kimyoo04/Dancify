@@ -12,3 +12,4 @@ class Like(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     post_category = models.CharField(max_length=10)
     post_id = models.UUIDField()
+    create_date = models.DateTimeField(auto_now_add=True)

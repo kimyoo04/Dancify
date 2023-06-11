@@ -23,7 +23,7 @@ class GetListSerializer(serializers.ModelSerializer):
     """
     postId = serializers.UUIDField(source='post_id')
     nickname = serializers.CharField(source='user.nickname')
-    createDate = serializers.DateField(source='create_date')
+    createDate = serializers.DateTimeField(source='create_date')
     postImage = serializers.URLField(source='post_image')
     commentsCount = serializers.SerializerMethodField()
     likesCount = serializers.SerializerMethodField()
@@ -62,7 +62,7 @@ class GetRetrieveSerializer(serializers.ModelSerializer):
     postId = serializers.UUIDField(source='post_id')
     userId = serializers.CharField(source='user.user_id')
     nickname = serializers.CharField(source='user.nickname')
-    createDate = serializers.DateField(source='create_date')
+    createDate = serializers.DateTimeField(source='create_date')
     postImage = serializers.URLField(source='post_image')
     likesCount = serializers.SerializerMethodField()
     comments = serializers.SerializerMethodField()
