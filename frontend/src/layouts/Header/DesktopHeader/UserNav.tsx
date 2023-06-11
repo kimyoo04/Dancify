@@ -1,6 +1,6 @@
 import { Heart, LogOut, ShoppingBagIcon, User } from "lucide-react";
 
-import { Avatar, AvatarFallback, AvatarImage } from "@components/ui/avatar";
+import { Avatar, AvatarFallback } from "@components/ui/avatar";
 import { Button } from "@components/ui/button";
 import {
   DropdownMenu,
@@ -16,9 +16,11 @@ import DarkToggle from "@components/ui/darkToggle";
 import Link from "next/link";
 import { logOut } from "@api/auth/logOuts";
 import { useAppSelector } from "@toolkit/hook";
+import Image from "next/image";
 
 export function UserNav() {
   const { nickname, profileImage } = useAppSelector((state) => state.auth);
+  const imageUrl = profileImage ? profileImage : "/images/avatar.jpg";
 
   return (
     <DropdownMenu>
@@ -28,10 +30,16 @@ export function UserNav() {
           {/* 유저 프로필 이미지 */}
           <Avatar className="h-8 w-8">
             {/* 유저 프로필 이미지 */}
-            <AvatarImage
-              src={profileImage || "/images/avatar.jpg"}
-              alt="profile_image"
-            />
+            <Image src={imageUrl} alt="profile_image" width={32} height={32} />
+
+            <AvatarFallback>
+              <Image
+                src="/images/avatar.jpg"
+                alt="profile_image_fallback"
+                width={32}
+                height={32}
+              />
+            </AvatarFallback>
           </Avatar>
         </Button>
       </DropdownMenuTrigger>
