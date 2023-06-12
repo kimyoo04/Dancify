@@ -3,7 +3,10 @@ from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 
 from ..serializers.dancer_post_serializers import (
-    GetListSerializer, GetRetrieveSerializer, PostPatchSerializer)
+    DancerPostGetListSerializer,
+    DancerPostGetRetrieveSerializer,
+    DancerPostPostPatchSerializer
+)
 from .base_post_view import BasePostViewSet
 from ..models import DancerPost
 
@@ -14,13 +17,13 @@ class DancerPostViewSet(BasePostViewSet):
 
     def get_serializer_class(self):
         if self.action in ('list'):
-            return GetListSerializer
+            return DancerPostGetListSerializer
 
         if self.action in ('retrieve'):
-            return GetRetrieveSerializer
+            return DancerPostGetRetrieveSerializer
 
         if self.action in ('create', 'update', 'partial_update'):
-            return PostPatchSerializer
+            return DancerPostPostPatchSerializer
 
     @swagger_auto_schema(
         operation_summary='게시글 목록 조회',
