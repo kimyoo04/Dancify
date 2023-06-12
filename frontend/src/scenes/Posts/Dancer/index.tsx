@@ -1,12 +1,9 @@
 import SideBar from "../SideBar";
-import PostHeader from "../PostItem/PostHeader";
-import ScrollButton from "@components/ScrollButton";
+import { playlists } from "../data/playlists";
 
 import DancerPostList from "@scenes/Posts/Dancer/DancerItem/DancerPostList";
-import CreateButton from "@scenes/Posts/Dancer/DancerItem/CreateButton";
 
 import { useReadDancerPostsPerPage } from "@api/posts/readDancerPostsPerPage";
-import { playlists } from "../data/playlists";
 
 export default function DancerPosts() {
   const {
@@ -38,12 +35,6 @@ export default function DancerPosts() {
                       status,
                     }}
                   />
-
-                  {/* 게시글 추가 버튼 */}
-                  <CreateButton />
-
-                  {/* 최상단 이동 버튼 */}
-                  <ScrollButton />
                 </div>
               </div>
             </div>
