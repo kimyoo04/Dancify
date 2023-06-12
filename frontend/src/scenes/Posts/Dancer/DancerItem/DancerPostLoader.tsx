@@ -1,6 +1,6 @@
 import ContentLoader from "react-content-loader";
 
-export default function PostListLoader() {
+export default function DancerPostLoader() {
   const contentLoaderArr = Array.from(Array(15).keys());
 
   return (

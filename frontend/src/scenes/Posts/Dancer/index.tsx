@@ -1,13 +1,11 @@
 import SideBar from "../SideBar";
 import { playlists } from "../data/playlists";
 
-import PostHeader from "../PostItem/PostHeader";
-import VideoPostList from "@scenes/Posts/Video/VideoItem/VideoPostList";
-import CreateButton from "@scenes/Posts/Video/VideoItem/CreateButton";
+import DancerPostList from "@scenes/Posts/Dancer/DancerItem/DancerPostList";
 
-import { useReadVideoPostsPerPage } from "@api/posts/readVideoPostsPerPage";
+import { useReadDancerPostsPerPage } from "@api/posts/readDancerPostsPerPage";
 
-export default function VideoPosts() {
+export default function DancerPosts() {
   const {
     data,
     error,
@@ -15,7 +13,7 @@ export default function VideoPosts() {
     hasNextPage,
     isFetchingNextPage,
     status,
-  } = useReadVideoPostsPerPage();
+  } = useReadDancerPostsPerPage();
 
   return (
     <>
@@ -25,11 +23,9 @@ export default function VideoPosts() {
           <div className="col-span-3 lg:col-span-4 lg:border-l">
             <div className="h-full py-6 lg:px-8">
               <div className="h-full space-y-6">
-                <PostHeader />
-
                 <div className="h-full flex-col">
                   {/* 자유게시판 fetch 결과 출력 */}
-                  <VideoPostList
+                  <DancerPostList
                     post={{
                       data,
                       error,
@@ -39,9 +35,6 @@ export default function VideoPosts() {
                       status,
                     }}
                   />
-
-                  {/* 게시글 추가 버튼 */}
-                  <CreateButton />
                 </div>
               </div>
             </div>

@@ -1,15 +1,22 @@
 import { Separator } from "@components/ui/separator";
 import { ScrollArea, ScrollBar } from "@components/ui/scroll-area";
-
-import { listenNowAlbums } from "../data/albums";
-
-import FreePostItem from "../Free/FreeItem/FreePostItem";
-import VideoPostItem from "../Video/VideoPostItem";
 import ViewMore from "../PostItem/ViewMore";
-import { useReadFreePostsPerPage } from "@api/posts/readFreePostsPerPage";
+
+import VideoPostLoader from "../Video/VideoItem/VideoPostLoader";
+import VideoPostItem from "../Video/VideoItem/VideoPostItem";
+import { useReadVideoPostsPerPage } from "@api/posts/readVideoPostsPerPage";
+
 import FreePostLoader from "../Free/FreeItem/FreePostLoader";
+import FreePostItem from "../Free/FreeItem/FreePostItem";
+import { useReadFreePostsPerPage } from "@api/posts/readFreePostsPerPage";
 
 export default function AllPosts() {
+  const {
+    data: videoData,
+    error: videoError,
+    status: videoStatus,
+  } = useReadVideoPostsPerPage();
+
   const {
     data: freeData,
     error: freeError,
@@ -41,18 +48,24 @@ export default function AllPosts() {
         {/* //!자랑게시판 미리보기 영역 */}
         <div className="relative">
           <ScrollArea>
-            <div className="flex space-x-4 pb-4">
-              {listenNowAlbums.map((data, indx) => (
-                <VideoPostItem
-                  key={indx + data.name}
-                  data={data}
-                  className="w-[250px]"
-                  aspectRatio="portrait"
-                  width={250}
-                  height={330}
-                />
-              ))}
-            </div>
+            {videoStatus === "loading" ? (
+              <VideoPostLoader />
+            ) : videoStatus === "error" ? (
+              <>{videoError && <p>Error: {videoError.message}</p>}</>
+            ) : (
+              videoData && (
+                <ul className="flex space-x-4 pb-4">
+                  {videoData?.pages[0].data.slice(0, 10).map((videoData) => (
+                    <VideoPostItem
+                      key={videoData.postId}
+                      data={videoData}
+                      width={250}
+                      height={330}
+                    />
+                  ))}
+                </ul>
+              )
+            )}
             <ScrollBar orientation="horizontal" />
           </ScrollArea>
         </div>

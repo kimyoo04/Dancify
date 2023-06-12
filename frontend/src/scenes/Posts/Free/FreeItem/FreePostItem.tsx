@@ -1,18 +1,21 @@
 import Image from "next/image";
+import Link from "next/link";
 
 import { cn } from "@lib/utils";
-
 import { Eye, MessageSquare, ThumbsUp } from "lucide-react";
 import { IFreePost } from "@type/freePosts";
 import { timeYmd } from "@util/dateTime";
 
-interface FreePostItemProps extends React.HTMLAttributes<HTMLDivElement> {
+interface FreePostItemProps {
   data: IFreePost;
 }
 
-export default function FreePostItem({ data, ...props }: FreePostItemProps) {
+export default function FreePostItem({ data }: FreePostItemProps) {
   return (
-    <div className="w-full space-y-2 border-b pb-4" {...props}>
+    <Link
+      href={`/posts/free/${data.postId}`}
+      className="w-full space-y-2 border-b pb-4"
+    >
       <div className="flex w-full flex-nowrap items-start justify-between">
         {/* 제목 | 내용 */}
         <div className="w-fit space-y-1">
@@ -75,6 +78,6 @@ export default function FreePostItem({ data, ...props }: FreePostItemProps) {
           </div>
         </div>
       </div>
-    </div>
+    </Link>
   );
 }

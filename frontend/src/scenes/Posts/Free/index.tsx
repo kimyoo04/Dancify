@@ -2,9 +2,8 @@ import SideBar from "../SideBar";
 import { playlists } from "../data/playlists";
 
 import PostHeader from "../PostItem/PostHeader";
-import ScrollButton from "@components/ScrollButton";
 import CreateButton from "@scenes/Posts/Free/FreeItem/CreateButton";
-import FreePostList from "./FreeItem/FreePostList";
+import FreePostList from "@scenes/Posts/Free/FreeItem/FreePostList";
 
 import { useReadFreePostsPerPage } from "@api/posts/readFreePostsPerPage";
 
@@ -46,9 +45,6 @@ export default function FreePosts() {
 
                   {/* 게시글 추가 버튼 */}
                   <CreateButton />
-
-                  {/* 최상단 이동 버튼 */}
-                  <ScrollButton />
                 </div>
               </div>
             </div>

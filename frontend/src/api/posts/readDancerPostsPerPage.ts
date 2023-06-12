@@ -1,23 +1,23 @@
 import axios from "@api/axiosInstance";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { IVideoPostsPerPage } from "@type/videoPosts";
+import { IDancerPostsPerPage } from "@type/dancerPosts";
 import { AxiosError } from "axios";
 
-export const readVideoPostsPerPage = async (page: number) => {
+export const readDancerPostsPerPage = async (page: number) => {
   const params = { page };
   try {
-    const response = await axios.get(`/posts/video`, { params });
+    const response = await axios.get(`/posts/dancer`, { params });
     return response.data;
   } catch (err) {
-    console.log("🚀 readVideoPostsPerPage.tsx", err);
+    console.log("🚀 readDancerPostsPerPage.tsx", err);
     return { data: [] };
   }
 };
 
-export const useReadVideoPostsPerPage = () => {
-  return useInfiniteQuery<IVideoPostsPerPage, AxiosError>({
-    queryKey: [`/posts/video`],
-    queryFn: ({ pageParam = 1 }) => readVideoPostsPerPage(pageParam),
+export const useReadDancerPostsPerPage = () => {
+  return useInfiniteQuery<IDancerPostsPerPage, AxiosError>({
+    queryKey: [`/posts/dancer`],
+    queryFn: ({ pageParam = 1 }) => readDancerPostsPerPage(pageParam),
     getNextPageParam: (lastPage) => {
       if (lastPage.currentPage < lastPage.totalPages) {
         return lastPage.currentPage + 1;
