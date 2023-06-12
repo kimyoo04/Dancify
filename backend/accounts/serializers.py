@@ -8,6 +8,7 @@ rest_framework.exceptions의 ValidationError는 예외가 발생하면 해당 �
 응답이 자동으로 생성되어 반환됨
  """
 
+
 class LoginSerializer(serializers.Serializer):
     userId = serializers.CharField()
     password = serializers.CharField()
@@ -26,6 +27,7 @@ class LoginSerializer(serializers.Serializer):
             raise serializers.ValidationError
 
         return data
+
 
 class RegisterSerializer(serializers.ModelSerializer):
     def __init__(self, *args, **kwargs):
@@ -91,7 +93,6 @@ class RegisterSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError(msg_dict)
 
         return data
-
 
     def create(self, validated_data):
         return User.objects.create_user(**validated_data)

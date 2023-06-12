@@ -15,6 +15,9 @@ from accounts.authentication import generate_token
 from accounts.authentication import check_access_token_exp,\
     validate_access_token, validate_refresh_token
 
+REFRESH_TOKEN_EXP = 60 * 60 * 24 * 30
+ACCESS_TOKEN_EXP = 60
+
 
 class SignUpView(APIView):
     def post(self, request):
@@ -40,7 +43,6 @@ class SignInView(APIView):
     # 중복 로그인 처리 구현 필요
     # def is_duplicate_login(self, user):
 
-
     @swagger_auto_schema(
         request_body=openapi.Schema(
             type=openapi.TYPE_OBJECT,
@@ -57,7 +59,6 @@ class SignInView(APIView):
         except serializers.ValidationError:
             return JsonResponse({'message': '아이디 또는 비밀번호가 틀렸습니다.'},
                                 status=status.HTTP_401_UNAUTHORIZED)
-
 
         user_id_json = serializer.validated_data['userId']  # type: ignore
 
@@ -77,8 +78,9 @@ class SignInView(APIView):
         response.content = response_data
 
         response.set_cookie('Refresh-Token', refresh_token,
-                            max_age=60*60*24*30, httponly=True)
-        response.set_cookie('Access-Token', acccess_token, max_age=60)
+                            max_age=REFRESH_TOKEN_EXP, httponly=True)
+        response.set_cookie('Access-Token', acccess_token,
+                            max_age=ACCESS_TOKEN_EXP)
 
         return response
 
@@ -95,8 +97,10 @@ class SignOutView(APIView):
 
             # 토큰 삭제
             response.set_cookie('Refresh-Token', '',
-                                        max_age=60*60*24*30, httponly=True)
-            response.set_cookie('Access-Token', '', max_age=60*15)
+                                max_age=REFRESH_TOKEN_EXP,
+                                httponly=True)
+            response.set_cookie('Access-Token', '',
+                                max_age=ACCESS_TOKEN_EXP)
 
         except TokenError:
             result_message = '유효하지 않은 토큰입니다.'
@@ -144,11 +148,12 @@ class JWTRefreshView(APIView):
             response = JsonResponse(response_data)
 
             response.set_cookie('Refresh-Token', new_refresh_token,
-                                max_age=60*60*24*30, httponly=True)
-            response.set_cookie('Access-Token', new_access_token, max_age=60*15)
+                                max_age=REFRESH_TOKEN_EXP, httponly=True)
+            response.set_cookie('Access-Token', new_access_token,
+                                max_age=ACCESS_TOKEN_EXP)
 
         except KeyError:
-            if refresh_token == None:
+            if refresh_token is None:
                 print('리프레쉬 토큰x')
                 response_data = {'user': False,
                                  'message': 'Refresh-Token이 존재하지 않습니다!'}
@@ -156,7 +161,7 @@ class JWTRefreshView(APIView):
                                         status=status.HTTP_401_UNAUTHORIZED)
 
             # 쿠키가 만료되어 access_token이 지워졌으므로 재발급 진행
-            elif access_token == None:
+            elif access_token is None:
                 print('엑세스 토큰x 재발급 진행')
                 user_info = decode_refresh_token(refresh_token)
                 print(user_info)
@@ -168,7 +173,8 @@ class JWTRefreshView(APIView):
                 response = JsonResponse(response_data)
 
                 response.set_cookie('Refresh-Token', new_refresh_token,
-                                    max_age=60*60*24*30, httponly=True)
-                response.set_cookie('Access-Token', new_access_token, max_age=60*15)
+                                    max_age=REFRESH_TOKEN_EXP, httponly=True)
+                response.set_cookie('Access-Token', new_access_token,
+                                    max_age=ACCESS_TOKEN_EXP)
 
         return response

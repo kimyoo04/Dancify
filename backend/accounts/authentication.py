@@ -9,10 +9,14 @@ from rest_framework import status
 
 from accounts.models import User
 
+REFRESH_TOKEN_EXP = 60 * 60 * 24 * 30
+ACCESS_TOKEN_EXP = 60
+
 """
 토큰을 생성할 때는 userId로 DB에 접근해서 정보들을 만든다
 토큰을 decode 할때는 종합적인 user_info 가 나옴
 """
+
 
 # JWT 토큰 decode
 def decode_refresh_token(refresh_token):
@@ -24,6 +28,7 @@ def decode_refresh_token(refresh_token):
                  'isDancer': payload['isDancer'], 'profileImage': payload['profileImage']}
 
     return user_info
+
 
 def decode_access_token(access_token):
     print('엑세스 토큰 디코드')
@@ -70,11 +75,12 @@ def create_jwt_token(user_id, token_type, user_info={}):
         print('토큰 발급 실패')
         return '토큰을 생성하지 못하였습니다.'
 
+
 def generate_token(user_info):
     new_refresh_token = create_jwt_token(user_info['userId'],
-                                                'refresh', user_info)
+                                         'refresh', user_info)
     new_access_token = create_jwt_token(user_info['userId'],
-                                            'access', user_info)
+                                        'access', user_info)
     return (new_refresh_token, new_access_token)
 
 
@@ -125,14 +131,16 @@ def validate_refresh_token(token):
         print('리프레쉬 토큰 변조 확인됨')
         return False
 
+
 def handle_invalid_token():
     print('invalid-token handler')
     response = JsonResponse({'user': False,
-                                'message': '변조된 토큰입니다.'},
+                            'message': '변조된 토큰입니다.'},
                             status=status.HTTP_401_UNAUTHORIZED)
     # 토큰 삭제
     response.set_cookie('Refresh-Token', '',
-                                max_age=60*60*24*30, httponly=True)
-    response.set_cookie('Access-Token', '', max_age=60*15)
+                        max_age=REFRESH_TOKEN_EXP, httponly=True)
+    response.set_cookie('Access-Token', '',
+                        max_age=ACCESS_TOKEN_EXP)
 
     return response

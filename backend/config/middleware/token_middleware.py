@@ -9,6 +9,10 @@ from accounts.authentication import generate_token
 from accounts.authentication import check_access_token_exp,\
     validate_access_token, validate_refresh_token
 
+REFRESH_TOKEN_EXP = 60 * 60 * 24 * 30
+ACCESS_TOKEN_EXP = 60
+
+
 class TokenMiddleware(MiddlewareMixin):
     def process_view(self, request, view_func, view_args, view_kwargs):
         urls = ['/api/auth/user']
@@ -43,19 +47,20 @@ class TokenMiddleware(MiddlewareMixin):
                 response = JsonResponse(response_data)
 
                 response.set_cookie('Refresh-Token', new_refresh_token,
-                                    max_age=60*60*24*30, httponly=True)
-                response.set_cookie('Access-Token', new_access_token, max_age=60*15)
+                                    max_age=REFRESH_TOKEN_EXP, httponly=True)
+                response.set_cookie('Access-Token', new_access_token,
+                                    max_age=ACCESS_TOKEN_EXP)
 
             except KeyError:
-                if refresh_token == None:
+                if refresh_token is None:
                     print('리프레쉬 토큰x')
                     response_data = {'user': False,
-                                    'message': 'Refresh-Token이 존재하지 않습니다!'}
+                                     'message': 'Refresh-Token이 존재하지 않습니다!'}
                     response = JsonResponse(response_data,
                                             status=status.HTTP_401_UNAUTHORIZED)
 
                 # 쿠키가 만료되어 access_token이 지워졌으므로 재발급 진행
-                elif access_token == None:
+                elif access_token is None:
                     print('엑세스 토큰x 재발급 진행')
                     user_info = decode_refresh_token(refresh_token)
                     print(user_info)
@@ -63,11 +68,12 @@ class TokenMiddleware(MiddlewareMixin):
                     new_refresh_token, new_access_token = generate_token(user_info)
 
                     response_data = {'user': True,
-                                    'message': 'Access-Token이 존재하지 않습니다!'}
+                                     'message': 'Access-Token이 존재하지 않습니다!'}
                     response = JsonResponse(response_data)
 
                     response.set_cookie('Refresh-Token', new_refresh_token,
-                                        max_age=60*60*24*30, httponly=True)
-                    response.set_cookie('Access-Token', new_access_token, max_age=60*15)
+                                        max_age=REFRESH_TOKEN_EXP, httponly=True)
+                    response.set_cookie('Access-Token', new_access_token,
+                                        max_age=ACCESS_TOKEN_EXP)
 
             return response
