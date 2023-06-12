@@ -7,6 +7,7 @@ import { poseSimilarity } from "./utils/posesim";
 import { dancer_json } from "./dancer_json_list";
 
 import * as tf from "@tensorflow/tfjs";
+import '@tensorflow/tfjs-backend-webgl';
 
 export default function Test() {
   const webcamRef = useRef<Webcam>(null);
@@ -69,9 +70,9 @@ export default function Test() {
   };
 
   const runPosenet = async () => {
+    await tf.ready();
     const model = await poseDetection.SupportedModels.MoveNet;
     const detector = await poseDetection.createDetector(model);
-    await tf.ready();
 
     let indx = 0;
 
