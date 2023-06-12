@@ -1,7 +1,6 @@
 import * as React from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
 
 import {
   Form,
@@ -21,54 +20,25 @@ import { Icons } from "@components/ui/icons";
 import { signIn } from "@api/auth/signIn";
 import { useRouter } from "next/router";
 import Link from "next/link";
-
-const profileFormSchema = z.object({
-  userId: z
-    .string({
-      required_error: "아이디를 입력해주세요.",
-    })
-    .min(2, {
-      message: "아이디는 최소 2글자 이상입니다.",
-    })
-    .max(30, {
-      message: "아이디는 최대 30글자 이하입니다.",
-    }),
-  password: z
-    .string({
-      required_error: "비밀번호를 입력해주세요.",
-    })
-    .max(20, {
-      message: "비밀번호는 최대 20글자 이하입니다.",
-    })
-    .min(4, {
-      message: "비밀번호는 최소 4글자 이상입니다.",
-    }),
-});
-
-type ProfileFormValues = z.infer<typeof profileFormSchema>;
-
-//! This can come from your database or API.
-const defaultValues: Partial<ProfileFormValues> = {
-  userId: "",
-  password: "",
-};
-
-type UserAuthFormProps = React.HTMLAttributes<HTMLDivElement>;
+import {
+  signInFormSchema,
+  SignInFormValues,
+  SignInFormProps,
+} from "@type/signIn";
 
 export default function UserSignInForm({
   className,
   ...props
-}: UserAuthFormProps) {
+}: SignInFormProps) {
   const router = useRouter();
   const [isLoading] = React.useState<boolean>(false);
   const { toast } = useToast();
 
-  const form = useForm<ProfileFormValues>({
-    resolver: zodResolver(profileFormSchema),
-    defaultValues,
+  const form = useForm<SignInFormValues>({
+    resolver: zodResolver(signInFormSchema),
   });
 
-  async function onSubmit(data: ProfileFormValues) {
+  async function onSubmit(data: SignInFormValues) {
     const response = await signIn(data);
     console.log(
       "🚀 ~ file: UserSignInForm.tsx:69 ~ onSubmit ~ response:",
@@ -107,7 +77,7 @@ export default function UserSignInForm({
                     <FormControl>
                       <Input
                         id="userId"
-                        placeholder="Id"
+                        placeholder="아이디"
                         type="text"
                         autoCapitalize="none"
                         autoComplete="userId"
@@ -132,7 +102,7 @@ export default function UserSignInForm({
                     <FormControl>
                       <Input
                         id="password"
-                        placeholder="Password"
+                        placeholder="비밀번호"
                         type="password"
                         autoCapitalize="none"
                         autoComplete="password"

@@ -1,7 +1,6 @@
 import * as React from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
 
 import {
   Form,
@@ -11,83 +10,46 @@ import {
   FormLabel,
   FormMessage,
 } from "@components/ui/form";
-
-import { useToast } from "@components/ui/use-toast";
-
 import { cn } from "@lib/utils";
+import { useToast } from "@components/ui/use-toast";
 import { Button } from "@components/ui/button";
 import { Input } from "@components/ui/input";
 import { Icons } from "@components/ui/icons";
-import classNames from "classnames";
-import { ISignUpForm } from "@type/signUp";
+
 import { signUp } from "@api/auth/signUp";
 import { useRouter } from "next/router";
 
-const profileFormSchema = z.object({
-  userId: z
-    .string({
-      required_error: "로그인을 위한 아이디를 입력해주세요.",
-    })
-    .min(2, {
-      message: "아이디는 최초 2글자 이상입니다.",
-    })
-    .max(20, {
-      message: "아이디는 최대 20글자 이하입니다.",
-    }),
-  nickname: z
-    .string({
-      required_error: "다른 사람들에게 보일 닉네임을 입력해주세요.",
-    })
-    .min(2, {
-      message: "닉네임은 최초 2글자 이상입니다.",
-    })
-    .max(10, {
-      message: "닉네임은 최대 10글자 이하입니다.",
-    }),
-  phone: z
-    .string({
-      required_error: "전화번호를 입력해주세요.",
-    })
-    .min(10)
-    .max(14),
-  email: z
-    .string({
-      required_error: "이메일을 입력해주세요.",
-    })
-    .email("이메일 형식으로 입력해주세요."),
-  password: z
-    .string({
-      required_error: "비밀번호를 입력해주세요.",
-    })
-    .max(20, {
-      message: "비밀번호는 최대 20글자 이하입니다.",
-    })
-    .min(4, {
-      message: "비밀번호는 최소 4글자 이상입니다.",
-    }),
-  passwordCheck: z.string({
-    required_error: "비밀번호 확인을 입력해주세요.",
-  }),
-});
-
-type ProfileFormValues = z.infer<typeof profileFormSchema>;
-
-type UserAuthFormProps = React.HTMLAttributes<HTMLDivElement>;
+import {
+  ISignUpForm,
+  signUpFormSchema,
+  SignUpFormValues,
+  SignUpFormProps,
+} from "@type/signUp";
+import makePhoneNumber from "@util/makePhoneNumber";
 
 export default function UserSignUpForm({
   className,
   ...props
-}: UserAuthFormProps) {
+}: SignUpFormProps) {
   const router = useRouter();
   const [isDancer, setIsDancer] = React.useState(false);
   const [isLoading] = React.useState<boolean>(false);
   const { toast } = useToast();
+  const [phoneNumber, setPhoneNumber] = React.useState("");
 
-  const form = useForm<ProfileFormValues>({
-    resolver: zodResolver(profileFormSchema),
+  const form = useForm<SignUpFormValues>({
+    resolver: zodResolver(signUpFormSchema),
   });
 
-  async function onSubmit(data: ProfileFormValues) {
+  const handlePhoneNumberChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const inputPhoneNumber = event.target.value;
+    const formattedPhoneNumber = makePhoneNumber(inputPhoneNumber);
+    setPhoneNumber(formattedPhoneNumber);
+  };
+
+  async function onSubmit(data: SignUpFormValues) {
     // 비밀번호와 체크 불일치 유무 확인
     if (data.password !== data.passwordCheck) {
       toast({
@@ -160,7 +122,7 @@ export default function UserSignUpForm({
                     <FormControl>
                       <Input
                         id="userId"
-                        placeholder="User Id"
+                        placeholder="아이디"
                         type="text"
                         autoCapitalize="none"
                         autoComplete="userId"
@@ -169,7 +131,7 @@ export default function UserSignUpForm({
                         {...field}
                       />
                     </FormControl>
-                    <FormMessage />
+                    <FormMessage className="text-xs" />
                   </FormItem>
                 )}
               />
@@ -184,16 +146,18 @@ export default function UserSignUpForm({
                     <FormControl>
                       <Input
                         id="phone"
-                        placeholder="Phone"
+                        placeholder="전화번호 ('-' 제외)"
                         type="tel"
                         autoCapitalize="none"
                         autoComplete="phone"
                         autoCorrect="off"
                         disabled={isLoading}
                         {...field}
+                        value={phoneNumber}
+                        onChange={handlePhoneNumberChange}
                       />
                     </FormControl>
-                    <FormMessage />
+                    <FormMessage className="text-xs" />
                   </FormItem>
                 )}
               />
@@ -209,7 +173,7 @@ export default function UserSignUpForm({
                     <FormControl>
                       <Input
                         id="email"
-                        placeholder="Email"
+                        placeholder="이메일주소"
                         type="email"
                         autoCapitalize="none"
                         autoComplete="email"
@@ -218,7 +182,7 @@ export default function UserSignUpForm({
                         {...field}
                       />
                     </FormControl>
-                    <FormMessage />
+                    <FormMessage className="text-xs" />
                   </FormItem>
                 )}
               />
@@ -233,7 +197,7 @@ export default function UserSignUpForm({
                     <FormControl>
                       <Input
                         id="nickname"
-                        placeholder="Nickname"
+                        placeholder="닉네임"
                         type="text"
                         autoCapitalize="none"
                         autoComplete="nickname"
@@ -242,7 +206,7 @@ export default function UserSignUpForm({
                         {...field}
                       />
                     </FormControl>
-                    <FormMessage />
+                    <FormMessage className="text-xs" />
                   </FormItem>
                 )}
               />
@@ -257,7 +221,7 @@ export default function UserSignUpForm({
                     <FormControl>
                       <Input
                         id="password"
-                        placeholder="Password"
+                        placeholder="비밀번호"
                         type="password"
                         autoCapitalize="none"
                         autoComplete="password"
@@ -266,7 +230,7 @@ export default function UserSignUpForm({
                         {...field}
                       />
                     </FormControl>
-                    <FormMessage />
+                    <FormMessage className="text-xs" />
                   </FormItem>
                 )}
               />
@@ -282,7 +246,7 @@ export default function UserSignUpForm({
                     <FormControl>
                       <Input
                         id="passwordCheck"
-                        placeholder="Password Check"
+                        placeholder="비밀번호 확인"
                         type="password"
                         autoCapitalize="none"
                         autoComplete="passwordCheck"
@@ -291,7 +255,7 @@ export default function UserSignUpForm({
                         {...field}
                       />
                     </FormControl>
-                    <FormMessage />
+                    <FormMessage className="text-xs" />
                   </FormItem>
                 )}
               />
@@ -300,7 +264,7 @@ export default function UserSignUpForm({
                 {isLoading && (
                   <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
                 )}
-                Sign Up
+                회원 가입
               </Button>
             </div>
           </form>
