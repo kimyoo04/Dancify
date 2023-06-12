@@ -9,9 +9,9 @@ export default function PostCard({ data }: { data: IFreePost | IVideoPost }) {
   return (
     // postDetail로 링크
     <Link
-      href={`/posts/${
-        isVideoPost(data) && data.thumbnailImage ? "video" : "free"
-      }/${data.postId}`}
+      href={`/posts/${isVideoPost(data) && data.thumbnail ? "video" : "free"}/${
+        data.postId
+      }`}
       className="flex w-full flex-col gap-4 rounded-2xl bg-white p-4 shadow-md"
     >
       {/* 유저 이름 */}

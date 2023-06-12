@@ -5,5 +5,5 @@ export type TViews = number;
 export type TcreateDate = string;
 export type TPostImage = string;
 export type TVideoUrl = string;
-export type TThumbnailImage = string;
+export type Tthumbnail = string;
 export type TCommentCount = number;

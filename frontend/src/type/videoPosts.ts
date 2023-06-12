@@ -4,7 +4,7 @@ import {
   TCommentCount,
   TContent,
   TPostId,
-  TThumbnailImage,
+  Tthumbnail,
   TTitle,
   TVideoUrl,
   TViews,
@@ -18,7 +18,7 @@ export interface IVideoPost {
   nickname: TNickname;
   content: TContent;
   createDate: TcreateDate;
-  thumbnailImage: TThumbnailImage;
+  thumbnail: Tthumbnail;
   videoUrl: TVideoUrl;
   views: TViews;
   commentsCount: TCommentCount;
