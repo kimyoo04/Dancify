@@ -56,7 +56,12 @@ export default function VideoPostList({
             {data.pages.map((group, indx) => (
               <Fragment key={indx + "page"}>
                 {group.data.map((data, indx) => (
-                  <VideoPostItem key={indx + data.postId} data={data} />
+                  <VideoPostItem
+                    key={indx + data.postId}
+                    data={data}
+                    width={220}
+                    height={400}
+                  />
                 ))}
               </Fragment>
             ))}

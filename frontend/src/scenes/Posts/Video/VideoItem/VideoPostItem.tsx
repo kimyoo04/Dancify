@@ -26,10 +26,8 @@ export default function VideoPostItem({
             width={width}
             height={height}
             className={cn(
-              "h-auto w-auto object-cover transition-all hover:scale-105",
-              "aspect-[3/4]"
+              "aspect-[3/4] h-auto w-auto object-cover transition-all hover:scale-105"
             )}
-            style={{ width: `${width}px`, height: `${height}px` }}
           />
         )}
       </div>
