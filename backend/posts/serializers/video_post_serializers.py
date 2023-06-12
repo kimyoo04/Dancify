@@ -5,7 +5,7 @@ from comments.models import Comment
 from like.models import Like
 
 
-class GetListSerializer(serializers.ModelSerializer):
+class VideoPostGetListSerializer(serializers.ModelSerializer):
     """
     GET 요청이 들어와 List 액션을 실행할 때
     다음 Json을 반환하는 Serializer
@@ -42,7 +42,7 @@ class GetListSerializer(serializers.ModelSerializer):
         ref_name = 'VideoPostGetListSerializer'
 
 
-class GetRetrieveSerializer(serializers.ModelSerializer):
+class VideoPostGetRetrieveSerializer(serializers.ModelSerializer):
     """
     GET 요청이 들어와 Retrieve 액션을 실행할 때
     다음 Json을 반환하는 Serializer
@@ -94,7 +94,7 @@ class GetRetrieveSerializer(serializers.ModelSerializer):
         ref_name = 'VideoPostGetRetrieveSerializer'
 
 
-class PostPatchSerializer(serializers.HyperlinkedModelSerializer):
+class VideoPostPostPatchSerializer(serializers.HyperlinkedModelSerializer):
     """
     POST, PATCH 요청이 들어오면 다음 Json을 받아 요청을 처리하는 Serializer
 

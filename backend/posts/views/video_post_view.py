@@ -3,7 +3,10 @@ from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 
 from ..serializers.video_post_serializers import (
-    GetListSerializer, GetRetrieveSerializer, PostPatchSerializer)
+    VideoPostGetListSerializer,
+    VideoPostGetRetrieveSerializer,
+    VideoPostPostPatchSerializer
+)
 from .base_post_view import BasePostViewSet
 from ..models import VideoPost
 
@@ -14,13 +17,13 @@ class VideoPostViewSet(BasePostViewSet):
 
     def get_serializer_class(self):
         if self.action in ('list'):
-            return GetListSerializer
+            return VideoPostGetListSerializer
 
         if self.action in ('retrieve'):
-            return GetRetrieveSerializer
+            return VideoPostGetRetrieveSerializer
 
         if self.action in ('create', 'update', 'partial_update'):
-            return PostPatchSerializer
+            return VideoPostPostPatchSerializer
 
     @swagger_auto_schema(
         operation_summary='게시글 목록 조회',
