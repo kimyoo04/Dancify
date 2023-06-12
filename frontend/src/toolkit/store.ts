@@ -2,11 +2,15 @@ import { configureStore } from "@reduxjs/toolkit";
 
 import authReducer from "@features/auth/authSlice";
 import searchReducer from "@features/search/searchSlice";
+import likeReducer from "@features/like/likeSlice";
+import filterReducer from "@features/filter/filterSlice";
 
 export const store = configureStore({
   reducer: {
     auth: authReducer,
     search: searchReducer,
+    like: likeReducer,
+    filter: filterReducer,
   },
   // middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
 });

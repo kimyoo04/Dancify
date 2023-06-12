@@ -14,7 +14,7 @@ import {
 } from "@components/ui/dropdown-menu";
 import DarkToggle from "@components/ui/darkToggle";
 import Link from "next/link";
-import { logOut } from "@api/auth/logOuts";
+import { logOut } from "@api/auth/logOut";
 import { useAppSelector } from "@toolkit/hook";
 import Image from "next/image";
 
