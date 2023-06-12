@@ -2,10 +2,10 @@ export default function SignUpHeader() {
   return (
     <div className="flex flex-col space-y-2 text-center">
       <h1 className="text-2xl font-semibold tracking-tight">
-        Create an account
+        Dancify 회원 가입
       </h1>
       <p className="text-sm text-muted-foreground">
-        Enter your email below to create your account
+        춤을 배우시면 Dancable, 춤을 가르치시면 Dancer 입니다.
       </p>
     </div>
   );

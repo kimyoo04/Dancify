@@ -26,47 +26,48 @@ import { useRouter } from "next/router";
 const profileFormSchema = z.object({
   userId: z
     .string({
-      required_error: "Please type a User Id to sign in.",
+      required_error: "로그인을 위한 아이디를 입력해주세요.",
     })
     .min(2, {
-      message: "Nickname must be at least 2 characters.",
+      message: "아이디는 최초 2글자 이상입니다.",
     })
-    .max(30, {
-      message: "Nickname must not be longer than 30 characters.",
+    .max(20, {
+      message: "아이디는 최대 20글자 이하입니다.",
     }),
   nickname: z
     .string({
-      required_error: "Please type a nickname to display.",
+      required_error: "다른 사람들에게 보일 닉네임을 입력해주세요.",
     })
     .min(2, {
-      message: "Nickname must be at least 2 characters.",
+      message: "닉네임은 최초 2글자 이상입니다.",
     })
-    .max(30, {
-      message: "Nickname must not be longer than 30 characters.",
+    .max(10, {
+      message: "닉네임은 최대 10글자 이하입니다.",
     }),
   phone: z
     .string({
-      required_error: "Please type a phone number.",
+      required_error: "전화번호를 입력해주세요.",
     })
     .min(10)
     .max(14),
   email: z
     .string({
-      required_error: "Please type an email.",
+      required_error: "이메일을 입력해주세요.",
     })
-    .email("Not a valid email"),
+    .email("이메일 형식으로 입력해주세요."),
   password: z
     .string({
-      required_error: "Please type a password.",
+      required_error: "비밀번호를 입력해주세요.",
     })
-    .max(160)
-    .min(4),
-  passwordCheck: z
-    .string({
-      required_error: "Please type a password check.",
+    .max(20, {
+      message: "비밀번호는 최대 20글자 이하입니다.",
     })
-    .max(160)
-    .min(4),
+    .min(4, {
+      message: "비밀번호는 최소 4글자 이상입니다.",
+    }),
+  passwordCheck: z.string({
+    required_error: "비밀번호 확인을 입력해주세요.",
+  }),
 });
 
 type ProfileFormValues = z.infer<typeof profileFormSchema>;
@@ -82,28 +83,16 @@ export default function UserSignUpForm({
   const [isLoading] = React.useState<boolean>(false);
   const { toast } = useToast();
 
-  //! This can come from your database or API.
-  const defaultValues: Partial<ProfileFormValues> = {
-    userId: "",
-    nickname: "",
-    phone: "",
-    email: "",
-    password: "",
-    passwordCheck: "",
-  };
-
   const form = useForm<ProfileFormValues>({
     resolver: zodResolver(profileFormSchema),
-    defaultValues,
-    mode: "onChange",
   });
 
   async function onSubmit(data: ProfileFormValues) {
     // 비밀번호와 체크 불일치 유무 확인
     if (data.password !== data.passwordCheck) {
       toast({
-        title: "password error",
-        description: "Your password and password check are not match",
+        title: "비밀번호 확인 불일치",
+        description: "비밀번호와 비밀번호 확인을 다시 확인해주세요.",
       });
       return;
     }
@@ -135,24 +124,21 @@ export default function UserSignUpForm({
     }
   }
 
-  const isDancableBg = classNames({
-    "bg-primary": !isDancer,
-  });
-  const isDancerBg = classNames({
-    "bg-primary": isDancer,
-  });
-
   return (
     <>
       <div className="row-center h-12 w-full gap-4">
         <Button
-          className={`hover:bg-primary/70 h-full w-full ${isDancableBg}`}
+          className={`hover:bg-primary/70 h-full w-full bg-muted-foreground ${
+            isDancer ? "bg-primary" : ""
+          }`}
           onClick={() => setIsDancer(false)}
         >
           Dancable
         </Button>
         <Button
-          className={`hover:bg-primary/70 h-full w-full ${isDancerBg}`}
+          className={`hover:bg-primary/70 h-full w-full bg-muted-foreground ${
+            isDancer ? "" : "bg-primary"
+          }`}
           onClick={() => setIsDancer(true)}
         >
           Dancer
