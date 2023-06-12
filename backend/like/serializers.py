@@ -14,6 +14,7 @@ class LikePostDeleteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Like
         fields = ['postCategory']
+        ref_name = 'LikePostDeleteSerializer'
 
     def validate(self, attrs):
         CATEGORY_CHOICES = ['FREE', 'VIDEO', 'DANCER']
