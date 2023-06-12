@@ -1,41 +1,17 @@
 import Link from "next/link";
-import { Command } from "lucide-react";
 import UserSignInForm from "./UserSignInForm";
 
 export default function SignIn() {
   return (
-    <div className="container relative grid h-[800px] flex-col items-center justify-center lg:max-w-none lg:grid-cols-2 lg:px-0">
-      <div className="relative hidden h-full flex-col bg-muted p-10 text-white dark:border-r lg:flex">
-        <div
-          className="absolute inset-0 bg-cover"
-          style={{
-            backgroundImage:
-              "url(https://images.unsplash.com/photo-1590069261209-f8e9b8642343?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1376&q=80)",
-          }}
-        />
-        <div className="relative z-20 flex items-center text-lg font-medium">
-          <Command className="mr-2 h-6 w-6" /> Acme Inc
-        </div>
-        <div className="relative z-20 mt-auto">
-          <blockquote className="space-y-2">
-            <p className="text-lg">
-              &ldquo;This library has saved me countless hours of work and
-              helped me deliver stunning designs to my clients faster than ever
-              before. Highly recommended!&rdquo;
-            </p>
-            <footer className="text-sm">Sofia Davis</footer>
-          </blockquote>
-        </div>
-      </div>
-
+    <div className="container relative grid h-[800px] flex-col items-center justify-center ">
       <div className="lg:p-8">
         <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
           <div className="flex flex-col space-y-2 text-center">
             <h1 className="text-2xl font-semibold tracking-tight">
-              Sign In Dancify
+              Dancify 로그인
             </h1>
             <p className="text-sm text-muted-foreground">
-              Enter your email and password
+              아이디와 비밀번호를 입력해주세요
             </p>
           </div>
 
@@ -44,21 +20,21 @@ export default function SignIn() {
 
           {/* 정책 설명 */}
           <p className="px-8 text-center text-sm text-muted-foreground">
-            By clicking continue, you agree to our{" "}
+            로그인으로 당사는{" "}
             <Link
               href="/terms"
               className="underline underline-offset-4 hover:text-primary"
             >
-              Terms of Service
+              개인정보 활용방침
             </Link>{" "}
-            and{" "}
+            에 대해 동의하는 것으로 간주합니다.{" "}
             <Link
               href="/privacy"
               className="underline underline-offset-4 hover:text-primary"
             >
-              Privacy Policy
+              자세한 사항
             </Link>
-            .
+            을 참고해 주시기 바랍니다.
           </p>
         </div>
       </div>

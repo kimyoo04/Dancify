@@ -1,7 +1,6 @@
 import * as React from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
 
 import {
   Form,
@@ -11,99 +10,51 @@ import {
   FormLabel,
   FormMessage,
 } from "@components/ui/form";
-
-import { useToast } from "@components/ui/use-toast";
-
 import { cn } from "@lib/utils";
+import { useToast } from "@components/ui/use-toast";
 import { Button } from "@components/ui/button";
 import { Input } from "@components/ui/input";
 import { Icons } from "@components/ui/icons";
-import classNames from "classnames";
-import { ISignUpForm } from "@type/signUp";
+
 import { signUp } from "@api/auth/signUp";
 import { useRouter } from "next/router";
 
-const profileFormSchema = z.object({
-  userId: z
-    .string({
-      required_error: "Please type a User Id to sign in.",
-    })
-    .min(2, {
-      message: "Nickname must be at least 2 characters.",
-    })
-    .max(30, {
-      message: "Nickname must not be longer than 30 characters.",
-    }),
-  nickname: z
-    .string({
-      required_error: "Please type a nickname to display.",
-    })
-    .min(2, {
-      message: "Nickname must be at least 2 characters.",
-    })
-    .max(30, {
-      message: "Nickname must not be longer than 30 characters.",
-    }),
-  phone: z
-    .string({
-      required_error: "Please type a phone number.",
-    })
-    .min(10)
-    .max(14),
-  email: z
-    .string({
-      required_error: "Please type an email.",
-    })
-    .email("Not a valid email"),
-  password: z
-    .string({
-      required_error: "Please type a password.",
-    })
-    .max(160)
-    .min(4),
-  passwordCheck: z
-    .string({
-      required_error: "Please type a password check.",
-    })
-    .max(160)
-    .min(4),
-});
-
-type ProfileFormValues = z.infer<typeof profileFormSchema>;
-
-type UserAuthFormProps = React.HTMLAttributes<HTMLDivElement>;
+import {
+  ISignUpForm,
+  signUpFormSchema,
+  SignUpFormValues,
+  SignUpFormProps,
+} from "@type/signUp";
+import makePhoneNumber from "@util/makePhoneNumber";
 
 export default function UserSignUpForm({
   className,
   ...props
-}: UserAuthFormProps) {
+}: SignUpFormProps) {
   const router = useRouter();
   const [isDancer, setIsDancer] = React.useState(false);
   const [isLoading] = React.useState<boolean>(false);
   const { toast } = useToast();
+  const [phoneNumber, setPhoneNumber] = React.useState("");
 
-  //! This can come from your database or API.
-  const defaultValues: Partial<ProfileFormValues> = {
-    userId: "",
-    nickname: "",
-    phone: "",
-    email: "",
-    password: "",
-    passwordCheck: "",
-  };
-
-  const form = useForm<ProfileFormValues>({
-    resolver: zodResolver(profileFormSchema),
-    defaultValues,
-    mode: "onChange",
+  const form = useForm<SignUpFormValues>({
+    resolver: zodResolver(signUpFormSchema),
   });
 
-  async function onSubmit(data: ProfileFormValues) {
+  const handlePhoneNumberChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const inputPhoneNumber = event.target.value;
+    const formattedPhoneNumber = makePhoneNumber(inputPhoneNumber);
+    setPhoneNumber(formattedPhoneNumber);
+  };
+
+  async function onSubmit(data: SignUpFormValues) {
     // 비밀번호와 체크 불일치 유무 확인
     if (data.password !== data.passwordCheck) {
       toast({
-        title: "password error",
-        description: "Your password and password check are not match",
+        title: "비밀번호 확인 불일치",
+        description: "비밀번호와 비밀번호 확인을 다시 확인해주세요.",
       });
       return;
     }
@@ -135,24 +86,21 @@ export default function UserSignUpForm({
     }
   }
 
-  const isDancableBg = classNames({
-    "bg-primary": !isDancer,
-  });
-  const isDancerBg = classNames({
-    "bg-primary": isDancer,
-  });
-
   return (
     <>
       <div className="row-center h-12 w-full gap-4">
         <Button
-          className={`hover:bg-primary/70 h-full w-full ${isDancableBg}`}
+          className={`hover:bg-primary/70 h-full w-full bg-muted-foreground ${
+            isDancer ? "bg-primary" : ""
+          }`}
           onClick={() => setIsDancer(false)}
         >
           Dancable
         </Button>
         <Button
-          className={`hover:bg-primary/70 h-full w-full ${isDancerBg}`}
+          className={`hover:bg-primary/70 h-full w-full bg-muted-foreground ${
+            isDancer ? "" : "bg-primary"
+          }`}
           onClick={() => setIsDancer(true)}
         >
           Dancer
@@ -174,7 +122,7 @@ export default function UserSignUpForm({
                     <FormControl>
                       <Input
                         id="userId"
-                        placeholder="User Id"
+                        placeholder="아이디"
                         type="text"
                         autoCapitalize="none"
                         autoComplete="userId"
@@ -183,7 +131,7 @@ export default function UserSignUpForm({
                         {...field}
                       />
                     </FormControl>
-                    <FormMessage />
+                    <FormMessage className="text-xs" />
                   </FormItem>
                 )}
               />
@@ -198,16 +146,18 @@ export default function UserSignUpForm({
                     <FormControl>
                       <Input
                         id="phone"
-                        placeholder="Phone"
+                        placeholder="전화번호 ('-' 제외)"
                         type="tel"
                         autoCapitalize="none"
                         autoComplete="phone"
                         autoCorrect="off"
                         disabled={isLoading}
                         {...field}
+                        value={phoneNumber}
+                        onChange={handlePhoneNumberChange}
                       />
                     </FormControl>
-                    <FormMessage />
+                    <FormMessage className="text-xs" />
                   </FormItem>
                 )}
               />
@@ -223,7 +173,7 @@ export default function UserSignUpForm({
                     <FormControl>
                       <Input
                         id="email"
-                        placeholder="Email"
+                        placeholder="이메일주소"
                         type="email"
                         autoCapitalize="none"
                         autoComplete="email"
@@ -232,7 +182,7 @@ export default function UserSignUpForm({
                         {...field}
                       />
                     </FormControl>
-                    <FormMessage />
+                    <FormMessage className="text-xs" />
                   </FormItem>
                 )}
               />
@@ -247,7 +197,7 @@ export default function UserSignUpForm({
                     <FormControl>
                       <Input
                         id="nickname"
-                        placeholder="Nickname"
+                        placeholder="닉네임"
                         type="text"
                         autoCapitalize="none"
                         autoComplete="nickname"
@@ -256,7 +206,7 @@ export default function UserSignUpForm({
                         {...field}
                       />
                     </FormControl>
-                    <FormMessage />
+                    <FormMessage className="text-xs" />
                   </FormItem>
                 )}
               />
@@ -271,7 +221,7 @@ export default function UserSignUpForm({
                     <FormControl>
                       <Input
                         id="password"
-                        placeholder="Password"
+                        placeholder="비밀번호"
                         type="password"
                         autoCapitalize="none"
                         autoComplete="password"
@@ -280,7 +230,7 @@ export default function UserSignUpForm({
                         {...field}
                       />
                     </FormControl>
-                    <FormMessage />
+                    <FormMessage className="text-xs" />
                   </FormItem>
                 )}
               />
@@ -296,7 +246,7 @@ export default function UserSignUpForm({
                     <FormControl>
                       <Input
                         id="passwordCheck"
-                        placeholder="Password Check"
+                        placeholder="비밀번호 확인"
                         type="password"
                         autoCapitalize="none"
                         autoComplete="passwordCheck"
@@ -305,7 +255,7 @@ export default function UserSignUpForm({
                         {...field}
                       />
                     </FormControl>
-                    <FormMessage />
+                    <FormMessage className="text-xs" />
                   </FormItem>
                 )}
               />
@@ -314,7 +264,7 @@ export default function UserSignUpForm({
                 {isLoading && (
                   <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
                 )}
-                Sign Up
+                회원 가입
               </Button>
             </div>
           </form>
