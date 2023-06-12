@@ -1,22 +1,32 @@
-from datetime import timedelta
-from datetime import datetime
+from django.http import JsonResponse
+from django.utils import timezone
 import jwt
 from jwt.exceptions import InvalidSignatureError
 
 from rest_framework_simplejwt.tokens import AccessToken, RefreshToken
 from rest_framework_simplejwt.exceptions import TokenError
+from rest_framework import status
 
 from accounts.models import User
-
 
 """
 토큰을 생성할 때는 userId로 DB에 접근해서 정보들을 만든다
 토큰을 decode 할때는 종합적인 user_info 가 나옴
 """
 
-
 # JWT 토큰 decode
+def decode_refresh_token(refresh_token):
+    print('리프레쉬 토큰 디코드')
+    refresh_token_obj = RefreshToken(token=refresh_token)
+    payload = refresh_token_obj.payload
+
+    user_info = {'userId': payload['userId'], 'nickname': payload['nickname'],
+                 'isDancer': payload['isDancer'], 'profileImage': payload['profileImage']}
+
+    return user_info
+
 def decode_access_token(access_token):
+    print('엑세스 토큰 디코드')
     access_token_obj = AccessToken(token=access_token)
     payload = access_token_obj.payload
 
@@ -28,10 +38,8 @@ def decode_access_token(access_token):
 
 def create_jwt_token(user_id, token_type, user_info={}):
     token = None
-
     try:
         if not user_info:
-            # serializer으로 구현 필요
             user = User.objects.get(user_id=user_id)
             user_info['userId'] = user.user_id
             user_info['nickname'] = user.nickname
@@ -39,6 +47,7 @@ def create_jwt_token(user_id, token_type, user_info={}):
             user_info['profileImage'] = user.profile_image
 
         if token_type == 'refresh':
+            print('리프레쉬 토큰 발급')
             token = RefreshToken()
 
             # 사용자 ID를 페이로드에 추가
@@ -46,58 +55,84 @@ def create_jwt_token(user_id, token_type, user_info={}):
                 token[key] = value
 
             # 만료 시간 설정 (예: 30일)
-            token.set_exp(lifetime=timedelta(days=30))
+            token.set_exp(lifetime=timezone.timedelta(days=30))
 
         elif token_type == 'access':
+            print('엑세스 토큰 발급')
             token = AccessToken()
 
             for key, value in user_info.items():
                 token[key] = value
-            token.set_exp(lifetime=timedelta(hours=1))
+            token.set_exp(lifetime=timezone.timedelta(minutes=15))
 
         return str(token)
     except TokenError:
+        print('토큰 발급 실패')
         return '토큰을 생성하지 못하였습니다.'
+
+def generate_token(user_info):
+    new_refresh_token = create_jwt_token(user_info['userId'],
+                                                'refresh', user_info)
+    new_access_token = create_jwt_token(user_info['userId'],
+                                            'access', user_info)
+    return (new_refresh_token, new_access_token)
 
 
 def check_access_token_exp(token):
     try:
+        print('엑세스 토큰 기간 검사')
         access_token = AccessToken(token)
 
         # 토큰 만료 시간 확인
         expiration_timestamp = access_token['exp']
-        current_timestamp = datetime.utcnow().timestamp()
+        current_timestamp = timezone.now().timestamp()
         if current_timestamp > expiration_timestamp:
             raise TokenError("Access Token has expired")
 
         return True
     except TokenError:
-        # 토큰이 변조되었거나 유효하지 않은 경우
+        print('엑세스 토큰 기간 만료')
         return False
 
 
 def validate_access_token(token):
     try:
+        print('엑세스 토큰 유효성검사')
         jwt.decode(token, verify=False)
 
         return True
     except InvalidSignatureError:
         # 서명 검증에 실패하여 변조가 있음을 의미
+        print('엑세스 토큰 변조 확인됨')
         return False
 
 
 def validate_refresh_token(token):
     try:
+        print('리프레쉬 토큰 유효성검사')
         refresh_token = RefreshToken(token)
 
         # 토큰 유효성 확인
         refresh_token.verify()
 
         expiration_timestamp = refresh_token['exp']
-        current_timestamp = datetime.utcnow().timestamp()
+        current_timestamp = timezone.now().timestamp()
         if current_timestamp > expiration_timestamp:
             raise TokenError("Refresh Token has expired")
 
         return True
     except TokenError:
+        print('리프레쉬 토큰 변조 확인됨')
         return False
+
+def handle_invalid_token():
+    print('invalid-token handler')
+    response = JsonResponse({'user': False,
+                                'message': '변조된 토큰입니다.'},
+                            status=status.HTTP_401_UNAUTHORIZED)
+    # 토큰 삭제
+    response.set_cookie('Refresh-Token', '',
+                                max_age=60*60*24*30, httponly=True)
+    response.set_cookie('Access-Token', '', max_age=60*15)
+
+    return response
