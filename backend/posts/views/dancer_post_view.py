@@ -1,7 +1,13 @@
+from django.utils import timezone
+from django.db.models import Q
+
 from rest_framework import status
+from rest_framework.response import Response
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
+from rest_framework_simplejwt.exceptions import TokenError
 
+from accounts.authentication import decode_access_token
 from ..serializers.dancer_post_serializers import (
     DancerPostGetListSerializer,
     DancerPostGetRetrieveSerializer,
@@ -9,6 +15,8 @@ from ..serializers.dancer_post_serializers import (
 )
 from .base_post_view import BasePostViewSet
 from ..models import DancerPost
+from accounts.models import User
+from view_history.models import ViewHistory
 
 
 class DancerPostViewSet(BasePostViewSet):
@@ -135,7 +143,21 @@ class DancerPostViewSet(BasePostViewSet):
         }
     )
     def retrieve(self, request, *args, **kwargs):
-        return super().retrieve(request, *args, **kwargs)
+        post_id = kwargs['pk']
+        try:
+            access_token = request.COOKIES.get('Access-Token', None)
+            user_info = decode_access_token(access_token)
+
+            user_id = user_info['userId']
+            user = User.objects.get(user_id=user_id)
+            ViewHistory.objects.update_or_create(
+                dancer_post=DancerPost.objects.get(post_id=post_id),
+                user=user
+            )
+
+            return super().retrieve(request, *args, **kwargs)
+        except (TokenError, KeyError, User.DoesNotExist):
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
 
     @swagger_auto_schema(
         operation_summary='게시글 생성',
