@@ -20,24 +20,29 @@ import { Input } from "@components/ui/input";
 import { Icons } from "@components/ui/icons";
 import { signIn } from "@api/auth/signIn";
 import { useRouter } from "next/router";
+import Link from "next/link";
 
 const profileFormSchema = z.object({
   userId: z
     .string({
-      required_error: "Please type a User Id to sign in.",
+      required_error: "아이디를 입력해주세요.",
     })
     .min(2, {
-      message: "Nickname must be at least 2 characters.",
+      message: "아이디는 최소 2글자 이상입니다.",
     })
     .max(30, {
-      message: "Nickname must not be longer than 30 characters.",
+      message: "아이디는 최대 30글자 이하입니다.",
     }),
   password: z
     .string({
-      required_error: "Please type a password.",
+      required_error: "비밀번호를 입력해주세요.",
     })
-    .max(160)
-    .min(4),
+    .max(20, {
+      message: "비밀번호는 최대 20글자 이하입니다.",
+    })
+    .min(4, {
+      message: "비밀번호는 최소 4글자 이상입니다.",
+    }),
 });
 
 type ProfileFormValues = z.infer<typeof profileFormSchema>;
@@ -61,7 +66,6 @@ export default function UserSignInForm({
   const form = useForm<ProfileFormValues>({
     resolver: zodResolver(profileFormSchema),
     defaultValues,
-    mode: "onChange",
   });
 
   async function onSubmit(data: ProfileFormValues) {
@@ -112,7 +116,7 @@ export default function UserSignInForm({
                         {...field}
                       />
                     </FormControl>
-                    <FormMessage />
+                    <FormMessage className="text-xs" />
                   </FormItem>
                 )}
               />
@@ -137,7 +141,7 @@ export default function UserSignInForm({
                         {...field}
                       />
                     </FormControl>
-                    <FormMessage />
+                    <FormMessage className="text-xs" />
                   </FormItem>
                 )}
               />
@@ -146,7 +150,7 @@ export default function UserSignInForm({
                 {isLoading && (
                   <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
                 )}
-                Sign In
+                로그인
               </Button>
             </div>
           </form>
@@ -166,14 +170,20 @@ export default function UserSignInForm({
       </div>
 
       {/* OAuth */}
-      <Button variant="outline" type="button" disabled={isLoading}>
-        {isLoading ? (
-          <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-        ) : (
-          <Icons.google className="mr-2 h-4 w-4" />
-        )}{" "}
-        Sign In with Google
-      </Button>
+      <Link href="/signup" className="group w-full">
+        <Button
+          variant="outline"
+          type="button"
+          disabled={isLoading}
+          className="w-full group-hover:bg-primary"
+        >
+          {isLoading ? (
+            <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+          ) : (
+            <span className="group-hover:text-white">회원 가입</span>
+          )}
+        </Button>
+      </Link>
     </>
   );
 }
