@@ -29,8 +29,10 @@ https://github.com/nicknochnack/MoveNetLightning/blob/main/MoveNet%20Tutorial.ip
 6. kaggle
 https://www.kaggle.com/code/ibrahimserouis99/human-pose-estimation-with-movenet
 
-
-
-
 Movenet Webcam
 https://github.com/GPoleto27/Movenet_Webcam_App
+
+speech
+1. text_classification
+https://huggingface.co/klue/bert-base
+https://www.tensorflow.org/text/tutorials/classify_text_with_bert?hl=ko#loading_models_from_tensorflow_hub
