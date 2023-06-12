@@ -4,7 +4,7 @@ interface props {
   href: string;
 }
 
-export default function PostViewMore({ href }: props) {
+export default function ViewMore({ href }: props) {
   return (
     <Link href={href}>
       <span
