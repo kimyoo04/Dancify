@@ -1,13 +1,21 @@
 import { Separator } from "@components/ui/separator";
 import { ScrollArea, ScrollBar } from "@components/ui/scroll-area";
 
-import { listenNowAlbums, madeForYouAlbums } from "../data/albums";
+import { listenNowAlbums } from "../data/albums";
 
-import PreviewFreePosts from "../Free/PreviewFreePosts";
-import PreviewVideoPosts from "../Video/PreviewVideoPosts";
-import PostViewMore from "../PostItem/PostViewMore";
+import FreePostItem from "../Free/FreeItem/FreePostItem";
+import VideoPostItem from "../Video/VideoPostItem";
+import ViewMore from "../PostItem/ViewMore";
+import { useReadFreePostsPerPage } from "@api/posts/readFreePostsPerPage";
+import FreePostLoader from "../Free/FreeItem/FreePostLoader";
 
 export default function AllPosts() {
+  const {
+    data: freeData,
+    error: freeError,
+    status: freeStatus,
+  } = useReadFreePostsPerPage();
+
   return (
     <div className="space-y-10 border-none p-0 outline-none">
       <div>
@@ -24,7 +32,7 @@ export default function AllPosts() {
             </div>
 
             <div>
-              <PostViewMore href="/posts/video"></PostViewMore>
+              <ViewMore href="/posts/video" />
             </div>
           </div>
           <Separator className="my-4" />
@@ -35,7 +43,7 @@ export default function AllPosts() {
           <ScrollArea>
             <div className="flex space-x-4 pb-4">
               {listenNowAlbums.map((data, indx) => (
-                <PreviewVideoPosts
+                <VideoPostItem
                   key={indx + data.name}
                   data={data}
                   className="w-[250px]"
@@ -64,7 +72,7 @@ export default function AllPosts() {
             </div>
 
             <div>
-              <PostViewMore href="/posts/free"></PostViewMore>
+              <ViewMore href="/posts/free" />
             </div>
           </div>
           <Separator className="my-4" />
@@ -73,11 +81,19 @@ export default function AllPosts() {
         {/* //!자유게시판 미리보기 영역 */}
         <div className="w-full">
           <ScrollArea>
-            <ul className="col-center w-full gap-4 pb-4">
-              {madeForYouAlbums.slice(0, 10).map((data) => (
-                <PreviewFreePosts key={data.name} data={data} />
-              ))}
-            </ul>
+            {freeStatus === "loading" ? (
+              <FreePostLoader />
+            ) : freeStatus === "error" ? (
+              <>{freeError && <p>Error: {freeError.message}</p>}</>
+            ) : (
+              freeData && (
+                <ul className="col-center w-full gap-4 pb-4">
+                  {freeData?.pages[0].data.slice(0, 10).map((freeData) => (
+                    <FreePostItem key={freeData.postId} data={freeData} />
+                  ))}
+                </ul>
+              )
+            )}
             <ScrollBar />
           </ScrollArea>
         </div>

@@ -19,9 +19,9 @@ export default function PostThumbnail({
       className="flex w-full flex-col gap-4 rounded-2xl bg-white p-4 shadow-md"
     >
       {/* 포스트이미지 혹은 영상의 썸네일이미지 */}
-      {isVideoPost(data) && data.thumbnailImage ? (
+      {isVideoPost(data) && data.thumbnail ? (
         <Image
-          src={data.thumbnailImage as TPostImage}
+          src={data.thumbnail as TPostImage}
           width={500}
           height={500}
           alt={data.title}

@@ -4,7 +4,7 @@ import { IVideoPost } from "@type/videoPosts";
 export const isVideoPost = (
   data: IVideoPost | IFreePost
 ): data is IVideoPost => {
-  return (data as IVideoPost).thumbnailImage !== undefined;
+  return (data as IVideoPost).thumbnail !== undefined;
 };
 
 export const isFreePost = (data: IVideoPost | IFreePost): data is IFreePost => {
