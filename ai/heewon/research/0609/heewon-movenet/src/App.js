@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useEffect } from "react";
 import "./styles.css";
 import * as poseDetection from "@tensorflow-models/pose-detection";
 import Webcam from "react-webcam";
@@ -8,8 +8,8 @@ import * as tf from '@tensorflow/tfjs';
 import '@tensorflow/tfjs-backend-webgpu';
 
 export default function App() {
-  const webcamRef = React.useRef(null);
-  const canvasRef = React.useRef(null);
+  const webcamRef = useRef(null);
+  const canvasRef = useRef(null);
 
 
   const detect = async (movenet_model) => {
@@ -28,10 +28,25 @@ export default function App() {
       webcamRef.current.video.height = videoHeight;
 
       // Make Detections
+      try {
       const pose = await movenet_model.estimatePoses(video);
-      console.log(pose);
 
-      drawCanvas(pose, video, videoWidth, videoHeight, canvasRef);
+        //포즈 측정 성공한 경우
+        if (pose.length > 0) {
+          drawCanvas(pose, video, videoWidth, videoHeight, canvasRef);
+          console.log(pose);
+          return pose;
+        }
+        // 포즈 측정 실패한 경우 error return
+        else{
+          console.log('error');
+          return 'error';
+
+        }
+      } catch (error) {
+        console.log('catch error');
+        return 'error';
+      }
     }
   };
 
@@ -40,7 +55,7 @@ export default function App() {
     canvas.current.width = videoWidth;
     canvas.current.height = videoHeight;
 
-    drawKeypoints(pose[0]["keypoints"], 0.6, ctx);
+    drawKeypoints(pose[0]["keypoints"], 0.5, ctx);
     drawSkeleton(pose[0]["keypoints"], 0.4, ctx);
   };
 
