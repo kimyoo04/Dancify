@@ -1,12 +1,12 @@
 import SideBar from "../SideBar";
+import { playlists } from "../data/playlists";
+
 import PostHeader from "../PostItem/PostHeader";
 import ScrollButton from "@components/ScrollButton";
-
-import PostList from "@scenes/Posts/PostItem/PostList";
 import CreateButton from "@scenes/Posts/Free/FreeItem/CreateButton";
+import FreePostList from "./FreeItem/FreePostList";
 
 import { useReadFreePostsPerPage } from "@api/posts/readFreePostsPerPage";
-import { playlists } from "../data/playlists";
 
 export default function FreePosts() {
   const {
@@ -33,7 +33,7 @@ export default function FreePosts() {
 
                 <div className="h-full flex-col">
                   {/* 자유게시판 fetch 결과 출력 */}
-                  <PostList
+                  <FreePostList
                     post={{
                       data,
                       error,
