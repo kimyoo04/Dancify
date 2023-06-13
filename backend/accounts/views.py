@@ -1,7 +1,6 @@
 from django.http import JsonResponse
 
 from rest_framework.views import APIView
-from rest_framework.generics import UpdateAPIView
 from rest_framework import status, serializers
 from rest_framework_simplejwt.exceptions import TokenError
 from rest_framework_simplejwt.tokens import RefreshToken
@@ -11,7 +10,7 @@ from drf_yasg.utils import swagger_auto_schema
 from accounts.serializers import LoginSerializer, RegisterSerializer, \
     ProfileSerializer
 from accounts.authentication import handle_invalid_token
-from accounts.authentication import decode_refresh_token
+from accounts.authentication import decode_refresh_token, decode_access_token
 from accounts.authentication import create_jwt_token
 from accounts.authentication import generate_token
 from accounts.authentication import validate_access_token, validate_refresh_token
@@ -193,26 +192,24 @@ class TestView(APIView):
         return response
 
 
-class UpdateProfileView(UpdateAPIView):
-    serializer_class = ProfileSerializer
-    queryset = User.objects.all()
+class UpdateProfileView(APIView):
+    def patch(self, request):
+        access_token = self.request.COOKIES['Access-Token']
+        user_info = decode_access_token(access_token)
+        user_id = user_info['userId']
+        user = User.objects.get(user_id=user_id)
 
-    def partial_update(self, request, *args, **kwargs):
+        description_data = {'description': user_info['description']}
+        serializer = ProfileSerializer(user, data=description_data, partial=True)  # type: ignore
         try:
-            email = request.data['email']
-            instance = self.queryset.get(email=email)
-
-            serializer = self.get_serializer(instance, data=request.data, partial=True)
             serializer.is_valid(raise_exception=True)
             serializer.save()
-            response_data = '자기소개가 수정되었습니다.'
+            response = JsonResponse({'message': '자기소개가 수정되었습니다.'})
+        except serializers.ValidationError:
+            response = JsonResponse({'message': '자기소개 수정에 실패하였습니다.'},
+                                    status=status.HTTP_401_UNAUTHORIZED)
 
-        except User.DoesNotExist:
-            response_data = '존재하지 않는 유저 정보입니다.'
-            return JsonResponse({'message': response_data},
-                                status=status.HTTP_400_BAD_REQUEST)
-
-        return JsonResponse({'message': response_data})
+            return response
 
 
 class UpdateProfileImageView(APIView):

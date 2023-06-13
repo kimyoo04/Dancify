@@ -13,7 +13,7 @@ ACCESS_TOKEN_EXP = 60 * 15
 
 
 class TokenValidateMiddleware(MiddlewareMixin):
-    urls = ['/api/auth/test']
+    urls = ['/api/auth/test', '/api/auth/profile', '/api/auth/profile/image']
 
     # 뷰가 실행되기 전에 미들웨어 실행됨
     def process_view(self, request, view_func, view_args, view_kwargs):
@@ -57,7 +57,7 @@ class TokenValidateMiddleware(MiddlewareMixin):
 
 
 class TokenRefreshMiddleware(MiddlewareMixin):
-    urls = ['/api/auth/test']
+    urls = ['/api/auth/test', '/api/auth/profile', '/api/auth/profile/image']
 
     # 뷰에서 응답하기 전에 미들웨어가 실행됨
     def process_response(self, request, response):
