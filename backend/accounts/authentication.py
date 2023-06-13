@@ -1,7 +1,5 @@
 from django.http import JsonResponse
 from django.utils import timezone
-import jwt
-from jwt.exceptions import InvalidSignatureError
 
 from rest_framework_simplejwt.tokens import AccessToken, RefreshToken
 from rest_framework_simplejwt.exceptions import TokenError
@@ -9,10 +7,14 @@ from rest_framework import status
 
 from accounts.models import User
 
+REFRESH_TOKEN_EXP = 60 * 60 * 24 * 30
+ACCESS_TOKEN_EXP = 60 * 15
+
 """
 토큰을 생성할 때는 userId로 DB에 접근해서 정보들을 만든다
 토큰을 decode 할때는 종합적인 user_info 가 나옴
 """
+
 
 # JWT 토큰 decode
 def decode_refresh_token(refresh_token):
@@ -24,6 +26,7 @@ def decode_refresh_token(refresh_token):
                  'isDancer': payload['isDancer'], 'profileImage': payload['profileImage']}
 
     return user_info
+
 
 def decode_access_token(access_token):
     print('엑세스 토큰 디코드')
@@ -70,69 +73,51 @@ def create_jwt_token(user_id, token_type, user_info={}):
         print('토큰 발급 실패')
         return '토큰을 생성하지 못하였습니다.'
 
+
 def generate_token(user_info):
     new_refresh_token = create_jwt_token(user_info['userId'],
-                                                'refresh', user_info)
+                                         'refresh', user_info)
     new_access_token = create_jwt_token(user_info['userId'],
-                                            'access', user_info)
+                                        'access', user_info)
     return (new_refresh_token, new_access_token)
 
 
-def check_access_token_exp(token):
+def validate_access_token(access_token):
     try:
-        print('엑세스 토큰 기간 검사')
-        access_token = AccessToken(token)
-
-        # 토큰 만료 시간 확인
-        expiration_timestamp = access_token['exp']
-        current_timestamp = timezone.now().timestamp()
-        if current_timestamp > expiration_timestamp:
-            raise TokenError("Access Token has expired")
+        access_token_obj = AccessToken(token=access_token)
+        access_token_obj.verify()
+        print('엑세스 토큰 유효성검사: 정상')
 
         return True
     except TokenError:
-        print('엑세스 토큰 기간 만료')
-        return False
-
-
-def validate_access_token(token):
-    try:
-        print('엑세스 토큰 유효성검사')
-        jwt.decode(token, verify=False)
-
-        return True
-    except InvalidSignatureError:
         # 서명 검증에 실패하여 변조가 있음을 의미
-        print('엑세스 토큰 변조 확인됨')
+        print('엑세스 토큰 유효성검사: 엑세스 토큰 변조 확인됨')
+
         return False
 
 
 def validate_refresh_token(token):
     try:
-        print('리프레쉬 토큰 유효성검사')
         refresh_token = RefreshToken(token)
-
-        # 토큰 유효성 확인
         refresh_token.verify()
-
-        expiration_timestamp = refresh_token['exp']
-        current_timestamp = timezone.now().timestamp()
-        if current_timestamp > expiration_timestamp:
-            raise TokenError("Refresh Token has expired")
+        print('리프레쉬 토큰 유효성검사: 정상')
 
         return True
     except TokenError:
-        print('리프레쉬 토큰 변조 확인됨')
+        print('리프레쉬 토큰 유효성검사: 리프레쉬 토큰 변조 확인됨')
+
         return False
+
 
 def handle_invalid_token():
     print('invalid-token handler')
     response = JsonResponse({'user': False,
-                                'message': '변조된 토큰입니다.'},
+                            'message': '변조된 토큰입니다.'},
                             status=status.HTTP_401_UNAUTHORIZED)
     # 토큰 삭제
     response.set_cookie('Refresh-Token', '',
-                                max_age=60*60*24*30, httponly=True)
-    response.set_cookie('Access-Token', '', max_age=60*15)
+                        max_age=REFRESH_TOKEN_EXP, httponly=True)
+    response.set_cookie('Access-Token', '',
+                        max_age=ACCESS_TOKEN_EXP)
 
     return response

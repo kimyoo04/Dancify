@@ -40,7 +40,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'config.middleware.token_middleware.TokenMiddleware',
+    'config.middleware.token_middleware.TokenValidateMiddleware',
+    'config.middleware.token_middleware.TokenRefreshMiddleware',
 ]
 
 CORS_ALLOW_METHODS = [
