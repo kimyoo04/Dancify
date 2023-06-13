@@ -1,12 +1,11 @@
 import SideBar from "../SideBar";
-import PostHeader from "../PostItem/PostHeader";
-import ScrollButton from "@components/ScrollButton";
+import { playlists } from "../data/playlists";
 
-import PostList from "@scenes/Posts/PostItem/PostList";
-import CreateButton from "@scenes/Posts/Free/FreeItem/CreateButton";
+import PostHeader from "../PostItem/PostHeader";
+import VideoPostList from "@scenes/Posts/Video/VideoItem/VideoPostList";
+import CreateButton from "@scenes/Posts/Video/VideoItem/CreateButton";
 
 import { useReadVideoPostsPerPage } from "@api/posts/readVideoPostsPerPage";
-import { playlists } from "../data/playlists";
 
 export default function VideoPosts() {
   const {
@@ -30,7 +29,7 @@ export default function VideoPosts() {
 
                 <div className="h-full flex-col">
                   {/* 자유게시판 fetch 결과 출력 */}
-                  <PostList
+                  <VideoPostList
                     post={{
                       data,
                       error,
@@ -43,9 +42,6 @@ export default function VideoPosts() {
 
                   {/* 게시글 추가 버튼 */}
                   <CreateButton />
-
-                  {/* 최상단 이동 버튼 */}
-                  <ScrollButton />
                 </div>
               </div>
             </div>

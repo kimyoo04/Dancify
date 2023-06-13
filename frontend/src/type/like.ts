@@ -17,4 +17,5 @@ export interface ILikeToggle {
   postCategory: TPostCategory;
 }
 
+export type TLikesCount = number;
 export type TPostCategory = "FREE" | "VIDEO" | "DANCER" | "";

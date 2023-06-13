@@ -1,7 +1,6 @@
 import * as React from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
 
 import {
   Form,
@@ -20,51 +19,26 @@ import { Input } from "@components/ui/input";
 import { Icons } from "@components/ui/icons";
 import { signIn } from "@api/auth/signIn";
 import { useRouter } from "next/router";
-
-const profileFormSchema = z.object({
-  userId: z
-    .string({
-      required_error: "Please type a User Id to sign in.",
-    })
-    .min(2, {
-      message: "Nickname must be at least 2 characters.",
-    })
-    .max(30, {
-      message: "Nickname must not be longer than 30 characters.",
-    }),
-  password: z
-    .string({
-      required_error: "Please type a password.",
-    })
-    .max(160)
-    .min(4),
-});
-
-type ProfileFormValues = z.infer<typeof profileFormSchema>;
-
-//! This can come from your database or API.
-const defaultValues: Partial<ProfileFormValues> = {
-  userId: "",
-  password: "",
-};
-
-type UserAuthFormProps = React.HTMLAttributes<HTMLDivElement>;
+import Link from "next/link";
+import {
+  signInFormSchema,
+  SignInFormValues,
+  SignInFormProps,
+} from "@type/signIn";
 
 export default function UserSignInForm({
   className,
   ...props
-}: UserAuthFormProps) {
+}: SignInFormProps) {
   const router = useRouter();
   const [isLoading] = React.useState<boolean>(false);
   const { toast } = useToast();
 
-  const form = useForm<ProfileFormValues>({
-    resolver: zodResolver(profileFormSchema),
-    defaultValues,
-    mode: "onChange",
+  const form = useForm<SignInFormValues>({
+    resolver: zodResolver(signInFormSchema),
   });
 
-  async function onSubmit(data: ProfileFormValues) {
+  async function onSubmit(data: SignInFormValues) {
     const response = await signIn(data);
     console.log(
       "🚀 ~ file: UserSignInForm.tsx:69 ~ onSubmit ~ response:",
@@ -103,7 +77,7 @@ export default function UserSignInForm({
                     <FormControl>
                       <Input
                         id="userId"
-                        placeholder="Id"
+                        placeholder="아이디"
                         type="text"
                         autoCapitalize="none"
                         autoComplete="userId"
@@ -112,7 +86,7 @@ export default function UserSignInForm({
                         {...field}
                       />
                     </FormControl>
-                    <FormMessage />
+                    <FormMessage className="text-xs" />
                   </FormItem>
                 )}
               />
@@ -128,7 +102,7 @@ export default function UserSignInForm({
                     <FormControl>
                       <Input
                         id="password"
-                        placeholder="Password"
+                        placeholder="비밀번호"
                         type="password"
                         autoCapitalize="none"
                         autoComplete="password"
@@ -137,7 +111,7 @@ export default function UserSignInForm({
                         {...field}
                       />
                     </FormControl>
-                    <FormMessage />
+                    <FormMessage className="text-xs" />
                   </FormItem>
                 )}
               />
@@ -146,7 +120,7 @@ export default function UserSignInForm({
                 {isLoading && (
                   <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
                 )}
-                Sign In
+                로그인
               </Button>
             </div>
           </form>
@@ -166,14 +140,20 @@ export default function UserSignInForm({
       </div>
 
       {/* OAuth */}
-      <Button variant="outline" type="button" disabled={isLoading}>
-        {isLoading ? (
-          <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
-        ) : (
-          <Icons.google className="mr-2 h-4 w-4" />
-        )}{" "}
-        Sign In with Google
-      </Button>
+      <Link href="/signup" className="group w-full">
+        <Button
+          variant="outline"
+          type="button"
+          disabled={isLoading}
+          className="w-full group-hover:bg-primary"
+        >
+          {isLoading ? (
+            <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+          ) : (
+            <span className="group-hover:text-white">회원 가입</span>
+          )}
+        </Button>
+      </Link>
     </>
   );
 }

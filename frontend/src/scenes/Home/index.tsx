@@ -1,7 +1,9 @@
+import DancerPosts from "@scenes/Posts/Dancer";
+
 export default function Home() {
   return (
-    <div>
-      <h1 className="text-2xl font-bold">Home</h1>
+    <div className="w-full">
+      <DancerPosts />
     </div>
   );
 }

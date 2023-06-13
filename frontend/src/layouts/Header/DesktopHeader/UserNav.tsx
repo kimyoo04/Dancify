@@ -17,10 +17,12 @@ import Link from "next/link";
 import { logOut } from "@api/auth/logOut";
 import { useAppSelector } from "@toolkit/hook";
 import Image from "next/image";
+import { useRouter } from "next/router";
 
 export function UserNav() {
   const { nickname, profileImage } = useAppSelector((state) => state.auth);
   const imageUrl = profileImage ? profileImage : "/images/avatar.jpg";
+  const router = useRouter();
 
   return (
     <DropdownMenu>
@@ -89,7 +91,14 @@ export function UserNav() {
         <DropdownMenuSeparator />
 
         {/* 로그아웃 버튼 */}
-        <DropdownMenuItem onClick={() => logOut()}>
+        <DropdownMenuItem
+          onClick={async () => {
+            const response = await logOut();
+            if (response === true) {
+              router.push("/");
+            }
+          }}
+        >
           <LogOut className="mr-2 h-4 w-4" />
           <span>Log out</span>
           <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>

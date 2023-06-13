@@ -6,7 +6,7 @@ import { AxiosError } from "axios";
 export const readVideoPostsPerPage = async (page: number) => {
   const params = { page };
   try {
-    const response = await axios.get(`/posts`, { params });
+    const response = await axios.get(`/posts/video`, { params });
     return response.data;
   } catch (err) {
     console.log("🚀 readVideoPostsPerPage.tsx", err);

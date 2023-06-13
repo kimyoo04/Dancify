@@ -1,74 +1,46 @@
 from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
 
 from rest_framework.views import APIView
 from rest_framework import status, serializers
 from rest_framework_simplejwt.exceptions import TokenError
 from rest_framework_simplejwt.tokens import RefreshToken
-import json
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 
-
-from accounts.models import User
-from accounts.serializers import LoginSerializer
-from accounts.authentication import decode_access_token
+from accounts.serializers import LoginSerializer, RegisterSerializer
+from accounts.authentication import handle_invalid_token
+from accounts.authentication import decode_refresh_token
 from accounts.authentication import create_jwt_token
-from accounts.authentication import check_access_token_exp,\
-    validate_access_token, validate_refresh_token
+from accounts.authentication import generate_token
+from accounts.authentication import validate_access_token, validate_refresh_token
+
+REFRESH_TOKEN_EXP = 60 * 60 * 24 * 30
+ACCESS_TOKEN_EXP = 60 * 15
 
 
-def check_duplicate_userId(user_id_json):
-    """
-    아이디 중복 확인 함수
-    """
-    try:
-        User.objects.get(user_id=user_id_json)
-        return True
-    except User.DoesNotExist:
-        return False
+class SignUpView(APIView):
+    def post(self, request):
+        parsed_data = request.data
+        serializer = RegisterSerializer(data=parsed_data)
 
-
-@csrf_exempt
-def SignUpView(request):
-    if request.method == 'POST':
-        json_data = json.loads(request.body)
-
-        # serializer 구현이 필요
-        user_id_json = json_data['userId']
-        password_json = json_data['password']
-        password_check_json = json_data['passwordCheck']
-        email_json = json_data['email']
-        nickname_json = json_data['nickname']
-        phone_json = json_data['phone']
-        is_dancer_json = json_data['isDancer']
-
-        if check_duplicate_userId(user_id_json):
-            return JsonResponse({"message": "이미 존재하는 아이디입니다."},
-                                status=status.HTTP_409_CONFLICT)
-
-        if password_json == password_check_json:
-            user = User.objects.create_user(
-                user_id=user_id_json,
-                password=password_json,
-                email=email_json,
-                nickname=nickname_json,
-                phone=phone_json,
-                is_dancer=is_dancer_json
-            )
-            user.save()
+        try:
+            serializer.is_valid(raise_exception=True)
+            serializer.save()
 
             return JsonResponse({'message': '회원가입에 성공하였습니다.'},
                                 status=status.HTTP_201_CREATED)
-        else:
-            return JsonResponse({'message': '비밀번호가 일치하지 않습니다.'},
-                                status=status.HTTP_400_BAD_REQUEST)
+
+        except serializers.ValidationError:
+            """
+            is_valid 자체에서 raise error 되면 serializer.py의
+            사용자 정의 validate가 실행되지 않기에 호출
+            """
+            serializer.validate(parsed_data)
 
 
 class SignInView(APIView):
-    def is_duplicate_login(self, token):
-        if token is None:
-            return False
+    # 중복 로그인 처리 구현 필요
+    # def is_duplicate_login(self, user):
 
     @swagger_auto_schema(
         request_body=openapi.Schema(
@@ -85,19 +57,28 @@ class SignInView(APIView):
             serializer.is_valid(raise_exception=True)
         except serializers.ValidationError:
             return JsonResponse({'message': '아이디 또는 비밀번호가 틀렸습니다.'},
-                                status=status.HTTP_400_BAD_REQUEST)
+                                status=status.HTTP_401_UNAUTHORIZED)
 
         user_id_json = serializer.validated_data['userId']  # type: ignore
+
+        # 중복 로그인 관련
+        # user = User.objects.get(user_id = user_id_json)
+        # # 중복로그인 시도
+        # if user.jwt_token:
 
         # 로그인 : 토큰 발급
         refresh_token = create_jwt_token(user_id_json, 'refresh')
         acccess_token = create_jwt_token(user_id_json, 'access')
 
-        response = JsonResponse({'message': '로그인이 성공하였습니다.'},
-                                status=status.HTTP_200_OK)
+        response_data = {
+            'message': '로그인에 성공하였습니다.'
+        }
+        response = JsonResponse(response_data)
 
-        response.set_cookie('Refresh-Token', refresh_token)
-        response.set_cookie('Access-Token', acccess_token)
+        response.set_cookie('Refresh-Token', refresh_token,
+                            max_age=REFRESH_TOKEN_EXP, httponly=True)
+        response.set_cookie('Access-Token', acccess_token,
+                            max_age=ACCESS_TOKEN_EXP)
 
         return response
 
@@ -111,6 +92,13 @@ class SignOutView(APIView):
             refresh_token = request.COOKIES['Refresh-Token']
             refresh_token = RefreshToken(refresh_token)
             refresh_token.blacklist()
+
+            # 토큰 삭제
+            response.set_cookie('Refresh-Token', '',
+                                max_age=REFRESH_TOKEN_EXP,
+                                httponly=True)
+            response.set_cookie('Access-Token', '',
+                                max_age=ACCESS_TOKEN_EXP)
 
         except TokenError:
             result_message = '유효하지 않은 토큰입니다.'
@@ -127,44 +115,76 @@ class SignOutView(APIView):
 """
 
 
+# /api/auth/user
 class JWTRefreshView(APIView):
-    def handle_invalid_token(self):
-        response = JsonResponse({'user': False}, status=status.HTTP_401_UNAUTHORIZED)
+    def post(self, request):
+        refresh_token = None
+        access_token = None
+        response = None
+        response_data = None
+        try:
+            refresh_token = request.COOKIES['Refresh-Token']
+            access_token = request.COOKIES['Access-Token']
 
-        response.delete_cookie('Access-Token')
-        response.delete_cookie('Refresh-Token')
+            """
+            1번 시나리오: 리프레쉬 토큰 변조 확인
+            2번 시나리오, 엑세스 토큰의 유효기간은 쿠키의 유효기간과 같기 때문에 서명은 정상인데 만료된 토큰은 존재할 수 없다.
+            validate_access_token은 만료, 서명의 불일치, 변조된 토큰이면 False를 return한다.
+            """
+            if (not validate_refresh_token(refresh_token) or not
+                    validate_access_token(access_token)):
+                response = handle_invalid_token()
+                return response
+
+            # 그 외의 경우에는 토큰 재발급 진행
+            user_info = decode_refresh_token(refresh_token)
+            print('토큰 재발급 진행')
+            print(user_info)
+
+            new_refresh_token, new_access_token = generate_token(user_info)
+
+            response_data = {'user': True}
+            response = JsonResponse(response_data)
+
+            response.set_cookie('Refresh-Token', new_refresh_token,
+                                max_age=REFRESH_TOKEN_EXP, httponly=True)
+            response.set_cookie('Access-Token', new_access_token,
+                                max_age=ACCESS_TOKEN_EXP)
+
+        except KeyError:
+            if refresh_token is None:
+                print('리프레쉬 토큰x')
+                response_data = {'user': False,
+                                 'message': 'Refresh-Token이 존재하지 않습니다!'}
+                response = JsonResponse(response_data,
+                                        status=status.HTTP_401_UNAUTHORIZED)
+
+            # 쿠키가 만료되어 access_token이 지워졌으므로 재발급 진행
+            elif access_token is None:
+                print('엑세스 토큰x 재발급 진행')
+                user_info = decode_refresh_token(refresh_token)
+                print(user_info)
+
+                new_refresh_token, new_access_token = generate_token(user_info)
+
+                response_data = {'user': True,
+                                 'message': 'Access-Token이 존재하지 않습니다!'}
+                response = JsonResponse(response_data)
+
+                response.set_cookie('Refresh-Token', new_refresh_token,
+                                    max_age=REFRESH_TOKEN_EXP, httponly=True)
+                response.set_cookie('Access-Token', new_access_token,
+                                    max_age=ACCESS_TOKEN_EXP)
 
         return response
 
+
+# 미들웨어 테스트를 위한 테스트 뷰
+class TestView(APIView):
     def post(self, request):
-        try:
-            # 토큰을 쿠키에서 지워주는 코드인데... postman에서 작동이 안되는 것으로 보임
-            access_token = request.COOKIES['Access-Token']
-            refresh_token = request.COOKIES['Refresh-Token']
-            user_info = decode_access_token(access_token)
+        print('test View 실행')
+        json_data = {'test': 'success!'}
+        response = JsonResponse(json_data)
+        print('뷰 응답하기 바로 전')
 
-            # 1번 시나리오
-            if not validate_refresh_token(refresh_token):
-                return self.handle_invalid_token()
-
-            # 2번 시나리오, 유효기간 정상이지만 변조되거나 서명이 잘못된경우
-            if check_access_token_exp and not validate_access_token:
-                return self.handle_invalid_token()
-
-            # 그 외의 경우에는 토큰 재발급 진행
-            new_refresh_token = create_jwt_token(user_info['userId'],
-                                                 'refresh', user_info)
-            new_acccess_token = create_jwt_token(user_info['userId'],
-                                                 'access', user_info)
-
-            response = JsonResponse({'user': True},
-                                    status=status.HTTP_200_OK)
-
-            response.set_cookie('Refresh-Token', new_refresh_token)
-            response.set_cookie('Access-Token', new_acccess_token)
-
-            return response
-
-        except (TokenError, KeyError):
-            return JsonResponse({'user': False},
-                                status=status.HTTP_401_UNAUTHORIZED)
+        return response

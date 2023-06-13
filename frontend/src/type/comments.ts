@@ -37,3 +37,4 @@ export interface IDeleteComment {
 export type TCommentId = string;
 export type TContent = string;
 export type TCreateDate = string;
+export type TCommentCount = number;

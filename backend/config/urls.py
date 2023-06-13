@@ -8,8 +8,8 @@ from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 from rest_framework.routers import SimpleRouter
 
-router = SimpleRouter(trailing_slash=False)
 
+router = SimpleRouter(trailing_slash=False)
 
 class CheerUpView(View):
     def get(self, request):
@@ -47,5 +47,7 @@ urlpatterns = [
         path('/video', include('files.urls'))
         # path('/posts', include('posts.urls')),
         # path('/user', include('user.urls')),
+        path('/view-history', include('view_history.urls')),
+        path('/search-rank', include('search_history.urls')),
     ]))
 ]

@@ -57,6 +57,8 @@ class User(AbstractUser):
     description = models.CharField(max_length=1000, null=True)
     profile_image = models.CharField(max_length=500, null=True)
     phone = models.CharField(max_length=11, unique=True)
+    # 중복 로그인 관련 필드
+    # jwt_token = models.TextField(null=True, blank=True)
 
     # authenticate()의 기준이 되는 필드
     USERNAME_FIELD = 'user_id'

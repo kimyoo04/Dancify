@@ -1,5 +1,7 @@
 from rest_framework import serializers
+from accounts.authentication import decode_access_token
 
+from accounts.models import User
 from ..models import VideoPost
 from comments.models import Comment
 from like.models import Like
@@ -66,10 +68,21 @@ class VideoPostGetRetrieveSerializer(serializers.ModelSerializer):
     nickname = serializers.CharField(source='user.nickname')
     createDate = serializers.DateTimeField(source='create_date')
     likesCount = serializers.SerializerMethodField()
+    userLike = serializers.SerializerMethodField()
     comments = serializers.SerializerMethodField()
 
     def get_likesCount(self, instance):
         return Like.objects.filter(post_id=instance.post_id).count()
+
+    def get_userLike(self, instance):
+        try:
+            access_token = self.context['request'].COOKIES['Access-Token']
+            user_info = decode_access_token(access_token)
+
+            user_id = user_info['userId']
+            return Like.objects.filter(post_id=instance.post_id, user=User.objects.get(user_id=user_id)).exists()
+        except KeyError:
+            return False
 
     def get_comments(self, instance):
         comments = Comment.objects.filter(post_id=instance.post_id)
@@ -90,7 +103,7 @@ class VideoPostGetRetrieveSerializer(serializers.ModelSerializer):
         model = VideoPost
         fields = ['postId', 'title', 'userId', 'nickname',
                   'content', 'createDate', 'video', 'thumbnail',
-                  'views', 'likesCount', 'comments']
+                  'views', 'likesCount', 'userLike', 'comments']
         ref_name = 'VideoPostGetRetrieveSerializer'
 
 
