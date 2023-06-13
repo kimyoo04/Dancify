@@ -1,10 +1,10 @@
 import OnePageLayout from "@layouts/OnePageLayout";
-import AddPost from "@scenes/Posts/AddPost";
+import AddVideoPost from "@scenes/Posts/AddPost/AddVideoPost";
 
 export default function CreatePostPage() {
   return (
     <OnePageLayout>
-      <AddPost />
+      <AddVideoPost />
     </OnePageLayout>
   );
 }
