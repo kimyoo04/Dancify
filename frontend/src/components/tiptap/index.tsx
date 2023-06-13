@@ -40,13 +40,15 @@ const Tiptap = () => {
 
   return (
     <div>
-      <div className="mb-2"><label
-        htmlFor="postContent"
-        className="text-sm font-medium"
-        onClick={() => editor?.chain().focus()}
-      >
-        내용
-      </label></div>
+      <div className="mb-2">
+        <label
+          htmlFor="postContent"
+          className="text-sm font-medium"
+          onClick={() => editor?.chain().focus()}
+        >
+          내용
+        </label>
+      </div>
       <MenuBar editor={editor} />
       <div onClick={() => editor?.chain().focus()}>
         <EditorContent editor={editor} />
