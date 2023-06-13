@@ -44,6 +44,9 @@ urlpatterns = [
         path('/auth', include('accounts.urls')),
         path('/likes', include('like.urls')),
         path('/comments', include('comments.urls')),
+        path('/video', include('files.urls'))
+        # path('/posts', include('posts.urls')),
+        # path('/user', include('user.urls')),
         path('/view-history', include('view_history.urls')),
         path('/search-rank', include('search_history.urls')),
     ]))
