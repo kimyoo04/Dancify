@@ -9,14 +9,13 @@ from drf_yasg.utils import swagger_auto_schema
 
 from accounts.serializers import LoginSerializer, RegisterSerializer
 from accounts.authentication import handle_invalid_token
-from accounts.authentication import decode_refresh_token, decode_access_token
+from accounts.authentication import decode_refresh_token
 from accounts.authentication import create_jwt_token
 from accounts.authentication import generate_token
-from accounts.authentication import check_access_token_exp,\
-    validate_access_token, validate_refresh_token
+from accounts.authentication import validate_access_token, validate_refresh_token
 
 REFRESH_TOKEN_EXP = 60 * 60 * 24 * 30
-ACCESS_TOKEN_EXP = 60
+ACCESS_TOKEN_EXP = 20
 
 
 class SignUpView(APIView):
@@ -75,7 +74,6 @@ class SignInView(APIView):
             'message': '로그인에 성공하였습니다.'
         }
         response = JsonResponse(response_data)
-        response.content = response_data
 
         response.set_cookie('Refresh-Token', refresh_token,
                             max_age=REFRESH_TOKEN_EXP, httponly=True)
@@ -117,6 +115,7 @@ class SignOutView(APIView):
 """
 
 
+# /api/auth/user
 class JWTRefreshView(APIView):
     def post(self, request):
         refresh_token = None
@@ -127,18 +126,18 @@ class JWTRefreshView(APIView):
             refresh_token = request.COOKIES['Refresh-Token']
             access_token = request.COOKIES['Access-Token']
 
-            # 1번 시나리오
-            if not validate_refresh_token(refresh_token):
-                response = handle_invalid_token()
-                return response
-
-            # 2번 시나리오, 유효기간 정상이지만 변조되거나 서명이 잘못된경우
-            if check_access_token_exp and not validate_access_token:
-                response = handle_invalid_token()
-                return response
+            """
+            1번 시나리오: 리프레쉬 토큰 변조 확인
+            2번 시나리오, 엑세스 토큰의 유효기간은 쿠키의 유효기간과 같기 때문에 서명은 정상인데 만료된 토큰은 존재할 수 없다.
+            validate_access_token은 만료, 서명의 불일치, 변조된 토큰이면 False를 return한다.
+            """
+            if not validate_refresh_token(refresh_token) or\
+                not validate_access_token(access_token):
+                    response = handle_invalid_token()
+                    return response
 
             # 그 외의 경우에는 토큰 재발급 진행
-            user_info = decode_access_token(access_token)
+            user_info = decode_refresh_token(refresh_token)
             print('토큰 재발급 진행')
             print(user_info)
 
@@ -176,5 +175,15 @@ class JWTRefreshView(APIView):
                                     max_age=REFRESH_TOKEN_EXP, httponly=True)
                 response.set_cookie('Access-Token', new_access_token,
                                     max_age=ACCESS_TOKEN_EXP)
+
+        return response
+
+# 미들웨어 테스트를 위한 테스트 뷰
+class TestView(APIView):
+    def post(self, request):
+        print('test View 실행')
+        json_data = {'test': 'success!'}
+        response = JsonResponse(json_data)
+        print('뷰 응답하기 바로 전')
 
         return response
