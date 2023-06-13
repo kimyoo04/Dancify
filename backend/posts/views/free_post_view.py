@@ -1,3 +1,5 @@
+from django.db.models import F
+
 from rest_framework import status
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
@@ -9,6 +11,7 @@ from ..serializers.free_post_serializers import (
 )
 from .base_post_view import BasePostViewSet
 from ..models import FreePost
+from search_history.models import SearchHistory
 
 
 class FreePostViewSet(BasePostViewSet):
@@ -75,6 +78,18 @@ class FreePostViewSet(BasePostViewSet):
         }
     )
     def list(self, request, *args, **kwargs):
+        q = self.request.GET.get('q', None)
+
+        if q is not None:
+            search_history, created = SearchHistory.objects.update_or_create(
+                search_keyword=q,
+                defaults={'post_category': 'FREE'}
+            )
+
+            if not created:
+                search_history.search_count = F('search_count') + 1
+                search_history.save()
+
         return super().list(request, *args, **kwargs)
 
     @swagger_auto_schema(
