@@ -15,7 +15,7 @@ from accounts.authentication import generate_token
 from accounts.authentication import validate_access_token, validate_refresh_token
 
 REFRESH_TOKEN_EXP = 60 * 60 * 24 * 30
-ACCESS_TOKEN_EXP = 20
+ACCESS_TOKEN_EXP = 60 * 15
 
 
 class SignUpView(APIView):
@@ -131,10 +131,10 @@ class JWTRefreshView(APIView):
             2번 시나리오, 엑세스 토큰의 유효기간은 쿠키의 유효기간과 같기 때문에 서명은 정상인데 만료된 토큰은 존재할 수 없다.
             validate_access_token은 만료, 서명의 불일치, 변조된 토큰이면 False를 return한다.
             """
-            if not validate_refresh_token(refresh_token) or\
-                not validate_access_token(access_token):
-                    response = handle_invalid_token()
-                    return response
+            if (not validate_refresh_token(refresh_token) or not
+                    validate_access_token(access_token)):
+                response = handle_invalid_token()
+                return response
 
             # 그 외의 경우에는 토큰 재발급 진행
             user_info = decode_refresh_token(refresh_token)
@@ -177,6 +177,7 @@ class JWTRefreshView(APIView):
                                     max_age=ACCESS_TOKEN_EXP)
 
         return response
+
 
 # 미들웨어 테스트를 위한 테스트 뷰
 class TestView(APIView):

@@ -9,7 +9,8 @@ from accounts.authentication import generate_token
 from accounts.authentication import validate_access_token, validate_refresh_token
 
 REFRESH_TOKEN_EXP = 60 * 60 * 24 * 30
-ACCESS_TOKEN_EXP = 20
+ACCESS_TOKEN_EXP = 60 * 15
+
 
 class TokenValidateMiddleware(MiddlewareMixin):
     urls = ['/api/auth/test']
@@ -29,11 +30,10 @@ class TokenValidateMiddleware(MiddlewareMixin):
                 2번 시나리오, 엑세스 토큰의 유효기간은 쿠키의 유효기간과 같기 때문에 서명은 정상인데 만료된 토큰은 존재할 수 없다.
                 validate_access_token은 만료, 서명의 불일치, 변조된 토큰이면 False를 return한다.
                 """
-                if not validate_refresh_token(refresh_token) or\
-                    not validate_access_token(access_token):
-                        response = handle_invalid_token()
-                        return response
-
+                if (not validate_refresh_token(refresh_token) or not
+                        validate_access_token(access_token)):
+                    response = handle_invalid_token()
+                    return response
 
                 print('리프레쉬, 엑세스 토큰 모두 정상입니다.')
                 # 위의 시나리오에서 걸러지지 않은 요청은 정상요청이므로 뷰로 흐름을 넘긴다.
@@ -48,12 +48,13 @@ class TokenValidateMiddleware(MiddlewareMixin):
                 elif refresh_token is None:
                     print('리프레쉬 토큰x')
                     return JsonResponse({'messsage':
-                        '리프레쉬 토큰이 존재하지 않아 요청이 거절되었습니다.'})
+                                         '리프레쉬 토큰이 존재하지 않아 요청이 거절되었습니다.'})
 
                 # 쿠키가 만료되어 access_token이 지워졌으므로 재발급 진행
                 elif access_token is None:
                     print('엑세스 토큰이 만료된 상태입니다.')
                     return None
+
 
 class TokenRefreshMiddleware(MiddlewareMixin):
     urls = ['/api/auth/test']
