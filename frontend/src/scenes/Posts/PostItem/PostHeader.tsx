@@ -15,8 +15,9 @@ export default function PostHeader() {
 
       {/* 게시글 쓰기 버튼*/}
       <Link href={"/storage"} className="ml-auto">
-        <Button>
-          <ShoppingBag className="mr-2 h-4 w-4" />내 보관함
+        <Button className="row-center gap-2">
+          <ShoppingBag className="h-4 w-4 text-white dark:text-white" />
+          <span className="text-white dark:text-white">내 보관함</span>
         </Button>
       </Link>
     </div>
