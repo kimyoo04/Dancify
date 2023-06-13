@@ -51,10 +51,10 @@ export interface IFreePostDataArr {
 }
 
 //! 자유게시글 업로드 폼 (확정)
-export interface IPostForm {
+export interface ICreatPostForm {
   title: TTitle;
   content: TContent;
-  postImage: TPostImage;
+  postImage?: TPostImage;
 }
 
 //! 자유게시글 업데이트 폼 (확정)

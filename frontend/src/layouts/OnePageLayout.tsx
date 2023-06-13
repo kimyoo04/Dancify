@@ -10,7 +10,7 @@ export default function OnePageLayout({
     <>
       {/* 메인 영역 */}
       <div>
-        <div className="col-center container mx-auto h-screen w-screen px-4 pb-[70px] pt-20 ">
+        <div className="col-center container mx-auto h-screen w-screen pb-[70px] pt-20 ">
           {children}
         </div>
       </div>

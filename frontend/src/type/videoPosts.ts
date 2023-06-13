@@ -4,7 +4,7 @@ import { TLikesCount } from "./like";
 import {
   TContent,
   TPostId,
-  Tthumbnail,
+  TThumbnail,
   TTitle,
   TVideo,
   TViews,
@@ -18,7 +18,7 @@ export interface IVideoPost {
   nickname: TNickname;
   content: TContent;
   createDate: TcreateDate;
-  thumbnail: Tthumbnail;
+  thumbnail: TThumbnail;
   video: TVideo;
   views: TViews;
   likesCount: TLikesCount;
@@ -42,7 +42,7 @@ export interface IVideoPostDetail {
   nickname: TNickname;
   content: TContent;
   createDate: TcreateDate;
-  thumbnail: Tthumbnail;
+  thumbnail: TThumbnail;
   video: TVideo;
   views: TViews;
   likesCount: TLikesCount;
@@ -54,9 +54,10 @@ export interface IVideoPostDataArr {
 }
 
 //게시글 업로드 폼
-export interface IPostForm {
+export interface ICreatPostForm {
   title: TTitle;
   content: TContent;
+  thumbnail: TThumbnail;
   video: string;
 }
 //게시글 업데이트 폼

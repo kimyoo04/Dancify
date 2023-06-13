@@ -3,11 +3,11 @@ import Header from "./DancerDetailItem/Header";
 import Content from "./DancerDetailItem/Content";
 import ScrollButton from "@components/ScrollButton";
 
-import { useReadVideoPost } from "@api/posts/readVideoPost";
+import { useReadDancerPost } from "@api/posts/readDancerPost";
 
-export default function VideoPostDetail({ id }: { id: string }) {
+export default function DancerPostDetail({ id }: { id: string }) {
   // 게시글 불어오기
-  const { data, isLoading, error } = useReadVideoPost(id);
+  const { data, isLoading, error } = useReadDancerPost(id);
 
   return (
     <>
