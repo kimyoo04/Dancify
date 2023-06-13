@@ -1,3 +1,5 @@
+from django.db.models import F
+
 from rest_framework import status
 from rest_framework.response import Response
 from drf_yasg import openapi
@@ -14,6 +16,7 @@ from .base_post_view import BasePostViewSet
 from ..models import DancerPost
 from accounts.models import User
 from view_history.models import ViewHistory
+from search_history.models import SearchHistory
 
 
 class DancerPostViewSet(BasePostViewSet):
@@ -83,6 +86,18 @@ class DancerPostViewSet(BasePostViewSet):
         }
     )
     def list(self, request, *args, **kwargs):
+        q = self.request.GET.get('q', None)
+
+        if q is not None:
+            search_history, created = SearchHistory.objects.update_or_create(
+                search_keyword=q,
+                defaults={'post_category': 'DANCER'}
+            )
+
+            if not created:
+                search_history.search_count = F('search_count') + 1
+                search_history.save()
+
         return super().list(request, *args, **kwargs)
 
     @swagger_auto_schema(
