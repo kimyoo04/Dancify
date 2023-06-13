@@ -1,18 +1,21 @@
 from django.http import JsonResponse
 
 from rest_framework.views import APIView
+from rest_framework.generics import UpdateAPIView
 from rest_framework import status, serializers
 from rest_framework_simplejwt.exceptions import TokenError
 from rest_framework_simplejwt.tokens import RefreshToken
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 
-from accounts.serializers import LoginSerializer, RegisterSerializer
+from accounts.serializers import LoginSerializer, RegisterSerializer, \
+    ProfileSerializer
 from accounts.authentication import handle_invalid_token
 from accounts.authentication import decode_refresh_token
 from accounts.authentication import create_jwt_token
 from accounts.authentication import generate_token
 from accounts.authentication import validate_access_token, validate_refresh_token
+from accounts.models import User
 
 REFRESH_TOKEN_EXP = 60 * 60 * 24 * 30
 ACCESS_TOKEN_EXP = 60 * 15
@@ -188,3 +191,27 @@ class TestView(APIView):
         print('뷰 응답하기 바로 전')
 
         return response
+
+class UpdateProfileView(UpdateAPIView):
+    serializer_class = ProfileSerializer
+    queryset = User.objects.all()
+
+    def partial_update(self, request, *args, **kwargs):
+        try:
+            email = request.data['email']
+            instance = self.queryset.get(email=email)
+
+            serializer = self.get_serializer(instance, data=request.data, partial=True)
+            serializer.is_valid(raise_exception=True)
+            serializer.save()
+            response_data = '자기소개가 수정되었습니다.'
+
+        except User.DoesNotExist:
+            response_data = '존재하지 않는 유저 정보입니다.'
+            return JsonResponse({'message': response_data}, status=
+                                status.HTTP_400_BAD_REQUEST)
+
+        return JsonResponse({'message': response_data})
+
+class UpdateProfileImageView(APIView):
+    pass
