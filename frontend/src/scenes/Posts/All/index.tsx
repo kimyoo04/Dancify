@@ -3,7 +3,7 @@ import { ScrollArea, ScrollBar } from "@components/ui/scroll-area";
 import ViewMore from "../PostItem/ViewMore";
 
 import VideoPostLoader from "../Video/VideoItem/VideoPostLoader";
-import VideoPostItem from "../Video/VideoItem/VideoPostItem";
+import PreviewVideoPosts from "./PreviewVideoPosts";
 import { useReadVideoPostsPerPage } from "@api/posts/readVideoPostsPerPage";
 
 import FreePostLoader from "../Free/FreeItem/FreePostLoader";
@@ -56,7 +56,7 @@ export default function AllPosts() {
               videoData && (
                 <ul className="flex space-x-4 pb-4">
                   {videoData?.pages[0].data.slice(0, 10).map((videoData) => (
-                    <VideoPostItem
+                    <PreviewVideoPosts
                       key={videoData.postId}
                       data={videoData}
                       width={250}
