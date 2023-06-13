@@ -192,6 +192,7 @@ class TestView(APIView):
 
         return response
 
+
 class UpdateProfileView(UpdateAPIView):
     serializer_class = ProfileSerializer
     queryset = User.objects.all()
@@ -208,10 +209,11 @@ class UpdateProfileView(UpdateAPIView):
 
         except User.DoesNotExist:
             response_data = '존재하지 않는 유저 정보입니다.'
-            return JsonResponse({'message': response_data}, status=
-                                status.HTTP_400_BAD_REQUEST)
+            return JsonResponse({'message': response_data},
+                                status=status.HTTP_400_BAD_REQUEST)
 
         return JsonResponse({'message': response_data})
+
 
 class UpdateProfileImageView(APIView):
     pass
