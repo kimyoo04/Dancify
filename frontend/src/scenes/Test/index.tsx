@@ -74,7 +74,7 @@ export default function Test() {
     const model = await poseDetection.SupportedModels.MoveNet;
     const detector = await poseDetection.createDetector(model);
 
-    let indx = 0;
+    let indx = 1;
 
     setInterval(async () => {
       const dancable = await detect(detector);
@@ -94,8 +94,8 @@ export default function Test() {
         console.log("error");
       }
       //다음 이미지 비교
-      indx += 60;
-    }, 2000); //30FPS
+      indx += 1;
+    }, 1000 / dancer_json[0]);
     // Clean up the interval when the component unmounts
   };
 
