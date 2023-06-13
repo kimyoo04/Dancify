@@ -5,4 +5,4 @@ export type TViews = number;
 export type TcreateDate = string;
 export type TPostImage = string | null;
 export type TVideo = string;
-export type Tthumbnail = string;
+export type TThumbnail = string;
