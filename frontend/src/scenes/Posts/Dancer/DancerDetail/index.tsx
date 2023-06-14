@@ -1,9 +1,9 @@
 import Loading from "@components/Loading";
 import Header from "./DancerDetailItem/Header";
-import Content from "./DancerDetailItem/Content";
 import ScrollButton from "@components/ScrollButton";
 
 import { useReadDancerPost } from "@api/posts/readDancerPost";
+import PostContent from "@scenes/Posts/PostItem/PostContent";
 
 export default function DancerPostDetail({ id }: { id: string }) {
   // 게시글 불어오기
@@ -24,7 +24,7 @@ export default function DancerPostDetail({ id }: { id: string }) {
           <Header data={data} />
 
           {/* 게시글 내용 */}
-          <Content data={data.content} />
+          <PostContent content={data.content} />
         </div>
       )}
 

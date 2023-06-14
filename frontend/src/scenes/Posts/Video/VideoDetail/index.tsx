@@ -1,9 +1,9 @@
 import Loading from "@components/Loading";
 import Header from "./VideoDetailItem/Header";
-import Content from "./VideoDetailItem/Content";
 import ScrollButton from "@components/ScrollButton";
 
 import { useReadVideoPost } from "@api/posts/readVideoPost";
+import PostContent from "@scenes/Posts/PostItem/PostContent";
 
 export default function VideoPostDetail({ id }: { id: string }) {
   // 게시글 불어오기
@@ -24,7 +24,7 @@ export default function VideoPostDetail({ id }: { id: string }) {
           <Header data={data} />
 
           {/* 게시글 내용 */}
-          <Content data={data.content} />
+          <PostContent content={data.content} />
         </div>
       )}
 
