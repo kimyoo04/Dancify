@@ -11,7 +11,7 @@ export default function DetailPageLayout({
     <>
       {/* 메인 영역 */}
       <main>
-        <div className="col-center pb-20 pt-20 md:pb-0">
+        <div className="col-center container pb-20 pt-20 md:pb-0">
           {children}
           <Footer />
         </div>
