@@ -18,7 +18,7 @@ import { useAppDispatch, useAppSelector } from "@toolkit/hook";
 const TitleForm = () => {
   const [isLoading] = useState<boolean>(false);
   const dispatch = useAppDispatch();
-  const postContent = useAppSelector((state) => state.post.postContent);
+  const postTitle = useAppSelector((state) => state.post.postTitle);
 
   const form = useForm<IPostTitleForm>();
   const onSubmit = async (data: IPostTitleForm) => {
@@ -62,7 +62,7 @@ const TitleForm = () => {
                       autoCapitalize="none"
                       autoComplete="false"
                       autoCorrect="off"
-                      defaultValue={postContent !== "" ? postContent : ""}
+                      defaultValue={postTitle !== "" ? postTitle : ""}
                       disabled={isLoading}
                       {...field}
                       onChange={(data) => {
