@@ -23,7 +23,8 @@ def decode_refresh_token(refresh_token):
     payload = refresh_token_obj.payload
 
     user_info = {'userId': payload['userId'], 'nickname': payload['nickname'],
-                 'isDancer': payload['isDancer'], 'profileImage': payload['profileImage']}
+                 'isDancer': payload['isDancer'], 'profileImage': payload['profileImage'],
+                 'description': payload['description']}
 
     return user_info
 
@@ -34,7 +35,8 @@ def decode_access_token(access_token):
     payload = access_token_obj.payload
 
     user_info = {'userId': payload['userId'], 'nickname': payload['nickname'],
-                 'isDancer': payload['isDancer'], 'profileImage': payload['profileImage']}
+                 'isDancer': payload['isDancer'], 'profileImage': payload['profileImage'],
+                 'description': payload['description']}
 
     return user_info
 
@@ -48,6 +50,7 @@ def create_jwt_token(user_id, token_type, user_info={}):
             user_info['nickname'] = user.nickname
             user_info['isDancer'] = user.is_dancer
             user_info['profileImage'] = user.profile_image
+            user_info['description'] = user.description
 
         if token_type == 'refresh':
             print('리프레쉬 토큰 발급')

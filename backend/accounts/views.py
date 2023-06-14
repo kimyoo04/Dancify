@@ -7,12 +7,14 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 
-from accounts.serializers import LoginSerializer, RegisterSerializer
+from accounts.serializers import LoginSerializer, RegisterSerializer, \
+    ProfileSerializer
 from accounts.authentication import handle_invalid_token
-from accounts.authentication import decode_refresh_token
+from accounts.authentication import decode_refresh_token, decode_access_token
 from accounts.authentication import create_jwt_token
 from accounts.authentication import generate_token
 from accounts.authentication import validate_access_token, validate_refresh_token
+from accounts.models import User
 
 REFRESH_TOKEN_EXP = 60 * 60 * 24 * 30
 ACCESS_TOKEN_EXP = 60 * 15
@@ -188,3 +190,27 @@ class TestView(APIView):
         print('뷰 응답하기 바로 전')
 
         return response
+
+
+class UpdateProfileView(APIView):
+    def patch(self, request):
+        access_token = self.request.COOKIES['Access-Token']
+        user_info = decode_access_token(access_token)
+        user_id = user_info['userId']
+        user = User.objects.get(user_id=user_id)
+
+        description_data = {'description': user_info['description']}
+        serializer = ProfileSerializer(user, data=description_data, partial=True)  # type: ignore
+        try:
+            serializer.is_valid(raise_exception=True)
+            serializer.save()
+            response = JsonResponse({'message': '자기소개가 수정되었습니다.'})
+        except serializers.ValidationError:
+            response = JsonResponse({'message': '자기소개 수정에 실패하였습니다.'},
+                                    status=status.HTTP_401_UNAUTHORIZED)
+
+            return response
+
+
+class UpdateProfileImageView(APIView):
+    pass

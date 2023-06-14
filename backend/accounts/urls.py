@@ -1,5 +1,6 @@
-from django.urls import path
-from accounts.views import SignInView, SignOutView, SignUpView, JWTRefreshView
+from django.urls import path, include
+from accounts.views import SignInView, SignOutView, SignUpView,\
+    JWTRefreshView, UpdateProfileView, UpdateProfileImageView
 from accounts.views import TestView
 
 urlpatterns = [
@@ -8,4 +9,8 @@ urlpatterns = [
     path('/logout', SignOutView.as_view()),
     path('/user', JWTRefreshView.as_view()),
     path('/test', TestView.as_view()),
+    path('/profile', include([
+        path('', UpdateProfileView.as_view()),
+        path('/image', UpdateProfileImageView.as_view()),
+    ])),
 ]
