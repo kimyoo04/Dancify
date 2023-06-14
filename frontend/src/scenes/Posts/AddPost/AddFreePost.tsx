@@ -14,13 +14,19 @@ export default function AddFreePost() {
   const { mutateAsync } = useCreateFreePostMutation();
 
   const onSubmit = async () => {
+    // title, content 필수
     if (postTitle.length < 3 || postContent.length < 3) return;
 
     const formData = new FormData();
-    if (imageFile) formData.append("files", imageFile);
+
+    // 이미지파일 넣기
+    if (imageFile) formData.append("postImage", imageFile);
+
+    // 제목과 내용 넣기
     formData.append("title", postTitle);
     formData.append("content", postContent);
 
+    // POST 요청
     mutateAsync(formData);
     await new Promise((resolve) => setTimeout(resolve, 500));
 

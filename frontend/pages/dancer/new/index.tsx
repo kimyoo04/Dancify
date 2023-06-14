@@ -1,10 +1,10 @@
-import OnePageLayout from "@layouts/OnePageLayout";
+import MainLayout from "@layouts/MainLayout";
 import AddDancerPost from "@scenes/Posts/AddPost/AddDancerPost";
 
 export default function CreatePostPage() {
   return (
-    <OnePageLayout>
+    <MainLayout>
       <AddDancerPost />
-    </OnePageLayout>
+    </MainLayout>
   );
 }

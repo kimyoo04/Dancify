@@ -1,40 +1,42 @@
-import { useCallback } from "react";
+import { RefObject, useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 import { Button } from "@components/ui/button";
 
-interface IUploadImageProps {
+interface IUploadVideoProps {
+  videoRef: RefObject<HTMLVideoElement>;
   fileName: string;
   setFileName: React.Dispatch<React.SetStateAction<string>>;
-  setImageFile: React.Dispatch<React.SetStateAction<File | undefined>>;
+  setVideoFile: React.Dispatch<React.SetStateAction<File | undefined>>;
 }
 
-export default function UploadImage({
+export default function UploadVideo({
+  videoRef,
   fileName,
   setFileName,
-  setImageFile,
-}: IUploadImageProps) {
+  setVideoFile,
+}: IUploadVideoProps) {
   const onDrop = useCallback((acceptedFiles: File[]) => {
     // 넣은 파일과 파일명을 state에 저장
-    const imageName = acceptedFiles.map((file: File) => {
+    const videoName = acceptedFiles.map((file: File) => {
       return file.name;
     });
-    setImageFile(acceptedFiles[0]);
-    setFileName(imageName[0]);
+    setVideoFile(acceptedFiles[0]);
+    setFileName(videoName[0]);
   }, []);
 
   const { getRootProps, getInputProps } = useDropzone({
-    accept: { "image/jpeg": [], "image/png": [] },
+    accept: { "video/mp4": [] },
     noKeyboard: true,
     multiple: false,
     maxFiles: 1,
-    maxSize: 5 * 1024 * 1024, // 5mb
+    maxSize: 100 * 1024 * 1024, // 100mb
     onDrop,
   });
 
   // 이미지 초기화 버튼
   const onReset = () => {
     setFileName("");
-    setImageFile(undefined);
+    setVideoFile(undefined);
   };
 
   return (
@@ -45,9 +47,10 @@ export default function UploadImage({
         {...getRootProps()}
       >
         <input {...getInputProps()} />
+        <video ref={videoRef} controls style={{ display: "none" }} />
         <div className="row-center gap-2">
-          <i className="ri-image-add-line text-xl text-muted-foreground"></i>
-          <span className="w-full text-muted-foreground">이미지 선택</span>
+          <i className="ri-video-upload-line text-xl text-muted-foreground"></i>
+          <span className="w-full text-muted-foreground">동영상-MP4 선택</span>
         </div>
         <p className="text-xs text-muted-foreground">
           또는 여기로 파일을 끌어오세요.

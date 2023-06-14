@@ -1,10 +1,10 @@
-import OnePageLayout from "@layouts/OnePageLayout";
+import MainLayout from "@layouts/MainLayout";
 import AddFreePost from "@scenes/Posts/AddPost/AddFreePost";
 
 export default function CreatePostPage() {
   return (
-    <OnePageLayout>
+    <MainLayout>
       <AddFreePost />
-    </OnePageLayout>
+    </MainLayout>
   );
 }
