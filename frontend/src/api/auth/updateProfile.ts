@@ -1,9 +1,9 @@
 import axios from "@api/axiosInstance";
 import { IProfileInfoForm } from "@type/auth";
 
-export const putProfile = async (data: IProfileInfoForm) => {
+export const updateProfile = async (data: IProfileInfoForm) => {
   try {
-    const response = await axios.put("/auth/profile", {
+    const response = await axios.patch("/auth/profile", {
       userId: data.userId,
       nickname: data.nickname,
       email: data.email,

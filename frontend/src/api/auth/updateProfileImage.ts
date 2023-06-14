@@ -1,9 +1,9 @@
 import axios from "@api/axiosInstance";
 import { IProfileImageForm } from "@type/auth";
 
-export const putProfileImage = async (data: IProfileImageForm) => {
+export const updateProfileImage = async (data: IProfileImageForm) => {
   try {
-    const response = await axios.put("/auth/profile/image", {
+    const response = await axios.patch("/auth/profile/image", {
       profileImage: data.profileImage,
     });
 
