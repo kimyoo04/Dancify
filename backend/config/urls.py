@@ -11,6 +11,7 @@ from rest_framework.routers import SimpleRouter
 
 router = SimpleRouter(trailing_slash=False)
 
+
 class CheerUpView(View):
     def get(self, request):
         return JsonResponse({'message': '하고싶은 것 다하조 화이팅!'})

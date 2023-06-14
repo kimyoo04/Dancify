@@ -2,6 +2,7 @@ import uuid
 
 from django.db import models
 
+
 class SearchHistory(models.Model):
     search_history_id = models.UUIDField(primary_key=True,
                                          default=uuid.uuid4,
