@@ -7,7 +7,7 @@ export const readVideoPost = async (id: string) => {
     const response = await axios.get(`/posts/video/${id}`);
     return response.data;
   } catch (err) {
-    console.log("🚀 readPost.tsx", err);
+    console.log("🚀 readVideoPost.tsx", err);
     return { data: [] };
   }
 };
