@@ -69,8 +69,8 @@ class SignInView(APIView):
         # if user.jwt_token:
 
         # 로그인 : 토큰 발급
-        refresh_token = create_jwt_token(user_id_json, 'refresh')
-        acccess_token = create_jwt_token(user_id_json, 'access')
+        refresh_token = create_jwt_token(user_id_json, 'refresh', {})
+        acccess_token = create_jwt_token(user_id_json, 'access', {})
 
         response_data = {
             'message': '로그인에 성공하였습니다.'
