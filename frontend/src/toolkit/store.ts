@@ -5,6 +5,7 @@ import searchReducer from "@features/search/searchSlice";
 import likeReducer from "@features/like/likeSlice";
 import filterReducer from "@features/filter/filterSlice";
 import postReducer from "@features/post/postSlice";
+import commentReducer from "@features/comment/commentSlice";
 
 export const store = configureStore({
   reducer: {
@@ -13,6 +14,7 @@ export const store = configureStore({
     like: likeReducer,
     filter: filterReducer,
     post: postReducer,
+    comment: commentReducer,
   },
   // middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
 });

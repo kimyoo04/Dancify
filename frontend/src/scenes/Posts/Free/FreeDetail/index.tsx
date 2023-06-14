@@ -5,6 +5,7 @@ import ScrollButton from "@components/ScrollButton";
 
 import { useReadFreePost } from "@api/posts/readFreePost";
 import PostImage from "./FreeDetailItem/PostImage";
+import Comments from "@components/Comments";
 
 export default function FreePostDetail({ id }: { id: string }) {
   // 게시글 불어오기
@@ -20,7 +21,7 @@ export default function FreePostDetail({ id }: { id: string }) {
 
       {/* 데이터가 있을 경우 화면 표시 */}
       {data && (
-        <div className="mx-auto w-full max-w-screen-lg rounded-2xl p-6">
+        <div className="mx-auto w-full max-w-screen-lg rounded-2xl">
           {/* 게시글 해더 */}
           <Header data={data} />
 
@@ -29,6 +30,8 @@ export default function FreePostDetail({ id }: { id: string }) {
 
           {/* 게시글 내용 */}
           <PostContent content={data.content} className="py-4" />
+
+          <Comments data={data.comments} />
         </div>
       )}
 
