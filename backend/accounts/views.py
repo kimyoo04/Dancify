@@ -10,9 +10,9 @@ from drf_yasg.utils import swagger_auto_schema
 from accounts.serializers import LoginSerializer, RegisterSerializer, \
     ProfileSerializer, ProfileImageSerializer
 from accounts.authentication import handle_invalid_token
-from accounts.authentication import decode_refresh_token, decode_access_token
+from accounts.authentication import decode_refresh_token
 from accounts.authentication import create_jwt_token
-from accounts.authentication import generate_token
+from accounts.authentication import generate_token, get_user_info_from_token
 from accounts.authentication import validate_access_token, validate_refresh_token
 from accounts.models import User
 
@@ -194,10 +194,8 @@ class TestView(APIView):
 
 class UpdateProfileView(APIView):
     def patch(self, request):
-        access_token = self.request.COOKIES['Access-Token']
-        user_info = decode_access_token(access_token)
-        user_id = user_info['userId']
-        user = User.objects.get(user_id=user_id)
+        user_info = get_user_info_from_token(self.request)
+        user = User.objects.get(user_id=user_info['userId'])
 
         serializer = ProfileSerializer(user, data=user_info, partial=True)  # type: ignore
         try:
@@ -213,10 +211,8 @@ class UpdateProfileView(APIView):
 
 class UpdateProfileImageView(APIView):
     def patch(self, request):
-        access_token = self.request.COOKIES['Access-Token']
-        user_info = decode_access_token(access_token)
-        user_id = user_info['userId']
-        user = User.objects.get(user_id=user_id)
+        user_info = get_user_info_from_token(self.request)
+        user = User.objects.get(user_id=user_info['userId'])
 
         serializer = ProfileImageSerializer(user, data=user_info, partial=True)  # type: ignore
         try:
