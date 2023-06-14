@@ -1,5 +1,6 @@
 import { TNickname, TUserId } from "./auth";
 import { TPostId } from "./posts";
+import * as z from "zod";
 
 // 댓글 데이터
 export interface IComment {
@@ -36,3 +37,17 @@ export type TCommentId = string;
 export type TContent = string;
 export type TCreateDate = string;
 export type TCommentCount = number;
+
+export const commentFormSchema = z.object({
+  content: z
+    .string({
+      required_error: "내용을 입력해 주세요.",
+    })
+    .min(3, {
+      message: "최소 세 글자 이상 입력해 주세요.",
+    })
+    .max(300, {
+      message: "최대 300 글자까지 입력할 수 있어요.",
+    }),
+});
+export type CommentFormValues = z.infer<typeof commentFormSchema>;
