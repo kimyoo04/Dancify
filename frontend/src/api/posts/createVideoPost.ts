@@ -1,5 +1,7 @@
 import axios from "@api/axiosInstance";
+import { postActions } from "@features/post/postSlice";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { store } from "@toolkit/store";
 import { useRouter } from "next/router";
 
 // 자유게시글 Create
@@ -29,6 +31,7 @@ export const useCreateVideoPostMutation = () => {
       await queryClient.invalidateQueries({
         queryKey: [`/posts/video`],
       });
+      store.dispatch(postActions.finishWriting());
       router.push("/posts/video");
     },
     onError: (err) => {

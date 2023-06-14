@@ -5,6 +5,8 @@ import { cn } from "@lib/utils";
 import { Eye, MessageSquare, ThumbsUp } from "lucide-react";
 import { IFreePost } from "@type/freePosts";
 import { timeYmd } from "@util/dateTime";
+import PostContent from "@scenes/Posts/PostItem/PostContent";
+import extractPTags from "@util/extractPTags";
 
 interface FreePostItemProps {
   data: IFreePost;
@@ -20,17 +22,10 @@ export default function FreePostItem({ data }: FreePostItemProps) {
         {/* 제목 | 내용 */}
         <div className="w-fit space-y-1">
           <h3 className="text-lg font-medium leading-none">{data.title}</h3>
-          <div>
-            {data.content.length > 70 ? (
-              <span className="md:text-md w-fit text-sm text-muted-foreground">
-                {data.content.slice(0, 70)}...
-              </span>
-            ) : (
-              <span className="md:text-md w-fit text-sm text-muted-foreground">
-                {data.content}
-              </span>
-            )}
-          </div>
+          <PostContent
+            content={extractPTags(data.content) + "..."}
+            textClassName="w-fit text-sm text-muted-foreground"
+          />
         </div>
 
         {/* 포스트 이미지 */}
