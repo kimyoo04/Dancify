@@ -124,3 +124,19 @@ def handle_invalid_token():
                         max_age=ACCESS_TOKEN_EXP)
 
     return response
+
+
+def get_user_info_from_token(request, token_type='access'):
+
+    if token_type == 'access':
+        access_token = request.COOKIES['Access-Token']
+        user_info = decode_access_token(access_token)
+
+    elif token_type == 'refresh':
+        refresh_token = request.COOKIES['Refresh-Token']
+        user_info = decode_refresh_token(refresh_token)
+
+    else:
+        raise ValueError('잘못된 토큰 타입')
+
+    return user_info

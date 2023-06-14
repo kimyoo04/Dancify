@@ -102,3 +102,12 @@ class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['description']
+
+
+class ProfileImageSerializer(serializers.ModelSerializer):
+
+    profileImage = serializers.URLField(source='profile_image')
+
+    class Meta:
+        model = User
+        fields = ['profileImage']
