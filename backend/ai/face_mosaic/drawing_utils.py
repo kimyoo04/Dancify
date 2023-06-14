@@ -1,3 +1,5 @@
+#face_mosaic.py를 위해 작성된 파일입니다. 무시하셔도 됩니다.
+
 import math
 from typing import List, Mapping, Optional, Tuple, Union
 
