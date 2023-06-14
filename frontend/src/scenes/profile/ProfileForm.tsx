@@ -1,50 +1,33 @@
-import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@components/ui/form";
 import { useForm } from "react-hook-form";
-import * as z from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { ProfileFormValues, profileFormSchema } from "@type/auth";
 
 import { Button } from "@components/ui/button";
 import { Input } from "@components/ui/input";
 import { Textarea } from "@components/ui/textarea";
 
 import { useToast } from "@components/ui/use-toast";
-
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@components/ui/form";
-
-const profileFormSchema = z.object({
-  nickname: z
-    .string()
-    .min(2, {
-      message: "Nickname must be at least 2 characters.",
-    })
-    .max(30, {
-      message: "Nickname must not be longer than 30 characters.",
-    }),
-  email: z
-    .string({
-      required_error: "Please type an email to display.",
-    })
-    .email("Not a valid email"),
-  description: z.string().max(160).min(4),
-});
-
-type ProfileFormValues = z.infer<typeof profileFormSchema>;
-
-//! This can come from your database or API.
-const defaultValues: Partial<ProfileFormValues> = {
-  nickname: "",
-  email: "",
-  description: "",
-};
+import { useReadProfile } from "@api/auth/readProfile";
+import { useState } from "react";
 
 export default function ProfileForm() {
+  const [isLoading] = useState<boolean>(false);
+  const { data } = useReadProfile();
+
+  const defaultValues: Partial<ProfileFormValues> = {
+    nickname: data?.nickname && "",
+    email: data?.email && "",
+    description: data?.description && "",
+  };
+
   const form = useForm<ProfileFormValues>({
     resolver: zodResolver(profileFormSchema),
     defaultValues,
@@ -56,12 +39,8 @@ export default function ProfileForm() {
   function onSubmit(data: ProfileFormValues) {
     console.log(data);
     toast({
-      title: "You submitted the following values:",
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
+      title: "Success",
+      description: "성공적으로 프로필 정보가 수정되었습니다.",
     });
   }
 
@@ -73,14 +52,10 @@ export default function ProfileForm() {
           name="nickname"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Nickname</FormLabel>
+              <FormLabel>닉네임</FormLabel>
               <FormControl>
-                <Input placeholder="nickname" {...field} />
+                <Input placeholder="2글자 이상" {...field} />
               </FormControl>
-              <FormDescription>
-                This is your public display name. It can be your real name or a
-                pseudonym. You can only change this once every 30 days.
-              </FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -90,13 +65,10 @@ export default function ProfileForm() {
           name="email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Email</FormLabel>
+              <FormLabel>이메일</FormLabel>
               <FormControl>
-                <Input placeholder="email" {...field} />
+                <Input placeholder="exmaple@email.com" {...field} />
               </FormControl>
-              <FormDescription>
-                You can manage verified email addresses in your email settings.
-              </FormDescription>
               <FormMessage />
             </FormItem>
           )}
@@ -106,23 +78,20 @@ export default function ProfileForm() {
           name="description"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Description</FormLabel>
+              <FormLabel>자기소개</FormLabel>
               <FormControl>
                 <Textarea
-                  placeholder="Tell us a little bit about yourself"
-                  className="resize-none"
+                  placeholder="다른 댄서블에게 소개할 말을 적어주세요."
                   {...field}
                 />
               </FormControl>
-              <FormDescription>
-                You can <span>@mention</span> other users and organizations to
-                link to them.
-              </FormDescription>
               <FormMessage />
             </FormItem>
           )}
         />
-        <Button type="submit">Update profile</Button>
+        <Button disabled={isLoading} type="submit">
+          프로필 정보 수정
+        </Button>
       </form>
     </Form>
   );

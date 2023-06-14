@@ -5,7 +5,7 @@ export default function Profile() {
   //! JWT에서 데이터 받아오기
 
   return (
-    <div>
+    <div className="w-full max-w-lg">
       <ProfileImage />
       <ProfileForm />
     </div>
