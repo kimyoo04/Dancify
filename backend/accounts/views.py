@@ -8,7 +8,7 @@ from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 
 from accounts.serializers import LoginSerializer, RegisterSerializer, \
-    ProfileSerializer
+    ProfileSerializer, ProfileImageSerializer
 from accounts.authentication import handle_invalid_token
 from accounts.authentication import decode_refresh_token, decode_access_token
 from accounts.authentication import create_jwt_token
@@ -199,18 +199,32 @@ class UpdateProfileView(APIView):
         user_id = user_info['userId']
         user = User.objects.get(user_id=user_id)
 
-        description_data = {'description': user_info['description']}
-        serializer = ProfileSerializer(user, data=description_data, partial=True)  # type: ignore
+        serializer = ProfileSerializer(user, data=user_info, partial=True)  # type: ignore
         try:
             serializer.is_valid(raise_exception=True)
             serializer.save()
-            response = JsonResponse({'message': '자기소개가 수정되었습니다.'})
+            response = JsonResponse({'message': '프로필이 수정되었습니다.'})
         except serializers.ValidationError:
-            response = JsonResponse({'message': '자기소개 수정에 실패하였습니다.'},
+            response = JsonResponse({'message': '프로필 수정에 실패하였습니다.'},
                                     status=status.HTTP_401_UNAUTHORIZED)
 
-            return response
+        return response
 
 
 class UpdateProfileImageView(APIView):
-    pass
+    def patch(self, request):
+        access_token = self.request.COOKIES['Access-Token']
+        user_info = decode_access_token(access_token)
+        user_id = user_info['userId']
+        user = User.objects.get(user_id=user_id)
+
+        serializer = ProfileImageSerializer(user, data=user_info, partial=True)  # type: ignore
+        try:
+            serializer.is_valid(raise_exception=True)
+            serializer.save()
+            response = JsonResponse({'message': '프로필 이미지가 수정되었습니다.'})
+        except serializers.ValidationError:
+            response = JsonResponse({'message': '잘못된 url 요청입니다.'},
+                                    status=status.HTTP_400_BAD_REQUEST)
+
+        return response
