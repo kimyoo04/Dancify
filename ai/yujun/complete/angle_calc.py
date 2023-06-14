@@ -1,6 +1,7 @@
-from typing import Any, Dict, List
 import numpy as np
+import json
 
+from typing import Any, Dict, List
 
 # get_keypoints(json_data): json_data에서 얼굴 부분을 제외한 keypoint 정보 추출하는 함수
 # compute_vector_angle(p1, p2, p3): 추출한 keypoint의 세 점을 입력하여 세 점의 벡터 사이 끼인 각을 구하는 함수
@@ -113,3 +114,49 @@ def calculate_joint_angles(keypoint_list: List[List[List[float]]]) -> List[Dict[
         frame_no += 1
 
     return joint_angle_list
+
+
+def load_keypoints_from_json(file_path: str) -> List[Dict[str, Any]]:
+    """
+    주어진 파일 경로로부터 JSON 파일을 읽고, 키포인트 정보를 추출하여 리스트로 반환합니다.
+
+    Args:
+        file_path (str): JSON 파일의 경로
+
+    Returns:
+        List[Dict[str, Any]]: 키포인트 정보를 담고 있는 딕셔너리의 리스트
+    """
+    with open(file_path, 'r') as f:
+        data = json.load(f)
+        keypoints = get_keypoints(data)
+    return keypoints                        # type: ignore
+
+
+def calculate_angle_difference(dancer_json_path: str, danceable_json_path: str) -> List[List[float]]:
+    """
+    두 개의 JSON 파일로부터 키포인트 정보를 로드하여 관절 각도 차이를 계산합니다.
+
+    Args:
+        dancer_json_path (str): 춤추는 사람의 JSON 파일 경로
+        danceable_json_path (str): 춤을 추는 사람의 JSON 파일 경로
+
+    Returns:
+        List[List[float]]: 관절 각도의 차이를 담고 있는 리스트
+    """
+    dancer = load_keypoints_from_json(dancer_json_path)
+    danceable = load_keypoints_from_json(danceable_json_path)
+
+    dancer_joint = calculate_joint_angles(dancer)           # type: ignore
+    danceable_joint = calculate_joint_angles(danceable)     # type: ignore
+
+    joint_list = ['left_pelvic_joint', 'right_pelvic_joint', 'left_shoulder_joint', 'right_shoulder_joint',
+                  'left_elbow_joint', 'right_elbow_joint', 'left_knee_joint', 'right_knee_joint']
+
+    diff_list = []
+
+    for dancer_joint_item, danceable_joint_item in zip(dancer_joint, danceable_joint):
+        diff = [abs(dancer_joint_item[joint] - danceable_joint_item[joint])
+                for joint in joint_list]
+        diff_list.append(list(diff))
+
+    return diff_list
