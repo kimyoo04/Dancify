@@ -89,7 +89,7 @@ class DancerPostGetRetrieveSerializer(serializers.ModelSerializer):
             return False
 
     def get_comments(self, instance):
-        comments = Comment.objects.filter(post_id=instance.post_id)
+        comments = Comment.objects.filter(post_id=instance.post_id).order_by('create_date')
         # 직렬화하기 위해 리스트로 변환
         serialized_comments = []
         for comment in comments:
