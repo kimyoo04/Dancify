@@ -26,6 +26,7 @@ def decode_refresh_token(refresh_token):
                  'isDancer': payload['isDancer'], 'profileImage': payload['profileImage'],
                  'description': payload['description']}
 
+    print('리프레쉬 토큰 디코드: ', user_info['userId'])
     return user_info
 
 
@@ -38,10 +39,11 @@ def decode_access_token(access_token):
                  'isDancer': payload['isDancer'], 'profileImage': payload['profileImage'],
                  'description': payload['description']}
 
+    print('엑세스 토큰 디코드: ', user_info['userId'])
     return user_info
 
 
-def create_jwt_token(user_id, token_type, user_info={}):
+def create_jwt_token(user_id, token_type, user_info):
     token = None
     try:
         if not user_info:
