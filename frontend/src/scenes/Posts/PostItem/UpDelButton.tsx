@@ -48,7 +48,7 @@ export default function UpDelButton(postId: { postId: TPostId }) {
 
       {/* 수정 삭제 버튼 */}
       {isToggle ? (
-        <div className="absolute right-0 z-10 w-36 gap-2 rounded-md border p-2">
+        <div className="absolute right-0 z-10 w-36 gap-2 rounded-md border bg-background p-2">
           {isDel ? (
             <div className="row-between w-full">
               <Button variant={"destructive"} onClick={() => onValid()}>
