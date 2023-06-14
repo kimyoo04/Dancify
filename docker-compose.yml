@@ -18,9 +18,39 @@ services:
       DJANGO_LANGUAGE_CODE: ${DJANGO_LANGUAGE_CODE}
       DJANGO_NEXTJS_URL: ${DJANGO_NEXTJS_URL}
       TZ: "Asia/Seoul"
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_ROOT_HOST: ${MYSQL_HOST}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     restart: always
     ports:
       - "8000:8000"
+    networks:
+      - server-network
+    depends_on:
+      - mysqldb
+
+  mysqldb:
+    container_name: mysqldb
+    build:
+      context: ./mysqldb
+      dockerfile: Dockerfile
+    image: mysql
+    restart: always
+    command:
+      - "--character-set-server=utf8mb4"
+      - "--collation-server=utf8mb4_unicode_ci"
+      - "--default-authentication-plugin=mysql_native_password"
+    volumes:
+      - ./mysqldb/db:/var/lib/mysql
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_HOST: ${MYSQL_HOST}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      TZ: "Asia/Seoul"
     networks:
       - server-network
 
