@@ -5,11 +5,8 @@ from rest_framework import status
 
 from accounts.authentication import handle_invalid_token
 from accounts.authentication import decode_refresh_token
-from accounts.authentication import generate_token
+from accounts.authentication import generate_token, set_cookies_to_response
 from accounts.authentication import validate_access_token, validate_refresh_token
-
-REFRESH_TOKEN_EXP = 60 * 60 * 24 * 30
-ACCESS_TOKEN_EXP = 60 * 15
 
 
 class TokenValidateMiddleware(MiddlewareMixin):
@@ -74,12 +71,10 @@ class TokenRefreshMiddleware(MiddlewareMixin):
                 print('토큰 재발급 진행')
                 print(user_info)
 
-                new_refresh_token, new_access_token = generate_token(user_info)
+                new_refresh_token, new_access_token = \
+                    generate_token(user_info['userId'], user_info)
 
-                response.set_cookie('Refresh-Token', new_refresh_token,
-                                    max_age=REFRESH_TOKEN_EXP, httponly=True)
-                response.set_cookie('Access-Token', new_access_token,
-                                    max_age=ACCESS_TOKEN_EXP)
+                response = set_cookies_to_response(response, new_refresh_token, new_access_token)
 
                 print('발급된 리프레쉬 토큰: ', new_refresh_token)
                 print('발급된 엑세스 토큰', new_access_token)

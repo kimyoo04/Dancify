@@ -79,11 +79,11 @@ def create_jwt_token(user_id, token_type, user_info):
         print('토큰 발급 실패')
         return '토큰을 생성하지 못하였습니다.'
 
-
-def generate_token(user_info):
-    new_refresh_token = create_jwt_token(user_info['userId'],
+# 빈 딕셔너리가 인자이면 데이터베이스로부터 토큰을 재발급한다.
+def generate_token(user_id, user_info):
+    new_refresh_token = create_jwt_token(user_id,
                                          'refresh', user_info)
-    new_access_token = create_jwt_token(user_info['userId'],
+    new_access_token = create_jwt_token(user_id,
                                         'access', user_info)
     return (new_refresh_token, new_access_token)
 
@@ -154,3 +154,11 @@ def get_s3_access_key():
             secret_access_key = row['Secret access key']
 
     return (access_key, secret_access_key)
+
+def set_cookies_to_response(response, refresh_token, access_token):
+    response.set_cookie('Refresh-Token', refresh_token,
+                            max_age=REFRESH_TOKEN_EXP, httponly=True)
+    response.set_cookie('Access-Token', access_token,
+                        max_age=ACCESS_TOKEN_EXP)
+
+    return response

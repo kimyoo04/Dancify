@@ -13,14 +13,11 @@ from drf_yasg.utils import swagger_auto_schema
 from accounts.serializers import LoginSerializer, RegisterSerializer, ProfileSerializer
 from accounts.authentication import handle_invalid_token
 from accounts.authentication import decode_refresh_token
-from accounts.authentication import create_jwt_token
+from accounts.authentication import set_cookies_to_response
 from accounts.authentication import generate_token, get_user_info_from_token
 from accounts.authentication import validate_access_token, validate_refresh_token
 from accounts.authentication import get_s3_access_key
 from accounts.models import User
-
-REFRESH_TOKEN_EXP = 60 * 60 * 24 * 30
-ACCESS_TOKEN_EXP = 60 * 15
 
 
 class SignUpView(APIView):
@@ -72,18 +69,13 @@ class SignInView(APIView):
         # if user.jwt_token:
 
         # 로그인 : 토큰 발급
-        refresh_token = create_jwt_token(user_id_json, 'refresh', {})
-        acccess_token = create_jwt_token(user_id_json, 'access', {})
+        refresh_token, access_token = generate_token(user_id_json, {})
 
         response_data = {
             'message': '로그인에 성공하였습니다.'
         }
         response = JsonResponse(response_data)
-
-        response.set_cookie('Refresh-Token', refresh_token,
-                            max_age=REFRESH_TOKEN_EXP, httponly=True)
-        response.set_cookie('Access-Token', acccess_token,
-                            max_age=ACCESS_TOKEN_EXP)
+        response = set_cookies_to_response(response, refresh_token, access_token)
 
         return response
 
@@ -99,11 +91,7 @@ class SignOutView(APIView):
             refresh_token.blacklist()
 
             # 토큰 삭제
-            response.set_cookie('Refresh-Token', '',
-                                max_age=REFRESH_TOKEN_EXP,
-                                httponly=True)
-            response.set_cookie('Access-Token', '',
-                                max_age=ACCESS_TOKEN_EXP)
+            response = set_cookies_to_response(response, '', '')
 
         except TokenError:
             result_message = '유효하지 않은 토큰입니다.'
@@ -111,13 +99,6 @@ class SignOutView(APIView):
                                     status=status.HTTP_401_UNAUTHORIZED)
 
         return response
-
-
-"""
-1. refreshtoken이 변조되었거나 만료되었으면 쿠키삭제
-2. accessToken이 시간은 우효하지만 변조되었다면 쿠키삭제
-3. 나머지 경우는 access, refresh 재발급
-"""
 
 
 # /api/auth/user
@@ -146,15 +127,14 @@ class JWTRefreshView(APIView):
             print('토큰 재발급 진행')
             print(user_info)
 
-            new_refresh_token, new_access_token = generate_token(user_info)
+            new_refresh_token, new_access_token = \
+                generate_token(user_info['userId'], user_info)
 
             response_data = {'user': True}
             response = JsonResponse(response_data)
 
-            response.set_cookie('Refresh-Token', new_refresh_token,
-                                max_age=REFRESH_TOKEN_EXP, httponly=True)
-            response.set_cookie('Access-Token', new_access_token,
-                                max_age=ACCESS_TOKEN_EXP)
+            response = set_cookies_to_response(response, new_refresh_token,
+                                               new_access_token)
 
         except KeyError:
             if refresh_token is None:
@@ -170,16 +150,14 @@ class JWTRefreshView(APIView):
                 user_info = decode_refresh_token(refresh_token)
                 print(user_info)
 
-                new_refresh_token, new_access_token = generate_token(user_info)
+                new_refresh_token, new_access_token =\
+                    generate_token(user_info['userId'], user_info)
 
                 response_data = {'user': True,
                                  'message': 'Access-Token이 존재하지 않습니다!'}
                 response = JsonResponse(response_data)
-
-                response.set_cookie('Refresh-Token', new_refresh_token,
-                                    max_age=REFRESH_TOKEN_EXP, httponly=True)
-                response.set_cookie('Access-Token', new_access_token,
-                                    max_age=ACCESS_TOKEN_EXP)
+                response = set_cookies_to_response(response, new_refresh_token,
+                                                   new_access_token)
 
         return response
 
@@ -221,8 +199,10 @@ class UpdateProfileView(APIView):
         # s3 버킷에 이미지 업로드
         # fileobj는 로컬에 저장하지 않은 파일을 업로드
         # s3.upload_fileobj(image_file, bucket_name, file_key)
-        location = s3.get_bucket_location(Bucket=bucket_name)["LocationConstraint"]
-        return f"https://{bucket_name}.s3.{location}.amazonaws.com/{folder_name}/{file_name}"
+        location = s3.get_bucket_location(Bucket=
+                                          bucket_name)["LocationConstraint"]
+        return f"https://{bucket_name}.s3.\
+            {location}.amazonaws.com/{folder_name}/{file_name}"
 
 
     def patch(self, request):
@@ -242,7 +222,12 @@ class UpdateProfileView(APIView):
         try:
             serializer.is_valid(raise_exception=True)
             serializer.save(partial=True)
+
             response = JsonResponse({'message': '프로필 이미지가 수정되었습니다.'})
+            refresh_token, access_token = \
+                    generate_token(user_info['userId'], {})
+            response = set_cookies_to_response(response, refresh_token, access_token)
+
         except serializers.ValidationError:
             response = JsonResponse({'message': '잘못된 url 요청입니다.'},
                                     status=status.HTTP_400_BAD_REQUEST)
