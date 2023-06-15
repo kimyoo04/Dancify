@@ -1,5 +1,5 @@
 import { TNickname } from "./auth";
-import { TCommentCount, TComment } from "./comments";
+import { TCommentCount, IComment } from "./comments";
 import { TLikesCount } from "./like";
 import {
   TContent,
@@ -46,7 +46,7 @@ export interface IVideoPostDetail {
   video: TVideo;
   views: TViews;
   likesCount: TLikesCount;
-  comments: TComment[];
+  comments: IComment[];
 }
 
 export interface IVideoPostDataArr {
