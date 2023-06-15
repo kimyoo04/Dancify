@@ -213,3 +213,42 @@ def calculate_angle_difference(dancer_json_path: str, danceable_json_path: str) 
         diff_list.append(list(diff))
 
     return diff_list
+
+
+def average_angle_difference(dancer_json_path: str, danceable_json_path: str) -> List[float]:
+    """
+    두 JSON 파일의 키포인트 정보를 이용하여 각 관절 각도의 평균 차이를 계산합니다.
+
+    Args:
+        dancer_json_path (str): 댄서의 JSON 파일 경로
+        danceable_json_path (str): 댄서블의 JSON 파일 경로
+
+    Returns:
+        List[float]: 각 관절 각도의 평균 차이를 담고 있는 리스트.
+                     리스트의 각 요소는 다음의 관절을 나타냅니다:
+                     0: 왼쪽 골반, 1: 오른쪽 골반, 2: 왼쪽 어깨, 3: 오른쪽 어깨,
+                     4: 왼쪽 팔꿈치, 5: 오른쪽 팔꿈치, 6: 왼쪽 무릎, 7: 오른쪽 무릎
+
+    Raises:
+        ValueError: `difference` 리스트가 비어 있거나, `difference` 리스트의 길이가 0인 경우 발생
+    """
+    difference = calculate_angle_difference(
+        dancer_json_path, danceable_json_path)
+
+    # difference 리스트가 비어 있는지 확인
+    if not difference:
+        raise ValueError("The difference list is empty.")
+
+    angle_sums = [0.0] * 8
+
+    for diff in difference:
+        for i in range(len(diff)):
+            angle_sums[i] += diff[i]
+
+    # difference 리스트의 길이가 0인지 확인 (0으로 나누는 오류 방지)
+    if len(difference) == 0:
+        raise ValueError("Cannot divide by zero.")
+
+    angle_difference = [x / len(difference) for x in angle_sums]
+
+    return angle_difference
