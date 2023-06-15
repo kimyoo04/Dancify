@@ -24,7 +24,7 @@ export default function FreePostDetail({ id }: { id: string }) {
       {data && (
         <div className="mx-auto w-full max-w-screen-lg rounded-2xl">
           {/* 게시글 이미지 */}
-          <PostImage src={data.postImage || "/images/avatar.jpg"} />
+          <PostImage src={data.postImage} />
           <Separator className="my-4" />
 
           {/* 게시글 해더 */}
