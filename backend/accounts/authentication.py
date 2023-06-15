@@ -1,5 +1,7 @@
 from django.http import JsonResponse
 from django.utils import timezone
+import csv
+import os
 
 from rest_framework_simplejwt.tokens import AccessToken, RefreshToken
 from rest_framework_simplejwt.exceptions import TokenError
@@ -79,10 +81,11 @@ def create_jwt_token(user_id, token_type, user_info):
         return '토큰을 생성하지 못하였습니다.'
 
 
-def generate_token(user_info):
-    new_refresh_token = create_jwt_token(user_info['userId'],
+# 빈 딕셔너리가 인자이면 데이터베이스로부터 토큰을 재발급한다.
+def generate_token(user_id, user_info):
+    new_refresh_token = create_jwt_token(user_id,
                                          'refresh', user_info)
-    new_access_token = create_jwt_token(user_info['userId'],
+    new_access_token = create_jwt_token(user_id,
                                         'access', user_info)
     return (new_refresh_token, new_access_token)
 
@@ -142,3 +145,24 @@ def get_user_info_from_token(request, token_type='access'):
         raise ValueError('잘못된 토큰 타입')
 
     return user_info
+
+
+def get_s3_access_key():
+    access_key, secret_access_key = None, None
+    pwd = os.getcwd() + '\\accounts\\user-s3_accessKeys.csv'
+    with open(pwd, 'r', encoding='utf-8-sig') as file:
+        csv_data = csv.DictReader(file)
+        for row in csv_data:
+            access_key = row['Access key ID']
+            secret_access_key = row['Secret access key']
+
+    return (access_key, secret_access_key)
+
+
+def set_cookies_to_response(response, refresh_token, access_token):
+    response.set_cookie('Refresh-Token', refresh_token,
+                        max_age=REFRESH_TOKEN_EXP, httponly=True)
+    response.set_cookie('Access-Token', access_token,
+                        max_age=ACCESS_TOKEN_EXP)
+
+    return response
