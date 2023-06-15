@@ -4,7 +4,7 @@ from accounts.models import User
 
 class ProfileForm(forms.ModelForm):
 
-    profileImage = forms.CharField(label='profile_image')
+    profileImage = forms.URLField(label='profile_image')
 
     class Meta:
         model = User

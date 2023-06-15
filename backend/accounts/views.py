@@ -208,16 +208,22 @@ class UpdateProfileView(APIView):
         file_name = user_id + '_profile' + '.jpg'
 
         # S3 클라이언트 생성
-        # s3 = boto3.client('s3', aws_access_key_id=access_key, aws_secret_access_key=secret_access_key)
+        s3 = boto3.client(
+            service_name='s3',
+            region_name='ap-northeast-2',
+            aws_access_key_id=access_key,
+            aws_secret_access_key=secret_access_key
+        )
 
-        # s3 버킷에 이미지 업로드
         bucket_name = 'dancify-bucket'
         folder_name = 'profile-image'
-        file_key = f'{folder_name}/{file_name}'
 
+        # s3 버킷에 이미지 업로드
+        # fileobj는 로컬에 저장하지 않은 파일을 업로드
         # s3.upload_fileobj(image_file, bucket_name, file_key)
+        location = s3.get_bucket_location(Bucket=bucket_name)["LocationConstraint"]
+        return f"https://{bucket_name}.s3.{location}.amazonaws.com/{folder_name}/{file_name}"
 
-        return f's3://{bucket_name}/{folder_name}'
 
     def patch(self, request):
         user_info = get_user_info_from_token(request)

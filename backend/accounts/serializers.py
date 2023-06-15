@@ -100,7 +100,7 @@ class RegisterSerializer(serializers.ModelSerializer):
 
 class ProfileSerializer(serializers.ModelSerializer):
 
-    profileImage = serializers.CharField(source='profile_image')
+    profileImage = serializers.URLField(source='profile_image')
 
     class Meta:
         model = User
