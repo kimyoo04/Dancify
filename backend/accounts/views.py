@@ -1,6 +1,7 @@
 from django.http import JsonResponse
 import io
 import base64
+import boto3
 
 from rest_framework.views import APIView
 from rest_framework import status, serializers
@@ -221,18 +222,20 @@ class UpdateProfileView(APIView):
     def patch(self, request):
         user_info = get_user_info_from_token(request)
         user = User.objects.get(user_id=user_info['userId'])
+        parsed_data = request.data
 
-        image_data = request.data['profileImage']
+        image_data = parsed_data['profileImage']
         decoded_data = base64.b64decode(image_data)
 
         profile_image_url = self.save_profile_image_at_s3(user_info['userId'],
                                                           decoded_data)
-        user_info['profileImage'] = profile_image_url
+        update_data = parsed_data
+        update_data['profileImage'] = profile_image_url
 
-        serializer = ProfileSerializer(user, data=user_info, partial=True)  # type: ignore
+        serializer = ProfileSerializer(user, data=update_data, partial=True)  # type: ignore
         try:
             serializer.is_valid(raise_exception=True)
-            serializer.save()
+            serializer.save(partial=True)
             response = JsonResponse({'message': '프로필 이미지가 수정되었습니다.'})
         except serializers.ValidationError:
             response = JsonResponse({'message': '잘못된 url 요청입니다.'},
