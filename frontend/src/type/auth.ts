@@ -32,7 +32,14 @@ export interface IProfileInfoForm {
   userId: TUserId;
   nickname: TNickname;
   email: TEmail;
-  description: TDescription;
+  description?: TDescription;
+  profileImage?: File;
+}
+export interface IProfileDefaultValue {
+  nickname: TNickname;
+  email: TEmail;
+  description?: TDescription;
+  profileImage?: File;
 }
 
 // 프로필 이미지 업로드
@@ -62,6 +69,7 @@ export interface IProfile {
 }
 
 export const profileFormSchema = z.object({
+  profileImage: z.custom<File>((v) => v instanceof File).optional(),
   nickname: z
     .string({
       required_error: "다른 사람들에게 보일 닉네임을 입력해주세요.",
@@ -84,7 +92,8 @@ export const profileFormSchema = z.object({
     })
     .min(4, {
       message: "설명글은 최소 4글자 이상입니다.",
-    }),
+    })
+    .optional(),
 });
 
 export type ProfileFormValues = z.infer<typeof profileFormSchema>;
