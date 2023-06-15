@@ -195,15 +195,15 @@ class UpdateProfileView(APIView):
 
         bucket_name = 'dancify-bucket'
         folder_name = 'profile-image'
+        file_key = folder_name + '/' + file_name
 
         # s3 버킷에 이미지 업로드
         # fileobj는 로컬에 저장하지 않은 파일을 업로드
-        # s3.upload_fileobj(image_file, bucket_name, file_key)
-        location = s3.get_bucket_location(Bucket=
-                                          bucket_name)["LocationConstraint"]
-        return f"https://{bucket_name}.s3.\
-            {location}.amazonaws.com/{folder_name}/{file_name}"
+        s3.upload_fileobj(image_file, bucket_name, file_key)
 
+        location = s3.get_bucket_location(Bucket=bucket_name)["LocationConstraint"]
+        return f"https://{bucket_name}.s3.\
+{location}.amazonaws.com/{folder_name}/{file_name}"
 
     def patch(self, request):
         user_info = get_user_info_from_token(request)
@@ -225,7 +225,7 @@ class UpdateProfileView(APIView):
 
             response = JsonResponse({'message': '프로필 이미지가 수정되었습니다.'})
             refresh_token, access_token = \
-                    generate_token(user_info['userId'], {})
+                generate_token(user_info['userId'], {})
             response = set_cookies_to_response(response, refresh_token, access_token)
 
         except serializers.ValidationError:

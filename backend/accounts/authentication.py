@@ -1,6 +1,7 @@
 from django.http import JsonResponse
 from django.utils import timezone
-import csv, os
+import csv
+import os
 
 from rest_framework_simplejwt.tokens import AccessToken, RefreshToken
 from rest_framework_simplejwt.exceptions import TokenError
@@ -79,6 +80,7 @@ def create_jwt_token(user_id, token_type, user_info):
         print('토큰 발급 실패')
         return '토큰을 생성하지 못하였습니다.'
 
+
 # 빈 딕셔너리가 인자이면 데이터베이스로부터 토큰을 재발급한다.
 def generate_token(user_id, user_info):
     new_refresh_token = create_jwt_token(user_id,
@@ -144,6 +146,7 @@ def get_user_info_from_token(request, token_type='access'):
 
     return user_info
 
+
 def get_s3_access_key():
     access_key, secret_access_key = None, None
     pwd = os.getcwd() + '\\accounts\\user-s3_accessKeys.csv'
@@ -155,9 +158,10 @@ def get_s3_access_key():
 
     return (access_key, secret_access_key)
 
+
 def set_cookies_to_response(response, refresh_token, access_token):
     response.set_cookie('Refresh-Token', refresh_token,
-                            max_age=REFRESH_TOKEN_EXP, httponly=True)
+                        max_age=REFRESH_TOKEN_EXP, httponly=True)
     response.set_cookie('Access-Token', access_token,
                         max_age=ACCESS_TOKEN_EXP)
 
