@@ -1,4 +1,6 @@
 from django.http import JsonResponse
+import io
+import base64
 
 from rest_framework.views import APIView
 from rest_framework import status, serializers
@@ -7,13 +9,13 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 
-from accounts.serializers import LoginSerializer, RegisterSerializer, \
-    ProfileSerializer, ProfileImageSerializer
+from accounts.serializers import LoginSerializer, RegisterSerializer, ProfileSerializer
 from accounts.authentication import handle_invalid_token
 from accounts.authentication import decode_refresh_token
 from accounts.authentication import create_jwt_token
 from accounts.authentication import generate_token, get_user_info_from_token
 from accounts.authentication import validate_access_token, validate_refresh_token
+from accounts.authentication import get_s3_access_key
 from accounts.models import User
 
 REFRESH_TOKEN_EXP = 60 * 60 * 24 * 30
@@ -193,28 +195,41 @@ class TestView(APIView):
 
 
 class UpdateProfileView(APIView):
+    def save_profile_image_at_s3(self, user_id, decoded_data):
+
+        # 이미지를 메모리에 저장
+        image_file = io.BytesIO(decoded_data)
+        access_key, secret_access_key = get_s3_access_key()
+
+        # 이미지 이름은 user_id.확장자명 (ex: asdasd_profile.jpg)
+        # splitext는 확장자를 .까지 같이 반환
+        # file_name, file_extension = os.path.splitext(decoded_data.name)
+        file_name = user_id + '_profile' + '.jpg'
+
+        # S3 클라이언트 생성
+        # s3 = boto3.client('s3', aws_access_key_id=access_key, aws_secret_access_key=secret_access_key)
+
+        # s3 버킷에 이미지 업로드
+        bucket_name = 'dancify-bucket'
+        folder_name = 'profile-image'
+        file_key = f'{folder_name}/{file_name}'
+
+        # s3.upload_fileobj(image_file, bucket_name, file_key)
+
+        return f's3://{bucket_name}/{folder_name}'
+
     def patch(self, request):
-        user_info = get_user_info_from_token(self.request)
+        user_info = get_user_info_from_token(request)
         user = User.objects.get(user_id=user_info['userId'])
+
+        image_data = request.data['profileImage']
+        decoded_data = base64.b64decode(image_data)
+
+        profile_image_url = self.save_profile_image_at_s3(user_info['userId'],
+                                                          decoded_data)
+        user_info['profileImage'] = profile_image_url
 
         serializer = ProfileSerializer(user, data=user_info, partial=True)  # type: ignore
-        try:
-            serializer.is_valid(raise_exception=True)
-            serializer.save()
-            response = JsonResponse({'message': '프로필이 수정되었습니다.'})
-        except serializers.ValidationError:
-            response = JsonResponse({'message': '프로필 수정에 실패하였습니다.'},
-                                    status=status.HTTP_401_UNAUTHORIZED)
-
-        return response
-
-
-class UpdateProfileImageView(APIView):
-    def patch(self, request):
-        user_info = get_user_info_from_token(self.request)
-        user = User.objects.get(user_id=user_info['userId'])
-
-        serializer = ProfileImageSerializer(user, data=user_info, partial=True)  # type: ignore
         try:
             serializer.is_valid(raise_exception=True)
             serializer.save()
@@ -224,3 +239,24 @@ class UpdateProfileImageView(APIView):
                                     status=status.HTTP_400_BAD_REQUEST)
 
         return response
+
+
+# 폼 형식의 데이터를 처리할때
+# class UpdateProfileView(APIView):
+#     def patch(self, request):
+#         user_info = get_user_info_from_token(self.request)
+#         user = User.objects.get(user_id=user_info['userId'])
+
+#         # request 데이터에는 사진이 폼형식으로 되어있기때문에 고쳐야함
+#         form = ProfileForm(request, instance=user)
+#         try:
+#             if form.is_valid():
+#                 form.save()
+#             response = JsonResponse({'message': '프로필이 수정되었습니다.'})
+#         except:
+#             # form.erros 객체는 ErrorDict 클래스이며, 기본적으로 not hashable이다.
+#             errors = form.errors.as_json()
+#             response = JsonResponse({errors},
+#                                     status=status.HTTP_400_BAD_REQUEST)
+
+#         return response

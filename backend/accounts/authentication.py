@@ -1,5 +1,7 @@
 from django.http import JsonResponse
 from django.utils import timezone
+import csv
+import os
 
 from rest_framework_simplejwt.tokens import AccessToken, RefreshToken
 from rest_framework_simplejwt.exceptions import TokenError
@@ -142,3 +144,15 @@ def get_user_info_from_token(request, token_type='access'):
         raise ValueError('잘못된 토큰 타입')
 
     return user_info
+
+
+def get_s3_access_key():
+    access_key, secret_access_key = None, None
+    pwd = os.getcwd() + '\\accounts\\user-s3_accessKeys.csv'
+    with open(pwd, 'r', encoding='utf-8-sig') as file:
+        csv_data = csv.DictReader(file)
+        for row in csv_data:
+            access_key = row['Access key ID']
+            secret_access_key = row['Secret access key']
+
+    return (access_key, secret_access_key)
