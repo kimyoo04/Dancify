@@ -61,7 +61,7 @@ export default function CommentInput({ content = "" }: { content?: string }) {
   }
 
   return (
-    <div className="px-1 py-2 pt-4">
+    <div className="px-1 py-3">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="col-center">
           {/* 댓글 입력 필드 헤더 */}

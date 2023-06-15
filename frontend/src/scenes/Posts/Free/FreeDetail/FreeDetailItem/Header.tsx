@@ -1,3 +1,4 @@
+import PostDesktopLikeIcon from "@scenes/Posts/PostItem/PostDesktopLikeIcon";
 import UpDelButton from "@scenes/Posts/PostItem/UpDelButton";
 import { useAppSelector } from "@toolkit/hook";
 import { IFreePostDetail } from "@type/freePosts";
@@ -16,8 +17,8 @@ export default function Header({ data }: IHeaderProps) {
       <h2 className="text-2xl font-bold">{data.title}</h2>
 
       {/* 작성자, 작성일, 조회수 -- 수정, 삭제 버튼 */}
-      <div className="flex flex-wrap justify-between">
-        <div>
+      <div className="flex flex-wrap items-center justify-between">
+        <div className="mb-3">
           <span className="text-sm text-muted-foreground">{data.nickname}</span>
           <span className="mx-2 text-sm text-muted-foreground">|</span>
           <span className="text-sm text-muted-foreground">
@@ -29,7 +30,10 @@ export default function Header({ data }: IHeaderProps) {
           </span>
         </div>
 
-        {data.userId === userId && <UpDelButton postId={data.postId} />}
+        <div className="row-center gap-2">
+          {userId !== "" && <PostDesktopLikeIcon userLike={data.userLike} />}
+          {data.userId === userId && <UpDelButton postId={data.postId} />}
+        </div>
       </div>
     </div>
   );
