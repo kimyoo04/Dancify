@@ -7,13 +7,11 @@ import { poseSimilarity } from "./utils/posesim";
 import { dancer_json } from "./dancer_json_list";
 
 import * as tf from "@tensorflow/tfjs";
-import '@tensorflow/tfjs-backend-webgl';
+import "@tensorflow/tfjs-backend-webgl";
 
 export default function Test() {
   const webcamRef = useRef<Webcam>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
-
-
 
   const detect = async (movenet_model: poseDetection.PoseDetector) => {
     if (
@@ -56,9 +54,6 @@ export default function Test() {
     }
   };
 
-
-
-
   const drawCanvas = (
     pose: poseDetection.Pose[],
     video: HTMLVideoElement,
@@ -75,9 +70,6 @@ export default function Test() {
     drawSkeleton(pose[0]["keypoints"], 0.3, ctx);
   };
 
-
-
-
   const runPosenet = async () => {
     await tf.ready();
     //모델 로드
@@ -90,7 +82,6 @@ export default function Test() {
 
     //구간의 평균 유사도 점수
     let avgcosineDistance = 0;
-
 
     //반복문 실행
     let indx = 1;
@@ -120,13 +111,12 @@ export default function Test() {
       if (indx >= dancer_json.length) {
         //강사 영상 끝나면 setInterval 멈춤
         clearInterval(intervalId);
-        console.log('완료');
+        console.log("완료");
 
         console.log(danceable_json);
 
-        avgcosineDistance /= (dancer_json.length - 1);
-        console.log('평균 유사도 점수:',avgcosineDistance);
-
+        avgcosineDistance /= dancer_json.length - 1;
+        console.log("평균 유사도 점수:", avgcosineDistance);
       }
     }, 1000 / 15); //15fps
     // Clean up the interval when the component unmounts
