@@ -32,7 +32,7 @@ export function poseSimilarity(
 
   // merge options
   const defaultOptions: Options = {
-    strategy: "weightedDistance",
+    strategy: "cosineDistance",
   };
   const options = Object.assign({}, defaultOptions, overridenOptions);
 
