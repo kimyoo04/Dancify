@@ -93,8 +93,6 @@ class LikeView(CreateAPIView, DestroyAPIView):
     lookup_field = 'post_id'
 
     def create(self, request, post_id, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
 
         try:
             access_token = request.COOKIES['Access-Token']
@@ -102,10 +100,14 @@ class LikeView(CreateAPIView, DestroyAPIView):
 
             user_id = user_info['userId']
 
-            if Like.objects.filter(user=User.objects.get(user_id=user_id),
-                                   post_id=post_id).exists():
-                return super().destroy(request, *args, **kwargs)
+            query = Like.objects.filter(user=User.objects.get(user_id=user_id),
+                                   post_id=post_id)
+            if query.exists():
+                query.delete()
+                return Response(status=status.HTTP_204_NO_CONTENT)
 
+            serializer = self.get_serializer(data=request.data)
+            serializer.is_valid(raise_exception=True)
             serializer.save(user=User.objects.get(user_id=user_id),
                             post_id=post_id)
 
