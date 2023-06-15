@@ -117,10 +117,11 @@ export default function UserSignInForm({
               />
 
               <Button disabled={isLoading}>
-                {isLoading && (
+                {isLoading ? (
                   <Icons.spinner className="mr-2 h-4 w-4 animate-spin" />
+                ) : (
+                  "로그인"
                 )}
-                로그인
               </Button>
             </div>
           </form>

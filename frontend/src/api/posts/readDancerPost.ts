@@ -7,7 +7,7 @@ export const readDancerPost = async (id: string) => {
     const response = await axios.get(`/posts/dancer/${id}`);
     return response.data;
   } catch (err) {
-    console.log("🚀 readPost.tsx", err);
+    console.log("🚀 readDancerPost.tsx", err);
     return { data: [] };
   }
 };

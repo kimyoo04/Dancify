@@ -1,128 +1,188 @@
-import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@components/ui/form";
 import { useForm } from "react-hook-form";
-import * as z from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  IProfileDefaultValue,
+  IProfileInfoForm,
+  ProfileFormValues,
+  profileFormSchema,
+} from "@type/auth";
 
 import { Button } from "@components/ui/button";
 import { Input } from "@components/ui/input";
 import { Textarea } from "@components/ui/textarea";
 
 import { useToast } from "@components/ui/use-toast";
+import { readProfile } from "@api/auth/readProfile";
+import { useEffect, useState } from "react";
+import Image from "next/image";
+import { updateProfile } from "@api/auth/updateProfile";
+import { useAppSelector } from "@toolkit/hook";
 
-import {
-  Form,
-  FormControl,
-  FormDescription,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@components/ui/form";
-
-const profileFormSchema = z.object({
-  nickname: z
-    .string()
-    .min(2, {
-      message: "Nickname must be at least 2 characters.",
-    })
-    .max(30, {
-      message: "Nickname must not be longer than 30 characters.",
-    }),
-  email: z
-    .string({
-      required_error: "Please type an email to display.",
-    })
-    .email("Not a valid email"),
-  description: z.string().max(160).min(4),
-});
-
-type ProfileFormValues = z.infer<typeof profileFormSchema>;
-
-//! This can come from your database or API.
-const defaultValues: Partial<ProfileFormValues> = {
-  nickname: "",
-  email: "",
-  description: "",
-};
+async function getFileFromUrl(url: string) {
+  const res = await fetch(url);
+  const blob = await res.blob();
+  return new File([blob], "image", { type: blob.type });
+}
 
 export default function ProfileForm() {
+  const [isLoading] = useState<boolean>(false);
+  const { toast } = useToast();
+  const userId = useAppSelector((state) => state.auth.userId);
+
   const form = useForm<ProfileFormValues>({
     resolver: zodResolver(profileFormSchema),
-    defaultValues,
-    mode: "onChange",
   });
 
-  const { toast } = useToast();
+  // 선택한 이미지 파일 미리보기 로직
+  const image = form.watch("profileImage");
+  const imagePreview = image ? URL.createObjectURL(image) : undefined;
 
-  function onSubmit(data: ProfileFormValues) {
-    console.log(data);
-    toast({
-      title: "You submitted the following values:",
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(data, null, 2)}</code>
-        </pre>
-      ),
-    });
-  }
+  // 이미지 메모리 누수 처리
+  useEffect(() => {
+    return () => {
+      if (imagePreview) URL.revokeObjectURL(imagePreview);
+    };
+  }, [imagePreview]);
+
+  useEffect(() => {
+    async function getPofileInfo() {
+      const data = await readProfile();
+      if (data) {
+        const profileImage = data.profileImage
+          ? await getFileFromUrl(data.profileImage)
+          : undefined;
+        if (profileImage) form.setValue("profileImage", profileImage);
+        const { nickname, email, description } = data;
+        form.setValue("nickname", nickname);
+        form.setValue("email", email);
+        form.setValue("description", description);
+        return;
+      }
+    }
+    getPofileInfo();
+  }, []);
+
+  const onSubmit = async (data: ProfileFormValues) => {
+    try {
+      const profileData: IProfileInfoForm = {
+        userId,
+        nickname: data.nickname,
+        email: data.email,
+      };
+
+      // 폼 정보에 입력이 있는 경우 데이터에 포함
+      if (data.description) profileData.description = data.description;
+      if (data.profileImage) profileData.profileImage = data.profileImage;
+
+      console.log(profileData);
+      // 프로필 정보 수정 요청
+      await updateProfile(profileData);
+
+      toast({
+        title: "Success",
+        description: "성공적으로 프로필 정보가 수정되었습니다.",
+      });
+    } catch (err) {
+      console.log("🚀ProfileForm.tsx - onSubmit:", err);
+    }
+  };
 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        {/* 프로필 이미지 미리보기 */}
+        <div className="relative h-20 w-20 overflow-hidden rounded-full">
+          {imagePreview ? (
+            <Image src={imagePreview} alt="preview" width={80} height={80} />
+          ) : (
+            <Image
+              src={"/images/avatar.jpg"}
+              alt="profile_image"
+              width={80}
+              height={80}
+              priority
+            />
+          )}
+        </div>
+
+        <div className="h-20 w-80 cursor-pointer">
+          <FormField
+            control={form.control}
+            name="profileImage"
+            render={({ field: { ref, name, onBlur, onChange } }) => (
+              <FormItem>
+                <FormLabel>프로필 이미지 {"(선택)"}</FormLabel>
+                <FormControl>
+                  <Input
+                    type="file"
+                    ref={ref}
+                    name={name}
+                    onBlur={onBlur}
+                    onChange={(e) => onChange(e.target.files?.[0])}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+        </div>
+
         <FormField
           control={form.control}
           name="nickname"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Nickname</FormLabel>
+              <FormLabel>닉네임</FormLabel>
               <FormControl>
-                <Input placeholder="nickname" {...field} />
+                <Input placeholder="2글자 이상" {...field} />
               </FormControl>
-              <FormDescription>
-                This is your public display name. It can be your real name or a
-                pseudonym. You can only change this once every 30 days.
-              </FormDescription>
               <FormMessage />
             </FormItem>
           )}
         />
+
         <FormField
           control={form.control}
           name="email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Email</FormLabel>
+              <FormLabel>이메일</FormLabel>
               <FormControl>
-                <Input placeholder="email" {...field} />
+                <Input placeholder="exmaple@email.com" {...field} />
               </FormControl>
-              <FormDescription>
-                You can manage verified email addresses in your email settings.
-              </FormDescription>
               <FormMessage />
             </FormItem>
           )}
         />
+
         <FormField
           control={form.control}
           name="description"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Description</FormLabel>
+              <FormLabel>자기소개 {"(선택)"}</FormLabel>
               <FormControl>
                 <Textarea
-                  placeholder="Tell us a little bit about yourself"
-                  className="resize-none"
+                  placeholder="다른 댄서블에게 소개할 말을 적어주세요."
                   {...field}
                 />
               </FormControl>
-              <FormDescription>
-                You can <span>@mention</span> other users and organizations to
-                link to them.
-              </FormDescription>
               <FormMessage />
             </FormItem>
           )}
         />
-        <Button type="submit">Update profile</Button>
+
+        <Button disabled={isLoading} type="submit">
+          프로필 정보 수정
+        </Button>
       </form>
     </Form>
   );
