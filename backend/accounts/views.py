@@ -2,6 +2,7 @@ from django.http import JsonResponse
 import io
 import base64
 import boto3
+import imghdr
 
 from rest_framework.views import APIView
 from rest_framework import status, serializers
@@ -180,10 +181,9 @@ class UpdateProfileView(APIView):
         image_file = io.BytesIO(decoded_data)
         access_key, secret_access_key = get_s3_access_key()
 
-        # 이미지 이름은 user_id.확장자명 (ex: asdasd_profile.jpg)
-        # splitext는 확장자를 .까지 같이 반환
-        # file_name, file_extension = os.path.splitext(decoded_data.name)
-        file_name = user_id + '_profile' + '.jpg'
+        # MIME type 로 확장자명 추출
+        extension = imghdr.what(None, decoded_data)
+        file_name = user_id + '_profile' + '.' + extension
 
         # S3 클라이언트 생성
         s3 = boto3.client(
