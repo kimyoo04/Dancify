@@ -1,19 +1,22 @@
 import Image from "next/image";
 
 interface PostImageProps {
-  src: string;
-  width: number;
-  height: number;
+  src: string | null;
 }
 
-export default function PostImage({
-  src = "/images/avatar.jpg",
-  width,
-  height,
-}: PostImageProps) {
+export default function PostImage({ src }: PostImageProps) {
   return (
-    <div style={{ width, height }}>
-      <Image src={src} alt={"post_image"} width={500} height={500} />
-    </div>
+    <>
+      {src !== "" && src !== null && (
+        <div className="relative h-96 w-full overflow-hidden">
+          <Image
+            src={src}
+            alt={"post_image"}
+            fill
+            style={{ objectFit: "cover" }}
+          />
+        </div>
+      )}
+    </>
   );
 }

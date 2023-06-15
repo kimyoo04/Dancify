@@ -2,8 +2,6 @@ import { TPostId } from "./posts";
 
 export interface ILikeState {
   userLike: boolean;
-  postId: TPostId;
-  postCategory: TPostCategory;
 }
 
 export interface ILikeAction {

@@ -1,5 +1,5 @@
 import { TNickname } from "./auth";
-import { TCommentCount, TComment } from "./comments";
+import { TCommentCount, IComment } from "./comments";
 import { TLikesCount } from "./like";
 import {
   TContent,
@@ -47,7 +47,7 @@ export interface IDancerPostDetail {
   views: TViews;
   likesCount: TLikesCount;
   feedbackPrice: TFeedbackPrice;
-  comments: TComment[];
+  comments: IComment[];
 }
 
 export interface IDancerPostDataArr {

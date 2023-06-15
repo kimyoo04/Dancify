@@ -49,7 +49,7 @@ export interface IProfileImageForm {
 
 export type TUserId = string;
 export type TUserPK = string;
-export type TUserLike = number;
+export type TUserLike = boolean;
 export type TNickname = string;
 export type TEmail = string;
 export type TPhone = string;
