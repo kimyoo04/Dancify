@@ -7,7 +7,7 @@ import { poseSimilarity } from "./utils/posesim";
 import { dancer_json } from "./dancer_json_list";
 
 import * as tf from "@tensorflow/tfjs";
-import '@tensorflow/tfjs-backend-webgl';
+import "@tensorflow/tfjs-backend-webgl";
 
 export default function Test() {
   const webcamRef = useRef<Webcam>(null);
@@ -32,6 +32,7 @@ export default function Test() {
       // Make Detections
       try {
         const pose = await movenet_model.estimatePoses(video);
+        // console.log(pose);
 
         //포즈 측정 성공한 경우
         if (pose.length > 0) {
@@ -65,29 +66,40 @@ export default function Test() {
     canvas.current.height = videoHeight;
 
     //(keypoints, confidence_score, canvas)
-    drawKeypoints(pose[0]["keypoints"], 0.5, ctx);
-    drawSkeleton(pose[0]["keypoints"], 0.4, ctx);
+    drawKeypoints(pose[0]["keypoints"], 0.3, ctx);
+    drawSkeleton(pose[0]["keypoints"], 0.3, ctx);
   };
 
   const runPosenet = async () => {
     await tf.ready();
+    //모델 로드
     const model = await poseDetection.SupportedModels.MoveNet;
     const detector = await poseDetection.createDetector(model);
 
+    //구간의 실시간 댄서블 keypoint 점수
+    const danceable_json = [];
+    danceable_json.push(dancer_json[0]); //0번째 값은 항상 fps입니다.
+
+    //구간의 평균 유사도 점수
+    let avgcosineDistance = 0;
+
+    //반복문 실행
     let indx = 1;
 
-    setInterval(async () => {
-      const dancable = await detect(detector);
+    const intervalId = setInterval(async () => {
+      const danceable = await detect(detector);
       const dancer = dancer_json[indx];
 
       console.log("------------------------");
       console.log(indx);
       //에러 안 나면 x,y의 좌표와 유사도 출력
-      if (dancable !== "error" && dancer !== undefined) {
-        console.log("dancable", dancable[0]);
+      if (danceable !== "error" && dancer !== undefined) {
+        console.log("danceable", danceable[0]);
         console.log("dancer", dancer[0]);
-        const weightedDistance = poseSimilarity(dancable[0], dancer[0]);
-        console.log(weightedDistance);
+        const cosineDistance = poseSimilarity(danceable[0], dancer[0]);
+        console.log(cosineDistance);
+        danceable_json.push(danceable); //댄서블 실시간 keypoint 저장
+        avgcosineDistance += cosineDistance; //유사도 점수 더함
       }
       //에러 나면 error 출력
       else {
@@ -95,7 +107,18 @@ export default function Test() {
       }
       //다음 이미지 비교
       indx += 1;
-    }, 1000 / dancer_json[0]);
+
+      if (indx >= dancer_json.length) {
+        //강사 영상 끝나면 setInterval 멈춤
+        clearInterval(intervalId);
+        console.log("완료");
+
+        console.log(danceable_json);
+
+        avgcosineDistance /= dancer_json.length - 1;
+        console.log("평균 유사도 점수:", avgcosineDistance);
+      }
+    }, 1000 / 15); //15fps
     // Clean up the interval when the component unmounts
   };
 
