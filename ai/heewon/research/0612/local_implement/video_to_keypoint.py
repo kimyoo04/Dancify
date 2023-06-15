@@ -1,5 +1,5 @@
-#pip install opencv-python
-#pip install tensorflow
+# pip install opencv-python
+# pip install tensorflow
 
 '''
 #실행예시
@@ -12,11 +12,12 @@ modelpath = 'models/lightning_int8.tflite'
 video_to_xy(filepath, folderpath, modelpath, 'test_data')
 '''
 
+
 import cv2
 import os
 import tensorflow as tf
-import numpy as np
 import json
+
 
 def video_to_xy(filepath, folderpath, modelpath, post_id):
     '''
@@ -31,20 +32,20 @@ def video_to_xy(filepath, folderpath, modelpath, post_id):
     video_to_xy[1] ~ ... : n번째 이미지의 keypoint 값
     '''
 
-    #비디오 불러오기
+    # 비디오 불러오기
     video = cv2.VideoCapture(filepath)
 
     # 모델 불러오기
     interpreter = tf.lite.Interpreter(model_path=modelpath)
     interpreter.allocate_tensors()
 
-    #비디오를 열 수 없다면 Could not Open 출력
+    # 비디오를 열 수 없다면 Could not Open 출력
     if not video.isOpened():
         print("Could not Open :", filepath)
         exit(0)
-    #비디오가 정상적으로 open된 경우
+    # 비디오가 정상적으로 open된 경우
     else:
-        #불러온 비디오 파일의 정보 출력
+        # 불러온 비디오 파일의 정보 출력
         length = int(video.get(cv2.CAP_PROP_FRAME_COUNT))
         width = int(video.get(cv2.CAP_PROP_FRAME_WIDTH))
         height = int(video.get(cv2.CAP_PROP_FRAME_HEIGHT))
@@ -55,14 +56,14 @@ def video_to_xy(filepath, folderpath, modelpath, post_id):
         print("height :", height)
         print("fps :", fps)
 
-        #프레임을 저장할 디렉토리를 생성
+        # 프레임을 저장할 디렉토리를 생성
         try:
             if not os.path.exists(folderpath):
                 os.makedirs(folderpath)
         except OSError:
-            print ('Error: Creating directory. ' +  folderpath)
+            print('Error: Creating directory. ' + folderpath)
 
-        #결과를 저장할 변수
+        # 결과를 저장할 변수
         result = [round(fps)]
 
         while(video.isOpened()):
@@ -71,15 +72,15 @@ def video_to_xy(filepath, folderpath, modelpath, post_id):
                 print('완료')
                 break
 
-            #dancer_x_y로 이미지의 스켈레톤 좌표를 출력합니다.
+            # dancer_x_y로 이미지의 스켈레톤 좌표를 출력합니다.
             result.append(dancer_x_y(interpreter, image))
 
-        #json파일로 저장
-        with open(folderpath + str(post_id) +".json", 'w') as file:
+        # json파일로 저장
+        with open(folderpath + str(post_id) + ".json", 'w') as file:
             json.dump(result, file, indent=4)
 
 
-#-----------------------------------------------
+# -----------------------------------------------
 
 
 def dancer_x_y(interpreter, image):
@@ -116,15 +117,15 @@ def dancer_x_y(interpreter, image):
     input_image = tf.expand_dims(image, axis=0)
     input_image = tf.image.resize_with_pad(input_image, input_size, input_size)
 
-    #movenet 함수로 키포인트를 추출합니다.
+    # movenet 함수로 키포인트를 추출합니다.
     keypoints = movenet(interpreter, input_image)
 
-    #movenet 출력값에 맞게 변경해줍니다.
+    # movenet 출력값에 맞게 변경해줍니다.
     cnt = 0
     total_score = 0
     for keypoint in keypoints[0, 0, :, :]:
         keypoint = keypoint.astype(float)
-        total_score+=keypoint[2]
+        total_score += keypoint[2]
 
         yc = keypoint[0] * y
         xc = keypoint[1] * x
@@ -141,8 +142,8 @@ def dancer_x_y(interpreter, image):
 
     return result
 
+# -----------------------------------------------
 
-#-----------------------------------------------
 
 def movenet(interpreter, input_image):
     '''
@@ -162,5 +163,3 @@ def movenet(interpreter, input_image):
     # Get the model prediction.
     keypoints_with_scores = interpreter.get_tensor(output_details[0]['index'])
     return keypoints_with_scores
-
-

@@ -108,7 +108,7 @@ export default function Test() {
       //다음 이미지 비교
       indx += 1;
 
-      if (indx >= dancer_json.length) {
+      if (indx > dancer_json.length) {
         //강사 영상 끝나면 setInterval 멈춤
         clearInterval(intervalId);
         console.log("완료");

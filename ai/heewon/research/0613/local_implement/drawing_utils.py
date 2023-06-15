@@ -1,5 +1,7 @@
+# face_mosaic.py를 위해 작성된 파일입니다. 무시하셔도 됩니다.
+
 import math
-from typing import List, Mapping, Optional, Tuple, Union
+from typing import Tuple, Union
 
 import cv2
 import dataclasses
@@ -36,11 +38,11 @@ def _normalized_to_pixel_coordinates(
 
     # Checks if the float value is between 0 and 1.
     def is_valid_normalized_value(value: float) -> bool:
-        return (value > 0 or math.isclose(0, value)) and (value < 1 or
-                                                          math.isclose(1, value))
+        return (value > 0 or math.isclose(0, value)) and \
+            (value < 1 or math.isclose(1, value))
 
-    if not (is_valid_normalized_value(normalized_x) and
-            is_valid_normalized_value(normalized_y)):
+    if not (is_valid_normalized_value(normalized_x)
+            and is_valid_normalized_value(normalized_y)):
         # TODO: Draw coordinates even if it's outside of the image bounds.
         return None
     x_px = min(math.floor(normalized_x * image_width), image_width - 1)
@@ -97,12 +99,12 @@ def draw_detection(
             w = rect_end_point[0] - x
             h = rect_end_point[1] - y
 
-        mosaic = image[y:y+h, x:x+w]
+        mosaic = image[y: y + h, x: x + w]
         mosaic = cv2.resize(mosaic, dsize=(0, 0), fx=0.04, fy=0.04)
         mosaic = cv2.resize(mosaic, (w, h), interpolation=cv2.INTER_AREA)
-        image[y:y+h, x:x+w] = mosaic
+        image[y: y + h, x: x + w] = mosaic
 
         return image
 
-    except:
+    except Exception:
         return image

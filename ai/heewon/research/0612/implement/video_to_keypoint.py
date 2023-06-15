@@ -1,14 +1,15 @@
-#pip install opencv-python
-#pip install tensorflow
+# pip install opencv-python
+# pip install tensorflow
 
 import boto3
 import cv2
 import os
 import tensorflow as tf
-import numpy as np
 import json
 
-def video_to_keypoint(AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, bucket, videoname):
+
+def video_to_keypoint(AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY,
+                      bucket, videoname):
     '''
     ---------------함수 설명---------------
     비디오의 프레임 단위로 각 부위별 x,y 좌표를 json 파일로 저장하는 함수입니다.
@@ -22,7 +23,7 @@ def video_to_keypoint(AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, bucket, videonam
                     XXX .mp4빼고 XXX 입력! (불편하심 나중에 수정할게요)
                     ex) karina.mp4면 karina만 입력
 
-   ---------------return 값 설명---------------
+    ---------------return 값 설명---------------
     * type : json file
 
     - video_to_xy[0] : FPS
@@ -30,48 +31,46 @@ def video_to_keypoint(AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, bucket, videonam
 
     ---------------s3 저장 경로---------------
     (나중에 backend분들과 상의 후 수정 필요)
-    - XXX 원본 영상이 저장된 경로 : f'video/dancer_video/video/{videoname}.mp4' (s3_videopath)
-    - XXX json 파일이 저장될 경로 : f'video/dancer_video/json/{videoname}.mp4' (s3_savepath)
+    - 원본 영상 저장된 경로 : f'video/dancer_video/video/{videoname}.mp4' (s3_videopath)
+    - json 파일 저장될 경로 : f'video/dancer_video/json/{videoname}.mp4' (s3_savepath)
 
     '''
 
+    # s3로드
+    client = boto3.client('s3', aws_access_key_id=AWS_ACCESS_KEY_ID,
+                          aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
+                          region_name='ap-northeast-2')
 
-    #s3로드
-    client = boto3.client('s3',
-                        aws_access_key_id=AWS_ACCESS_KEY_ID,
-                        aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
-                        #   region_name=AWS_DEFAULT_REGION
-                        )
-
-    #------------------s3에서 영상 다운로드------------------
-    #1) 다운할 s3 경로
+    # ------------------s3에서 영상 다운로드------------------
+    # 1) 다운할 s3 경로
     s3_videopath = 'video/dancer_video/video/' + videoname + '.mp4'
 
-    #2) 영상 저장할 경로 지정
-    localpath = os.path.dirname(os.path.abspath(__file__)) #현재 폴더
-    modelpath = os.path.join(localpath, 'lightning_int8.tflite') #모델 경로
-    local_videopath = os.path.join(localpath, videoname + '.mp4') #비디오 경로
+    # 2) 영상 저장할 경로 지정
+    localpath = os.path.dirname(os.path.abspath(__file__))  # 현재 폴더
+    modelpath = os.path.join(localpath, 'lightning_int8.tflite')  # 모델 경로
+    local_videopath = os.path.join(localpath, videoname + '.mp4')  # 비디오 경로
 
-    #3) local에 영상 저장
-    client.download_file(bucket, s3_videopath, local_videopath) #파일 다운 : 버킷, s3경로, 저장할 로컬 경로
+    # 3) local에 영상 저장
+    # 파일 다운 : 버킷, s3경로, 저장할 로컬 경로
+    client.download_file(bucket, s3_videopath, local_videopath)
 
-    #------------------x,y keypoints가 담긴 json 파일 생성------------------
+    # ------------------x,y keypoints가 담긴 json 파일 생성------------------
 
-    #비디오 불러오기
+    # 비디오 불러오기
     video = cv2.VideoCapture(local_videopath)
 
     # 모델 불러오기
     interpreter = tf.lite.Interpreter(model_path=modelpath)
     interpreter.allocate_tensors()
 
-    #비디오를 열 수 없다면 Could not Open 출력
+    # 비디오를 열 수 없다면 Could not Open 출력
     if not video.isOpened():
-        print("Could not Open :", filepath)
+        print("Could not Open :", local_videopath)
         exit(0)
 
-    #비디오가 정상적으로 open된 경우
+    # 비디오가 정상적으로 open된 경우
     else:
-        #불러온 비디오 파일의 정보 출력
+        # 불러온 비디오 파일의 정보 출력
         length = int(video.get(cv2.CAP_PROP_FRAME_COUNT))
         width = int(video.get(cv2.CAP_PROP_FRAME_WIDTH))
         height = int(video.get(cv2.CAP_PROP_FRAME_HEIGHT))
@@ -82,7 +81,7 @@ def video_to_keypoint(AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, bucket, videonam
         print("height :", height)
         print("fps :", fps)
 
-        #결과를 저장할 변수
+        # 결과를 저장할 변수
         result = [round(fps)]
 
         while(video.isOpened()):
@@ -91,23 +90,23 @@ def video_to_keypoint(AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, bucket, videonam
                 print('완료')
                 break
 
-            #dancer_x_y로 이미지의 스켈레톤 좌표를 출력합니다.
+            # dancer_x_y로 이미지의 스켈레톤 좌표를 출력합니다.
             result.append(dancer_x_y(interpreter, image))
 
         video.release()
 
-        #json파일로 저장
+        # json파일로 저장
         encode_file = json.dumps(result, indent=4, ensure_ascii=False)
 
-    #------------------s3에 저장 후 비디오 파일 삭제-----------------
+    # ------------------s3에 저장 후 비디오 파일 삭제-----------------
     s3_savepath = 'video/dancer_video/json/' + videoname + '.json'
     client.put_object(Bucket=bucket, Key=s3_savepath, Body=encode_file)
 
-    #편집에 사용되었던 비디오 파일 삭제
+    # 편집에 사용되었던 비디오 파일 삭제
     os.remove(local_videopath)
 
 
-#-----------------------------------------------
+# -----------------------------------------------
 
 def dancer_x_y(interpreter, image):
     '''
@@ -143,15 +142,15 @@ def dancer_x_y(interpreter, image):
     input_image = tf.expand_dims(image, axis=0)
     input_image = tf.image.resize_with_pad(input_image, input_size, input_size)
 
-    #movenet 함수로 키포인트를 추출합니다.
+    # movenet 함수로 키포인트를 추출합니다.
     keypoints = movenet(interpreter, input_image)
 
-    #movenet 출력값에 맞게 변경해줍니다.
+    # movenet 출력값에 맞게 변경해줍니다.
     cnt = 0
     total_score = 0
     for keypoint in keypoints[0, 0, :, :]:
         keypoint = keypoint.astype(float)
-        total_score+=keypoint[2]
+        total_score += keypoint[2]
 
         yc = keypoint[0] * y
         xc = keypoint[1] * x
@@ -169,7 +168,7 @@ def dancer_x_y(interpreter, image):
     return result
 
 
-#-----------------------------------------------
+# -----------------------------------------------
 
 def movenet(interpreter, input_image):
     '''
@@ -189,5 +188,3 @@ def movenet(interpreter, input_image):
     # Get the model prediction.
     keypoints_with_scores = interpreter.get_tensor(output_details[0]['index'])
     return keypoints_with_scores
-
-
