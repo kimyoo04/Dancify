@@ -1,13 +1,6 @@
-from typing import List, Dict, Tuple, Any
+from typing import List, Dict, Any
 import numpy as np
 import json
-
-
-# load_keypoints_from_json(file_path): JSON 파일의 경로를 입력받아, 해당 JSON에서 keypoint를 추출하여 리턴하는 함수
-# ┗ get_keypoints(json_data): json_data에서 얼굴 부분을 제외한 keypoint 정보 추출하는 함수
-# calculate_joint_angles(keypoint_list): 추출한 keypoint 간 벡터 방향(관절의 방향)을 고려하여 관절의 각도를 구하는 함수
-# ┗ compute_vector_angle(p1, p2, p3): 추출한 keypoint의 세 점을 입력하여 세 점의 벡터 사이 끼인 각을 구하는 함수
-# calculate_angle_difference(dancer_json_path, danceable_json_path): 댄서의 JSON 경로와 댄서블의 JSON 경로를 입력하여 두 JSON의 joint angle의 차를 구하는 함수
 
 JOINT_LIST = ['left_pelvic_joint', 'right_pelvic_joint', 'left_shoulder_joint', 'right_shoulder_joint',
               'left_elbow_joint', 'right_elbow_joint', 'left_knee_joint', 'right_knee_joint']
@@ -16,6 +9,12 @@ FPS = 15
 
 EIGHT_PART_LIST = ['left_pelvis', 'right_pelvis', 'left_upperarm', 'right_upperarm',
                    'left_forearm', 'right_forearm', 'left_leg', 'right_leg']
+
+# load_keypoints_from_json(file_path): JSON 파일의 경로를 입력받아, 해당 JSON에서 keypoint를 추출하여 리턴하는 함수
+# ┗ get_keypoints(json_data): json_data에서 얼굴 부분을 제외한 keypoint 정보 추출하는 함수
+# calculate_joint_angles(keypoint_list): 추출한 keypoint 간 벡터 방향(관절의 방향)을 고려하여 관절의 각도를 구하는 함수
+# ┗ compute_vector_angle(p1, p2, p3): 추출한 keypoint의 세 점을 입력하여 세 점의 벡터 사이 끼인 각을 구하는 함수
+# calculate_average_difference(dancer_json_path, danceable_json_path): 댄서와 댄서블의 JSON 경로를 입력받아 두 JSON의 차를 구하고, 초 단위로 묶어서 반환하는 함수
 
 
 def load_keypoints_from_json(file_path: str) -> List[List[Any]]:
