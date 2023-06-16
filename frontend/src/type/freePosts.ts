@@ -1,5 +1,5 @@
 import { TNickname, TUserId } from "./auth";
-import { TComment, TCommentCount } from "./comments";
+import { IComment, TCommentCount } from "./comments";
 import { TLikesCount } from "./like";
 import {
   TPostId,
@@ -43,7 +43,7 @@ export interface IFreePostDetail {
   postImage: TPostImage;
   views: TViews;
   likesCount: TLikesCount;
-  comments: TComment[];
+  comments: IComment[];
 }
 
 export interface IFreePostDataArr {

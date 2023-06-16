@@ -1,10 +1,25 @@
+import { AxiosError } from "axios";
 import axios from "@api/axiosInstance";
 import { useInfiniteQuery } from "@tanstack/react-query";
-import { IVideoPostsPerPage } from "@type/videoPosts";
-import { AxiosError } from "axios";
+import { useAppSelector } from "@toolkit/hook";
 
-export const readVideoPostsPerPage = async (page: number) => {
-  const params = { page };
+import { TGenre, TSort } from "@type/filter";
+import { TSearchKeyword } from "@type/search";
+import { IPostQueryParams } from "@type/posts";
+import { IVideoPostsPerPage } from "@type/videoPosts";
+
+export const readVideoPostsPerPage = async (
+  page: number,
+  searchKeyword: TSearchKeyword,
+  sort: TSort,
+  genre: TGenre
+) => {
+  const params: IPostQueryParams = { page };
+
+  if (searchKeyword !== "") params.q = searchKeyword;
+  if (sort !== "") params.sort = sort;
+  if (genre !== "") params.genre = genre;
+
   try {
     const response = await axios.get(`/posts/video`, { params });
     return response.data;
@@ -15,9 +30,22 @@ export const readVideoPostsPerPage = async (page: number) => {
 };
 
 export const useReadVideoPostsPerPage = () => {
+  // 검색, 정렬, 장르, 페이징
+  const searchKeyword = useAppSelector((state) => state.search.searchKeyword);
+  const { sort, genre } = useAppSelector((state) => state.filter);
+
   return useInfiniteQuery<IVideoPostsPerPage, AxiosError>({
-    queryKey: [`/posts/video`],
-    queryFn: ({ pageParam = 1 }) => readVideoPostsPerPage(pageParam),
+    queryKey: [
+      `/posts/video`,
+      "searchKeyword",
+      searchKeyword,
+      "sort",
+      sort,
+      "genre",
+      genre,
+    ],
+    queryFn: ({ pageParam = 1 }) =>
+      readVideoPostsPerPage(pageParam, searchKeyword, sort, genre),
     getNextPageParam: (lastPage) => {
       if (lastPage.currentPage < lastPage.totalPages) {
         return lastPage.currentPage + 1;
