@@ -101,7 +101,7 @@ class LikeView(CreateAPIView, DestroyAPIView):
             user_id = user_info['userId']
 
             query = Like.objects.filter(user=User.objects.get(user_id=user_id),
-                                   post_id=post_id)
+                                        post_id=post_id)
             if query.exists():
                 query.delete()
                 return Response(status=status.HTTP_204_NO_CONTENT)

@@ -87,14 +87,14 @@ def video_to_keypoint(AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, bucket, local_vi
         # 프레임 체크
         frame_interval = round(fps / 15)
 
-        while(video.isOpened()):
+        while (video.isOpened()):
             ret, image = video.read()
             if not ret:
                 print('완료')
                 break
 
             # dancer_x_y로 이미지의 스켈레톤 좌표를 출력합니다.
-            if(int(video.get(1)) % frame_interval == 0):
+            if (int(video.get(1)) % frame_interval == 0):
                 # print('Saved coordinate :', int(video.get(1)))
                 result.append(dancer_x_y(interpreter, image))
 
