@@ -180,7 +180,7 @@ export default function ProfileForm() {
           )}
         />
 
-        <Button disabled={isLoading} type="submit">
+        <Button disabled={isLoading} className="text-white" type="submit">
           프로필 정보 수정
         </Button>
       </form>

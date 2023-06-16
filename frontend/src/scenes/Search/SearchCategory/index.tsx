@@ -10,9 +10,9 @@ export default function SearchCategory() {
     korean: TSearchCategoryKorean;
     english: TSearchCategoryEnglish;
   }[] = [
-    { korean: "댄서게시판", english: "dancer" },
-    { korean: "자랑게시판", english: "video" },
-    { korean: "자유게시판", english: "free" },
+    { korean: "댄서게시판", english: "DANCER" },
+    { korean: "자랑게시판", english: "VIDEO" },
+    { korean: "자유게시판", english: "FREE" },
   ];
 
   return (

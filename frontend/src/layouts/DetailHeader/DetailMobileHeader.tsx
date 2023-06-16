@@ -14,7 +14,7 @@ export default function DetailMobileHeader() {
     ? "자유게시판"
     : pathsArr.includes("video")
     ? "자랑게시판"
-    : pathsArr.includes("dnacer")
+    : pathsArr.includes("dancer")
     ? "댄서게시판"
     : pathsArr.includes("likes")
     ? "좋아요 게시글 목록"

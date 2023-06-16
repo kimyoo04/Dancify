@@ -1,9 +1,12 @@
 export interface IFilterState {
-  sort: string;
-  genre: string;
+  sort: TSort;
+  genre: TGenre;
 }
 
 export interface IFilterAction {
-  sort?: "like" | "view";
-  genre?: string; // 임시
+  sort?: TSort;
+  genre?: TGenre;
 }
+
+export type TSort = "like" | "view" | "";
+export type TGenre = string;
