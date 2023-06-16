@@ -36,11 +36,11 @@ export function poseSimilarity(
   };
   const options = Object.assign({}, defaultOptions, overridenOptions);
 
-  let [vectorPose1XY, vectorPose1Scores] = vectorizeAndNormalize(
+  const [vectorPose1XY, vectorPose1Scores] = vectorizeAndNormalize(
     pose1,
     options
   );
-  let [vectorPose2XY] = vectorizeAndNormalize(pose2, options);
+  const [vectorPose2XY] = vectorizeAndNormalize(pose2, options);
 
   // execute strategy
   // if strategy is given by the string form
@@ -62,8 +62,6 @@ export function poseSimilarity(
         );
     }
     // if strategy is given by a custom function
-  } else if (typeof options.strategy === "function") {
-    return options.strategy(vectorPose1XY, vectorPose2XY, vectorPose1Scores);
   } else {
     throw new TypeError(
       `[Bad strategy option] It only accepts string or function types of values.`

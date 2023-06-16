@@ -1,11 +1,20 @@
-import { Pose, Options, WeightOption, WeightOptionMode } from "../types";
+import {
+  Pose,
+  Keypoint,
+  Options,
+  WeightOption,
+  WeightOptionMode,
+} from "../types";
 
 export function vectorizeAndNormalize(
   pose: Pose,
   options: Options
 ): number[][] {
-  let [vectorPoseXY, vecotPoseTransform, vectorPoseConfidences] =
-    convertPoseToVectors(pose, options.customWeight);
+  const vectors = convertPoseToVectors(pose, options.customWeight);
+
+  let vectorPoseXY = vectors[0];
+  const vecotPoseTransform = vectors[1];
+  const vectorPoseConfidences = vectors[2];
 
   vectorPoseXY = scaleAndTranslate(vectorPoseXY, vecotPoseTransform);
 
@@ -33,14 +42,14 @@ export function convertPoseToVectors(
   pose: Pose,
   weightOption?: WeightOption
 ): number[][] {
-  let vectorPoseXY: number[] = [];
+  const vectorPoseXY: number[] = [];
 
   let translateX = Number.POSITIVE_INFINITY;
   let translateY = Number.POSITIVE_INFINITY;
   let scaler = Number.NEGATIVE_INFINITY;
 
   let vectorScoresSum = 0;
-  let vectorScores: number[] = [];
+  const vectorScores: number[] = [];
 
   // get weightOption if exists
   let mode: WeightOptionMode, scores: Record<string, number> | number[];
@@ -57,7 +66,7 @@ export function convertPoseToVectors(
       Please refer the document https://github.com/freshsomebody/posenet-similarity to set it correctly.`);
   }
 
-  pose.keypoints.forEach((point, index) => {
+  pose.keypoints.forEach((point: Keypoint, index: number) => {
     const x: number = point.x;
     const y: number = point.y;
 
@@ -72,9 +81,13 @@ export function convertPoseToVectors(
     if (mode && scores && score) {
       let scoreModifier: boolean | number = false;
       // try to get scores from the weightOption
-      if (scores[point.name] || scores[point.name] === 0)
-        scoreModifier = scores[point.name];
-      if (scores[index] || scores[index] === 0) scoreModifier = scores[index];
+
+      if (typeof scores === "object" && !Array.isArray(scores)) {
+        if (scores[point.name] || scores[point.name] === 0)
+          scoreModifier = scores[point.name];
+      } else if (Array.isArray(scores)) {
+        if (scores[index] || scores[index] === 0) scoreModifier = scores[index];
+      }
 
       // manipulate the original score
       if (

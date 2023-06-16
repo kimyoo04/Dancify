@@ -36,7 +36,7 @@ def video_to_keypoint(AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, bucket, local_vi
     - jsonname :   s3에 저장될 json이름을 입력합니다.
                    ex) karina.json이면 karina만 입력
 
-   ---------------return 값 설명---------------
+    ---------------return 값 설명---------------
     * type : json file
 
     - video_to_xy[0] : FPS
@@ -157,18 +157,19 @@ def dancer_x_y(interpreter, image):
         keypoint = keypoint.astype(float)
         total_score += keypoint[2]
 
-        yc = keypoint[0] * y
-        xc = keypoint[1] * x
+        yc = round(keypoint[0] * y, 3)
+        xc = round(keypoint[1] * x, 3)
+        score = round(keypoint[2], 3)
 
         data = {"y": yc,
                 "x": xc,
-                "score": keypoint[2],
+                "score": score,
                 "name": KEYPOINT_REVERSE[cnt]}
 
         tmp.append(data)
         cnt += 1
     result[0]["keypoints"] = tmp
-    result[0]["score"] = total_score / 17
+    result[0]["score"] = round((total_score / 17), 3)
 
     return result
 

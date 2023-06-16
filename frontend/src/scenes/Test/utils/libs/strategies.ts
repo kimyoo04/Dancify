@@ -36,7 +36,7 @@ export function weightedDistanceMatching(
 
   let summation2 = 0;
   for (let i = 0; i < vectorPose1XY.length; i++) {
-    let confIndex = Math.floor(i / 2);
+    const confIndex = Math.floor(i / 2);
     summation2 +=
       vectorConfidences[confIndex] *
       Math.abs(vectorPose1XY[i] - vectorPose2XY[i]);
