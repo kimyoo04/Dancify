@@ -41,9 +41,9 @@ jobs:
       - name: Install dependencies
         run: |
           cd frontend
-          npm ci
+          yarn ci
 
       - name: Build Next.js app
         run: |
           cd frontend
-          npm run build
+          yarn run build
