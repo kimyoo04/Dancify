@@ -105,3 +105,15 @@ class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['description', 'profileImage', 'nickname', 'email']
+
+
+class UserSerializer(serializers.ModelSerializer):
+
+    userId = serializers.CharField(source='user_id')
+    isDancer = serializers.BooleanField(source='is_dancer')
+    profileImage = serializers.URLField(source='profile_image')
+
+    class Meta:
+        model = User
+        fields = ['userId', 'email', 'nickname', 'isDancer',
+                  'description', 'profileImage', 'phone']
