@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import { ISearchField } from "@type/search";
 
-import { useAppDispatch } from "@toolkit/hook";
+import { useAppDispatch, useAppSelector } from "@toolkit/hook";
 import { searchActions } from "@features/search/searchSlice";
 
 import { motion } from "framer-motion";
@@ -13,20 +13,25 @@ import {
   FormItem,
   FormLabel,
 } from "@components/ui/form";
+import { useRouter } from "next/router";
 
 export default function SearchBar() {
   const dispatch = useAppDispatch();
+  const searchCategory = useAppSelector((state) => state.search.searchCategory);
+
+  const router = useRouter();
 
   const form = useForm<ISearchField>({
     defaultValues: {},
   });
 
   const onValid = (data: ISearchField) => {
-    console.log(data);
     // validation
     if (!data.searchKeyword) return;
 
-    console.log("asdasdsd");
+    // 검색 결과 페이지로 이동
+    router.push(`/posts/${searchCategory.toLowerCase()}`);
+
     // category에 따라 검색어를 추가해서 요청보내기 (trim()으로 공백 제거)
     dispatch(
       searchActions.searchKeyword({ searchKeyword: data.searchKeyword.trim() })
@@ -37,10 +42,10 @@ export default function SearchBar() {
   };
 
   return (
-    <section className="w-full">
+    <section className="h-10 w-full">
       <Form {...form}>
         <form
-          className="group relative w-full rounded-md"
+          className="group relative h-10 w-full rounded-md "
           onSubmit={form.handleSubmit(onValid)}
         >
           <FormField
@@ -51,7 +56,7 @@ export default function SearchBar() {
                 <FormControl>
                   <Input
                     {...field}
-                    className="absolute h-10 w-full bg-background pl-9"
+                    className="absolute h-10 w-full bg-background pl-9 shadow-md"
                     id="search"
                     name="search"
                     placeholder={
@@ -66,7 +71,7 @@ export default function SearchBar() {
                   {/* 돋보기 아이콘 */}
                   <button
                     type="submit"
-                    className="col-center absolute bottom-3 left-5 text-2xl font-medium "
+                    className="col-center absolute bottom-5 left-5 text-2xl font-medium "
                   >
                     <motion.i
                       whileTap={{ scale: 0.8 }}
@@ -77,7 +82,7 @@ export default function SearchBar() {
                   {/* 검색 버튼 */}
                   <button
                     type="submit"
-                    className="col-center absolute -bottom-2 right-0 h-10 rounded-r-md bg-primary px-3 text-white"
+                    className="col-center absolute right-0 h-10 rounded-r-md bg-primary px-3 text-white"
                   >
                     <motion.span
                       whileTap={{ scale: 0.8 }}

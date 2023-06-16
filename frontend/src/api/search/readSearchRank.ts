@@ -1,6 +1,6 @@
 import axios from "@api/axiosInstance";
 import { useQuery } from "@tanstack/react-query";
-import { IFreePostDetail } from "@type/freePosts";
+import { ISearchRank } from "@type/search";
 
 export const readSearchRank = async () => {
   try {
@@ -13,7 +13,7 @@ export const readSearchRank = async () => {
 };
 
 export const useReadSearchRank = () => {
-  return useQuery<IFreePostDetail>({
+  return useQuery<ISearchRank>({
     queryKey: [`/search-rank`],
     queryFn: readSearchRank,
   });
