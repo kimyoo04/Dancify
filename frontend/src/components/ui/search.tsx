@@ -12,16 +12,16 @@ export default function Search() {
   const router = useRouter();
   const pathsArr = router.asPath.split("/");
   const currentPage = pathsArr.includes("free")
-    ? "free"
+    ? "FREE"
     : pathsArr.includes("video")
-    ? "video"
+    ? "VIDEO"
     : pathsArr.includes("dancer")
-    ? "dancer"
+    ? "DANCER"
     : pathsArr.includes("search")
-    ? "search"
-    : "dancer"; // 어느 것에도 일치하지 않으면 dancer로 설정
+    ? "SEARCH"
+    : "DANCER"; // 어느 것에도 일치하지 않으면 dancer로 설정
 
-  return currentPage !== "search" ? (
+  return currentPage !== "SEARCH" ? (
     <Link
       href={"/search"}
       onClick={() =>

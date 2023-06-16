@@ -7,7 +7,7 @@ import {
 } from "@type/search";
 
 const initialState: ISearchState = {
-  searchCategory: "dancer",
+  searchCategory: "DANCER",
   searchKeyword: "",
   keywords: [],
 };
