@@ -45,7 +45,7 @@ export default function SearchBar() {
     <section className="h-10 w-full">
       <Form {...form}>
         <form
-          className="group relative h-10 w-full rounded-md "
+          className="group relative h-10 w-full rounded-md"
           onSubmit={form.handleSubmit(onValid)}
         >
           <FormField
@@ -56,7 +56,7 @@ export default function SearchBar() {
                 <FormControl>
                   <Input
                     {...field}
-                    className="absolute h-10 w-full bg-background pl-9 shadow-md"
+                    className="absolute h-10 w-full bg-background pl-9"
                     id="search"
                     name="search"
                     placeholder={

@@ -1,15 +1,11 @@
 import SearchBar from "./SearchBar";
-import SearchCategory from "./SearchCategory";
-import SearchKeywordsHistory from "./SearchKeywordsHistory";
-import SearchRank from "./SearchRank";
+import SearchPopUpModal from "./SearchPopUp";
 
-export default function SideBar() {
+export default function Search() {
   return (
-    <div className="relative flex h-full w-full flex-col gap-5">
-      <SearchCategory />
+    <div className="relative flex w-80 flex-col gap-5">
       <SearchBar />
-      <SearchKeywordsHistory />
-      <SearchRank />
+      <SearchPopUpModal />
     </div>
   );
 }
