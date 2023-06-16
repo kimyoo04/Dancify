@@ -14,8 +14,8 @@ export default function DancerPosts() {
 
   return (
     <>
-      <div className="container bg-background">
-        <div className="h-full py-6 lg:px-8">
+      <div className="bg-background">
+        <div className="h-full">
           <div className="h-full space-y-6">
             <div className="h-full flex-col">
               {/* 자유게시판 fetch 결과 출력 */}

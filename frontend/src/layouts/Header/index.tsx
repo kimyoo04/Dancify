@@ -6,13 +6,13 @@ export default function Header() {
   const isLoading = useAppSelector((state) => state.auth.isLoading);
 
   return (
-    <div className="w-full">
+    <header className="w-full">
       {!isLoading && (
         <div className="fixed top-0 w-full">
           <DesktopHeader />
           <MobileHeader />
         </div>
       )}
-    </div>
+    </header>
   );
 }
