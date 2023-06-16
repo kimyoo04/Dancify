@@ -40,16 +40,16 @@ export const FontSize = TextStyle.extend({
       ...this.parent?.(),
       setFontSize:
         (fontSize) =>
-        ({commands, chain}) => {
+        ({ commands }) => {
           commands.focus();
-          return commands.setMark(this.name, {fontSize: fontSize});
+          return commands.setMark(this.name, { fontSize: fontSize });
         },
       unsetFontSize:
         () =>
-        ({chain}) => {
+        ({ chain }) => {
           return chain()
             .focus()
-            .setMark(this.name, {fontSize: null})
+            .setMark(this.name, { fontSize: null })
             .removeEmptyTextStyle()
             .run();
         },

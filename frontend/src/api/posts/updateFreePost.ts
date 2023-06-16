@@ -1,6 +1,6 @@
 import axios from "@api/axiosInstance";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { IUpdatePostCheck, IUpdatePostForm } from "@type/posts";
+import { IUpdatePostForm } from "@type/freePosts";
 import { useRouter } from "next/router";
 
 // 게시글 Update
@@ -8,18 +8,6 @@ import { useRouter } from "next/router";
 export const updatePostDetail = async (updatedPost: IUpdatePostForm) => {
   const response = await axios.put(`/posts/${updatedPost.postId}`, updatedPost);
   return response;
-};
-
-// 게시글 Update Password Check
-export const updatePostPwd = async (postIdPwd: IUpdatePostCheck) => {
-  try {
-    await axios.post(`/posts/${postIdPwd.postId}/matchCheck`, {
-      password: postIdPwd.password,
-    });
-    return true;
-  } catch (err) {
-    return false;
-  }
 };
 
 // useUpdatePostMutation
