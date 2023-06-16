@@ -9,8 +9,16 @@ import json
 # ┗ compute_vector_angle(p1, p2, p3): 추출한 keypoint의 세 점을 입력하여 세 점의 벡터 사이 끼인 각을 구하는 함수
 # calculate_angle_difference(dancer_json_path, danceable_json_path): 댄서의 JSON 경로와 댄서블의 JSON 경로를 입력하여 두 JSON의 joint angle의 차를 구하는 함수
 
+JOINT_LIST = ['left_pelvic_joint', 'right_pelvic_joint', 'left_shoulder_joint', 'right_shoulder_joint',
+              'left_elbow_joint', 'right_elbow_joint', 'left_knee_joint', 'right_knee_joint']
 
-def load_keypoints_from_json(file_path: str) -> Tuple[List[List[Any]], int]:
+FPS = 15
+
+EIGHT_PART_LIST = ['left_pelvis', 'right_pelvis', 'left_upperarm', 'right_upperarm',
+                   'left_forearm', 'right_forearm', 'left_leg', 'right_leg']
+
+
+def load_keypoints_from_json(file_path: str) -> List[List[Any]]:
     """
     주어진 파일 경로로부터 JSON 파일을 읽고, 키포인트 정보를 추출하여 리스트로 반환합니다.
 
@@ -30,7 +38,7 @@ def load_keypoints_from_json(file_path: str) -> Tuple[List[List[Any]], int]:
         kps = []
 
         # index=1부터 끝까지 순회하며 JSON 원본 데이터의 5~16번째에 있는 keypoint의 x, y, "name" 추출
-        for idx in range(1, len(json_data)):
+        for idx in range(len(json_data)):
             nth_kp = []
             keypoint = json_data[idx]
 
@@ -58,12 +66,11 @@ def load_keypoints_from_json(file_path: str) -> Tuple[List[List[Any]], int]:
 
     # 3. get_keypoints 함수를 통해 JSON에서 keypoint를 추출하고 이를 리턴
     try:
-        fps = data[0]
         keypoints = get_keypoints(data)
     except Exception as e:
         print(f"Error occurred while extracting keypoints: {e}")
         raise
-    return keypoints, fps
+    return keypoints
 
 
 def calculate_joint_angles(keypoint_list: List[List[List[float]]]) -> List[Dict[str, float]]:
@@ -99,9 +106,11 @@ def calculate_joint_angles(keypoint_list: List[List[List[float]]]) -> List[Dict[
         magnitude1 = np.linalg.norm(L1)
         magnitude2 = np.linalg.norm(L2)
 
-        # 각도를 radian과 degree로 계산
+        epsilon = 1e-7
+
+        # 각도를 radian과 degree로 계산 (epsilon 추가하여 0으로 나누는 것을 방지)
         angle_deg = np.degrees(
-            np.arccos(np.dot(L1, L2) / (magnitude1 * magnitude2)))
+            np.arccos(np.dot(L1, L2) / (magnitude1 * magnitude2 + epsilon)))
 
         return angle_deg
     # --------------------------------------------------------------------------------------
@@ -147,70 +156,56 @@ def calculate_joint_angles(keypoint_list: List[List[List[float]]]) -> List[Dict[
     return joint_angle_list
 
 
-def average_angle_difference(dancer_json_path: str, danceable_json_path: str) -> List[float]:
+def calculate_average_difference(dancer_json_path: str, danceable_json_path: str) -> List[Dict[str, float]]:
     """
-    주어진 두 JSON 파일의 키포인트 각도 차이의 평균을 계산합니다.
+    댄서와 댄서블 키포인트 간의 평균 차이를 계산하고 사전을 생성합니다.
 
     Args:
-        dancer_json_path (str): dancer의 JSON 파일 경로
-        danceable_json_path (str): danceable의 JSON 파일 경로
+        dancer_json_path (str): 댄서 키포인트가 포함된 JSON 파일의 경로.
+        danceable_json_path (str): 댄서블 키포인트가 포함된 JSON 파일의 경로.
 
     Returns:
-        List[float]: 각도 차이의 평균 리스트
-
-    Raises:
-        FileNotFoundError: 입력된 파일 경로가 존재하지 않을 때
-        json.JSONDecodeError: JSON 파일의 구조나 내용이 예상과 다를 때
-        ValueError: difference 리스트가 비어 있거나, difference 리스트의 길이가 0일 때
+        List[Dict[str, float]]: 각 사전은 특정 시간 간격에 대한 댄서와 댄서블 키포인트 간의 평균 차이를 나타냅니다.
+        각 사전에는 신체 부위 이름이 키로, 평균 차이 값이 float 값으로 포함됩니다.
+        'sec' 키는 초 단위의 시간 간격을 나타냅니다.
     """
-    # --------------------------------------------------------------------------------------
-    # 1. dancer의 JSON과 danceable의 JSON의 경로를 입력받아 각도의 차이를 계산
-    def calculate_angle_difference(dancer_json_path: str, danceable_json_path: str) -> Tuple[List[List[float]], int, int]:
-        try:
-            dancer, dancer_fps = load_keypoints_from_json(dancer_json_path)
-            danceable, danceable_fps = load_keypoints_from_json(
-                danceable_json_path)
-        except (FileNotFoundError, json.JSONDecodeError) as e:
-            print(f"Error occurred while loading keypoints: {e}")
-            raise
+    # 1. load_keypoints_from_json 함수를 통해 JSON을 불러와 필요한 부분만 파싱
+    try:
+        dancer = load_keypoints_from_json(dancer_json_path)
+        danceable = load_keypoints_from_json(danceable_json_path)
+    except (FileNotFoundError, json.JSONDecodeError) as e:
+        print(f"Error occurred while loading keypoints: {e}")
+        raise
 
-        try:
-            dancer_joint = calculate_joint_angles(dancer)
-            danceable_joint = calculate_joint_angles(danceable)
-        except Exception as e:
-            print(f"Error occurred while calculating joint angles: {e}")
-            raise
+    # 2. keypoints가 들은 리스트에서 관절 각도만 추출하여 딕셔너리 생성
+    try:
+        dancer_joint = calculate_joint_angles(dancer)
+        danceable_joint = calculate_joint_angles(danceable)
+    except Exception as e:
+        print(f"Error occurred while calculating joint angles: {e}")
+        raise
 
-        joint_list = ['left_pelvic_joint', 'right_pelvic_joint', 'left_shoulder_joint', 'right_shoulder_joint',
-                      'left_elbow_joint', 'right_elbow_joint', 'left_knee_joint', 'right_knee_joint']
+    # 3. 댄서와 댄서블의 관절 딕셔너리에서 대응되는 것을 추출하여 차를 구하고 리스트로 저장
+    diff_list = []
 
-        diff_list = []
+    for dancer_joint_item, danceable_joint_item in zip(dancer_joint, danceable_joint):
+        diff = [abs(dancer_joint_item[joint] - danceable_joint_item[joint])
+                for joint in JOINT_LIST]
+        diff_list.append(list(diff))
 
-        for dancer_joint_item, danceable_joint_item in zip(dancer_joint, danceable_joint):
-            diff = [abs(dancer_joint_item[joint] - danceable_joint_item[joint])
-                    for joint in joint_list]
-            diff_list.append(list(diff))
-
-        return diff_list, dancer_fps, danceable_fps
-    # --------------------------------------------------------------------------------------
-
-    difference, dancer_fps, danceable_fps = calculate_angle_difference(
-        dancer_json_path, danceable_json_path)
-
-    # difference 리스트가 비어 있는지 확인
-    if not difference:
+    if not diff_list:
         raise ValueError("The difference list is empty.")
 
-    angle_sums = [0.0] * 8
+    # 4. 차가 저장된 리스트에서 1초 단위로 추출하여 딕셔너리로 반환
+    total_angle_diff_per_sec = []
 
-    for diff in difference:
-        for i in range(len(diff)):
-            angle_sums[i] += diff[i]
+    for i in range(FPS - 1, len(diff_list), FPS):
+        group = diff_list[i - FPS + 1: i + 1]           # fps에 맞춰 초단위 그룹 생성
+        group_average = [sum(col) / len(col)
+                         for col in zip(*group)]        # 각 그룹마다 평균을 계산
+        total_angle_diff_per_sec.append(group_average)
 
-    # difference 리스트의 길이가 0인지 확인 (0으로 나누는 오류 방지)
-    if len(difference) == 0:
-        raise ValueError("Cannot divide by zero.")
+    angle_dict_list = [{**dict(zip(EIGHT_PART_LIST, angles)), 'sec': i}
+                       for i, angles in enumerate(total_angle_diff_per_sec, start=1)]
 
-    angle_difference = [x / len(difference) for x in angle_sums]
-
-    return angle_difference
+    return angle_dict_list
