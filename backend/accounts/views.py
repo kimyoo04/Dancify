@@ -11,7 +11,7 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 
-from accounts.serializers import LoginSerializer, RegisterSerializer, ProfileSerializer
+from accounts.serializers import LoginSerializer, RegisterSerializer, ProfileSerializer, UserSerializer
 from accounts.authentication import handle_invalid_token
 from accounts.authentication import decode_refresh_token
 from accounts.authentication import set_cookies_to_response
@@ -163,17 +163,6 @@ class JWTRefreshView(APIView):
         return response
 
 
-# 미들웨어 테스트를 위한 테스트 뷰
-class TestView(APIView):
-    def post(self, request):
-        print('test View 실행')
-        json_data = {'test': 'success!'}
-        response = JsonResponse(json_data)
-        print('뷰 응답하기 바로 전')
-
-        return response
-
-
 class UpdateProfileView(APIView):
     def save_profile_image_at_s3(self, user_id, decoded_data):
 
@@ -229,11 +218,37 @@ class UpdateProfileView(APIView):
             response = set_cookies_to_response(response, refresh_token, access_token)
 
         except serializers.ValidationError:
-            response = JsonResponse({'message': '잘못된 url 요청입니다.'},
+            response = JsonResponse({'email': '이메일이 중복되었습니다.'},
                                     status=status.HTTP_400_BAD_REQUEST)
 
         return response
 
+    def get(self, request):
+        user_info = get_user_info_from_token(request)
+
+        try:
+            user = User.objects.get(user_id=user_info['userId'])
+
+            serializer = UserSerializer(user)
+            serializered_data = serializer.data
+            response = JsonResponse(serializered_data)
+
+        except Exception as e:
+            print(e)
+            response = JsonResponse({'error': e},
+                                    status=status.HTTP_400_BAD_REQUEST)
+        return response
+
+
+# 미들웨어 테스트를 위한 테스트 뷰
+class TestView(APIView):
+    def post(self, request):
+        print('test View 실행')
+        json_data = {'test': 'success!'}
+        response = JsonResponse(json_data)
+        print('뷰 응답하기 바로 전')
+
+        return response
 
 # 폼 형식의 데이터를 처리할때
 # class UpdateProfileView(APIView):
