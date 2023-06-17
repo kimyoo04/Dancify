@@ -254,7 +254,7 @@ def calculate_score(dancer_json_path: str, danceable_json_path: str) -> List[Dic
         angle_dict = {'sec': i}
         for part in ['forearm', 'leg', 'upperarm', 'pelvis']:
             angle_dict[part] = int((angles[EIGHT_PART_LIST.index(
-                'left_'+part)] + angles[EIGHT_PART_LIST.index('right_'+part)]) / 2)
+                'left_' + part)] + angles[EIGHT_PART_LIST.index('right_' + part)]) / 2)
         angle_dict_list.append(angle_dict)
 
     return angle_dict_list
