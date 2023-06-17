@@ -7,7 +7,6 @@ import FreePostItem from "./FreePostItem";
 import FreePostLoader from "./FreePostLoader";
 import PostMore from "@scenes/Posts/PostItem/PostMore";
 import PostNotFound from "@scenes/Posts/PostItem/PostNotFound";
-import { Separator } from "@components/ui/separator";
 
 export default function FreePostList({ post }: { post: IUseInfniteFreePosts }) {
   const {
@@ -27,20 +26,6 @@ export default function FreePostList({ post }: { post: IUseInfniteFreePosts }) {
 
   return (
     <section className="col-start w-full gap-4">
-      <div className="w-full">
-        <div className="flex items-center justify-between">
-          <div className="space-y-1">
-            <h2 className="text-2xl font-semibold tracking-tight">
-              자유게시판
-            </h2>
-            <p className="text-sm text-muted-foreground">
-              자유롭게 글을 올리고, 댓글을 달아주세요.
-            </p>
-          </div>
-        </div>
-        <Separator className="my-4" />
-      </div>
-
       {status === "loading" ? (
         <FreePostLoader />
       ) : status === "error" ? (
