@@ -82,7 +82,7 @@ class VideoPostViewSet(BasePostViewSet):
     def list(self, request, *args, **kwargs):
         q = self.request.GET.get('q', None)
 
-        if q is not None:
+        if q is not None and q != ' ':
             search_history, created = SearchHistory.objects.update_or_create(
                 search_keyword=q,
                 defaults={'post_category': 'VIDEO'}
