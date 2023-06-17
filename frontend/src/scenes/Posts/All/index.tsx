@@ -39,7 +39,7 @@ export default function AllPosts() {
             </div>
 
             <div>
-              <ViewMore href="/posts/video" />
+              <ViewMore href="/video" />
             </div>
           </div>
           <Separator className="my-4" />
@@ -85,7 +85,7 @@ export default function AllPosts() {
             </div>
 
             <div>
-              <ViewMore href="/posts/free" />
+              <ViewMore href="/free" />
             </div>
           </div>
           <Separator className="my-4" />

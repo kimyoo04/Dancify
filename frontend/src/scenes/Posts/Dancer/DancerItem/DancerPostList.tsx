@@ -7,7 +7,6 @@ import DancerPostItem from "./DancerPostItem";
 import DancerPostLoader from "./DancerPostLoader";
 import PostMore from "@scenes/Posts/PostItem/PostMore";
 import PostNotFound from "@scenes/Posts/PostItem/PostNotFound";
-import { Separator } from "@components/ui/separator";
 
 export default function DancerPostList({
   post,
@@ -31,20 +30,6 @@ export default function DancerPostList({
 
   return (
     <section className="col-start w-full gap-4">
-      <div className="w-full">
-        <div className="flex items-center justify-between">
-          <div className="space-y-1">
-            <h2 className="text-2xl font-semibold tracking-tight">
-              댄서게시판
-            </h2>
-            <p className="text-sm text-muted-foreground">
-              댄서의 안무를 따라하고, 교정받을 수 있습니다.
-            </p>
-          </div>
-        </div>
-        <Separator className="my-4" />
-      </div>
-
       {status === "loading" ? (
         <DancerPostLoader />
       ) : status === "error" ? (
