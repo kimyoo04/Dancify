@@ -10,13 +10,20 @@ export default function SearchRank() {
 
   return (
     <>
-      {isLoading && <Loading />}
-
-      {/* 에러 발생 시 에러 메시지 표시 */}
-      {error && <p className="text-alert_danger">문제가 발생했습니다.</p>}
-
       {/* 인기 검색어 영역 */}
-      <section className="z-10 h-52 w-full rounded-b-md">
+      <div className="z-10 h-52 w-full rounded-b-md">
+        {/* 로딩 UI */}
+        {isLoading ? (
+          <div className="col-center h-full w-full">
+            <Loading />
+          </div>
+        ) : null}
+
+        {/* 에러 발생 메시지 */}
+        {error ? (
+          <p className="text-alert_danger">문제가 발생했습니다.</p>
+        ) : null}
+
         {/* 인기 검색어 리스트 */}
         <ol className="m-0 px-4 py-3">
           {data && (
@@ -78,7 +85,7 @@ export default function SearchRank() {
             </>
           )}
         </ol>
-      </section>
+      </div>
     </>
   );
 }

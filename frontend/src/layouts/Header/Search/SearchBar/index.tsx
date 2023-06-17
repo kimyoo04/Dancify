@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import { ISearchField } from "@type/search";
 
-import { useAppDispatch, useAppSelector } from "@toolkit/hook";
+import { useAppDispatch } from "@toolkit/hook";
 import { searchActions } from "@features/search/searchSlice";
 
 import { motion } from "framer-motion";
@@ -13,13 +13,9 @@ import {
   FormItem,
   FormLabel,
 } from "@components/ui/form";
-import { useRouter } from "next/router";
 
 export default function SearchBar() {
   const dispatch = useAppDispatch();
-  const searchCategory = useAppSelector((state) => state.search.searchCategory);
-
-  const router = useRouter();
 
   const form = useForm<ISearchField>({
     defaultValues: {},
@@ -27,10 +23,10 @@ export default function SearchBar() {
 
   const onValid = (data: ISearchField) => {
     // validation
-    if (!data.searchKeyword) return;
-
-    // 검색 결과 페이지로 이동
-    router.push(`/posts/${searchCategory.toLowerCase()}`);
+    if (!data.searchKeyword) {
+      form.setFocus("searchKeyword");
+      return;
+    }
 
     // category에 따라 검색어를 추가해서 요청보내기 (trim()으로 공백 제거)
     dispatch(
@@ -42,10 +38,10 @@ export default function SearchBar() {
   };
 
   return (
-    <section className="h-10 w-full">
+    <section className="z-10 h-8 w-full">
       <Form {...form}>
         <form
-          className="group relative h-10 w-full rounded-md"
+          className="group relative h-8 w-full rounded-md"
           onSubmit={form.handleSubmit(onValid)}
         >
           <FormField
@@ -56,7 +52,7 @@ export default function SearchBar() {
                 <FormControl>
                   <Input
                     {...field}
-                    className="absolute h-10 w-full bg-background pl-9"
+                    className="absolute h-8 w-full bg-background pl-8"
                     id="search"
                     name="search"
                     placeholder={
@@ -65,24 +61,23 @@ export default function SearchBar() {
                         : "검색어를 입력해주세요."
                     }
                     autoComplete="off"
+                    onFocus={() => dispatch(searchActions.onFocus())}
+                    onClick={() => dispatch(searchActions.onFocus())}
                   />
                 </FormControl>
                 <FormLabel>
                   {/* 돋보기 아이콘 */}
                   <button
                     type="submit"
-                    className="col-center absolute bottom-5 left-5 text-2xl font-medium "
+                    className="col-center absolute bottom-4 left-4 text-2xl font-medium "
                   >
-                    <motion.i
-                      whileTap={{ scale: 0.8 }}
-                      className="ri-search-line absolute font-bold text-primary transition-all"
-                    ></motion.i>
+                    <i className="ri-search-line absolute font-bold text-primary transition-all"></i>
                   </button>
 
                   {/* 검색 버튼 */}
                   <button
                     type="submit"
-                    className="col-center absolute right-0 h-10 rounded-r-md bg-primary px-3 text-white"
+                    className="col-center absolute right-0 h-8 rounded-r-md bg-primary px-3 text-white"
                   >
                     <motion.span
                       whileTap={{ scale: 0.8 }}

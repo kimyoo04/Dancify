@@ -16,7 +16,7 @@ export default function SearchKeywordsHistory() {
   return (
     <>
       {/* 최근 검색어 영역 */}
-      <section className={`z-10 h-52 w-full rounded-b-md`}>
+      <div className={`z-10 h-52 w-full rounded-b-md`}>
         <ul className="m-0 px-4 py-3">
           {keywords.slice(0, 5).map((keyword, index) => (
             <SearchKeywordsItem
@@ -26,9 +26,7 @@ export default function SearchKeywordsHistory() {
             />
           ))}
         </ul>
-      </section>
+      </div>
     </>
-
-    //? 추후 연관 검색어 추천 넣기
   );
 }
