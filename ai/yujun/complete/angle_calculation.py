@@ -1,4 +1,4 @@
-from typing import List, Dict, Any
+from typing import List, Dict, Union, Any
 import numpy as np
 import json
 
@@ -261,40 +261,53 @@ def calculate_score(dancer_json_path: str, danceable_json_path: str) -> List[Dic
 
 
 # analyze_scores(data):
-def analyze_scores(data):
+def analyze_scores(data: List[Dict[str, int]]) -> List[Union[Dict[str, List[int]], str]]:
+    """
+    주어진 데이터를 분석하여 각 부위별 평균 점수, 최대/최소 평균 점수를 가진 부위,
+    그리고 각 부위의 초당 점수를 딕셔너리 형태로 반환합니다.
+
+    Parameters:
+    data (List[Dict[str, Union[str, int]]]): 각 초마다 각 부위의 점수를 담고 있는 리스트
+
+    Returns:
+    List[Union[Dict[str, List[int]], str]]: 각 부위의 초당 점수를 담은 딕셔너리와
+    평균 점수, 최대/최소 평균 점수를 가진 부위에 대한 정보를 담은 문자열 리스트
+    """
+    if not data:
+        return ["Error: No data provided"]
+
     scores = {"forearm": [], "leg": [], "upperarm": [], "pelvis": []}
 
-    # 1. 각 초마다 각 부위의 점수를 저장
-    for entry in data:
-        for body_part, score in entry.items():
-            if body_part != "sec":
-                scores[body_part].append(score)
+    try:
+        for entry in data:
+            for body_part, score in entry.items():
+                if body_part != "sec":
+                    if not isinstance(score, (int, float)):
+                        raise ValueError(
+                            f"Error: Invalid score {score} for {body_part}")
+                    scores[body_part].append(score)
+    except KeyError as e:
+        return [f"Error: Missing key {e} in data entry"]
 
-    # 2. 각 부위별 평균 점수 계산
     average_scores = {body_part: sum(scores) / len(scores)
                       for body_part, scores in scores.items()}
 
-    # 3. 평균 점수가 가장 높은 부위와 가장 낮은 부위 찾기
     best_part = max(average_scores, key=average_scores.__getitem__)
     worst_part = min(average_scores, key=average_scores.__getitem__)
 
-    # 4. 부위 이름을 한글로 치환하는 딕셔너리
     name_translation = {"forearm": "팔", "leg": "다리",
                         "upperarm": "어깨", "pelvis": "골반"}
 
     result = []
 
-    # 5. 각 부위의 초당 점수를 딕셔너리 형태로 저장
     score_per_second = {
         name_translation[body_part]: scores for body_part, scores in scores.items()}
     result.append(score_per_second)
 
-    # 6. 각 부위별 평균 점수 저장
     for body_part, scores in scores.items():
         result.append(
             f"{name_translation[body_part]}의 평균 점수: {average_scores[body_part]:.2f}점")
 
-    # 7. 최대, 최소 평균 점수를 가진 부위 저장
     for body_part in [best_part, worst_part]:
         if body_part == best_part:
             if name_translation[body_part] == "골반" or name_translation[body_part] == "팔":
@@ -314,9 +327,29 @@ def analyze_scores(data):
     return result
 
 
-def analyze_low_scores(input_list):
+def analyze_detail_scores(input_list: List[Union[Dict[str, List[int]], str]]) -> List[str]:
+    """
+    주어진 데이터를 분석하여 각 부위별로 점수가 85점 이하로 내려가는 부분을 텍스트로 만들고,
+    그 외의 정보는 그대로 반환합니다.
+
+    Parameters:
+        input_list (List[Union[Dict[str, List[int]], str]]): 각 부위의 초당 점수를 담은 딕셔너리와
+        평균 점수, 최대/최소 평균 점수를 가진 부위에 대한 정보를 담은 문자열 리스트
+
+    Returns:
+        List[str]: 각 부위별로 점수가 85점 이하로 내려가는 부분을 텍스트로 만든 리스트와
+        그 외의 정보를 담은 문자열 리스트
+    """
+    if not input_list:
+        return ["Error: No data provided"]
+
     # 1. 딕셔너리를 분리
-    score_dict = input_list[0]
+    try:
+        score_dict = input_list[0]
+        if not isinstance(score_dict, dict):
+            raise ValueError
+    except (IndexError, TypeError, ValueError):
+        return ["Error: Invalid input data"]
 
     result = []
 
