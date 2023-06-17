@@ -26,7 +26,7 @@ export default function SearchPopUpModal() {
         variants={fadeIn("down", "easeInOut", 0, 0.2, 10)}
         initial="hidden"
         animate="show"
-        className="absolute top-10 w-full rounded-md border bg-background shadow-md"
+        className="absolute top-[46px] w-full rounded-md border bg-background shadow-md"
       >
         {/* 팝업 종류 선택 영역 */}
         <SearchPopUpHeader

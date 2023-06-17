@@ -36,7 +36,7 @@ export default function Navigation({
                 size="sm"
                 className="h-10 w-full items-center justify-start pl-2"
               >
-                <PlayCircle className="mr-5" />
+                <PlayCircle className="mr-6" />
                 {linksData[0].name}
               </Button>
             </Link>
@@ -49,7 +49,7 @@ export default function Navigation({
                 size="sm"
                 className="h-10 w-full items-center justify-start pl-2"
               >
-                <LayoutGrid className="mr-5" />
+                <LayoutGrid className="mr-6" />
                 {linksData[1].name}
               </Button>
             </Link>
@@ -62,7 +62,7 @@ export default function Navigation({
                 size="sm"
                 className="h-10 w-full items-center justify-start pl-2"
               >
-                <Radio className="mr-5" />
+                <Radio className="mr-6" />
                 {linksData[2].name}
               </Button>
             </Link>
@@ -75,7 +75,7 @@ export default function Navigation({
                 size="sm"
                 className="h-10 w-full items-center justify-start pl-2"
               >
-                <ListMusic className="mr-5" />
+                <ListMusic className="mr-6" />
                 {linksData[3].name}
               </Button>
             </Link>
@@ -88,7 +88,7 @@ export default function Navigation({
                 size="sm"
                 className="h-10 w-full items-center justify-start pl-2"
               >
-                <Music2 className="mr-5" />
+                <Music2 className="mr-6" />
                 {linksData[4].name}
               </Button>
             </Link>
@@ -101,7 +101,7 @@ export default function Navigation({
                 size="sm"
                 className="h-10 w-full items-center justify-start pl-2"
               >
-                <User className="mr-5" />
+                <User className="mr-6" />
                 {linksData[5].name}
               </Button>
             </Link>
