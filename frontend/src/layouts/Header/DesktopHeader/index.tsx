@@ -1,29 +1,32 @@
 import Logo from "@components/Logo";
-import Search from "@components/ui/search";
-
-import { MainNav } from "./MainNav";
 import { UserNav } from "./UserNav";
 
 import { useAppSelector } from "@toolkit/hook";
 import SignInButton from "@layouts/Header/SignInButton";
+import SideBar from "@layouts/SideBar";
+import Search from "../Search";
 
 export default function DesktopHeader() {
   const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
 
   return (
-    <div className="hidden w-full border-b bg-background md:block">
-      <div className="container flex h-16 w-full items-center justify-between gap-4">
-        <div className="row-center">
+    <div className="hidden w-full border-b bg-background px-4 md:block">
+      <div className="grid h-[56px] w-full grid-cols-3 items-center justify-between gap-4">
+        <div className="mr-auto flex items-center">
+          {/* 사이드바 토글 버튼 */}
+          <SideBar />
+
           {/* 로고 */}
           <Logo />
-          {/* 네비게이션 */}
-          <MainNav />
+        </div>
+
+        <div className="col-center">
+          <Search />
         </div>
 
         <div className="ml-auto flex items-center space-x-4">
           {isAuthenticated ? (
             <>
-              <Search />
               <UserNav />
             </>
           ) : (

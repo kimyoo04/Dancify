@@ -1,13 +1,13 @@
 import axios from "@api/axiosInstance";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { IUpdatePostForm } from "@type/videoPosts";
+import { IUpdatePost } from "@type/videoPosts";
 import { useRouter } from "next/router";
 
 // 게시글 Update
 
-export const updatePost = async (updatedPost: IUpdatePostForm) => {
+export const updatePost = async (updatedPost: IUpdatePost) => {
   const response = await axios.put(`/posts/${updatedPost.postId}`, updatedPost);
-  return response;
+  return response.data;
 };
 
 // useUpdatePostMutation

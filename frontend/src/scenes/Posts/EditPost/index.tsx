@@ -2,7 +2,7 @@ import ButtonWrapper from "@components/Animation/ButtonWrapper";
 import ScrollButton from "@components/ScrollButton";
 
 import { SubmitHandler, useForm } from "react-hook-form";
-import { IPostForm, IUpdatePostForm } from "@type/videoPosts";
+import { IUpdatePost, IUpdatePostForm } from "@type/videoPosts";
 import { useUpdatePostMutation } from "@api/posts/updatePost";
 import ErrorMsg from "@components/TextField/ErrorMsg";
 import Loading from "@components/Loading";
@@ -20,11 +20,11 @@ export default function EditPost({ id }: { id: string }) {
     handleSubmit,
     formState: { errors },
     setError,
-  } = useForm<IPostForm>({
+  } = useForm<IUpdatePostForm>({
     defaultValues: {},
   });
 
-  const onValid: SubmitHandler<IPostForm> = async (data) => {
+  const onValid: SubmitHandler<IUpdatePostForm> = async (data) => {
     if (!data.title || !data.content) {
       const errMsg: { [key: string]: string } = {};
 
@@ -42,7 +42,7 @@ export default function EditPost({ id }: { id: string }) {
       return;
     }
 
-    const updateData: IUpdatePostForm = {
+    const updateData: IUpdatePost = {
       postId: id as string,
       ...data,
     };

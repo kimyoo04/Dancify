@@ -71,20 +71,6 @@ export function UserNav() {
               <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
             </DropdownMenuItem>
           </Link>
-          <Link href="/likes">
-            <DropdownMenuItem className="row-between w-full">
-              <Heart className="mr-2 h-4 w-4" />
-              <span>likes</span>
-              <DropdownMenuShortcut>⌘L</DropdownMenuShortcut>
-            </DropdownMenuItem>
-          </Link>
-          <Link href="/storage">
-            <DropdownMenuItem className="row-between w-full">
-              <ShoppingBagIcon className="mr-2 h-4 w-4" />
-              <span>storage</span>
-              <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
-            </DropdownMenuItem>
-          </Link>
         </DropdownMenuGroup>
 
         {/* 경계선 */}

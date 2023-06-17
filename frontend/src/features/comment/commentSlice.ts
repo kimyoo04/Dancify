@@ -1,6 +1,4 @@
-// commentSlice.js
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { ActionCodeOperation } from "firebase/auth";
 
 const initialState = {
   isMore: false,

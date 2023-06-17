@@ -7,6 +7,7 @@ import {
 } from "@type/search";
 
 const initialState: ISearchState = {
+  isFocus: false,
   searchCategory: "DANCER",
   searchKeyword: "",
   keywords: [],
@@ -16,6 +17,15 @@ export const searchSlice = createSlice({
   name: "search",
   initialState,
   reducers: {
+    // input focus 설정
+    onFocus: (state) => {
+      state.isFocus = true;
+    },
+    // input focus 해제
+    onBlur: (state) => {
+      state.isFocus = false;
+    },
+
     // 카테고리 선택 및 해당 최근 검색어 전체 조회
     getAllKeywords: (state) => {
       state.keywords = JSON.parse(

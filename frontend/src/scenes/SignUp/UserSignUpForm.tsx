@@ -27,6 +27,14 @@ import {
 } from "@type/signUp";
 import makePhoneNumber from "@util/makePhoneNumber";
 
+const handlePhoneNumberChange = (
+  event: React.ChangeEvent<HTMLInputElement>
+) => {
+  const inputPhoneNumber = event.target.value;
+  const formattedPhoneNumber = makePhoneNumber(inputPhoneNumber);
+  return formattedPhoneNumber;
+};
+
 export default function UserSignUpForm({
   className,
   ...props
@@ -35,19 +43,10 @@ export default function UserSignUpForm({
   const [isDancer, setIsDancer] = React.useState(false);
   const [isLoading] = React.useState<boolean>(false);
   const { toast } = useToast();
-  const [phoneNumber, setPhoneNumber] = React.useState("");
 
   const form = useForm<SignUpFormValues>({
     resolver: zodResolver(signUpFormSchema),
   });
-
-  const handlePhoneNumberChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const inputPhoneNumber = event.target.value;
-    const formattedPhoneNumber = makePhoneNumber(inputPhoneNumber);
-    setPhoneNumber(formattedPhoneNumber);
-  };
 
   async function onSubmit(data: SignUpFormValues) {
     // 비밀번호와 체크 불일치 유무 확인
@@ -79,7 +78,7 @@ export default function UserSignUpForm({
           );
         });
       };
-      const errorMessage: { [key: string]: string } = response.data;
+      const errorMessage: { [key: string]: string } = response;
       console.log(errorMessage);
       setErrors(errorMessage);
       return;
@@ -91,7 +90,7 @@ export default function UserSignUpForm({
       <div className="row-center h-12 w-full gap-4">
         <Button
           className={`hover:bg-primary/70 h-full w-full bg-muted-foreground ${
-            isDancer ? "bg-primary" : ""
+            isDancer ? "" : "bg-primary"
           }`}
           onClick={() => setIsDancer(false)}
         >
@@ -99,7 +98,7 @@ export default function UserSignUpForm({
         </Button>
         <Button
           className={`hover:bg-primary/70 h-full w-full bg-muted-foreground ${
-            isDancer ? "" : "bg-primary"
+            isDancer ? "bg-primary" : ""
           }`}
           onClick={() => setIsDancer(true)}
         >
@@ -116,13 +115,11 @@ export default function UserSignUpForm({
                 name="userId"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="sr-only" htmlFor="UserId">
-                      UserId
-                    </FormLabel>
+                    <FormLabel htmlFor="UserId">아이디</FormLabel>
                     <FormControl>
                       <Input
                         id="userId"
-                        placeholder="아이디"
+                        placeholder="영문 소문자, 영문 + 숫자 조합 2~20자리"
                         type="text"
                         autoCapitalize="none"
                         autoComplete="userId"
@@ -140,9 +137,7 @@ export default function UserSignUpForm({
                 name="phone"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="sr-only" htmlFor="Phone">
-                      Phone
-                    </FormLabel>
+                    <FormLabel htmlFor="Phone">전화번호</FormLabel>
                     <FormControl>
                       <Input
                         id="phone"
@@ -153,8 +148,9 @@ export default function UserSignUpForm({
                         autoCorrect="off"
                         disabled={isLoading}
                         {...field}
-                        value={phoneNumber}
-                        onChange={handlePhoneNumberChange}
+                        onChange={(event) =>
+                          field.onChange(handlePhoneNumberChange(event))
+                        }
                       />
                     </FormControl>
                     <FormMessage className="text-xs" />
@@ -167,13 +163,11 @@ export default function UserSignUpForm({
                 name="email"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="sr-only" htmlFor="Email">
-                      Email
-                    </FormLabel>
+                    <FormLabel htmlFor="Email">이메일주소</FormLabel>
                     <FormControl>
                       <Input
                         id="email"
-                        placeholder="이메일주소"
+                        placeholder="example@email.com"
                         type="email"
                         autoCapitalize="none"
                         autoComplete="email"
@@ -191,13 +185,11 @@ export default function UserSignUpForm({
                 name="nickname"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="sr-only" htmlFor="Nickname">
-                      Nickname
-                    </FormLabel>
+                    <FormLabel htmlFor="Nickname">닉네임</FormLabel>
                     <FormControl>
                       <Input
                         id="nickname"
-                        placeholder="닉네임"
+                        placeholder="2~10자리"
                         type="text"
                         autoCapitalize="none"
                         autoComplete="nickname"
@@ -215,13 +207,11 @@ export default function UserSignUpForm({
                 name="password"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="sr-only" htmlFor="Password">
-                      Password
-                    </FormLabel>
+                    <FormLabel htmlFor="Password">비밀번호</FormLabel>
                     <FormControl>
                       <Input
                         id="password"
-                        placeholder="비밀번호"
+                        placeholder="4~20자리 비밀번호"
                         type="password"
                         autoCapitalize="none"
                         autoComplete="password"
@@ -240,9 +230,7 @@ export default function UserSignUpForm({
                 name="passwordCheck"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="sr-only" htmlFor="PasswordCheck">
-                      Password Check
-                    </FormLabel>
+                    <FormLabel htmlFor="PasswordCheck">비밀번호 확인</FormLabel>
                     <FormControl>
                       <Input
                         id="passwordCheck"

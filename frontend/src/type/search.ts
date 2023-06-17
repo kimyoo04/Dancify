@@ -9,6 +9,7 @@ export interface ISearchField {
 
 // searchSlice에 사용
 export interface ISearchState {
+  isFocus: boolean;
   searchCategory: TSearchCategoryEnglish;
   searchKeyword: TSearchKeyword;
   keywords: string[]; // localstorage에 저장되는 최근 검색어
