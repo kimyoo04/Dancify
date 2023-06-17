@@ -10,7 +10,7 @@ export default function MainLayout({
   children: React.ReactNode;
 }) {
   const isOpen = useAppSelector((state) => state.sideBar.isOpen);
-  const paddingleft = isOpen ? "pl-[200px]" : "pl-[72px]";
+  const paddingleft = isOpen ? "md:pl-[200px]" : "md:pl-[72px]";
 
   return (
     <>
@@ -20,8 +20,8 @@ export default function MainLayout({
         <Navigation />
 
         {/* 콘텐츠 영역 */}
-        <main className={`w-full bg-background pt-[64px] ${paddingleft}`}>
-          {children}
+        <main className={`w-full bg-background pt-[56px] ${paddingleft}`}>
+          <div className="p-6"> {children}</div>
           <Footer />
         </main>
       </div>

@@ -12,7 +12,7 @@ export default function DesktopHeader() {
 
   return (
     <div className="hidden w-full border-b bg-background px-4 md:block">
-      <div className="grid h-16 w-full grid-cols-3 items-center justify-between gap-4">
+      <div className="grid h-[56px] w-full grid-cols-3 items-center justify-between gap-4">
         <div className="mr-auto flex items-center">
           {/* 사이드바 토글 버튼 */}
           <SideBar />

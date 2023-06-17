@@ -16,9 +16,9 @@ export default function FreePosts() {
 
   return (
     <>
-      <div className="container bg-background">
+      <div className="bg-background">
         {/* 콘텐츠 영역 */}
-        <div className="h-full py-6 lg:px-8">
+        <div className="h-full">
           <div className="h-full space-y-6">
             <PostHeader />
 
