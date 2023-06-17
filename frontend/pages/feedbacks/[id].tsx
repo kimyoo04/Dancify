@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import DetailPageLayout from "@layouts/DetailPageLayout";
-import FeedbackDetail from "@scenes/Storage/Feedback/FeedbackDetail";
+import FeedbackDetail from "@scenes/FeedBacks/FeedbackDetail";
 
 export default function FeedbackDetailPage() {
   const router = useRouter();

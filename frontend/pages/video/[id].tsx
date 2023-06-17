@@ -1,15 +1,15 @@
 import { useRouter } from "next/router";
 import DetailPageLayout from "@layouts/DetailPageLayout";
-import PostVideoDetail from "@scenes/Posts/Video/VideoDetail";
+import VideoPostDetail from "@scenes/Posts/Video/VideoDetail";
 
-export default function PostDetailPage() {
+export default function VideoPostDetailPage() {
   const router = useRouter();
   const { id } = router.query;
 
   if (typeof id === "string") {
     return (
       <DetailPageLayout>
-        <PostVideoDetail id={id} />
+        <VideoPostDetail id={id} />
       </DetailPageLayout>
     );
   }

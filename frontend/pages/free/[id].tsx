@@ -1,15 +1,15 @@
 import { useRouter } from "next/router";
 import DetailPageLayout from "@layouts/DetailPageLayout";
-import PostFreeDetail from "@scenes/Posts/Free/FreeDetail";
+import FreePostDetail from "@scenes/Posts/Free/FreeDetail";
 
-export default function PostDetailPage() {
+export default function FreePostDetailPage() {
   const router = useRouter();
   const { id } = router.query;
 
   if (typeof id === "string") {
     return (
       <DetailPageLayout>
-        <PostFreeDetail id={id} />
+        <FreePostDetail id={id} />
       </DetailPageLayout>
     );
   }
