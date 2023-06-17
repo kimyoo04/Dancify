@@ -41,7 +41,7 @@ jobs:
       - name: Install dependencies
         run: |
           cd frontend
-          yarn ci
+          yarn install --immutable --immutable-cache --check-cache
 
       - name: Build Next.js app
         run: |
