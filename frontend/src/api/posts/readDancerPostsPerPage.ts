@@ -17,8 +17,8 @@ export const readDancerPostsPerPage = async (
   const params: IPostQueryParams = { page };
 
   if (searchKeyword !== "") params.q = searchKeyword;
-  if (sort !== "") params.sort = sort;
-  if (genre !== "") params.genre = genre;
+  if (sort !== "new") params.sort = sort;
+  if (genre !== "전체") params.genre = genre;
 
   try {
     const response = await axios.get(`/posts/dancer`, { params });
