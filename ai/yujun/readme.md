@@ -1,4 +1,4 @@
 # Yujun
 
-1. Research: day#에 각각 공부한 내용을 `note.md`로 정리
-2. Complete: 완성된 작업
+1. ai-feedback: AI Feedback 관련 리서치 및 코드 구현
+2. speech-recog: 음성 인식 관련 리서치 및 코드 구현
