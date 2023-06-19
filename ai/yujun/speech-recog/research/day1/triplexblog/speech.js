@@ -37,12 +37,44 @@ var speechStore = {
             recognition_1.start();
             speechStore.isRecognizing = false;
         };
-        // 음성인식 비활성화
+        // 음성인식 비활성화 1: console에 찍기
         var unactive_1 = function () {
             selector('.dictate').classList.remove('on');
             recognition_1.stop();
             speechStore.isRecognizing = true;
+            setTimeout(downloadCapturedText, 1000); // 1초 지연 후 자동 다운로드
         };
+        // 캡처한 텍스트를 다운로드하는 함수
+        function downloadCapturedText() {
+            var element = document.createElement('a');
+            var file = new Blob([speechStore.texts], { type: 'text/plain' });
+            element.href = URL.createObjectURL(file);
+            element.download = 'captured_text.txt';
+            document.body.appendChild(element);
+            element.click();
+        }
+        // // 음성인식 비활성화 2: JSON 다운로드
+        // const unactive = () => {
+        //     (selector('.dictate') as HTMLElement).classList.remove('on')
+        //     recognition.stop();
+        //     speechStore.isRecognizing = true;
+        //     // 로그 다운로드
+        //     fetch('http://127.0.0.1:3300/download_logs', {
+        //         method: 'POST',
+        //         headers: {
+        //             'Content-Type': 'application/json',
+        //         },
+        //         body: JSON.stringify({ log: speechStore.texts }),
+        //     })
+        //     .then(response => response.blob())
+        //     .then(blob => {
+        //         const url = window.URL.createObjectURL(blob);
+        //         const a = document.createElement('a');
+        //         a.href = url;
+        //         a.download = 'logs.txt';
+        //         a.click();
+        //     });
+        // };
         selector('.dictate').addEventListener('click', function () {
             if (speechStore.isRecognizing) {
                 active_1();
