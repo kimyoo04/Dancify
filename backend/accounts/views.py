@@ -3,6 +3,7 @@ import io
 import base64
 import boto3
 import imghdr
+import os
 
 from rest_framework.views import APIView
 from rest_framework import status, serializers
@@ -17,7 +18,7 @@ from accounts.authentication import decode_refresh_token
 from accounts.authentication import set_cookies_to_response
 from accounts.authentication import generate_token, get_user_info_from_token
 from accounts.authentication import validate_access_token, validate_refresh_token
-from accounts.authentication import get_s3_access_key
+from accounts.authentication import get_s3_client
 from accounts.models import User
 
 
@@ -168,19 +169,13 @@ class UpdateProfileView(APIView):
 
         # 이미지를 메모리에 저장
         image_file = io.BytesIO(decoded_data)
-        access_key, secret_access_key = get_s3_access_key()
 
         # MIME type 로 확장자명 추출
         extension = imghdr.what(None, decoded_data)
         file_name = user_id + '_profile' + '.' + extension
 
         # S3 클라이언트 생성
-        s3 = boto3.client(
-            service_name='s3',
-            region_name='ap-northeast-2',
-            aws_access_key_id=access_key,
-            aws_secret_access_key=secret_access_key
-        )
+        s3 = get_s3_client()
 
         bucket_name = 'dancify-bucket'
         folder_path = 'profile-image'
@@ -191,6 +186,10 @@ class UpdateProfileView(APIView):
         s3.upload_fileobj(image_file, bucket_name, file_key)
 
         location = s3.get_bucket_location(Bucket=bucket_name)["LocationConstraint"]
+
+        # s3 클라이언트 해제
+        s3.close()
+
         return f"https://{bucket_name}.s3.\
 {location}.amazonaws.com/{folder_path}/{file_name}"
 
