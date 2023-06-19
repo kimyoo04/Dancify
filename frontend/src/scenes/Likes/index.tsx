@@ -3,15 +3,15 @@ import { ScrollArea, ScrollBar } from "@components/ui/scroll-area";
 
 import VideoPostLoader from "./Video/VideoItem/VideoPostLoader";
 import PreviewVideoPosts from "./Video/VideoItem/PreviewVideoPosts";
-import { useReadVideoPostsPerPage } from "@api/posts/readVideoPostsPerPage";
+import { useReadVideoLikesPerPage } from "@api/likes/readVideoLikesPerPage";
 
 import FreePostLoader from "./Free/FreeItem/FreePostLoader";
 import FreePostItem from "./Free/FreeItem/FreePostItem";
-import { useReadFreePostsPerPage } from "@api/posts/readFreePostsPerPage";
+import { useReadFreeLikesPerPage } from "@api/likes/readFreeLikesPerPage";
 
 import DancerPostLoader from "./Dancer/DancerItem/DancerPostLoader";
 import PreviewDancerPosts from "./Dancer/DancerItem/PreviewDancerPosts";
-import { useReadDancerPostsPerPage } from "@api/posts/readDancerPostsPerPage";
+import { useReadDancerLikesPerPage } from "@api/likes/readDancerLikesPerPage";
 
 import ViewMore from "@scenes/Posts/PostItem/ViewMore";
 
@@ -20,19 +20,19 @@ export default function Likes() {
     data: dancerData,
     error: dancerError,
     status: dancerStatus,
-  } = useReadDancerPostsPerPage();
+  } = useReadDancerLikesPerPage();
 
   const {
     data: videoData,
     error: videoError,
     status: videoStatus,
-  } = useReadVideoPostsPerPage();
+  } = useReadVideoLikesPerPage();
 
   const {
     data: freeData,
     error: freeError,
     status: freeStatus,
-  } = useReadFreePostsPerPage();
+  } = useReadFreeLikesPerPage();
 
   return (
     <div className="space-y-10 border-none p-0 outline-none">
