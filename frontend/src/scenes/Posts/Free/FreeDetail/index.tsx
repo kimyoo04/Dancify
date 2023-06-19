@@ -7,10 +7,20 @@ import PostContent from "@scenes/Posts/PostItem/PostContent";
 import Comments from "@components/Comments";
 
 import { useReadFreePost } from "@api/posts/readFreePost";
+import { useEffect } from "react";
+import { likeActions } from "@features/like/likeSlice";
+import { useAppDispatch } from "@toolkit/hook";
 
 export default function FreePostDetail({ id }: { id: string }) {
+  const dispatch = useAppDispatch();
+
   // 게시글 불어오기
   const { data, isLoading, error } = useReadFreePost(id);
+
+  // userLike 상태 변경
+  useEffect(() => {
+    if (data) dispatch(likeActions.getUserLike(data.userLike));
+  }, [data, dispatch]);
 
   return (
     <>
