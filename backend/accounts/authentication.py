@@ -155,6 +155,7 @@ def set_cookies_to_response(response, refresh_token, access_token):
 
     return response
 
+
 def get_s3_client():
     s3 = boto3.client(
         service_name='s3',

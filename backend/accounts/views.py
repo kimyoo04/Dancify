@@ -1,9 +1,7 @@
 from django.http import JsonResponse
 import io
 import base64
-import boto3
 import imghdr
-import os
 
 from rest_framework.views import APIView
 from rest_framework import status, serializers
@@ -197,14 +195,15 @@ class UpdateProfileView(APIView):
         user_info = get_user_info_from_token(request)
         user = User.objects.get(user_id=user_info['userId'])
         parsed_data = request.data
-
-        image_data = parsed_data['profileImage']
-        decoded_data = base64.b64decode(image_data)
-
-        profile_image_url = self.save_profile_image_at_s3(user_info['userId'],
-                                                          decoded_data)
         update_data = parsed_data
-        update_data['profileImage'] = profile_image_url
+
+        if 'profileImage' in parsed_data:
+            image_data = parsed_data['profileImage']
+            decoded_data = base64.b64decode(image_data)
+
+            profile_image_url = self.save_profile_image_at_s3(user_info['userId'],
+                                                              decoded_data)
+            update_data['profileImage'] = profile_image_url
 
         serializer = ProfileSerializer(user, data=update_data, partial=True)  # type: ignore
         try:
