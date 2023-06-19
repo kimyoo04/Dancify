@@ -24,6 +24,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import { updateProfile } from "@api/auth/updateProfile";
 import { useAppSelector } from "@toolkit/hook";
+import encodeFileToBase64 from "@util/encodeFileToBase64";
 
 async function getFileFromUrl(url: string) {
   const res = await fetch(url);
@@ -79,7 +80,8 @@ export default function ProfileForm() {
 
       // 폼 정보에 입력이 있는 경우 데이터에 포함
       if (data.description) profileData.description = data.description;
-      if (data.profileImage) profileData.profileImage = data.profileImage;
+      if (data.profileImage)
+        profileData.profileImage = await encodeFileToBase64(data.profileImage);
 
       console.log(profileData);
       // 프로필 정보 수정 요청

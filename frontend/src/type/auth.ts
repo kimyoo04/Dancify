@@ -14,7 +14,7 @@ export interface userPayload {
   userId: TUserId;
   nickname: TNickname;
   isDancer: TIsDancer | undefined;
-  profileImage: string | null;
+  profileImage: TProfileImg | null;
 }
 
 // authSlice에 사용
@@ -24,7 +24,7 @@ export interface AuthState {
   userId: TUserId;
   nickname: TNickname;
   isDancer: TIsDancer | undefined;
-  profileImage: string | null;
+  profileImage: TProfileImg | null;
 }
 
 // 프로필 정보 수정
@@ -33,13 +33,13 @@ export interface IProfileInfoForm {
   nickname: TNickname;
   email: TEmail;
   description?: TDescription;
-  profileImage?: File;
+  profileImage?: TProfileImg | null;
 }
 export interface IProfileDefaultValue {
   nickname: TNickname;
   email: TEmail;
   description?: TDescription;
-  profileImage?: File;
+  profileImage?: TProfileImg | null;
 }
 
 // 프로필 이미지 업로드

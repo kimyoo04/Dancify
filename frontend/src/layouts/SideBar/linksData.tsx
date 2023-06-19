@@ -23,6 +23,17 @@ export const linksData = [
     icon: <Radio className="mr-5" />,
     path: "free",
   },
+
+  // ------------------------------------
+
+  {
+    name: "피드백 동영상",
+    icon: <User className="mr-5" />,
+    path: "feedbacks",
+  },
+
+  // ------------------------------------
+
   {
     name: "좋아요 표시한 글",
     icon: <ListMusic className="mr-5" />,
@@ -34,8 +45,8 @@ export const linksData = [
     path: "histories",
   },
   {
-    name: "피드백 동영상",
+    name: "내 게시글",
     icon: <User className="mr-5" />,
-    path: "feedbacks",
+    path: `posts`,
   },
 ];

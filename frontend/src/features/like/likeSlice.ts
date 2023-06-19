@@ -1,4 +1,5 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { TUserLike } from "@type/auth";
 import { ILikeState } from "@type/like";
 
 const initialState: ILikeState = {
@@ -9,8 +10,11 @@ export const likeSlice = createSlice({
   name: "like",
   initialState,
   reducers: {
-    toggleLike: (state) => {
+    toggleUserLike: (state) => {
       state.userLike = !state.userLike;
+    },
+    getUserLike: (state, actions: PayloadAction<TUserLike>) => {
+      state.userLike = actions.payload;
     },
   },
 });

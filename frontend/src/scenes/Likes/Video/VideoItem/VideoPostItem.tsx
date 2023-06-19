@@ -16,7 +16,7 @@ export default function VideoPostItem({
   height,
 }: VideoPostsProps) {
   return (
-    <Link href={`/video/${data.postId}`} className="space-y-3">
+    <Link href={`/posts/video/${data.postId}`} className="space-y-3">
       <div className="overflow-hidden rounded-md bg-gray-100">
         {data.thumbnail && (
           <Image

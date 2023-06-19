@@ -10,13 +10,13 @@ interface VideoPostsProps {
   height: number;
 }
 
-export default function VideoPostItem({
+export default function PreviewVideoPosts({
   data,
   width,
   height,
 }: VideoPostsProps) {
   return (
-    <Link href={`/video/${data.postId}`} className="space-y-3">
+    <Link href={`/posts/video/${data.postId}`} className="space-y-3">
       <div className="overflow-hidden rounded-md bg-gray-100">
         {data.thumbnail && (
           <Image
@@ -28,6 +28,7 @@ export default function VideoPostItem({
             className={cn(
               "aspect-[3/4] h-auto w-auto object-cover transition-all hover:scale-105"
             )}
+            style={{ width: `${width}px`, height: `${height}px` }}
           />
         )}
       </div>

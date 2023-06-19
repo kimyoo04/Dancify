@@ -31,7 +31,7 @@ export default function Header({ data }: IHeaderProps) {
         </div>
 
         <div className="row-center gap-2">
-          {userId !== "" && <PostDesktopLikeIcon userLike={data.userLike} />}
+          {userId !== "" && <PostDesktopLikeIcon />}
           {data.userId === userId && <UpDelButton postId={data.postId} />}
         </div>
       </div>
