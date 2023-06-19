@@ -30,7 +30,7 @@ export default function AllPosts() {
         <div>
           <div className="flex items-center justify-between">
             <div className="space-y-1">
-              <h2 className="text-2xl font-semibold tracking-tight">
+              <h2 className="text-xl font-semibold tracking-tight">
                 자랑게시판
               </h2>
               <p className="text-sm text-muted-foreground">
@@ -76,7 +76,7 @@ export default function AllPosts() {
         <div>
           <div className="flex items-center justify-between">
             <div className="space-y-1">
-              <h2 className="text-2xl font-semibold tracking-tight">
+              <h2 className="text-xl font-semibold tracking-tight">
                 자유게시판
               </h2>
               <p className="text-sm text-muted-foreground">

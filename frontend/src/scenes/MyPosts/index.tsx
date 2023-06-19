@@ -36,12 +36,16 @@ export default function MyPosts({ id }: { id: string }) {
 
   return (
     <div className="space-y-10 border-none p-0 outline-none">
+      <h1 className="text-2xl font-semibold tracking-tight">
+        {id} 님의 게시글
+      </h1>
+
       <div>
         {/* //!댄서게시판 헤더 */}
         <div>
           <div className="flex items-center justify-between">
             <div className="space-y-1">
-              <h2 className="text-2xl font-semibold tracking-tight">
+              <h2 className="text-xl font-semibold tracking-tight">
                 댄서게시판
               </h2>
             </div>
@@ -83,7 +87,7 @@ export default function MyPosts({ id }: { id: string }) {
         <div>
           <div className="flex items-center justify-between">
             <div className="space-y-1">
-              <h2 className="text-2xl font-semibold tracking-tight">
+              <h2 className="text-xl font-semibold tracking-tight">
                 자랑게시판
               </h2>
             </div>
@@ -126,7 +130,7 @@ export default function MyPosts({ id }: { id: string }) {
         <div>
           <div className="flex items-center justify-between">
             <div className="space-y-1">
-              <h2 className="text-2xl font-semibold tracking-tight">
+              <h2 className="text-xl font-semibold tracking-tight">
                 자유게시판
               </h2>
             </div>

@@ -36,17 +36,18 @@ export default function Likes() {
 
   return (
     <div className="space-y-10 border-none p-0 outline-none">
+      <h1 className="text-2xl font-semibold tracking-tight">
+        좋아요 표시한 글
+      </h1>
+
       <div>
         {/* //!댄서게시판 헤더 */}
         <div>
           <div className="flex items-center justify-between">
             <div className="space-y-1">
-              <h2 className="text-2xl font-semibold tracking-tight">
+              <h2 className="text-xl font-semibold tracking-tight">
                 댄서게시판
               </h2>
-              <p className="text-sm text-muted-foreground">
-                동영상을 업로드하여 댄서하는 곳입니다.
-              </p>
             </div>
 
             <div>
@@ -86,12 +87,9 @@ export default function Likes() {
         <div>
           <div className="flex items-center justify-between">
             <div className="space-y-1">
-              <h2 className="text-2xl font-semibold tracking-tight">
+              <h2 className="text-xl font-semibold tracking-tight">
                 자랑게시판
               </h2>
-              <p className="text-sm text-muted-foreground">
-                동영상을 업로드하여 자랑하는 곳입니다.
-              </p>
             </div>
 
             <div>
@@ -132,12 +130,9 @@ export default function Likes() {
         <div>
           <div className="flex items-center justify-between">
             <div className="space-y-1">
-              <h2 className="text-2xl font-semibold tracking-tight">
+              <h2 className="text-xl font-semibold tracking-tight">
                 자유게시판
               </h2>
-              <p className="text-sm text-muted-foreground">
-                자유롭게 글을 올리고, 댓글을 달아주세요.
-              </p>
             </div>
 
             <div>

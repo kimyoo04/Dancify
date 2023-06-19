@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
-import MyPosts from "@scenes/Posts/MyPosts";
 import MainLayout from "@layouts/MainLayout";
+import MyPosts from "@scenes/MyPosts";
 
 export default function MyPostsPage() {
   const router = useRouter();
