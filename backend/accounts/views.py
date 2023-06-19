@@ -170,7 +170,7 @@ class UpdateProfileView(APIView):
 
         # MIME type 로 확장자명 추출
         extension = imghdr.what(None, decoded_data)
-        file_name = user_id + '_profile' + '.' + extension
+        file_name = user_id + '.' + extension
 
         # S3 클라이언트 생성
         s3 = get_s3_client()
