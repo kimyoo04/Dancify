@@ -1,6 +1,6 @@
 # 필기 노트 2
 
-## Pose Detector by using TensorFlow.js 🏫[link](https://www.youtube.com/watch?v=fiDaAc7z_kQ)
+## Pose Detector by using TensorFlow.js 🏫 [link](https://www.youtube.com/watch?v=fiDaAc7z_kQ)
 - 유튜브에 이미지에 대한 pose estimation에 대한 영상이 있어 시청 후 소스코드 확인
     - 소스코드 확인 결과, 사이트에 뜨는 이미지는 포즈를 보여주기 위한 그래픽으로 확인
     - train-test 과정에서는 human yoga pose의 이미지로 학습한 것을 확인
@@ -10,7 +10,7 @@
 - [github](https://github.com/harshbhatt7585/YogaIntelliJ)
 
 ---
-## 생활코딩 Tensorflow.js 전체 수강 🏫[link](https://www.youtube.com/playlist?list=PLuHgQVnccGMBEbPiaGs2kfQFpMmQchM-1)
+## 생활코딩 Tensorflow.js 전체 수강 🏫 [link](https://www.youtube.com/playlist?list=PLuHgQVnccGMBEbPiaGs2kfQFpMmQchM-1)
 - tf.js 설치 커맨드: `npm install @tensorflow/tfjs`
 - index.js에서 실행
     ```javascript
@@ -42,7 +42,7 @@
     - `ex.load.html`: 로드
 
 ---
-## Nicholas Renotte 🏫[link](https://www.youtube.com/c/nicholasrenotte)
+## Nicholas Renotte 🏫 [link](https://www.youtube.com/c/nicholasrenotte)
 - MediaPipePoseEstimation: mediapipe를 이용한 Pose estimation
 - MoveNetLightning: 동작 확인중... ⏳
 - MultiPoseMovenetLightning: 함께 있는 조코비치 영상에 MoveNet 모델 적용

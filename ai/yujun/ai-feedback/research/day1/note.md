@@ -1,6 +1,6 @@
 # 필기 노트 1
 
-## TensorFlow.js 시작하기 🏫[link](https://www.tensorflow.org/js/tutorials?hl=ko)
+## TensorFlow.js 시작하기 🏫 [link](https://www.tensorflow.org/js/tutorials?hl=ko)
 - tfjs 공식문서 튜토리얼을 통해 Node.js와 yarn 환경설정
 - 예제 설치 및 실행
     1. [tfjs-examples](https://github.com/tensorflow/tfjs-examples) git clone
@@ -9,7 +9,7 @@
     4. `index.html` 실행 → `index.js` 로드되어 $y=2x-1$의 $x$와 $y$로 `tf.sequential` training
 
 ---
-## 생활코딩 Tensorflow.js 4강: 남의 모델을 이용하기 🏫[link](https://www.youtube.com/watch?v=ZJX0J21AZOA&list=PLuHgQVnccGMBEbPiaGs2kfQFpMmQchM-1&index=5)
+## 생활코딩 Tensorflow.js 4강: 남의 모델을 이용하기 🏫 [link](https://www.youtube.com/watch?v=ZJX0J21AZOA&list=PLuHgQVnccGMBEbPiaGs2kfQFpMmQchM-1&index=5)
 **학습내용: [TensorFlow.js 모델: 이미지 분류](https://github.com/tensorflow/tfjs-models/tree/master/mobilenet)**
 - TensorFlow.js의 기초적 작동원리
 - 사전 학습된 모델을 로딩하는 방법
