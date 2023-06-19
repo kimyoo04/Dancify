@@ -1,7 +1,6 @@
 from django.http import JsonResponse
 import io
 import base64
-import boto3
 import imghdr
 
 from rest_framework.views import APIView
@@ -17,7 +16,7 @@ from accounts.authentication import decode_refresh_token
 from accounts.authentication import set_cookies_to_response
 from accounts.authentication import generate_token, get_user_info_from_token
 from accounts.authentication import validate_access_token, validate_refresh_token
-from accounts.authentication import get_s3_access_key
+from accounts.authentication import get_s3_client
 from accounts.models import User
 
 
@@ -168,44 +167,43 @@ class UpdateProfileView(APIView):
 
         # 이미지를 메모리에 저장
         image_file = io.BytesIO(decoded_data)
-        access_key, secret_access_key = get_s3_access_key()
 
         # MIME type 로 확장자명 추출
         extension = imghdr.what(None, decoded_data)
-        file_name = user_id + '_profile' + '.' + extension
+        file_name = user_id + '.' + extension
 
         # S3 클라이언트 생성
-        s3 = boto3.client(
-            service_name='s3',
-            region_name='ap-northeast-2',
-            aws_access_key_id=access_key,
-            aws_secret_access_key=secret_access_key
-        )
+        s3 = get_s3_client()
 
         bucket_name = 'dancify-bucket'
-        folder_name = 'profile-image'
-        file_key = folder_name + '/' + file_name
+        folder_path = 'profile-image'
+        file_key = folder_path + '/' + file_name
 
         # s3 버킷에 이미지 업로드
         # fileobj는 로컬에 저장하지 않은 파일을 업로드
         s3.upload_fileobj(image_file, bucket_name, file_key)
 
         location = s3.get_bucket_location(Bucket=bucket_name)["LocationConstraint"]
+
+        # s3 클라이언트 해제
+        s3.close()
+
         return f"https://{bucket_name}.s3.\
-{location}.amazonaws.com/{folder_name}/{file_name}"
+{location}.amazonaws.com/{folder_path}/{file_name}"
 
     def patch(self, request):
         user_info = get_user_info_from_token(request)
         user = User.objects.get(user_id=user_info['userId'])
         parsed_data = request.data
-
-        image_data = parsed_data['profileImage']
-        decoded_data = base64.b64decode(image_data)
-
-        profile_image_url = self.save_profile_image_at_s3(user_info['userId'],
-                                                          decoded_data)
         update_data = parsed_data
-        update_data['profileImage'] = profile_image_url
+
+        if 'profileImage' in parsed_data:
+            image_data = parsed_data['profileImage']
+            decoded_data = base64.b64decode(image_data)
+
+            profile_image_url = self.save_profile_image_at_s3(user_info['userId'],
+                                                              decoded_data)
+            update_data['profileImage'] = profile_image_url
 
         serializer = ProfileSerializer(user, data=update_data, partial=True)  # type: ignore
         try:

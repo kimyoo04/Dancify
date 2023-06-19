@@ -50,5 +50,6 @@ urlpatterns = [
         # path('/user', include('user.urls')),
         path('/view-history', include('view_history.urls')),
         path('/search-rank', include('search_history.urls')),
+        path('/videos', include('videos.urls'))
     ]))
 ]

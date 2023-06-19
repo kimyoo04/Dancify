@@ -1,11 +1,11 @@
 from django.http import JsonResponse
 from django.utils import timezone
-import csv
 import os
 
 from rest_framework_simplejwt.tokens import AccessToken, RefreshToken
 from rest_framework_simplejwt.exceptions import TokenError
 from rest_framework import status
+import boto3
 
 from accounts.models import User
 
@@ -147,18 +147,6 @@ def get_user_info_from_token(request, token_type='access'):
     return user_info
 
 
-def get_s3_access_key():
-    access_key, secret_access_key = None, None
-    pwd = os.getcwd() + '\\accounts\\user-s3_accessKeys.csv'
-    with open(pwd, 'r', encoding='utf-8-sig') as file:
-        csv_data = csv.DictReader(file)
-        for row in csv_data:
-            access_key = row['Access key ID']
-            secret_access_key = row['Secret access key']
-
-    return (access_key, secret_access_key)
-
-
 def set_cookies_to_response(response, refresh_token, access_token):
     response.set_cookie('Refresh-Token', refresh_token,
                         max_age=REFRESH_TOKEN_EXP, httponly=True)
@@ -166,3 +154,14 @@ def set_cookies_to_response(response, refresh_token, access_token):
                         max_age=ACCESS_TOKEN_EXP)
 
     return response
+
+
+def get_s3_client():
+    s3 = boto3.client(
+        service_name='s3',
+        region_name='ap-northeast-2',
+        aws_access_key_id=os.getenv('DJANGO_S3_ACCESS_KEY_ID'),
+        aws_secret_access_key=os.getenv('DJANGO_S3_SECRET_ACCESS_KEY')
+    )
+
+    return s3
