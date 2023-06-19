@@ -1,6 +1,6 @@
 # 필기 노트 4
 
-## arctan2를 이용하는 수학적 원리 리서치 🏫[link](https://www.youtube.com/watch?v=hZ2CuusMyCM)
+## arctan2를 이용하는 수학적 원리 리서치 🏫 [link](https://www.youtube.com/watch?v=hZ2CuusMyCM)
 ![](./images/arctan1.jpg)
 ![](./images/arctan2.jpg)
 ∴ `arctan2`를 사용함으로써 모든 각도를 표현할 수 있고, 결측치 발생의 위험도 줄일 수 있음
