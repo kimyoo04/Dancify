@@ -183,8 +183,8 @@ class UpdateProfileView(APIView):
         )
 
         bucket_name = 'dancify-bucket'
-        folder_name = 'profile-image'
-        file_key = folder_name + '/' + file_name
+        folder_path = 'profile-image'
+        file_key = folder_path + '/' + file_name
 
         # s3 버킷에 이미지 업로드
         # fileobj는 로컬에 저장하지 않은 파일을 업로드
@@ -192,7 +192,7 @@ class UpdateProfileView(APIView):
 
         location = s3.get_bucket_location(Bucket=bucket_name)["LocationConstraint"]
         return f"https://{bucket_name}.s3.\
-{location}.amazonaws.com/{folder_name}/{file_name}"
+{location}.amazonaws.com/{folder_path}/{file_name}"
 
     def patch(self, request):
         user_info = get_user_info_from_token(request)

@@ -29,6 +29,7 @@ INSTALLED_APPS = [
     'files',
     'view_history',
     'search_history',
+    'videos'
 ]
 
 
