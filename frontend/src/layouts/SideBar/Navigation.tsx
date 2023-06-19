@@ -12,9 +12,11 @@ export default function Navigation({
   className,
 }: React.HTMLAttributes<HTMLDivElement>) {
   const router = useRouter();
-  const isActive = router.pathname.split("/");
+  const pathArr = router.pathname.split("/");
   const isOpen = useAppSelector((state) => state.sideBar.isOpen);
   const userId = useAppSelector((state) => state.auth.userId);
+
+  console.log(router, userId);
 
   return (
     <>
@@ -40,7 +42,7 @@ export default function Navigation({
             <Link className="w-full" href={`/${linksData[1].path}`}>
               <Button
                 variant={
-                  isActive.includes(linksData[1].path) ? "default" : "ghost"
+                  pathArr.includes(linksData[1].path) ? "default" : "ghost"
                 }
                 size="sm"
                 className="h-10 w-full items-center justify-start pl-2"
@@ -53,7 +55,7 @@ export default function Navigation({
             <Link className="w-full" href={`/${linksData[2].path}`}>
               <Button
                 variant={
-                  isActive.includes(linksData[2].path) ? "default" : "ghost"
+                  pathArr.includes(linksData[2].path) ? "default" : "ghost"
                 }
                 size="sm"
                 className="h-10 w-full items-center justify-start pl-2"
@@ -68,7 +70,7 @@ export default function Navigation({
             <Link className="w-full" href={`/${linksData[3].path}`}>
               <Button
                 variant={
-                  isActive.includes(linksData[3].path) ? "default" : "ghost"
+                  pathArr.includes(linksData[3].path) ? "default" : "ghost"
                 }
                 size="sm"
                 className="h-10 w-full items-center justify-start pl-2"
@@ -83,7 +85,7 @@ export default function Navigation({
             <Link className="w-full" href={`/${linksData[4].path}`}>
               <Button
                 variant={
-                  isActive.includes(linksData[4].path) ? "default" : "ghost"
+                  pathArr.includes(linksData[4].path) ? "default" : "ghost"
                 }
                 size="sm"
                 className="h-10 w-full items-center justify-start pl-2"
@@ -96,7 +98,7 @@ export default function Navigation({
             <Link className="w-full" href={`/${linksData[5].path}`}>
               <Button
                 variant={
-                  isActive.includes(linksData[5].path) ? "default" : "ghost"
+                  pathArr.includes(linksData[5].path) ? "default" : "ghost"
                 }
                 size="sm"
                 className="h-10 w-full items-center justify-start pl-2"
@@ -109,7 +111,7 @@ export default function Navigation({
             <Link className="w-full" href={`/${linksData[6].path}/${userId}`}>
               <Button
                 variant={
-                  isActive.includes(linksData[6].path) ? "default" : "ghost"
+                  router.pathname === "/posts/[id]" ? "default" : "ghost"
                 }
                 size="sm"
                 className="h-10 w-full items-center justify-start pl-2"
@@ -141,7 +143,7 @@ export default function Navigation({
             <Link className="w-full" href={`/${linksData[1].path}`}>
               <Button
                 variant={
-                  isActive.includes(linksData[1].path) ? "default" : "ghost"
+                  pathArr.includes(linksData[1].path) ? "default" : "ghost"
                 }
                 size="sm"
                 className="col-center h-10 w-10"
@@ -153,7 +155,7 @@ export default function Navigation({
             <Link className="w-full" href={`/${linksData[2].path}`}>
               <Button
                 variant={
-                  isActive.includes(linksData[2].path) ? "default" : "ghost"
+                  pathArr.includes(linksData[2].path) ? "default" : "ghost"
                 }
                 size="sm"
                 className="col-center h-10 w-10"
@@ -167,7 +169,7 @@ export default function Navigation({
             <Link className="w-full" href={`/${linksData[3].path}`}>
               <Button
                 variant={
-                  isActive.includes(linksData[3].path) ? "default" : "ghost"
+                  pathArr.includes(linksData[3].path) ? "default" : "ghost"
                 }
                 size="sm"
                 className="col-center h-10 w-10"
@@ -181,7 +183,7 @@ export default function Navigation({
             <Link className="w-full" href={`/${linksData[4].path}`}>
               <Button
                 variant={
-                  isActive.includes(linksData[4].path) ? "default" : "ghost"
+                  pathArr.includes(linksData[4].path) ? "default" : "ghost"
                 }
                 size="sm"
                 className="col-center h-10 w-10"
@@ -193,7 +195,7 @@ export default function Navigation({
             <Link className="w-full" href={`/${linksData[5].path}`}>
               <Button
                 variant={
-                  isActive.includes(linksData[5].path) ? "default" : "ghost"
+                  pathArr.includes(linksData[5].path) ? "default" : "ghost"
                 }
                 size="sm"
                 className="col-center h-10 w-10"
@@ -205,7 +207,7 @@ export default function Navigation({
             <Link className="w-full" href={`/${linksData[6].path}/${userId}`}>
               <Button
                 variant={
-                  isActive.includes(linksData[6].path) ? "default" : "ghost"
+                  router.pathname === "/posts/[id]" ? "default" : "ghost"
                 }
                 size="sm"
                 className="col-center h-10 w-10"
