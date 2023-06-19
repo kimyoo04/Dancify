@@ -1,9 +1,7 @@
 from django.http import JsonResponse
 import uuid
-import os
 
 from rest_framework.views import APIView
-import boto3
 
 from accounts.authentication import get_user_info_from_token
 from accounts.authentication import get_s3_client
