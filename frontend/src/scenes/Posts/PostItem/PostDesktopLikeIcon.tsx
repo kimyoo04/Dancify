@@ -1,4 +1,4 @@
-import { useToggleLike } from "@api/like/toggleLike";
+import { useToggleLike } from "@api/likes/toggleLike";
 import { likeActions } from "@features/like/likeSlice";
 import { useAppDispatch, useAppSelector } from "@toolkit/hook";
 import { TUserLike } from "@type/auth";
