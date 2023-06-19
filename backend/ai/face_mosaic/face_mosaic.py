@@ -7,15 +7,11 @@
 # 사용 예시
 from face_mosaic.face_mosaic import *
 
-AWS_ACCESS_KEY_ID ="blahblah"
-AWS_SECRET_ACCESS_KEY = "blahblah"
-bucket = 'dancify-hw-bucket'
-
 localpath = os.path.dirname(os.path.abspath(__file__)) #현재 폴더
 local_videopath =  os.path.join(localpath, 'spicy_winter.mp4')
 videoname = 'spicy_winter'
 
-face_mosaic(AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, bucket, local_videopath, videoname)
+face_mosaic(local_videopath, videoname)
 '''
 
 import boto3
@@ -23,13 +19,34 @@ import os
 import cv2
 import mediapipe as mp
 import shutil
+import csv
 
 from .drawing_utils import draw_detection
 
 import moviepy.editor as mvp
 
 
-def face_mosaic(AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, bucket, local_videopath, videoname):
+def get_s3_access_key():
+    '''
+    ---------------함수 설명---------------
+    AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY를 return 합니다.
+    '''
+    access_key, secret_access_key = None, None
+
+    backend_folder = os.path.dirname(os.path.abspath(os.path.dirname(os.path.abspath(os.path.dirname(__file__)))))
+    pwd = backend_folder + '\\accounts\\user-s3_accessKeys.csv'
+    with open(pwd, 'r', encoding='utf-8-sig') as file:
+        csv_data = csv.DictReader(file)
+        for row in csv_data:
+            access_key = row['Access key ID']
+            secret_access_key = row['Secret access key']
+
+    return (access_key, secret_access_key)
+
+# -----------------------------------------------
+
+
+def face_mosaic(local_videopath, videoname):
     '''
     ---------------함수 설명---------------
     동영상에 얼굴 모자이크를 하여 저장해주는 함수입니다.
@@ -37,9 +54,6 @@ def face_mosaic(AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, bucket, local_videopat
     s3에 모자이크 영상 업로드를 완료하면 shutils로 지워줍니다. 원본 동영상은 지우지 않습니다.
 
     ---------------parameter---------------
-    - AWS_ACCESS_KEY_ID : 키 아이디
-    - AWS_SECRET_ACCESS_KEY : 시크릿 키
-    - bucket : 버킷 이름
     - local_videopath : 로컬에 저장된 비디오 경로를 입력합니다.
     - videoname :   s3에 저장될 비디오 이름을 입력합니다.
                     ex) karina.mp4면 karina만 입력
@@ -51,6 +65,9 @@ def face_mosaic(AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, bucket, local_videopat
     '''
 
     # s3로드
+    AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY = get_s3_access_key()
+    bucket = 'dancify-bucket'
+
     client = boto3.client('s3', aws_access_key_id=AWS_ACCESS_KEY_ID, aws_secret_access_key=AWS_SECRET_ACCESS_KEY, region_name='ap-northeast-2')
 
     # 1) 영상 저장할 경로 지정

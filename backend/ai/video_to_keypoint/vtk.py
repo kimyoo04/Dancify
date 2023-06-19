@@ -5,15 +5,11 @@
 # 사용 예시
 from video_to_keypoint.vtk import *
 
-AWS_ACCESS_KEY_ID ="blahblah"
-AWS_SECRET_ACCESS_KEY = "blahblah"
-bucket = 'dancify-hw-bucket'
-
 localpath = os.path.dirname(os.path.abspath(__file__)) #현재 폴더
 local_videopath =  os.path.join(localpath, 'spicy_winter.mp4')
 jsonname = 'spicy_winter'
 
-video_to_keypoint(AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, bucket, local_videopath, jsonname)
+video_to_keypoint(local_videopath, jsonname)
 '''
 
 import boto3
@@ -21,26 +17,41 @@ import cv2
 import os
 import tensorflow as tf
 import json
+import csv
 
 
-def video_to_keypoint(AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, bucket, local_videopath, jsonname):
+def get_s3_access_key():
+    '''
+    ---------------함수 설명---------------
+    AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY를 return 합니다.
+    '''
+    access_key, secret_access_key = None, None
+
+    backend_folder = os.path.dirname(os.path.abspath(os.path.dirname(os.path.abspath(os.path.dirname(__file__)))))
+    pwd = backend_folder + '\\accounts\\user-s3_accessKeys.csv'
+    with open(pwd, 'r', encoding='utf-8-sig') as file:
+        csv_data = csv.DictReader(file)
+        for row in csv_data:
+            access_key = row['Access key ID']
+            secret_access_key = row['Secret access key']
+
+    return (access_key, secret_access_key)
+
+# -----------------------------------------------
+
+
+def video_to_keypoint(local_videopath, jsonname):
     '''
     ---------------함수 설명---------------
     비디오의 프레임 단위로 각 부위별 x,y 좌표를 json 파일로 저장하는 함수입니다.
 
     ---------------parameter---------------
-    - AWS_ACCESS_KEY_ID : 키 아이디
-    - AWS_SECRET_ACCESS_KEY : 시크릿 키
-    - bucket : 버킷 이름
     - local_videopath : 로컬에 저장된 비디오 경로를 입력합니다.
-    - jsonname :   s3에 저장될 json이름을 입력합니다.
-                   ex) karina.json이면 karina만 입력
+    - jsonname :    s3에 저장될 json이름을 입력합니다.
+                    ex) karina.json이면 karina만 입력
 
     ---------------return 값 설명---------------
-    * type : json file
-
-    - video_to_xy[0] : FPS
-    - video_to_xy[1] ~ ... : n번째 이미지의 keypoint 값
+    * type : json file (n번째 프레임의 keypoint 값)
 
     ---------------s3 저장 경로---------------
     (나중에 backend분들과 상의 후 수정 필요)
@@ -49,6 +60,9 @@ def video_to_keypoint(AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, bucket, local_vi
     '''
 
     # s3로드
+    AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY = get_s3_access_key()
+    bucket = 'dancify-bucket'
+
     client = boto3.client('s3', aws_access_key_id=AWS_ACCESS_KEY_ID, aws_secret_access_key=AWS_SECRET_ACCESS_KEY, region_name='ap-northeast-2')
 
     localpath = os.path.dirname(os.path.abspath(__file__))  # 현재 폴더
@@ -82,7 +96,7 @@ def video_to_keypoint(AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY, bucket, local_vi
         print("fps :", fps)
 
         # 결과를 저장할 변수
-        result = [15]
+        result = []
 
         # 프레임 체크
         frame_interval = round(fps / 15)
