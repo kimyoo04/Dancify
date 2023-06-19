@@ -7,7 +7,7 @@ import { searchActions } from "@features/search/searchSlice";
 import { SearchIcon } from "lucide-react";
 import { TSearchCategoryEnglish } from "@type/search";
 
-export default function Search() {
+export default function SearchToggle() {
   const dispatch = useAppDispatch();
   const router = useRouter();
   const pathsArr = router.asPath.split("/");
