@@ -3,41 +3,41 @@ import { ScrollArea, ScrollBar } from "@components/ui/scroll-area";
 
 import VideoPostLoader from "./Video/VideoItem/VideoPostLoader";
 import PreviewVideoPosts from "./Video/VideoItem/PreviewVideoPosts";
-import { useReadVideoLikesPerPage } from "@api/likes/readVideoLikesPerPage";
+import { useReadVideoMyPostsPerPage } from "@api/myPosts/readVideoMyPostsPerPage";
 
 import FreePostLoader from "./Free/FreeItem/FreePostLoader";
 import FreePostItem from "./Free/FreeItem/FreePostItem";
-import { useReadFreeLikesPerPage } from "@api/likes/readFreeLikesPerPage";
+import { useReadFreeMyPostsPerPage } from "@api/myPosts/readFreeMyPostsPerPage";
 
 import DancerPostLoader from "./Dancer/DancerItem/DancerPostLoader";
 import PreviewDancerPosts from "./Dancer/DancerItem/PreviewDancerPosts";
-import { useReadDancerLikesPerPage } from "@api/likes/readDancerLikesPerPage";
+import { useReadDancerMyPostsPerPage } from "@api/myPosts/readDancerMyPostsPerPage";
 
 import ViewMore from "@scenes/Posts/PostItem/ViewMore";
 
-export default function Likes() {
+export default function MyPosts({ id }: { id: string }) {
   const {
     data: dancerData,
     error: dancerError,
     status: dancerStatus,
-  } = useReadDancerLikesPerPage();
+  } = useReadDancerMyPostsPerPage(id);
 
   const {
     data: videoData,
     error: videoError,
     status: videoStatus,
-  } = useReadVideoLikesPerPage();
+  } = useReadVideoMyPostsPerPage(id);
 
   const {
     data: freeData,
     error: freeError,
     status: freeStatus,
-  } = useReadFreeLikesPerPage();
+  } = useReadFreeMyPostsPerPage(id);
 
   return (
     <div className="space-y-10 border-none p-0 outline-none">
       <h1 className="text-2xl font-semibold tracking-tight">
-        좋아요 표시한 글
+        {id} 님의 게시글
       </h1>
 
       <div>
