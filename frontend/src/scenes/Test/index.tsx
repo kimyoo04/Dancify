@@ -79,6 +79,7 @@ export default function Test() {
 
   const runPosenet = async () => {
     await tf.ready();
+
     //모델 로드
     const model = await poseDetection.SupportedModels.MoveNet;
     const detector = await poseDetection.createDetector(model);
@@ -96,8 +97,6 @@ export default function Test() {
       const danceable = await detect(detector);
       const dancer = dancer_json[indx];
 
-      console.log("------------------------");
-      console.log(indx);
       //에러 안 나면 x,y의 좌표와 유사도 출력
       if (danceable !== "error" && dancer !== undefined) {
         console.log("danceable", danceable[0]);
@@ -114,10 +113,6 @@ export default function Test() {
           //다음 이미지 비교
           indx += 1;
         }
-      }
-      //에러 나면 error 출력
-      else {
-        console.log("error");
       }
 
       if (indx == dancer_json.length) {
