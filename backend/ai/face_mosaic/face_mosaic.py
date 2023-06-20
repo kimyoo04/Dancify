@@ -6,90 +6,66 @@
 '''
 # 사용 예시
 from face_mosaic.face_mosaic import *
-
-localpath = os.path.dirname(os.path.abspath(__file__)) #현재 폴더
-local_videopath =  os.path.join(localpath, 'spicy_winter.mp4')
-videoname = 'spicy_winter'
-
-face_mosaic(local_videopath, videoname)
+videoname = video가 담긴 변수 이름
+face_mosaic(videoname)
 '''
 
-import boto3
 import os
 import cv2
 import mediapipe as mp
 import shutil
-import csv
+import random
+import string
 
 from .drawing_utils import draw_detection
 
 import moviepy.editor as mvp
 
 
-def get_s3_access_key():
-    '''
-    ---------------함수 설명---------------
-    AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY를 return 합니다.
-    '''
-    access_key, secret_access_key = None, None
-
-    backend_folder = os.path.dirname(os.path.abspath(os.path.dirname(os.path.abspath(os.path.dirname(__file__)))))
-    pwd = backend_folder + '\\accounts\\user-s3_accessKeys.csv'
-    with open(pwd, 'r', encoding='utf-8-sig') as file:
-        csv_data = csv.DictReader(file)
-        for row in csv_data:
-            access_key = row['Access key ID']
-            secret_access_key = row['Secret access key']
-
-    return (access_key, secret_access_key)
-
-# -----------------------------------------------
-
-
-def face_mosaic(local_videopath, videoname):
+def face_mosaic(videoname):
     '''
     ---------------함수 설명---------------
     동영상에 얼굴 모자이크를 하여 저장해주는 함수입니다.
     현재 local경로(face_mosaic폴더)에 폴더를 만들어서 파일들(모자이크 영상 파일, 오디오 추출 파일)을 저장했다가,
-    s3에 모자이크 영상 업로드를 완료하면 shutils로 지워줍니다. 원본 동영상은 지우지 않습니다.
+    편집이 완료되면 파일이 지워집니다.
 
     ---------------parameter---------------
-    - local_videopath : 로컬에 저장된 비디오 경로를 입력합니다.
-    - videoname :   s3에 저장될 비디오 이름을 입력합니다.
-                    ex) karina.mp4면 karina만 입력
+    - videoname : video가 담긴 변수 이름을 입력합니다.
 
-    ---------------s3 저장 경로---------------
-    (나중에 backend분들과 상의 후 수정 필요)
-    - XXX 모자이크 한 영상이 저장될 경로 : f'video/mosaic_video/{videoname}.mp4' (s3_savepath)
-
+    ---------------return 값 설명---------------
+    * type : mp4 file (바이너리 형태)
     '''
+    def generate_random_string(length):
+        letters = string.ascii_lowercase
+        random_string = ''.join(random.choice(letters) for _ in range(length))
+        return random_string
 
-    # s3로드
-    AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY = get_s3_access_key()
-    bucket = 'dancify-bucket'
+    # 10자리의 랜덤 문자열 생성
+    random_string = generate_random_string(8)
 
-    client = boto3.client('s3', aws_access_key_id=AWS_ACCESS_KEY_ID, aws_secret_access_key=AWS_SECRET_ACCESS_KEY, region_name='ap-northeast-2')
-
-    # 1) 영상 저장할 경로 지정
+    # 영상 저장할 경로 지정
     localpath = os.path.dirname(os.path.abspath(__file__))  # 현재 폴더
-    localpath = os.path.join(localpath, f'{videoname}\\')  # 현재 폴더/videoname/
+    localpath = os.path.join(localpath, random_string)  # 현재 폴더/random_string/
+    os.makedirs(localpath, exist_ok=True)  # 폴더 생성
 
-    # 2) localpath 폴더 생성
-    try:
-        if not os.path.exists(localpath):
-            os.makedirs(localpath)
-    except OSError:
-        print('Error: Creating directory. ' + localpath)
 
     # ------------------영상에 모자이크 효과------------------
-    # 결과 비디오 : f'{videoname}.mp4'
-    # 모자이크 한 무음 비디오 : f'{videoname}_mosaic.mp4'
-    # 비디오 mp3 : f'{videoname}_mosaic.mp3'
-    resultpath = localpath + videoname + '.mp4'
-    mosaicpath = localpath + videoname + '_mosaic.mp4'
+    # 오리지널 비디오 : f'{random_string}_original.mp4'
+    # 결과 비디오 : f'{random_string}.mp4'
+    # 모자이크 한 무음 비디오 : f'{random_string}_mosaic.mp4'
+    # 비디오 mp3 : f'{random_string}_mosaic.mp3'
+    local_videopath = os.path.join(localpath, f'{random_string}_original.mp4')
+    resultpath = os.path.join(localpath, f'{random_string}.mp4')
+    mosaicpath = os.path.join(localpath, f'{random_string}_mosaic.mp4')
     audiopath = mosaicpath[:-4] + '.mp3'
 
-    # 동영상 파일 열기
+    # ---localpath에 videoname 변수로 mp4영상 저장하기---
+    # 오리지널 비디오 파일 저장
+    with open(local_videopath, 'wb') as destination:
+        for chunk in videoname.chunks():
+            destination.write(chunk)
+
+    # 오리지널 동영상 파일 열기
     cap = cv2.VideoCapture(local_videopath)
 
     # 잘 열렸는지 확인
@@ -152,8 +128,11 @@ def face_mosaic(local_videopath, videoname):
     # 비디오와 오디오를 합쳐 저장합니다. (모자이크비디오, 오디오, 결과저장경로)
     mvp.ffmpeg_tools.ffmpeg_merge_video_audio(mosaicpath, audiopath, resultpath, vcodec='copy', acodec='copy', ffmpeg_output=False, logger='bar')
 
-    # s3에 편집한 동영상 업로드하기
-    s3_savepath = 'video/mosaic_video/' + videoname + '.mp4'
-    client.upload_file(resultpath, bucket, s3_savepath)  # 파일 업로드 : 로컬 경로, 버킷, 저장할 s3경로
+    # 편집 완료된 동영상을 변수에 담아 저장합니다.
+    with open(resultpath, 'rb') as file:
+        result_video = file.read() #바이너리 파일
+
     # 편집에 사용되었던 localpath 폴더 삭제
     shutil.rmtree(localpath)
+
+    return result_video
