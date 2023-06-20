@@ -31,6 +31,7 @@ interface DataTableFacetedFilter<TData, TValue> {
   }[];
 }
 
+// 팝 오버 필터링 컴포넌트
 export function DataTableFacetedFilter<TData, TValue>({
   column,
   title,

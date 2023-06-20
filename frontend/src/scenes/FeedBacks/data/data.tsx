@@ -1,71 +1,42 @@
-import {
-  ArrowDownToLine,
-  ArrowRightToLine,
-  ArrowUpCircle,
-  ArrowUpToLine,
-  CheckCircle2,
-  Circle,
-  HelpCircle,
-  XCircle,
-} from "lucide-react";
+import { ArrowUpCircle, CheckCircle2, HelpCircle } from "lucide-react";
 
-export const labels = [
+export const genres = [
   {
-    value: "bug",
-    label: "Bug",
+    value: "기본동작",
+    label: "기본동작",
   },
   {
-    value: "feature",
-    label: "Feature",
+    value: "k-pop",
+    label: "K-pop",
   },
   {
-    value: "documentation",
-    label: "Documentation",
+    value: "키즈",
+    label: "키즈",
+  },
+  {
+    value: "팝핀",
+    label: "팝핀",
+  },
+  {
+    value: "뮤지컬",
+    label: "뮤지컬",
   },
 ];
 
 export const statuses = [
   {
-    value: "backlog",
-    label: "Backlog",
+    value: "신청 전",
+    label: "신청 전",
     icon: HelpCircle,
   },
   {
-    value: "todo",
-    label: "Todo",
-    icon: Circle,
-  },
-  {
-    value: "in progress",
-    label: "In Progress",
+    value: "대기 중",
+    label: "대기 중",
     icon: ArrowUpCircle,
   },
   {
-    value: "done",
-    label: "Done",
+    value: "완료",
+    label: "완료",
     icon: CheckCircle2,
-  },
-  {
-    value: "canceled",
-    label: "Canceled",
-    icon: XCircle,
-  },
-];
-
-export const priorities = [
-  {
-    label: "Low",
-    value: "low",
-    icon: ArrowDownToLine,
-  },
-  {
-    label: "Medium",
-    value: "medium",
-    icon: ArrowRightToLine,
-  },
-  {
-    label: "High",
-    value: "high",
-    icon: ArrowUpToLine,
   },
 ];
