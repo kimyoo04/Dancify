@@ -12,8 +12,8 @@ import cv2
 import os
 import tensorflow as tf
 import json
-import csv
-
+import random
+import string
 
 def video_to_keypoint(videoname):
     '''
@@ -25,16 +25,21 @@ def video_to_keypoint(videoname):
 
     ---------------return 값 설명---------------
     * type : json file (n번째 프레임의 keypoint 값)
-
     '''
 
+    def generate_random_string(length):
+        letters = string.ascii_lowercase
+        random_string = ''.join(random.choice(letters) for _ in range(length))
+        return random_string
+
+    # 10자리의 랜덤 문자열 생성
+    random_string = generate_random_string(8)
 
     localpath = os.path.dirname(os.path.abspath(__file__))  # 현재 폴더
     modelpath = os.path.join(localpath, 'lightning_int8.tflite')  # 모델 경로
 
-    local_videopath = os.path.join(localpath, f'{videoname}_original.mp4') #original 비디오가 저장될 경로
-
-    # ---localpath에 videoname 변수로 mp4영상 저장하기---
+    # ------------------localpath에 videoname 변수로 mp4영상 저장하기------------------
+    local_videopath = os.path.join(localpath, f'{random_string}_original.mp4') #original 비디오가 저장될 경로
     # 오리지널 비디오 파일 저장
     with open(local_videopath, 'wb') as destination:
         for chunk in videoname.chunks():
@@ -89,8 +94,8 @@ def video_to_keypoint(videoname):
         # json파일로 저장
         encode_file = json.dumps(result, indent=4, ensure_ascii=False)
 
-        # 편집에 사용되었던 비디오 파일 삭제
-        os.remove(local_videopath)
+    # 편집에 사용되었던 비디오 파일 삭제
+    os.remove(local_videopath)
 
     return encode_file
 

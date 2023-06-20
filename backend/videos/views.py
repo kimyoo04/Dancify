@@ -36,8 +36,9 @@ class UploadTestView(APIView):
         file_key = file_key = folder_path + video_uuid + '.json'
         s3.upload_fileobj(io.BytesIO(json_obj.encode()), bucket_name, file_key)
 
+        file_key = file_key = folder_path + video_uuid + '.webm'
         video = face_mosaic(video)
-        s3.upload_fileobj(video, bucket_name, file_key)
+        s3.upload_fileobj(io.BytesIO(video), bucket_name, file_key)
 
         # 클라이언트 해제
         s3.close()
