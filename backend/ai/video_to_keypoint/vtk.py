@@ -4,15 +4,10 @@
 '''
 # 사용 예시
 from video_to_keypoint.vtk import *
-
-localpath = os.path.dirname(os.path.abspath(__file__)) #현재 폴더
-local_videopath =  os.path.join(localpath, 'spicy_winter.mp4')
-jsonname = 'spicy_winter'
-
-video_to_keypoint(local_videopath, jsonname)
+videoname = video가 담긴 변수 이름
+video_to_keypoint(videoname)
 '''
 
-import boto3
 import cv2
 import os
 import tensorflow as tf
@@ -20,53 +15,30 @@ import json
 import csv
 
 
-def get_s3_access_key():
-    '''
-    ---------------함수 설명---------------
-    AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY를 return 합니다.
-    '''
-    access_key, secret_access_key = None, None
-
-    backend_folder = os.path.dirname(os.path.abspath(os.path.dirname(os.path.abspath(os.path.dirname(__file__)))))
-    pwd = backend_folder + '\\accounts\\user-s3_accessKeys.csv'
-    with open(pwd, 'r', encoding='utf-8-sig') as file:
-        csv_data = csv.DictReader(file)
-        for row in csv_data:
-            access_key = row['Access key ID']
-            secret_access_key = row['Secret access key']
-
-    return (access_key, secret_access_key)
-
-# -----------------------------------------------
-
-
-def video_to_keypoint(local_videopath, jsonname):
+def video_to_keypoint(videoname):
     '''
     ---------------함수 설명---------------
     비디오의 프레임 단위로 각 부위별 x,y 좌표를 json 파일로 저장하는 함수입니다.
 
     ---------------parameter---------------
-    - local_videopath : 로컬에 저장된 비디오 경로를 입력합니다.
-    - jsonname :    s3에 저장될 json이름을 입력합니다.
-                    ex) karina.json이면 karina만 입력
+    - videoname : video가 담긴 변수 이름을 입력합니다.
 
     ---------------return 값 설명---------------
     * type : json file (n번째 프레임의 keypoint 값)
 
-    ---------------s3 저장 경로---------------
-    (나중에 backend분들과 상의 후 수정 필요)
-    - XXX json 파일이 저장될 경로 : f'video/dancer_video/json/{jsonname}.json' (s3_savepath)
-
     '''
 
-    # s3로드
-    AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY = get_s3_access_key()
-    bucket = 'dancify-bucket'
-
-    client = boto3.client('s3', aws_access_key_id=AWS_ACCESS_KEY_ID, aws_secret_access_key=AWS_SECRET_ACCESS_KEY, region_name='ap-northeast-2')
 
     localpath = os.path.dirname(os.path.abspath(__file__))  # 현재 폴더
     modelpath = os.path.join(localpath, 'lightning_int8.tflite')  # 모델 경로
+
+    local_videopath = os.path.join(localpath, f'{videoname}_original.mp4') #original 비디오가 저장될 경로
+
+    # ---localpath에 videoname 변수로 mp4영상 저장하기---
+    # 오리지널 비디오 파일 저장
+    with open(local_videopath, 'wb') as destination:
+        for chunk in videoname.chunks():
+            destination.write(chunk)
 
     # ------------------x,y keypoints가 담긴 json 파일 생성------------------
 
@@ -117,13 +89,10 @@ def video_to_keypoint(local_videopath, jsonname):
         # json파일로 저장
         encode_file = json.dumps(result, indent=4, ensure_ascii=False)
 
-    # ------------------s3에 저장 후 비디오 파일 삭제-----------------
-    s3_savepath = 'video/dancer_video/json/' + jsonname + '.json'
-    client.put_object(Bucket=bucket, Key=s3_savepath, Body=encode_file)
+        # 편집에 사용되었던 비디오 파일 삭제
+        os.remove(local_videopath)
 
-    # 편집에 사용되었던 비디오 파일 삭제
-    # os.remove(local_videopath)
-
+    return encode_file
 
 # -----------------------------------------------
 
