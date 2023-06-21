@@ -39,7 +39,7 @@ export default function DancerPosts() {
         />
 
         {/* 게시글 추가 버튼 */}
-        {isDancer && <CreateButton category="dance" />}
+        {isDancer && <CreateButton category="dancer" />}
       </div>
     </>
   );
