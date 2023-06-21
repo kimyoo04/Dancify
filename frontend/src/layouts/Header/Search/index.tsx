@@ -4,6 +4,7 @@ import SearchPopUpModal from "./SearchPopUp";
 import { searchActions } from "@features/search/searchSlice";
 import { useAppDispatch, useAppSelector } from "@toolkit/hook";
 import { useRouter } from "next/router";
+import Overlay from "./SearchPopUp/Overlay";
 
 export default function Search() {
   const dispatch = useAppDispatch();
@@ -26,7 +27,12 @@ export default function Search() {
     <div className="hidden md:block">
       <div className=" relative flex w-80 flex-col gap-5">
         <SearchBar />
-        {isFocus && <SearchPopUpModal />}
+        {isFocus && (
+          <>
+            <Overlay />
+            <SearchPopUpModal />
+          </>
+        )}
       </div>
     </div>
   );

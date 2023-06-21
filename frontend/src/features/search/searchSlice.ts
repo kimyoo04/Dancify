@@ -7,6 +7,7 @@ import {
 } from "@type/search";
 
 const initialState: ISearchState = {
+  isOpen: false,
   isFocus: false,
   searchCategory: "DANCER",
   searchKeyword: "",
@@ -24,6 +25,13 @@ export const searchSlice = createSlice({
     // input focus 해제
     onBlur: (state) => {
       state.isFocus = false;
+    },
+
+    openOverlay: (state) => {
+      state.isOpen = true;
+    },
+    closeOverlay: (state) => {
+      state.isOpen = false;
     },
 
     // 카테고리 선택 및 해당 최근 검색어 전체 조회
@@ -44,6 +52,7 @@ export const searchSlice = createSlice({
     // searchKeyword으로 axiso GET 요청 및 최근 검색어 1개 추가
     searchKeyword: (state, actions: PayloadAction<ISearchKeyword>) => {
       state.searchKeyword = actions.payload.searchKeyword;
+      state.isOpen = false;
 
       const keywords = JSON.parse(
         localStorage.getItem(state.searchCategory) || "[]"
@@ -69,6 +78,7 @@ export const searchSlice = createSlice({
     // 최근 검색어 1개 클릭
     clickKeyword: (state, actions: PayloadAction<ISearchKeyword>) => {
       state.searchKeyword = actions.payload.searchKeyword;
+      state.isOpen = false;
     },
 
     // 최근 검색어 1개 제거

@@ -27,8 +27,8 @@ export default function MainLayout({
       </div>
 
       {/* 레이아웃 요소 */}
-      <Header />
       <TabBar />
+      <Header />
     </>
   );
 }

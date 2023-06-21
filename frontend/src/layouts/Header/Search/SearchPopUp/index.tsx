@@ -4,24 +4,14 @@ import SearchPopUpHeader from "./SearchPopUpHeader";
 import SearchKeywordsHistory from "./SearchKeywordsHistory";
 import SearchRank from "./SearchRank";
 
-import { useAppDispatch } from "@toolkit/hook";
-import { searchActions } from "@features/search/searchSlice";
-
 import { fadeIn } from "@util/variants";
 import { motion } from "framer-motion";
 
 export default function SearchPopUpModal() {
   const [searchPopUp, setSearchPopUp] = useState("최근검색어");
-  const dispatch = useAppDispatch();
 
   return (
     <>
-      {/* 오버레이 */}
-      <div
-        className="fixed left-0 top-0 h-screen w-screen"
-        onClick={() => dispatch(searchActions.onBlur())}
-      ></div>
-
       <motion.section
         variants={fadeIn("down", "easeInOut", 0, 0.2, 10)}
         initial="hidden"

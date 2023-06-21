@@ -9,6 +9,7 @@ export interface ISearchField {
 
 // searchSlice에 사용
 export interface ISearchState {
+  isOpen: boolean;
   isFocus: boolean;
   searchCategory: TSearchCategoryEnglish;
   searchKeyword: TSearchKeyword;
