@@ -43,7 +43,7 @@ export const useCreateDancerPostMutation = () => {
           genre,
         ],
       });
-      store.dispatch(postActions.finishWriting());
+      store.dispatch(postActions.resetPostInfo());
       router.push("/");
     },
     onError: (err) => {

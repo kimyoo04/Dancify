@@ -26,7 +26,7 @@ const postSlice = createSlice({
     writingContent: (state, action: PayloadAction<TContent>) => {
       state.postContent = action.payload;
     },
-    finishWriting: (state) => {
+    resetPostInfo: (state) => {
       state.postId = "";
       state.postTitle = "";
       state.postContent = "";

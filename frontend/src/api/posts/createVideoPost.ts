@@ -43,7 +43,7 @@ export const useCreateVideoPostMutation = () => {
           genre,
         ],
       });
-      store.dispatch(postActions.finishWriting());
+      store.dispatch(postActions.resetPostInfo());
       router.push("/video");
     },
     onError: (err) => {

@@ -43,7 +43,7 @@ export const useCreateFreePostMutation = () => {
           genre,
         ],
       });
-      store.dispatch(postActions.finishWriting());
+      store.dispatch(postActions.resetPostInfo());
       router.push("/free");
     },
     onError: (err) => {
