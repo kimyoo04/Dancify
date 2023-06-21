@@ -151,10 +151,10 @@ def frame_to_sec(data: List[Dict], role: str = 'dancer') -> List[Dict[str, float
             'role_관절명'은 해당 관절의 평균 각도 정보를 나타냅니다.
     """
     result = []
-    frames = [data[i:i+FPS] for i in range(0, len(data), FPS)]  # 15프레임씩 분할
+    frames = [data[i:i + FPS] for i in range(0, len(data), FPS)]  # 15프레임씩 분할
 
     for i, frame_set in enumerate(frames):
-        avg_dict: Dict[str, float] = {'sec': i+1}  # 초 단위 시간 정보 추가
+        avg_dict: Dict[str, float] = {'sec': i + 1}  # 초 단위 시간 정보 추가
         for joint in ['left_pelvic_angle', 'right_pelvic_angle', 'left_shoulder_angle', 'right_shoulder_angle', 'left_elbow_angle', 'right_elbow_angle', 'left_knee_angle', 'right_knee_angle']:
             avg_dict[f'{role}_' + joint] = float(
                 round(np.mean([frame[joint] for frame in frame_set]), 3))
@@ -260,7 +260,7 @@ def calculate_scores(dancer_json_path: str, danceable_json_path: str) -> List[Di
         angle_dict = {'sec': i}
         for part in ['pelvis', 'shoulder', 'forearm', 'leg']:
             angle_dict[part] = int((angles[EIGHT_PART_LIST.index(
-                'left_'+part)] + angles[EIGHT_PART_LIST.index('right_'+part)]) / 2)
+                'left_' + part)] + angles[EIGHT_PART_LIST.index('right_' + part)]) / 2)
         angle_dict_list.append(angle_dict)
 
     return angle_dict_list
@@ -418,22 +418,22 @@ def generate_messages(average_scores):
     for body_part in [best_part, worst_part]:
         if body_part == best_part:
             if body_part == "pelvis_score":
-                messages.append(f"골반이 가장 높은 평균 점수를 가졌습니다.")
+                messages.append("골반이 가장 높은 평균 점수를 가졌습니다.")
             elif body_part == "upperarm_score":
-                messages.append(f"어깨가 가장 높은 평균 점수를 가졌습니다.")
+                messages.append("어깨가 가장 높은 평균 점수를 가졌습니다.")
             elif body_part == "forearm_score":
-                messages.append(f"팔이 가장 높은 평균 점수를 가졌습니다.")
+                messages.append("팔이 가장 높은 평균 점수를 가졌습니다.")
             elif body_part == "leg_score":
-                messages.append(f"다리가 가장 높은 평균 점수를 가졌습니다.")
+                messages.append("다리가 가장 높은 평균 점수를 가졌습니다.")
         elif body_part == worst_part:
             if body_part == "pelvis_score":
-                messages.append(f"골반이 가장 낮은 평균 점수를 가졌습니다.")
+                messages.append("골반이 가장 낮은 평균 점수를 가졌습니다.")
             elif body_part == "upperarm_score":
-                messages.append(f"어깨가 가장 낮은 평균 점수를 가졌습니다.")
+                messages.append("어깨가 가장 낮은 평균 점수를 가졌습니다.")
             elif body_part == "forearm_score":
-                messages.append(f"팔이 가장 낮은 평균 점수를 가졌습니다.")
+                messages.append("팔이 가장 낮은 평균 점수를 가졌습니다.")
             elif body_part == "leg_score":
-                messages.append(f"다리가 가장 낮은 평균 점수를 가졌습니다.")
+                messages.append("다리가 가장 낮은 평균 점수를 가졌습니다.")
 
     return messages
 
