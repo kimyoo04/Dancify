@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import DetailPageLayout from "@layouts/DetailPageLayout";
+import MainLayout from "@layouts/MainLayout";
 import FreePostDetail from "@scenes/Posts/Free/FreeDetail";
 
 export default function FreePostDetailPage() {
@@ -8,9 +8,9 @@ export default function FreePostDetailPage() {
 
   if (typeof id === "string") {
     return (
-      <DetailPageLayout>
+      <MainLayout>
         <FreePostDetail id={id} />
-      </DetailPageLayout>
+      </MainLayout>
     );
   }
 }

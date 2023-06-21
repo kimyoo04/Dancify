@@ -1,15 +1,15 @@
 import MainLayout from "@layouts/MainLayout";
-import EditFreePost from "@scenes/Posts/EditPost/EditFreePost";
+import EditVideoPost from "@scenes/Posts/EditPost/EditVideoPost";
 import { useRouter } from "next/router";
 
-export default function UpdateFreePostPage() {
+export default function UpdateVideoPostPage() {
   const router = useRouter();
   const { id } = router.query;
 
   if (typeof id === "string") {
     return (
       <MainLayout>
-        <EditFreePost id={id} />
+        <EditVideoPost id={id} />
       </MainLayout>
     );
   }

@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import DetailPageLayout from "@layouts/DetailPageLayout";
+import MainLayout from "@layouts/MainLayout";
 import VideoPostDetail from "@scenes/Posts/Video/VideoDetail";
 
 export default function VideoPostDetailPage() {
@@ -8,9 +8,9 @@ export default function VideoPostDetailPage() {
 
   if (typeof id === "string") {
     return (
-      <DetailPageLayout>
+      <MainLayout>
         <VideoPostDetail id={id} />
-      </DetailPageLayout>
+      </MainLayout>
     );
   }
 }
