@@ -2,6 +2,7 @@ import "../styles/globals.css";
 import "../styles/button.css";
 import "../styles/chat.css";
 import "../styles/tiptap.css";
+import "../styles/logo.css";
 
 import Head from "next/head";
 import type { AppProps } from "next/app";
