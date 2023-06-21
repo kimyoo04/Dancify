@@ -1,4 +1,4 @@
-from random import randint, random, choice
+from random import choice
 from typing import Any
 from django.core.management.base import BaseCommand, CommandParser
 from django_seed import Seed
@@ -26,12 +26,11 @@ class Command(BaseCommand):
         users = User.objects.all()
 
         seeder.add_entity(Comment, number,
-            {
-                "user": lambda x: choice(users),
-                "content": lambda x: seeder.faker.sentence(nb_words=10, variable_nb_words=True, ext_word_list=None),
-                "post_id": lambda x: self.get_random_post_id()
-            }
-        )
+                          {
+                              "user": lambda x: choice(users),
+                              "content": lambda x: seeder.faker.sentence(nb_words=10, variable_nb_words=True, ext_word_list=None),
+                              "post_id": lambda x: self.get_random_post_id()
+                          })
 
         seeder.execute()
 
