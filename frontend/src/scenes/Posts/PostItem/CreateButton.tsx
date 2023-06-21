@@ -1,14 +1,20 @@
+import { Button } from "@components/ui/button";
+import { useAppSelector } from "@toolkit/hook";
+import { Pencil } from "lucide-react";
 import Link from "next/link";
 
 export default function CreateButton({ category }: { category: string }) {
+  const isOpen = useAppSelector((state) => state.sideBar.isOpen);
+  const paddingleft = isOpen ? "md:pl-[200px]" : "md:pl-[72px]";
+
   return (
     <Link
       href={`/${category}/new`}
-      className="row-center fixed bottom-6 left-0 right-0 z-10 mx-auto h-10 w-20 rounded-full bg-tertiary shadow-md transition-all hover:scale-125"
+      className={`row-center fixed bottom-20 left-0 right-0 z-10 mx-auto md:bottom-6 ${paddingleft}`}
     >
-      <button>
-        <i className="ri-pencil-line text-2xl  text-white"></i>
-      </button>
+      <Button className="shadow-md hover:scale-110">
+        <Pencil className="text-white" />
+      </Button>
     </Link>
   );
 }
