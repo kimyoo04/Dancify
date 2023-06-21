@@ -2,12 +2,12 @@ import axios from "@api/axiosInstance";
 import { useToast } from "@components/ui/use-toast";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useAppSelector } from "@toolkit/hook";
-import { IUpdatePostForm } from "@type/videoPosts";
+import { IUpdatePost } from "@type/posts";
 import { useRouter } from "next/router";
 
 // 자랑게시글 Update
-export const updateVideoPost = async (updatedPost: IUpdatePostForm) => {
-  const response = await axios.put(`/posts/video/${updatedPost.postId}`, updatedPost);
+export const updateVideoPost = async ({postId, formData}: IUpdatePost) => {
+  const response = await axios.patch(`/posts/video/${postId}`, formData);
   return response;
 };
 

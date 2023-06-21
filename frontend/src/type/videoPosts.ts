@@ -52,24 +52,3 @@ export interface IVideoPostDetail {
 export interface IVideoPostDataArr {
   data: IVideoPost[];
 }
-
-//게시글 업로드 폼
-export interface ICreatPostForm {
-  title: TTitle;
-  content: TContent;
-  thumbnail: TThumbnail;
-  video: string;
-}
-
-//게시글 업데이트 폼
-export interface IUpdatePostForm {
-  postId: TPostId; // url에 포함
-  title: TTitle;
-  content: TContent;
-  video: string;
-}
-
-// 게시글 삭제 시 전송할 데이터
-export interface IDeletePost {
-  postId: TPostId; // url에 포함
-}

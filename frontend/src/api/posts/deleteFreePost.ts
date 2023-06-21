@@ -2,12 +2,12 @@ import axios from "@api/axiosInstance";
 import { useToast } from "@components/ui/use-toast";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useAppSelector } from "@toolkit/hook";
-import { IDeletePost } from "@type/freePosts";
+import { TPostId } from "@type/posts";
 import { useRouter } from "next/router";
 
-export const deleteFreePost = async (data: IDeletePost) => {
+export const deleteFreePost = async (postId: TPostId) => {
   try {
-    await axios.delete(`/posts/free/${data.postId}`);
+    await axios.delete(`/posts/free/${postId}`);
     return true;
   } catch (err) {
     console.log("🚀 deleteFreePost.tsx", err);
@@ -27,9 +27,9 @@ export const useDeleteFreePost = () => {
 
   return useMutation({
     mutationFn: deleteFreePost,
-    onSuccess: async (_, variables) => {
+    onSuccess: async (_, postId) => {
       await queryClient.removeQueries({
-        queryKey: ["postDetail", variables.postId],
+        queryKey: ["postDetail", postId],
       });
       await queryClient.invalidateQueries({
         queryKey: [

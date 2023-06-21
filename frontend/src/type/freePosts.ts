@@ -49,23 +49,3 @@ export interface IFreePostDetail {
 export interface IFreePostDataArr {
   data: IFreePost[];
 }
-
-//! 자유게시글 업로드 폼 (확정)
-export interface ICreatPostForm {
-  title: TTitle;
-  content: TContent;
-  postImage?: TPostImage;
-}
-
-//! 자유게시글 업데이트 폼 (확정)
-export interface IUpdatePostForm {
-  postId: TPostId; // url에 포함
-  title: TTitle;
-  content: TContent;
-  postImage: TPostImage;
-}
-
-//! 자유게시글 삭제 시 전송할 데이터 (확정)
-export interface IDeletePost {
-  postId: TPostId; // url에 포함
-}

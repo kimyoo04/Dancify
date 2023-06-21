@@ -2,12 +2,12 @@ import axios from "@api/axiosInstance";
 import { useToast } from "@components/ui/use-toast";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useAppSelector } from "@toolkit/hook";
-import { IUpdatePostForm } from "@type/freePosts";
+import { IUpdatePost } from "@type/posts";
 import { useRouter } from "next/router";
 
 // 자유게시글 Update
-export const updateFreePost = async (updatedPost: IUpdatePostForm) => {
-  const response = await axios.put(`/posts/free/${updatedPost.postId}`, updatedPost);
+export const updateFreePost = async ({postId, formData}: IUpdatePost) => {
+  const response = await axios.patch(`/posts/free/${postId}`, formData);
   return response;
 };
 

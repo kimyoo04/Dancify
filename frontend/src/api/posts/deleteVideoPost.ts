@@ -2,12 +2,12 @@ import axios from "@api/axiosInstance";
 import { useToast } from "@components/ui/use-toast";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useAppSelector } from "@toolkit/hook";
-import { IDeletePost } from "@type/videoPosts";
+import { TPostId } from "@type/posts";
 import { useRouter } from "next/router";
 
-export const deleteVideoPost = async (data: IDeletePost) => {
+export const deleteVideoPost = async (postId: TPostId) => {
   try {
-    await axios.delete(`/posts/video/${data.postId}`);
+    await axios.delete(`/posts/video/${postId}`);
     return true;
   } catch (err) {
     console.log("🚀 deleteVideoPost.tsx", err);
@@ -28,9 +28,9 @@ export const useDeleteVideoPost = () => {
 
   return useMutation({
     mutationFn: deleteVideoPost,
-    onSuccess: async (_, variables) => {
+    onSuccess: async (_, postId) => {
       await queryClient.removeQueries({
-        queryKey: ["postDetail", variables.postId],
+        queryKey: ["postDetail", postId],
       });
       await queryClient.invalidateQueries({
         queryKey: [

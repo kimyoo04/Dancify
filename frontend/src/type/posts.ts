@@ -16,3 +16,8 @@ export interface IPostQueryParams {
   sort?: TSort;
   genre?: TGenre;
 }
+
+export interface IUpdatePost {
+  postId: TPostId; // url에 포함
+  formData: FormData;
+}
