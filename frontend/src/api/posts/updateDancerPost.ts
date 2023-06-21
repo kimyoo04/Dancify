@@ -5,14 +5,14 @@ import { useAppSelector } from "@toolkit/hook";
 import { IUpdatePost } from "@type/posts";
 import { useRouter } from "next/router";
 
-// 자유게시글 Update
-export const updateFreePost = async ({postId, formData}: IUpdatePost) => {
-  const response = await axios.patch(`/posts/free/${postId}`, formData);
+// 댄서게시글 Update
+export const updateDancerPost = async ({postId, formData}: IUpdatePost) => {
+  const response = await axios.patch(`/posts/dancer/${postId}`, formData);
   return response;
 };
 
-// useUpdateFreePost
-export const useUpdateFreePost = () => {
+// useUpdateDancerPost
+export const useUpdateDancerPost = () => {
   const router = useRouter();
   const queryClient = useQueryClient();
   const { toast } = useToast();
@@ -22,11 +22,11 @@ export const useUpdateFreePost = () => {
   const { sort, genre } = useAppSelector((state) => state.filter);
 
   return useMutation({
-    mutationFn: updateFreePost,
+    mutationFn: updateDancerPost,
     onSuccess: async (_, variables) => {
       await queryClient.invalidateQueries({
         queryKey: [
-          `/posts/free`,
+          `/posts/dancer`,
           "searchKeyword",
           searchKeyword,
           "sort",
@@ -36,7 +36,7 @@ export const useUpdateFreePost = () => {
         ],
       });
 
-      router.push(`/free/${variables.postId}}`);
+      router.push(`/dancer/${variables.postId}}`);
       toast({ title: "Success", description: "게시글이 수정되었습니다." });
     },
     onError: (err) => {

@@ -1,16 +1,16 @@
-import { useRef, useState } from "react";
-import { useAppSelector } from "@toolkit/hook";
+import {  useRef, useState } from "react";
+import {useAppSelector } from "@toolkit/hook";
 
 import Tiptap from "@components/tiptap";
 import TitleForm from "@components/tiptap/TitleForm";
 
 import { Button } from "@components/ui/button";
-import UploadVideo from "@components/UploadVideo";
 import UploadImage from "@components/UploadImage";
 
-import { useCreateVideoPostMutation } from "@api/posts/createVideoPost";
+import UploadVideo from "@components/UploadVideo";
+import { useUpdateVideoPost } from "@api/posts/updateVideoPost";
 
-export default function AddVideoPost() {
+export default function EditFreePost({ id }: { id: string }) {
   // 추출썸네일
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -26,7 +26,7 @@ export default function AddVideoPost() {
 
   // 제목과 내용
   const { postTitle, postContent } = useAppSelector((state) => state.post);
-  const { mutateAsync } = useCreateVideoPostMutation();
+  const { mutateAsync } = useUpdateVideoPost();
 
   // 동영상에서 썸네일 이미지 추출
   const extractThumbnail = async () => {
@@ -75,7 +75,7 @@ export default function AddVideoPost() {
     formData.append("content", postContent);
 
     // POST 요청
-    mutateAsync(formData);
+    mutateAsync({postId:id, formData});
     await new Promise((resolve) => setTimeout(resolve, 500));
 
     return;
@@ -83,8 +83,8 @@ export default function AddVideoPost() {
 
   return (
     <div className="mx-auto max-w-2xl space-y-4">
-      <TitleForm isUpdate={false}/>
-      <Tiptap isUpdate={false}/>
+      <TitleForm isUpdate={true}/>
+      <Tiptap isUpdate={true} />
       <UploadVideo
         videoRef={videoRef}
         fileName={videoFileName}
@@ -97,7 +97,7 @@ export default function AddVideoPost() {
         setImageFile={setImageFile}
       />
       <Button className="w-full" onClick={onSubmit}>
-        작성 완료
+        수정 완료
       </Button>
 
       <canvas ref={canvasRef} style={{ display: "none" }} />

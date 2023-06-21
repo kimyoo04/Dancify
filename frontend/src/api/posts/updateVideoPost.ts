@@ -1,37 +1,29 @@
 import axios from "@api/axiosInstance";
-import { postActions } from "@features/post/postSlice";
+import { useToast } from "@components/ui/use-toast";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useAppSelector } from "@toolkit/hook";
-import { store } from "@toolkit/store";
+import { IUpdatePost } from "@type/posts";
 import { useRouter } from "next/router";
 
-// 자유게시글 Create
-export const createVideoPost = async (postData: FormData) => {
-  try {
-    await axios.post("/posts/video", postData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
-    return true;
-  } catch (err) {
-    console.log("🚀 createVideoPost:", err);
-    return false;
-  }
+// 자랑게시글 Update
+export const updateVideoPost = async ({postId, formData}: IUpdatePost) => {
+  const response = await axios.patch(`/posts/video/${postId}`, formData);
+  return response;
 };
 
-// useMutation
-export const useCreateVideoPostMutation = () => {
+// useUpdateVideoPost
+export const useUpdateVideoPost = () => {
   const router = useRouter();
   const queryClient = useQueryClient();
+  const { toast } = useToast();
 
   // 검색, 정렬, 장르, 페이징
   const searchKeyword = useAppSelector((state) => state.search.searchKeyword);
   const { sort, genre } = useAppSelector((state) => state.filter);
 
   return useMutation({
-    mutationFn: createVideoPost,
-    onSuccess: async () => {
+    mutationFn: updateVideoPost,
+    onSuccess: async (_, variables) => {
       await queryClient.invalidateQueries({
         queryKey: [
           `/posts/video`,
@@ -43,11 +35,13 @@ export const useCreateVideoPostMutation = () => {
           genre,
         ],
       });
-      store.dispatch(postActions.resetPostInfo());
-      router.push("/video");
+
+      router.push(`/video/${variables.postId}}`);
+      toast({ title: "Success", description: "게시글이 수정되었습니다." });
     },
     onError: (err) => {
-      console.log("🚀 useCreateVideoPostMutation:", err);
+      console.error(err);
+      toast({ title: "Fail", description: "게시글을 수정하지 못했습니다." });
     },
   });
 };

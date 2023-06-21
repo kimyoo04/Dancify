@@ -94,7 +94,7 @@ export default function UserSignUpForm({
           }`}
           onClick={() => setIsDancer(false)}
         >
-          Dancable
+          Danceable
         </Button>
         <Button
           className={`hover:bg-primary/70 h-full w-full bg-muted-foreground ${

@@ -85,7 +85,7 @@ export default function AllPosts() {
             </div>
 
             <div>
-              <ViewMore href="/likes/free" />
+              <ViewMore href="/free" />
             </div>
           </div>
           <Separator className="my-4" />

@@ -1,11 +1,11 @@
 import GenreButtons from "@components/GenreButtons";
 import DancerPostHeader from "./DancerItem/DancerPostHeader";
 import DancerPostList from "@scenes/Posts/Dancer/DancerItem/DancerPostList";
-import CreateButton from "./DancerItem/CreateButton";
 
 import { useReadDancerPostsPerPage } from "@api/posts/readDancerPostsPerPage";
 
 import { useAppSelector } from "@toolkit/hook";
+import CreateButton from "../PostItem/CreateButton";
 
 export default function DancerPosts() {
   const {
@@ -39,7 +39,7 @@ export default function DancerPosts() {
         />
 
         {/* 게시글 추가 버튼 */}
-        {isDancer && <CreateButton />}
+        {isDancer && <CreateButton category="dancer" />}
       </div>
     </>
   );

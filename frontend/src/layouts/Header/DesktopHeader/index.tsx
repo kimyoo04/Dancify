@@ -8,6 +8,8 @@ import Search from "../Search";
 
 export default function DesktopHeader() {
   const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
+  const isOpen = useAppSelector((state) => state.sideBar.isOpen);
+  const paddingleft = isOpen ? "md:pl-[200px]" : "md:pl-[72px]";
 
   return (
     <div className="hidden w-full border-b bg-background px-4 md:block">
@@ -20,7 +22,7 @@ export default function DesktopHeader() {
           <Logo />
         </div>
 
-        <div className="col-center">
+        <div className={`col-center ${paddingleft}`}>
           <Search />
         </div>
 

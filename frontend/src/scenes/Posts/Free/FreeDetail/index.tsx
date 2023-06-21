@@ -10,6 +10,7 @@ import { useReadFreePost } from "@api/posts/readFreePost";
 import { useEffect } from "react";
 import { likeActions } from "@features/like/likeSlice";
 import { useAppDispatch } from "@toolkit/hook";
+import { postActions } from "@features/post/postSlice";
 
 export default function FreePostDetail({ id }: { id: string }) {
   const dispatch = useAppDispatch();
@@ -17,10 +18,13 @@ export default function FreePostDetail({ id }: { id: string }) {
   // 게시글 불어오기
   const { data, isLoading, error } = useReadFreePost(id);
 
-  // userLike 상태 변경
+  // 좋아요와 게시글 정보 상태 업데이트
   useEffect(() => {
-    if (data) dispatch(likeActions.getUserLike(data.userLike));
-  }, [data, dispatch]);
+    if (data) {
+      dispatch(likeActions.getUserLike(data.userLike))
+      dispatch(postActions.getPostInfo({postId:id, postTitle:data.title, postContent:data.content}))
+    };
+  }, [data, id, dispatch]);
 
   return (
     <>

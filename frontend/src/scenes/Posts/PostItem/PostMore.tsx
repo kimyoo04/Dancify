@@ -12,9 +12,9 @@ export default function PostMore({
     >
       <div className="rounded-full border px-4 py-1">
         {hasNextPage ? (
-          <span className="text-primary">Dancify</span>
+          <span className="text-primary logo">▶ancify</span>
         ) : (
-          <span className="text-muted-foreground">Dancify</span>
+          <span className="text-muted-foreground logo">▶ancify</span>
         )}
       </div>
     </div>

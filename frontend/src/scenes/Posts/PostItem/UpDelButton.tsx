@@ -1,32 +1,21 @@
 import Link from "next/link";
 import { useState } from "react";
-import { useRouter } from "next/router";
 
-import { deleteFreePost } from "@api/posts/deleteFreePost";
+import { useDeleteFreePost } from "@api/posts/deleteFreePost";
 import { TPostId } from "@type/posts";
 
 import { Button } from "@components/ui/button";
 import { MoreVerticalIcon } from "lucide-react";
-import { useToast } from "@components/ui/use-toast";
+import { useAppSelector } from "@toolkit/hook";
 
-export default function UpDelButton(postId: { postId: TPostId }) {
-  const router = useRouter();
-  const { toast } = useToast();
-
+export default function UpDelButton({postId}: { postId: TPostId }) {
   // 더보기 버튼 클릭
   const [isToggle, setIsToggle] = useState(false);
   // 삭제 버튼 활성화 state
   const [isDel, setIsDel] = useState(false);
+  const postCategory = useAppSelector((state) => state.search.searchCategory).toLowerCase();
 
-  const onValid = async () => {
-    try {
-      await deleteFreePost(postId);
-      router.push("/posts/free");
-      toast({ title: "Success", description: "게시글이 삭제되었습니다." });
-    } catch (err) {
-      console.log("deleteFreePost:", err);
-    }
-  };
+  const { mutateAsync } = useDeleteFreePost();
 
   return (
     <div className="relative">
@@ -51,7 +40,7 @@ export default function UpDelButton(postId: { postId: TPostId }) {
         <div className="absolute right-0 z-10 w-36 gap-2 rounded-md border bg-background p-2">
           {isDel ? (
             <div className="row-between w-full">
-              <Button variant={"destructive"} onClick={() => onValid()}>
+              <Button variant={"destructive"} onClick={() => mutateAsync(postId)}>
                 삭제
               </Button>
               <Button variant={"outline"} onClick={() => setIsDel(false)}>
@@ -60,7 +49,7 @@ export default function UpDelButton(postId: { postId: TPostId }) {
             </div>
           ) : (
             <div className="row-between w-full">
-              <Link href={`/posts/free/modify/${postId}`}>
+              <Link href={`/${postCategory}/modify/${postId}`}>
                 <Button variant={"outline"}>수정</Button>
               </Link>
               <Button variant={"destructive"} onClick={() => setIsDel(true)}>

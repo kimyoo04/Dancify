@@ -1,9 +1,9 @@
 import GenreButtons from "@components/GenreButtons";
 import FreePostHeader from "./FreeItem/FreePostHeader";
 import FreePostList from "@scenes/Posts/Free/FreeItem/FreePostList";
-import CreateButton from "@scenes/Posts/Free/FreeItem/CreateButton";
 
 import { useReadFreePostsPerPage } from "@api/posts/readFreePostsPerPage";
+import CreateButton from "../PostItem/CreateButton";
 
 export default function FreePosts() {
   const {
@@ -35,7 +35,7 @@ export default function FreePosts() {
         />
 
         {/* 게시글 추가 버튼 */}
-        <CreateButton />
+        <CreateButton category="free" />
       </div>
     </>
   );

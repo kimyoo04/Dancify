@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import DetailPageLayout from "@layouts/DetailPageLayout";
+import MainLayout from "@layouts/MainLayout";
 import DancerPostDetail from "@scenes/Posts/Dancer/DancerDetail";
 
 export default function DancerSectionPage() {
@@ -8,9 +8,9 @@ export default function DancerSectionPage() {
 
   if (typeof postId === "string") {
     return (
-      <DetailPageLayout>
+      <MainLayout>
         <DancerPostDetail id={postId} />
-      </DetailPageLayout>
+      </MainLayout>
     );
   }
 }

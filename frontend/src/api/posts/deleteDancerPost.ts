@@ -1,40 +1,40 @@
 import axios from "@api/axiosInstance";
-import { postActions } from "@features/post/postSlice";
+import { useToast } from "@components/ui/use-toast";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useAppSelector } from "@toolkit/hook";
-import { store } from "@toolkit/store";
+import { TPostId } from "@type/posts";
 import { useRouter } from "next/router";
 
-// 자유게시글 Create
-export const createVideoPost = async (postData: FormData) => {
+export const deleteDancerPost = async (postId: TPostId) => {
   try {
-    await axios.post("/posts/video", postData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
+    await axios.delete(`/posts/dancer/${postId}`);
     return true;
   } catch (err) {
-    console.log("🚀 createVideoPost:", err);
+    console.log("🚀 deleteDancerPost.tsx", err);
     return false;
   }
 };
 
-// useMutation
-export const useCreateVideoPostMutation = () => {
+// useDeleteDancerPost
+export const useDeleteDancerPost = () => {
   const router = useRouter();
   const queryClient = useQueryClient();
+  const { toast } = useToast();
 
   // 검색, 정렬, 장르, 페이징
   const searchKeyword = useAppSelector((state) => state.search.searchKeyword);
   const { sort, genre } = useAppSelector((state) => state.filter);
 
+
   return useMutation({
-    mutationFn: createVideoPost,
-    onSuccess: async () => {
+    mutationFn: deleteDancerPost,
+    onSuccess: async (_, postId) => {
+      await queryClient.removeQueries({
+        queryKey: ["postDetail", postId],
+      });
       await queryClient.invalidateQueries({
         queryKey: [
-          `/posts/video`,
+          `/posts/dancer`,
           "searchKeyword",
           searchKeyword,
           "sort",
@@ -43,11 +43,13 @@ export const useCreateVideoPostMutation = () => {
           genre,
         ],
       });
-      store.dispatch(postActions.resetPostInfo());
-      router.push("/video");
+
+      router.push(`/`);
+      toast({ title: "Success", description: "게시글이 삭제되었습니다." });
     },
     onError: (err) => {
-      console.log("🚀 useCreateVideoPostMutation:", err);
+      console.error(err);
+      toast({ title: "Fail", description: "게시글을 삭제하지 못했습니다." });
     },
   });
 };
