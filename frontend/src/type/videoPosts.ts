@@ -60,13 +60,9 @@ export interface ICreatPostForm {
   thumbnail: TThumbnail;
   video: string;
 }
+
 //게시글 업데이트 폼
 export interface IUpdatePostForm {
-  title: TTitle;
-  content: TContent;
-  video: string;
-}
-export interface IUpdatePost {
   postId: TPostId; // url에 포함
   title: TTitle;
   content: TContent;

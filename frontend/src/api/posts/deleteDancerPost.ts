@@ -2,21 +2,21 @@ import axios from "@api/axiosInstance";
 import { useToast } from "@components/ui/use-toast";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useAppSelector } from "@toolkit/hook";
-import { IDeletePost } from "@type/freePosts";
+import { IDeletePost } from "@type/dancerPosts";
 import { useRouter } from "next/router";
 
-export const deleteFreePost = async (data: IDeletePost) => {
+export const deleteDancerPost = async (data: IDeletePost) => {
   try {
-    await axios.delete(`/posts/free/${data.postId}`);
+    await axios.delete(`/posts/dancer/${data.postId}`);
     return true;
   } catch (err) {
-    console.log("🚀 deleteFreePost.tsx", err);
+    console.log("🚀 deleteDancerPost.tsx", err);
     return false;
   }
 };
 
-// useDeleteFreePost
-export const useDeleteFreePost = () => {
+// useDeleteDancerPost
+export const useDeleteDancerPost = () => {
   const router = useRouter();
   const queryClient = useQueryClient();
   const { toast } = useToast();
@@ -25,15 +25,16 @@ export const useDeleteFreePost = () => {
   const searchKeyword = useAppSelector((state) => state.search.searchKeyword);
   const { sort, genre } = useAppSelector((state) => state.filter);
 
+
   return useMutation({
-    mutationFn: deleteFreePost,
+    mutationFn: deleteDancerPost,
     onSuccess: async (_, variables) => {
       await queryClient.removeQueries({
         queryKey: ["postDetail", variables.postId],
       });
       await queryClient.invalidateQueries({
         queryKey: [
-          `/posts/free`,
+          `/posts/dancer`,
           "searchKeyword",
           searchKeyword,
           "sort",
@@ -43,7 +44,7 @@ export const useDeleteFreePost = () => {
         ],
       });
 
-      router.push(`/free`);
+      router.push(`/`);
       toast({ title: "Success", description: "게시글이 삭제되었습니다." });
     },
     onError: (err) => {
