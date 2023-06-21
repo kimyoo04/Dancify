@@ -1,0 +1,2847 @@
+{
+    "data": [
+        {
+            "sec": 1,
+            "pelvis": {
+                "score": 94,
+                "dancer_left_pelvic_angle": 164.25,
+                "dancer_right_pelvic_angle": 162.651,
+                "danceable_left_pelvic_angle": 173.465,
+                "danceable_right_pelvic_angle": 174.969
+            },
+            "shoulder": {
+                "score": 58,
+                "dancer_left_shoulder_angle": 103.353,
+                "dancer_right_shoulder_angle": 101.362,
+                "danceable_left_shoulder_angle": 27.624,
+                "danceable_right_shoulder_angle": 27.216
+            },
+            "forearm": {
+                "score": 97,
+                "dancer_left_elbow_angle": 177.432,
+                "dancer_right_elbow_angle": 176.524,
+                "danceable_left_elbow_angle": 176.726,
+                "danceable_right_elbow_angle": 176.437
+            },
+            "leg": {
+                "score": 97,
+                "dancer_left_knee_angle": 179.014,
+                "dancer_right_knee_angle": 177.747,
+                "danceable_left_knee_angle": 171.282,
+                "danceable_right_knee_angle": 175.549
+            }
+        },
+        {
+            "sec": 2,
+            "pelvis": {
+                "score": 96,
+                "dancer_left_pelvic_angle": 165.627,
+                "dancer_right_pelvic_angle": 162.054,
+                "danceable_left_pelvic_angle": 172.761,
+                "danceable_right_pelvic_angle": 168.384
+            },
+            "shoulder": {
+                "score": 79,
+                "dancer_left_shoulder_angle": 53.755,
+                "dancer_right_shoulder_angle": 41.712,
+                "danceable_left_shoulder_angle": 12.339,
+                "danceable_right_shoulder_angle": 17.314
+            },
+            "forearm": {
+                "score": 52,
+                "dancer_left_elbow_angle": 122.393,
+                "dancer_right_elbow_angle": 61.151,
+                "danceable_left_elbow_angle": 177.437,
+                "danceable_right_elbow_angle": 175.755
+            },
+            "leg": {
+                "score": 97,
+                "dancer_left_knee_angle": 179.12,
+                "dancer_right_knee_angle": 177.438,
+                "danceable_left_knee_angle": 171.219,
+                "danceable_right_knee_angle": 178.441
+            }
+        },
+        {
+            "sec": 3,
+            "pelvis": {
+                "score": 94,
+                "dancer_left_pelvic_angle": 162.71,
+                "dancer_right_pelvic_angle": 164.235,
+                "danceable_left_pelvic_angle": 176.255,
+                "danceable_right_pelvic_angle": 171.397
+            },
+            "shoulder": {
+                "score": 72,
+                "dancer_left_shoulder_angle": 72.984,
+                "dancer_right_shoulder_angle": 61.2,
+                "danceable_left_shoulder_angle": 17.887,
+                "danceable_right_shoulder_angle": 19.17
+            },
+            "forearm": {
+                "score": 77,
+                "dancer_left_elbow_angle": 158.29,
+                "dancer_right_elbow_angle": 113.655,
+                "danceable_left_elbow_angle": 175.832,
+                "danceable_right_elbow_angle": 169.488
+            },
+            "leg": {
+                "score": 98,
+                "dancer_left_knee_angle": 178.623,
+                "dancer_right_knee_angle": 176.084,
+                "danceable_left_knee_angle": 174.167,
+                "danceable_right_knee_angle": 176.731
+            }
+        },
+        {
+            "sec": 4,
+            "pelvis": {
+                "score": 92,
+                "dancer_left_pelvic_angle": 159.437,
+                "dancer_right_pelvic_angle": 160.471,
+                "danceable_left_pelvic_angle": 175.539,
+                "danceable_right_pelvic_angle": 171.66
+            },
+            "shoulder": {
+                "score": 98,
+                "dancer_left_shoulder_angle": 16.698,
+                "dancer_right_shoulder_angle": 16.188,
+                "danceable_left_shoulder_angle": 17.266,
+                "danceable_right_shoulder_angle": 17.453
+            },
+            "forearm": {
+                "score": 98,
+                "dancer_left_elbow_angle": 175.401,
+                "dancer_right_elbow_angle": 175.22,
+                "danceable_left_elbow_angle": 173.507,
+                "danceable_right_elbow_angle": 172.953
+            },
+            "leg": {
+                "score": 99,
+                "dancer_left_knee_angle": 177.981,
+                "dancer_right_knee_angle": 176.256,
+                "danceable_left_knee_angle": 177.402,
+                "danceable_right_knee_angle": 178.086
+            }
+        },
+        {
+            "sec": 5,
+            "pelvis": {
+                "score": 94,
+                "dancer_left_pelvic_angle": 166.778,
+                "dancer_right_pelvic_angle": 160.487,
+                "danceable_left_pelvic_angle": 176.767,
+                "danceable_right_pelvic_angle": 170.512
+            },
+            "shoulder": {
+                "score": 97,
+                "dancer_left_shoulder_angle": 14.618,
+                "dancer_right_shoulder_angle": 18.577,
+                "danceable_left_shoulder_angle": 17.879,
+                "danceable_right_shoulder_angle": 22.129
+            },
+            "forearm": {
+                "score": 97,
+                "dancer_left_elbow_angle": 176.17,
+                "dancer_right_elbow_angle": 176.693,
+                "danceable_left_elbow_angle": 171.346,
+                "danceable_right_elbow_angle": 172.736
+            },
+            "leg": {
+                "score": 98,
+                "dancer_left_knee_angle": 178.312,
+                "dancer_right_knee_angle": 177.674,
+                "danceable_left_knee_angle": 174.909,
+                "danceable_right_knee_angle": 176.009
+            }
+        },
+        {
+            "sec": 6,
+            "pelvis": {
+                "score": 95,
+                "dancer_left_pelvic_angle": 165.334,
+                "dancer_right_pelvic_angle": 163.153,
+                "danceable_left_pelvic_angle": 173.234,
+                "danceable_right_pelvic_angle": 174.14
+            },
+            "shoulder": {
+                "score": 95,
+                "dancer_left_shoulder_angle": 14.287,
+                "dancer_right_shoulder_angle": 13.966,
+                "danceable_left_shoulder_angle": 22.168,
+                "danceable_right_shoulder_angle": 21.162
+            },
+            "forearm": {
+                "score": 64,
+                "dancer_left_elbow_angle": 175.922,
+                "dancer_right_elbow_angle": 174.879,
+                "danceable_left_elbow_angle": 103.919,
+                "danceable_right_elbow_angle": 118.065
+            },
+            "leg": {
+                "score": 96,
+                "dancer_left_knee_angle": 178.644,
+                "dancer_right_knee_angle": 178.993,
+                "danceable_left_knee_angle": 172.654,
+                "danceable_right_knee_angle": 171.056
+            }
+        },
+        {
+            "sec": 7,
+            "pelvis": {
+                "score": 96,
+                "dancer_left_pelvic_angle": 163.709,
+                "dancer_right_pelvic_angle": 162.989,
+                "danceable_left_pelvic_angle": 166.676,
+                "danceable_right_pelvic_angle": 166.615
+            },
+            "shoulder": {
+                "score": 83,
+                "dancer_left_shoulder_angle": 15.28,
+                "dancer_right_shoulder_angle": 14.963,
+                "danceable_left_shoulder_angle": 46.474,
+                "danceable_right_shoulder_angle": 45.589
+            },
+            "forearm": {
+                "score": 55,
+                "dancer_left_elbow_angle": 177.106,
+                "dancer_right_elbow_angle": 175.131,
+                "danceable_left_elbow_angle": 84.691,
+                "danceable_right_elbow_angle": 105.547
+            },
+            "leg": {
+                "score": 97,
+                "dancer_left_knee_angle": 176.706,
+                "dancer_right_knee_angle": 178.34,
+                "danceable_left_knee_angle": 174.915,
+                "danceable_right_knee_angle": 173.953
+            }
+        },
+        {
+            "sec": 8,
+            "pelvis": {
+                "score": 93,
+                "dancer_left_pelvic_angle": 164.685,
+                "dancer_right_pelvic_angle": 164.929,
+                "danceable_left_pelvic_angle": 173.063,
+                "danceable_right_pelvic_angle": 153.627
+            },
+            "shoulder": {
+                "score": 84,
+                "dancer_left_shoulder_angle": 23.518,
+                "dancer_right_shoulder_angle": 14.67,
+                "danceable_left_shoulder_angle": 56.413,
+                "danceable_right_shoulder_angle": 39.023
+            },
+            "forearm": {
+                "score": 49,
+                "dancer_left_elbow_angle": 168.742,
+                "dancer_right_elbow_angle": 172.512,
+                "danceable_left_elbow_angle": 101.226,
+                "danceable_right_elbow_angle": 58.659
+            },
+            "leg": {
+                "score": 88,
+                "dancer_left_knee_angle": 178.45,
+                "dancer_right_knee_angle": 178.647,
+                "danceable_left_knee_angle": 173.381,
+                "danceable_right_knee_angle": 144.422
+            }
+        },
+        {
+            "sec": 9,
+            "pelvis": {
+                "score": 95,
+                "dancer_left_pelvic_angle": 163.734,
+                "dancer_right_pelvic_angle": 164.372,
+                "danceable_left_pelvic_angle": 162.872,
+                "danceable_right_pelvic_angle": 163.995
+            },
+            "shoulder": {
+                "score": 86,
+                "dancer_left_shoulder_angle": 18.34,
+                "dancer_right_shoulder_angle": 17.118,
+                "danceable_left_shoulder_angle": 36.725,
+                "danceable_right_shoulder_angle": 37.852
+            },
+            "forearm": {
+                "score": 44,
+                "dancer_left_elbow_angle": 171.093,
+                "dancer_right_elbow_angle": 164.642,
+                "danceable_left_elbow_angle": 71.714,
+                "danceable_right_elbow_angle": 62.695
+            },
+            "leg": {
+                "score": 90,
+                "dancer_left_knee_angle": 178.591,
+                "dancer_right_knee_angle": 178.567,
+                "danceable_left_knee_angle": 154.766,
+                "danceable_right_knee_angle": 168.161
+            }
+        },
+        {
+            "sec": 10,
+            "pelvis": {
+                "score": 92,
+                "dancer_left_pelvic_angle": 164.605,
+                "dancer_right_pelvic_angle": 164.339,
+                "danceable_left_pelvic_angle": 149.301,
+                "danceable_right_pelvic_angle": 171.515
+            },
+            "shoulder": {
+                "score": 92,
+                "dancer_left_shoulder_angle": 18.552,
+                "dancer_right_shoulder_angle": 15.043,
+                "danceable_left_shoulder_angle": 34.864,
+                "danceable_right_shoulder_angle": 23.999
+            },
+            "forearm": {
+                "score": 29,
+                "dancer_left_elbow_angle": 172.503,
+                "dancer_right_elbow_angle": 173.884,
+                "danceable_left_elbow_angle": 32.879,
+                "danceable_right_elbow_angle": 58.484
+            },
+            "leg": {
+                "score": 89,
+                "dancer_left_knee_angle": 178.247,
+                "dancer_right_knee_angle": 177.628,
+                "danceable_left_knee_angle": 142.905,
+                "danceable_right_knee_angle": 174.2
+            }
+        },
+        {
+            "sec": 11,
+            "pelvis": {
+                "score": 95,
+                "dancer_left_pelvic_angle": 166.008,
+                "dancer_right_pelvic_angle": 166.789,
+                "danceable_left_pelvic_angle": 168.285,
+                "danceable_right_pelvic_angle": 163.953
+            },
+            "shoulder": {
+                "score": 90,
+                "dancer_left_shoulder_angle": 15.99,
+                "dancer_right_shoulder_angle": 10.594,
+                "danceable_left_shoulder_angle": 27.67,
+                "danceable_right_shoulder_angle": 31.042
+            },
+            "forearm": {
+                "score": 39,
+                "dancer_left_elbow_angle": 158.258,
+                "dancer_right_elbow_angle": 167.373,
+                "danceable_left_elbow_angle": 53.729,
+                "danceable_right_elbow_angle": 53.164
+            },
+            "leg": {
+                "score": 92,
+                "dancer_left_knee_angle": 175.902,
+                "dancer_right_knee_angle": 176.229,
+                "danceable_left_knee_angle": 170.228,
+                "danceable_right_knee_angle": 157.501
+            }
+        },
+        {
+            "sec": 12,
+            "pelvis": {
+                "score": 96,
+                "dancer_left_pelvic_angle": 173.652,
+                "dancer_right_pelvic_angle": 174.976,
+                "danceable_left_pelvic_angle": 163.939,
+                "danceable_right_pelvic_angle": 168.975
+            },
+            "shoulder": {
+                "score": 69,
+                "dancer_left_shoulder_angle": 16.251,
+                "dancer_right_shoulder_angle": 9.953,
+                "danceable_left_shoulder_angle": 61.216,
+                "danceable_right_shoulder_angle": 70.35
+            },
+            "forearm": {
+                "score": 48,
+                "dancer_left_elbow_angle": 145.816,
+                "dancer_right_elbow_angle": 155.01,
+                "danceable_left_elbow_angle": 61.863,
+                "danceable_right_elbow_angle": 63.265
+            },
+            "leg": {
+                "score": 92,
+                "dancer_left_knee_angle": 156.914,
+                "dancer_right_knee_angle": 174.68,
+                "danceable_left_knee_angle": 157.85,
+                "danceable_right_knee_angle": 168.466
+            }
+        },
+        {
+            "sec": 13,
+            "pelvis": {
+                "score": 96,
+                "dancer_left_pelvic_angle": 172.823,
+                "dancer_right_pelvic_angle": 166.201,
+                "danceable_left_pelvic_angle": 167.457,
+                "danceable_right_pelvic_angle": 166.785
+            },
+            "shoulder": {
+                "score": 60,
+                "dancer_left_shoulder_angle": 16.183,
+                "dancer_right_shoulder_angle": 15.005,
+                "danceable_left_shoulder_angle": 78.526,
+                "danceable_right_shoulder_angle": 96.002
+            },
+            "forearm": {
+                "score": 55,
+                "dancer_left_elbow_angle": 127.379,
+                "dancer_right_elbow_angle": 174.07,
+                "danceable_left_elbow_angle": 69.859,
+                "danceable_right_elbow_angle": 70.481
+            },
+            "leg": {
+                "score": 92,
+                "dancer_left_knee_angle": 173.372,
+                "dancer_right_knee_angle": 171.452,
+                "danceable_left_knee_angle": 165.904,
+                "danceable_right_knee_angle": 164.286
+            }
+        },
+        {
+            "sec": 14,
+            "pelvis": {
+                "score": 93,
+                "dancer_left_pelvic_angle": 168.986,
+                "dancer_right_pelvic_angle": 174.81,
+                "danceable_left_pelvic_angle": 146.689,
+                "danceable_right_pelvic_angle": 174.853
+            },
+            "shoulder": {
+                "score": 75,
+                "dancer_left_shoulder_angle": 21.986,
+                "dancer_right_shoulder_angle": 8.636,
+                "danceable_left_shoulder_angle": 61.092,
+                "danceable_right_shoulder_angle": 57.148
+            },
+            "forearm": {
+                "score": 62,
+                "dancer_left_elbow_angle": 158.414,
+                "dancer_right_elbow_angle": 150.249,
+                "danceable_left_elbow_angle": 88.01,
+                "danceable_right_elbow_angle": 84.236
+            },
+            "leg": {
+                "score": 93,
+                "dancer_left_knee_angle": 161.171,
+                "dancer_right_knee_angle": 171.525,
+                "danceable_left_knee_angle": 149.479,
+                "danceable_right_knee_angle": 177.988
+            }
+        },
+        {
+            "sec": 15,
+            "pelvis": {
+                "score": 96,
+                "dancer_left_pelvic_angle": 167.617,
+                "dancer_right_pelvic_angle": 171.226,
+                "danceable_left_pelvic_angle": 168.313,
+                "danceable_right_pelvic_angle": 166.095
+            },
+            "shoulder": {
+                "score": 77,
+                "dancer_left_shoulder_angle": 14.417,
+                "dancer_right_shoulder_angle": 22.177,
+                "danceable_left_shoulder_angle": 57.967,
+                "danceable_right_shoulder_angle": 51.872
+            },
+            "forearm": {
+                "score": 63,
+                "dancer_left_elbow_angle": 169.59,
+                "dancer_right_elbow_angle": 135.016,
+                "danceable_left_elbow_angle": 127.991,
+                "danceable_right_elbow_angle": 136.914
+            },
+            "leg": {
+                "score": 95,
+                "dancer_left_knee_angle": 172.141,
+                "dancer_right_knee_angle": 175.813,
+                "danceable_left_knee_angle": 169.211,
+                "danceable_right_knee_angle": 169.084
+            }
+        },
+        {
+            "sec": 16,
+            "pelvis": {
+                "score": 95,
+                "dancer_left_pelvic_angle": 176.703,
+                "dancer_right_pelvic_angle": 177.183,
+                "danceable_left_pelvic_angle": 170.367,
+                "danceable_right_pelvic_angle": 170.595
+            },
+            "shoulder": {
+                "score": 64,
+                "dancer_left_shoulder_angle": 14.01,
+                "dancer_right_shoulder_angle": 143.313,
+                "danceable_left_shoulder_angle": 60.764,
+                "danceable_right_shoulder_angle": 61.344
+            },
+            "forearm": {
+                "score": 55,
+                "dancer_left_elbow_angle": 176.735,
+                "dancer_right_elbow_angle": 158.156,
+                "danceable_left_elbow_angle": 94.246,
+                "danceable_right_elbow_angle": 100.215
+            },
+            "leg": {
+                "score": 90,
+                "dancer_left_knee_angle": 143.342,
+                "dancer_right_knee_angle": 174.909,
+                "danceable_left_knee_angle": 169.377,
+                "danceable_right_knee_angle": 166.988
+            }
+        },
+        {
+            "sec": 17,
+            "pelvis": {
+                "score": 96,
+                "dancer_left_pelvic_angle": 175.861,
+                "dancer_right_pelvic_angle": 176.575,
+                "danceable_left_pelvic_angle": 168.038,
+                "danceable_right_pelvic_angle": 171.9
+            },
+            "shoulder": {
+                "score": 75,
+                "dancer_left_shoulder_angle": 16.637,
+                "dancer_right_shoulder_angle": 102.382,
+                "danceable_left_shoulder_angle": 25.833,
+                "danceable_right_shoulder_angle": 27.393
+            },
+            "forearm": {
+                "score": 77,
+                "dancer_left_elbow_angle": 144.226,
+                "dancer_right_elbow_angle": 148.689,
+                "danceable_left_elbow_angle": 158.64,
+                "danceable_right_elbow_angle": 162.992
+            },
+            "leg": {
+                "score": 91,
+                "dancer_left_knee_angle": 151.161,
+                "dancer_right_knee_angle": 170.162,
+                "danceable_left_knee_angle": 145.928,
+                "danceable_right_knee_angle": 172.114
+            }
+        },
+        {
+            "sec": 18,
+            "pelvis": {
+                "score": 95,
+                "dancer_left_pelvic_angle": 167.33,
+                "dancer_right_pelvic_angle": 168.352,
+                "danceable_left_pelvic_angle": 166.635,
+                "danceable_right_pelvic_angle": 167.825
+            },
+            "shoulder": {
+                "score": 81,
+                "dancer_left_shoulder_angle": 53.299,
+                "dancer_right_shoulder_angle": 56.947,
+                "danceable_left_shoulder_angle": 53.997,
+                "danceable_right_shoulder_angle": 52.843
+            },
+            "forearm": {
+                "score": 71,
+                "dancer_left_elbow_angle": 56.688,
+                "dancer_right_elbow_angle": 108.798,
+                "danceable_left_elbow_angle": 62.077,
+                "danceable_right_elbow_angle": 81.212
+            },
+            "leg": {
+                "score": 91,
+                "dancer_left_knee_angle": 156.492,
+                "dancer_right_knee_angle": 158.039,
+                "danceable_left_knee_angle": 170.115,
+                "danceable_right_knee_angle": 170.164
+            }
+        },
+        {
+            "sec": 19,
+            "pelvis": {
+                "score": 94,
+                "dancer_left_pelvic_angle": 172.195,
+                "dancer_right_pelvic_angle": 167.698,
+                "danceable_left_pelvic_angle": 175.848,
+                "danceable_right_pelvic_angle": 155.63
+            },
+            "shoulder": {
+                "score": 86,
+                "dancer_left_shoulder_angle": 25.883,
+                "dancer_right_shoulder_angle": 43.734,
+                "danceable_left_shoulder_angle": 22.854,
+                "danceable_right_shoulder_angle": 32.711
+            },
+            "forearm": {
+                "score": 62,
+                "dancer_left_elbow_angle": 92.566,
+                "dancer_right_elbow_angle": 115.257,
+                "danceable_left_elbow_angle": 109.68,
+                "danceable_right_elbow_angle": 92.234
+            },
+            "leg": {
+                "score": 85,
+                "dancer_left_knee_angle": 168.446,
+                "dancer_right_knee_angle": 164.629,
+                "danceable_left_knee_angle": 166.137,
+                "danceable_right_knee_angle": 127.382
+            }
+        },
+        {
+            "sec": 20,
+            "pelvis": {
+                "score": 95,
+                "dancer_left_pelvic_angle": 171.575,
+                "dancer_right_pelvic_angle": 168.531,
+                "danceable_left_pelvic_angle": 165.544,
+                "danceable_right_pelvic_angle": 162.866
+            },
+            "shoulder": {
+                "score": 89,
+                "dancer_left_shoulder_angle": 26.764,
+                "dancer_right_shoulder_angle": 24.074,
+                "danceable_left_shoulder_angle": 32.698,
+                "danceable_right_shoulder_angle": 44.816
+            },
+            "forearm": {
+                "score": 54,
+                "dancer_left_elbow_angle": 113.861,
+                "dancer_right_elbow_angle": 118.883,
+                "danceable_left_elbow_angle": 38.827,
+                "danceable_right_elbow_angle": 81.843
+            },
+            "leg": {
+                "score": 85,
+                "dancer_left_knee_angle": 176.734,
+                "dancer_right_knee_angle": 171.011,
+                "danceable_left_knee_angle": 158.593,
+                "danceable_right_knee_angle": 141.892
+            }
+        },
+        {
+            "sec": 21,
+            "pelvis": {
+                "score": 95,
+                "dancer_left_pelvic_angle": 169.686,
+                "dancer_right_pelvic_angle": 174.769,
+                "danceable_left_pelvic_angle": 168.132,
+                "danceable_right_pelvic_angle": 171.147
+            },
+            "shoulder": {
+                "score": 68,
+                "dancer_left_shoulder_angle": 21.052,
+                "dancer_right_shoulder_angle": 21.184,
+                "danceable_left_shoulder_angle": 59.131,
+                "danceable_right_shoulder_angle": 96.085
+            },
+            "forearm": {
+                "score": 69,
+                "dancer_left_elbow_angle": 102.729,
+                "dancer_right_elbow_angle": 111.882,
+                "danceable_left_elbow_angle": 67.996,
+                "danceable_right_elbow_angle": 103.771
+            },
+            "leg": {
+                "score": 96,
+                "dancer_left_knee_angle": 173.625,
+                "dancer_right_knee_angle": 171.539,
+                "danceable_left_knee_angle": 172.395,
+                "danceable_right_knee_angle": 172.604
+            }
+        },
+        {
+            "sec": 22,
+            "pelvis": {
+                "score": 93,
+                "dancer_left_pelvic_angle": 166.565,
+                "dancer_right_pelvic_angle": 158.889,
+                "danceable_left_pelvic_angle": 175.282,
+                "danceable_right_pelvic_angle": 171.893
+            },
+            "shoulder": {
+                "score": 85,
+                "dancer_left_shoulder_angle": 73.504,
+                "dancer_right_shoulder_angle": 25.09,
+                "danceable_left_shoulder_angle": 63.741,
+                "danceable_right_shoulder_angle": 41.006
+            },
+            "forearm": {
+                "score": 72,
+                "dancer_left_elbow_angle": 55.393,
+                "dancer_right_elbow_angle": 140.912,
+                "danceable_left_elbow_angle": 86.336,
+                "danceable_right_elbow_angle": 118.36
+            },
+            "leg": {
+                "score": 91,
+                "dancer_left_knee_angle": 173.928,
+                "dancer_right_knee_angle": 153.153,
+                "danceable_left_knee_angle": 175.21,
+                "danceable_right_knee_angle": 174.535
+            }
+        },
+        {
+            "sec": 23,
+            "pelvis": {
+                "score": 90,
+                "dancer_left_pelvic_angle": 167.715,
+                "dancer_right_pelvic_angle": 148.656,
+                "danceable_left_pelvic_angle": 173.484,
+                "danceable_right_pelvic_angle": 176.326
+            },
+            "shoulder": {
+                "score": 82,
+                "dancer_left_shoulder_angle": 93.491,
+                "dancer_right_shoulder_angle": 34.451,
+                "danceable_left_shoulder_angle": 50.405,
+                "danceable_right_shoulder_angle": 45.871
+            },
+            "forearm": {
+                "score": 64,
+                "dancer_left_elbow_angle": 15.176,
+                "dancer_right_elbow_angle": 116.852,
+                "danceable_left_elbow_angle": 100.723,
+                "danceable_right_elbow_angle": 111.937
+            },
+            "leg": {
+                "score": 82,
+                "dancer_left_knee_angle": 157.158,
+                "dancer_right_knee_angle": 136.054,
+                "danceable_left_knee_angle": 176.15,
+                "danceable_right_knee_angle": 179.081
+            }
+        },
+        {
+            "sec": 24,
+            "pelvis": {
+                "score": 93,
+                "dancer_left_pelvic_angle": 172.259,
+                "dancer_right_pelvic_angle": 162.421,
+                "danceable_left_pelvic_angle": 171.615,
+                "danceable_right_pelvic_angle": 168.345
+            },
+            "shoulder": {
+                "score": 73,
+                "dancer_left_shoulder_angle": 51.041,
+                "dancer_right_shoulder_angle": 91.293,
+                "danceable_left_shoulder_angle": 65.353,
+                "danceable_right_shoulder_angle": 41.818
+            },
+            "forearm": {
+                "score": 66,
+                "dancer_left_elbow_angle": 91.152,
+                "dancer_right_elbow_angle": 70.723,
+                "danceable_left_elbow_angle": 54.477,
+                "danceable_right_elbow_angle": 88.785
+            },
+            "leg": {
+                "score": 89,
+                "dancer_left_knee_angle": 164.435,
+                "dancer_right_knee_angle": 156.723,
+                "danceable_left_knee_angle": 174.58,
+                "danceable_right_knee_angle": 170.04
+            }
+        },
+        {
+            "sec": 25,
+            "pelvis": {
+                "score": 92,
+                "dancer_left_pelvic_angle": 149.188,
+                "dancer_right_pelvic_angle": 160.422,
+                "danceable_left_pelvic_angle": 164.117,
+                "danceable_right_pelvic_angle": 152.343
+            },
+            "shoulder": {
+                "score": 79,
+                "dancer_left_shoulder_angle": 30.973,
+                "dancer_right_shoulder_angle": 73.091,
+                "danceable_left_shoulder_angle": 33.833,
+                "danceable_right_shoulder_angle": 36.938
+            },
+            "forearm": {
+                "score": 50,
+                "dancer_left_elbow_angle": 135.115,
+                "dancer_right_elbow_angle": 21.907,
+                "danceable_left_elbow_angle": 92.305,
+                "danceable_right_elbow_angle": 136.683
+            },
+            "leg": {
+                "score": 90,
+                "dancer_left_knee_angle": 138.085,
+                "dancer_right_knee_angle": 154.655,
+                "danceable_left_knee_angle": 161.005,
+                "danceable_right_knee_angle": 153.833
+            }
+        },
+        {
+            "sec": 26,
+            "pelvis": {
+                "score": 95,
+                "dancer_left_pelvic_angle": 156.262,
+                "dancer_right_pelvic_angle": 169.982,
+                "danceable_left_pelvic_angle": 163.06,
+                "danceable_right_pelvic_angle": 172.701
+            },
+            "shoulder": {
+                "score": 76,
+                "dancer_left_shoulder_angle": 41.903,
+                "dancer_right_shoulder_angle": 62.893,
+                "danceable_left_shoulder_angle": 59.365,
+                "danceable_right_shoulder_angle": 25.999
+            },
+            "forearm": {
+                "score": 67,
+                "dancer_left_elbow_angle": 59.922,
+                "dancer_right_elbow_angle": 54.236,
+                "danceable_left_elbow_angle": 77.312,
+                "danceable_right_elbow_angle": 59.195
+            },
+            "leg": {
+                "score": 87,
+                "dancer_left_knee_angle": 148.191,
+                "dancer_right_knee_angle": 146.772,
+                "danceable_left_knee_angle": 172.595,
+                "danceable_right_knee_angle": 169.75
+            }
+        },
+        {
+            "sec": 27,
+            "pelvis": {
+                "score": 96,
+                "dancer_left_pelvic_angle": 165.133,
+                "dancer_right_pelvic_angle": 168.842,
+                "danceable_left_pelvic_angle": 165.173,
+                "danceable_right_pelvic_angle": 175.331
+            },
+            "shoulder": {
+                "score": 78,
+                "dancer_left_shoulder_angle": 24.391,
+                "dancer_right_shoulder_angle": 23.677,
+                "danceable_left_shoulder_angle": 72.784,
+                "danceable_right_shoulder_angle": 55.012
+            },
+            "forearm": {
+                "score": 73,
+                "dancer_left_elbow_angle": 124.093,
+                "dancer_right_elbow_angle": 133.764,
+                "danceable_left_elbow_angle": 102.153,
+                "danceable_right_elbow_angle": 119.304
+            },
+            "leg": {
+                "score": 95,
+                "dancer_left_knee_angle": 163.617,
+                "dancer_right_knee_angle": 172.99,
+                "danceable_left_knee_angle": 173.935,
+                "danceable_right_knee_angle": 176.161
+            }
+        },
+        {
+            "sec": 28,
+            "pelvis": {
+                "score": 95,
+                "dancer_left_pelvic_angle": 163.268,
+                "dancer_right_pelvic_angle": 169.19,
+                "danceable_left_pelvic_angle": 171.917,
+                "danceable_right_pelvic_angle": 175.831
+            },
+            "shoulder": {
+                "score": 87,
+                "dancer_left_shoulder_angle": 24.409,
+                "dancer_right_shoulder_angle": 32.628,
+                "danceable_left_shoulder_angle": 14.589,
+                "danceable_right_shoulder_angle": 12.979
+            },
+            "forearm": {
+                "score": 74,
+                "dancer_left_elbow_angle": 51.732,
+                "dancer_right_elbow_angle": 54.991,
+                "danceable_left_elbow_angle": 40.243,
+                "danceable_right_elbow_angle": 118.781
+            },
+            "leg": {
+                "score": 97,
+                "dancer_left_knee_angle": 169.701,
+                "dancer_right_knee_angle": 177.129,
+                "danceable_left_knee_angle": 176.433,
+                "danceable_right_knee_angle": 177.418
+            }
+        },
+        {
+            "sec": 29,
+            "pelvis": {
+                "score": 94,
+                "dancer_left_pelvic_angle": 165.285,
+                "dancer_right_pelvic_angle": 161.868,
+                "danceable_left_pelvic_angle": 173.341,
+                "danceable_right_pelvic_angle": 174.22
+            },
+            "shoulder": {
+                "score": 79,
+                "dancer_left_shoulder_angle": 52.372,
+                "dancer_right_shoulder_angle": 61.954,
+                "danceable_left_shoulder_angle": 49.944,
+                "danceable_right_shoulder_angle": 44.74
+            },
+            "forearm": {
+                "score": 37,
+                "dancer_left_elbow_angle": 98.147,
+                "dancer_right_elbow_angle": 74.87,
+                "danceable_left_elbow_angle": 104.675,
+                "danceable_right_elbow_angle": 122.398
+            },
+            "leg": {
+                "score": 95,
+                "dancer_left_knee_angle": 173.514,
+                "dancer_right_knee_angle": 166.225,
+                "danceable_left_knee_angle": 175.644,
+                "danceable_right_knee_angle": 179.204
+            }
+        },
+        {
+            "sec": 30,
+            "pelvis": {
+                "score": 93,
+                "dancer_left_pelvic_angle": 171.86,
+                "dancer_right_pelvic_angle": 169.241,
+                "danceable_left_pelvic_angle": 177.57,
+                "danceable_right_pelvic_angle": 152.645
+            },
+            "shoulder": {
+                "score": 79,
+                "dancer_left_shoulder_angle": 52.618,
+                "dancer_right_shoulder_angle": 57.869,
+                "danceable_left_shoulder_angle": 32.042,
+                "danceable_right_shoulder_angle": 91.265
+            },
+            "forearm": {
+                "score": 52,
+                "dancer_left_elbow_angle": 84.372,
+                "dancer_right_elbow_angle": 90.033,
+                "danceable_left_elbow_angle": 63.154,
+                "danceable_right_elbow_angle": 90.715
+            },
+            "leg": {
+                "score": 85,
+                "dancer_left_knee_angle": 169.713,
+                "dancer_right_knee_angle": 175.963,
+                "danceable_left_knee_angle": 170.965,
+                "danceable_right_knee_angle": 127.726
+            }
+        },
+        {
+            "sec": 31,
+            "pelvis": {
+                "score": 91,
+                "dancer_left_pelvic_angle": 153.014,
+                "dancer_right_pelvic_angle": 163.091,
+                "danceable_left_pelvic_angle": 175.455,
+                "danceable_right_pelvic_angle": 152.804
+            },
+            "shoulder": {
+                "score": 80,
+                "dancer_left_shoulder_angle": 13.095,
+                "dancer_right_shoulder_angle": 65.042,
+                "danceable_left_shoulder_angle": 30.063,
+                "danceable_right_shoulder_angle": 60.302
+            },
+            "forearm": {
+                "score": 57,
+                "dancer_left_elbow_angle": 138.757,
+                "dancer_right_elbow_angle": 33.518,
+                "danceable_left_elbow_angle": 45.123,
+                "danceable_right_elbow_angle": 73.61
+            },
+            "leg": {
+                "score": 81,
+                "dancer_left_knee_angle": 143.724,
+                "dancer_right_knee_angle": 173.81,
+                "danceable_left_knee_angle": 169.21,
+                "danceable_right_knee_angle": 131.711
+            }
+        },
+        {
+            "sec": 32,
+            "pelvis": {
+                "score": 96,
+                "dancer_left_pelvic_angle": 158.047,
+                "dancer_right_pelvic_angle": 166.511,
+                "danceable_left_pelvic_angle": 159.312,
+                "danceable_right_pelvic_angle": 171.383
+            },
+            "shoulder": {
+                "score": 74,
+                "dancer_left_shoulder_angle": 55.905,
+                "dancer_right_shoulder_angle": 81.029,
+                "danceable_left_shoulder_angle": 24.282,
+                "danceable_right_shoulder_angle": 23.591
+            },
+            "forearm": {
+                "score": 74,
+                "dancer_left_elbow_angle": 88.589,
+                "dancer_right_elbow_angle": 15.968,
+                "danceable_left_elbow_angle": 65.081,
+                "danceable_right_elbow_angle": 69.465
+            },
+            "leg": {
+                "score": 90,
+                "dancer_left_knee_angle": 144.034,
+                "dancer_right_knee_angle": 156.616,
+                "danceable_left_knee_angle": 138.004,
+                "danceable_right_knee_angle": 157.07
+            }
+        },
+        {
+            "sec": 33,
+            "pelvis": {
+                "score": 95,
+                "dancer_left_pelvic_angle": 162.627,
+                "dancer_right_pelvic_angle": 166.127,
+                "danceable_left_pelvic_angle": 162.212,
+                "danceable_right_pelvic_angle": 161.892
+            },
+            "shoulder": {
+                "score": 84,
+                "dancer_left_shoulder_angle": 44.91,
+                "dancer_right_shoulder_angle": 60.178,
+                "danceable_left_shoulder_angle": 31.057,
+                "danceable_right_shoulder_angle": 22.999
+            },
+            "forearm": {
+                "score": 58,
+                "dancer_left_elbow_angle": 88.08,
+                "dancer_right_elbow_angle": 85.822,
+                "danceable_left_elbow_angle": 45.751,
+                "danceable_right_elbow_angle": 76.096
+            },
+            "leg": {
+                "score": 91,
+                "dancer_left_knee_angle": 157.55,
+                "dancer_right_knee_angle": 152.938,
+                "danceable_left_knee_angle": 152.882,
+                "danceable_right_knee_angle": 154.821
+            }
+        },
+        {
+            "sec": 34,
+            "pelvis": {
+                "score": 92,
+                "dancer_left_pelvic_angle": 166.301,
+                "dancer_right_pelvic_angle": 163.04,
+                "danceable_left_pelvic_angle": 172.743,
+                "danceable_right_pelvic_angle": 161.435
+            },
+            "shoulder": {
+                "score": 72,
+                "dancer_left_shoulder_angle": 52.893,
+                "dancer_right_shoulder_angle": 39.057,
+                "danceable_left_shoulder_angle": 116.897,
+                "danceable_right_shoulder_angle": 48.534
+            },
+            "forearm": {
+                "score": 62,
+                "dancer_left_elbow_angle": 160.411,
+                "dancer_right_elbow_angle": 109.344,
+                "danceable_left_elbow_angle": 99.447,
+                "danceable_right_elbow_angle": 58.423
+            },
+            "leg": {
+                "score": 90,
+                "dancer_left_knee_angle": 156.289,
+                "dancer_right_knee_angle": 156.185,
+                "danceable_left_knee_angle": 169.589,
+                "danceable_right_knee_angle": 158.239
+            }
+        },
+        {
+            "sec": 35,
+            "pelvis": {
+                "score": 90,
+                "dancer_left_pelvic_angle": 170.204,
+                "dancer_right_pelvic_angle": 160.045,
+                "danceable_left_pelvic_angle": 170.187,
+                "danceable_right_pelvic_angle": 132.553
+            },
+            "shoulder": {
+                "score": 89,
+                "dancer_left_shoulder_angle": 10.012,
+                "dancer_right_shoulder_angle": 25.041,
+                "danceable_left_shoulder_angle": 29.854,
+                "danceable_right_shoulder_angle": 31.763
+            },
+            "forearm": {
+                "score": 79,
+                "dancer_left_elbow_angle": 139.379,
+                "dancer_right_elbow_angle": 67.328,
+                "danceable_left_elbow_angle": 95.923,
+                "danceable_right_elbow_angle": 40.713
+            },
+            "leg": {
+                "score": 94,
+                "dancer_left_knee_angle": 154.735,
+                "dancer_right_knee_angle": 145.677,
+                "danceable_left_knee_angle": 154.145,
+                "danceable_right_knee_angle": 137.917
+            }
+        },
+        {
+            "sec": 36,
+            "pelvis": {
+                "score": 91,
+                "dancer_left_pelvic_angle": 166.284,
+                "dancer_right_pelvic_angle": 162.458,
+                "danceable_left_pelvic_angle": 155.638,
+                "danceable_right_pelvic_angle": 156.136
+            },
+            "shoulder": {
+                "score": 83,
+                "dancer_left_shoulder_angle": 19.146,
+                "dancer_right_shoulder_angle": 57.075,
+                "danceable_left_shoulder_angle": 33.598,
+                "danceable_right_shoulder_angle": 43.159
+            },
+            "forearm": {
+                "score": 63,
+                "dancer_left_elbow_angle": 123.152,
+                "dancer_right_elbow_angle": 99.747,
+                "danceable_left_elbow_angle": 75.469,
+                "danceable_right_elbow_angle": 71.216
+            },
+            "leg": {
+                "score": 90,
+                "dancer_left_knee_angle": 156.661,
+                "dancer_right_knee_angle": 141.68,
+                "danceable_left_knee_angle": 170.878,
+                "danceable_right_knee_angle": 158.696
+            }
+        },
+        {
+            "sec": 37,
+            "pelvis": {
+                "score": 82,
+                "dancer_left_pelvic_angle": 160.86,
+                "dancer_right_pelvic_angle": 156.596,
+                "danceable_left_pelvic_angle": 139.059,
+                "danceable_right_pelvic_angle": 121.782
+            },
+            "shoulder": {
+                "score": 90,
+                "dancer_left_shoulder_angle": 11.526,
+                "dancer_right_shoulder_angle": 29.752,
+                "danceable_left_shoulder_angle": 16.778,
+                "danceable_right_shoulder_angle": 48.942
+            },
+            "forearm": {
+                "score": 80,
+                "dancer_left_elbow_angle": 139.332,
+                "dancer_right_elbow_angle": 50.106,
+                "danceable_left_elbow_angle": 169.917,
+                "danceable_right_elbow_angle": 11.466
+            },
+            "leg": {
+                "score": 87,
+                "dancer_left_knee_angle": 153.58,
+                "dancer_right_knee_angle": 138.198,
+                "danceable_left_knee_angle": 122.803,
+                "danceable_right_knee_angle": 149.782
+            }
+        },
+        {
+            "sec": 38,
+            "pelvis": {
+                "score": 92,
+                "dancer_left_pelvic_angle": 157.652,
+                "dancer_right_pelvic_angle": 152.378,
+                "danceable_left_pelvic_angle": 144.66,
+                "danceable_right_pelvic_angle": 141.07
+            },
+            "shoulder": {
+                "score": 89,
+                "dancer_left_shoulder_angle": 18.77,
+                "dancer_right_shoulder_angle": 32.747,
+                "danceable_left_shoulder_angle": 18.697,
+                "danceable_right_shoulder_angle": 43.446
+            },
+            "forearm": {
+                "score": 72,
+                "dancer_left_elbow_angle": 118.455,
+                "dancer_right_elbow_angle": 58.962,
+                "danceable_left_elbow_angle": 147.78,
+                "danceable_right_elbow_angle": 17.67
+            },
+            "leg": {
+                "score": 87,
+                "dancer_left_knee_angle": 155.394,
+                "dancer_right_knee_angle": 141.656,
+                "danceable_left_knee_angle": 129.84,
+                "danceable_right_knee_angle": 161.245
+            }
+        },
+        {
+            "sec": 39,
+            "pelvis": {
+                "score": 93,
+                "dancer_left_pelvic_angle": 169.788,
+                "dancer_right_pelvic_angle": 165.863,
+                "danceable_left_pelvic_angle": 163.87,
+                "danceable_right_pelvic_angle": 176.14
+            },
+            "shoulder": {
+                "score": 57,
+                "dancer_left_shoulder_angle": 15.636,
+                "dancer_right_shoulder_angle": 30.648,
+                "danceable_left_shoulder_angle": 93.873,
+                "danceable_right_shoulder_angle": 94.47
+            },
+            "forearm": {
+                "score": 55,
+                "dancer_left_elbow_angle": 122.165,
+                "dancer_right_elbow_angle": 64.925,
+                "danceable_left_elbow_angle": 175.902,
+                "danceable_right_elbow_angle": 173.552
+            },
+            "leg": {
+                "score": 88,
+                "dancer_left_knee_angle": 160.419,
+                "dancer_right_knee_angle": 140.764,
+                "danceable_left_knee_angle": 165.766,
+                "danceable_right_knee_angle": 174.293
+            }
+        },
+        {
+            "sec": 40,
+            "pelvis": {
+                "score": 79,
+                "dancer_left_pelvic_angle": 141.01,
+                "dancer_right_pelvic_angle": 135.056,
+                "danceable_left_pelvic_angle": 177.284,
+                "danceable_right_pelvic_angle": 174.822
+            },
+            "shoulder": {
+                "score": 25,
+                "dancer_left_shoulder_angle": 15.554,
+                "dancer_right_shoulder_angle": 26.984,
+                "danceable_left_shoulder_angle": 155.038,
+                "danceable_right_shoulder_angle": 158.525
+            },
+            "forearm": {
+                "score": 67,
+                "dancer_left_elbow_angle": 112.208,
+                "dancer_right_elbow_angle": 68.84,
+                "danceable_left_elbow_angle": 123.245,
+                "danceable_right_elbow_angle": 130.832
+            },
+            "leg": {
+                "score": 79,
+                "dancer_left_knee_angle": 139.128,
+                "dancer_right_knee_angle": 130.757,
+                "danceable_left_knee_angle": 165.955,
+                "danceable_right_knee_angle": 176.836
+            }
+        },
+        {
+            "sec": 41,
+            "pelvis": {
+                "score": 94,
+                "dancer_left_pelvic_angle": 163.907,
+                "dancer_right_pelvic_angle": 173.957,
+                "danceable_left_pelvic_angle": 168.297,
+                "danceable_right_pelvic_angle": 176.236
+            },
+            "shoulder": {
+                "score": 47,
+                "dancer_left_shoulder_angle": 12.209,
+                "dancer_right_shoulder_angle": 29.892,
+                "danceable_left_shoulder_angle": 116.931,
+                "danceable_right_shoulder_angle": 116.825
+            },
+            "forearm": {
+                "score": 70,
+                "dancer_left_elbow_angle": 127.929,
+                "dancer_right_elbow_angle": 90.133,
+                "danceable_left_elbow_angle": 55.849,
+                "danceable_right_elbow_angle": 55.691
+            },
+            "leg": {
+                "score": 84,
+                "dancer_left_knee_angle": 140.437,
+                "dancer_right_knee_angle": 144.447,
+                "danceable_left_knee_angle": 165.329,
+                "danceable_right_knee_angle": 170.322
+            }
+        },
+        {
+            "sec": 42,
+            "pelvis": {
+                "score": 78,
+                "dancer_left_pelvic_angle": 149.014,
+                "dancer_right_pelvic_angle": 120.085,
+                "danceable_left_pelvic_angle": 171.955,
+                "danceable_right_pelvic_angle": 176.382
+            },
+            "shoulder": {
+                "score": 74,
+                "dancer_left_shoulder_angle": 50.088,
+                "dancer_right_shoulder_angle": 36.964,
+                "danceable_left_shoulder_angle": 83.167,
+                "danceable_right_shoulder_angle": 75.873
+            },
+            "forearm": {
+                "score": 42,
+                "dancer_left_elbow_angle": 139.254,
+                "dancer_right_elbow_angle": 148.272,
+                "danceable_left_elbow_angle": 45.101,
+                "danceable_right_elbow_angle": 34.124
+            },
+            "leg": {
+                "score": 78,
+                "dancer_left_knee_angle": 139.972,
+                "dancer_right_knee_angle": 135.637,
+                "danceable_left_knee_angle": 176.198,
+                "danceable_right_knee_angle": 178.012
+            }
+        },
+        {
+            "sec": 43,
+            "pelvis": {
+                "score": 74,
+                "dancer_left_pelvic_angle": 150.48,
+                "dancer_right_pelvic_angle": 110.432,
+                "danceable_left_pelvic_angle": 174.566,
+                "danceable_right_pelvic_angle": 178.427
+            },
+            "shoulder": {
+                "score": 87,
+                "dancer_left_shoulder_angle": 53.708,
+                "dancer_right_shoulder_angle": 35.301,
+                "danceable_left_shoulder_angle": 53.212,
+                "danceable_right_shoulder_angle": 34.19
+            },
+            "forearm": {
+                "score": 51,
+                "dancer_left_elbow_angle": 159.42,
+                "dancer_right_elbow_angle": 166.322,
+                "danceable_left_elbow_angle": 86.84,
+                "danceable_right_elbow_angle": 64.302
+            },
+            "leg": {
+                "score": 77,
+                "dancer_left_knee_angle": 140.182,
+                "dancer_right_knee_angle": 130.424,
+                "danceable_left_knee_angle": 175.152,
+                "danceable_right_knee_angle": 178.379
+            }
+        },
+        {
+            "sec": 44,
+            "pelvis": {
+                "score": 91,
+                "dancer_left_pelvic_angle": 170.596,
+                "dancer_right_pelvic_angle": 153.605,
+                "danceable_left_pelvic_angle": 171.13,
+                "danceable_right_pelvic_angle": 175.476
+            },
+            "shoulder": {
+                "score": 89,
+                "dancer_left_shoulder_angle": 17.934,
+                "dancer_right_shoulder_angle": 14.342,
+                "danceable_left_shoulder_angle": 41.444,
+                "danceable_right_shoulder_angle": 27.193
+            },
+            "forearm": {
+                "score": 30,
+                "dancer_left_elbow_angle": 130.464,
+                "dancer_right_elbow_angle": 156.789,
+                "danceable_left_elbow_angle": 13.778,
+                "danceable_right_elbow_angle": 21.577
+            },
+            "leg": {
+                "score": 95,
+                "dancer_left_knee_angle": 171.184,
+                "dancer_right_knee_angle": 164.313,
+                "danceable_left_knee_angle": 171.219,
+                "danceable_right_knee_angle": 173.016
+            }
+        },
+        {
+            "sec": 45,
+            "pelvis": {
+                "score": 97,
+                "dancer_left_pelvic_angle": 173.346,
+                "dancer_right_pelvic_angle": 175.651,
+                "danceable_left_pelvic_angle": 167.232,
+                "danceable_right_pelvic_angle": 172.466
+            },
+            "shoulder": {
+                "score": 89,
+                "dancer_left_shoulder_angle": 17.494,
+                "dancer_right_shoulder_angle": 16.494,
+                "danceable_left_shoulder_angle": 35.929,
+                "danceable_right_shoulder_angle": 26.095
+            },
+            "forearm": {
+                "score": 25,
+                "dancer_left_elbow_angle": 174.966,
+                "dancer_right_elbow_angle": 159.111,
+                "danceable_left_elbow_angle": 21.878,
+                "danceable_right_elbow_angle": 42.306
+            },
+            "leg": {
+                "score": 91,
+                "dancer_left_knee_angle": 154.188,
+                "dancer_right_knee_angle": 168.849,
+                "danceable_left_knee_angle": 169.724,
+                "danceable_right_knee_angle": 170.603
+            }
+        },
+        {
+            "sec": 46,
+            "pelvis": {
+                "score": 96,
+                "dancer_left_pelvic_angle": 171.622,
+                "dancer_right_pelvic_angle": 176.484,
+                "danceable_left_pelvic_angle": 174.228,
+                "danceable_right_pelvic_angle": 166.862
+            },
+            "shoulder": {
+                "score": 74,
+                "dancer_left_shoulder_angle": 14.536,
+                "dancer_right_shoulder_angle": 24.633,
+                "danceable_left_shoulder_angle": 62.161,
+                "danceable_right_shoulder_angle": 61.937
+            },
+            "forearm": {
+                "score": 80,
+                "dancer_left_elbow_angle": 170.912,
+                "dancer_right_elbow_angle": 168.747,
+                "danceable_left_elbow_angle": 135.897,
+                "danceable_right_elbow_angle": 135.91
+            },
+            "leg": {
+                "score": 93,
+                "dancer_left_knee_angle": 168.023,
+                "dancer_right_knee_angle": 165.281,
+                "danceable_left_knee_angle": 153.691,
+                "danceable_right_knee_angle": 158.883
+            }
+        },
+        {
+            "sec": 47,
+            "pelvis": {
+                "score": 96,
+                "dancer_left_pelvic_angle": 170.91,
+                "dancer_right_pelvic_angle": 172.217,
+                "danceable_left_pelvic_angle": 168.747,
+                "danceable_right_pelvic_angle": 165.951
+            },
+            "shoulder": {
+                "score": 72,
+                "dancer_left_shoulder_angle": 18.265,
+                "dancer_right_shoulder_angle": 9.669,
+                "danceable_left_shoulder_angle": 68.729,
+                "danceable_right_shoulder_angle": 60.584
+            },
+            "forearm": {
+                "score": 89,
+                "dancer_left_elbow_angle": 156.547,
+                "dancer_right_elbow_angle": 158.531,
+                "danceable_left_elbow_angle": 162.33,
+                "danceable_right_elbow_angle": 158.858
+            },
+            "leg": {
+                "score": 85,
+                "dancer_left_knee_angle": 163.045,
+                "dancer_right_knee_angle": 174.214,
+                "danceable_left_knee_angle": 143.204,
+                "danceable_right_knee_angle": 143.99
+            }
+        },
+        {
+            "sec": 48,
+            "pelvis": {
+                "score": 95,
+                "dancer_left_pelvic_angle": 173.295,
+                "dancer_right_pelvic_angle": 172.058,
+                "danceable_left_pelvic_angle": 176.561,
+                "danceable_right_pelvic_angle": 166.885
+            },
+            "shoulder": {
+                "score": 60,
+                "dancer_left_shoulder_angle": 17.549,
+                "dancer_right_shoulder_angle": 13.622,
+                "danceable_left_shoulder_angle": 94.579,
+                "danceable_right_shoulder_angle": 77.606
+            },
+            "forearm": {
+                "score": 68,
+                "dancer_left_elbow_angle": 169.081,
+                "dancer_right_elbow_angle": 170.879,
+                "danceable_left_elbow_angle": 103.994,
+                "danceable_right_elbow_angle": 122.476
+            },
+            "leg": {
+                "score": 92,
+                "dancer_left_knee_angle": 175.641,
+                "dancer_right_knee_angle": 173.03,
+                "danceable_left_knee_angle": 160.649,
+                "danceable_right_knee_angle": 158.239
+            }
+        },
+        {
+            "sec": 49,
+            "pelvis": {
+                "score": 97,
+                "dancer_left_pelvic_angle": 172.512,
+                "dancer_right_pelvic_angle": 171.034,
+                "danceable_left_pelvic_angle": 174.598,
+                "danceable_right_pelvic_angle": 166.199
+            },
+            "shoulder": {
+                "score": 72,
+                "dancer_left_shoulder_angle": 62.815,
+                "dancer_right_shoulder_angle": 52.785,
+                "danceable_left_shoulder_angle": 23.014,
+                "danceable_right_shoulder_angle": 16.275
+            },
+            "forearm": {
+                "score": 69,
+                "dancer_left_elbow_angle": 127.464,
+                "dancer_right_elbow_angle": 131.291,
+                "danceable_left_elbow_angle": 103.588,
+                "danceable_right_elbow_angle": 111.033
+            },
+            "leg": {
+                "score": 86,
+                "dancer_left_knee_angle": 176.436,
+                "dancer_right_knee_angle": 173.295,
+                "danceable_left_knee_angle": 150.951,
+                "danceable_right_knee_angle": 148.212
+            }
+        },
+        {
+            "sec": 50,
+            "pelvis": {
+                "score": 94,
+                "dancer_left_pelvic_angle": 166.333,
+                "dancer_right_pelvic_angle": 160.176,
+                "danceable_left_pelvic_angle": 169.281,
+                "danceable_right_pelvic_angle": 174.446
+            },
+            "shoulder": {
+                "score": 72,
+                "dancer_left_shoulder_angle": 67.995,
+                "dancer_right_shoulder_angle": 64.067,
+                "danceable_left_shoulder_angle": 100.078,
+                "danceable_right_shoulder_angle": 89.616
+            },
+            "forearm": {
+                "score": 66,
+                "dancer_left_elbow_angle": 84.326,
+                "dancer_right_elbow_angle": 110.579,
+                "danceable_left_elbow_angle": 38.788,
+                "danceable_right_elbow_angle": 35.329
+            },
+            "leg": {
+                "score": 93,
+                "dancer_left_knee_angle": 158.067,
+                "dancer_right_knee_angle": 169.202,
+                "danceable_left_knee_angle": 173.636,
+                "danceable_right_knee_angle": 173.133
+            }
+        },
+        {
+            "sec": 51,
+            "pelvis": {
+                "score": 94,
+                "dancer_left_pelvic_angle": 171.494,
+                "dancer_right_pelvic_angle": 169.463,
+                "danceable_left_pelvic_angle": 169.978,
+                "danceable_right_pelvic_angle": 169.947
+            },
+            "shoulder": {
+                "score": 83,
+                "dancer_left_shoulder_angle": 94.03,
+                "dancer_right_shoulder_angle": 93.358,
+                "danceable_left_shoulder_angle": 124.11,
+                "danceable_right_shoulder_angle": 121.997
+            },
+            "forearm": {
+                "score": 69,
+                "dancer_left_elbow_angle": 78.618,
+                "dancer_right_elbow_angle": 100.011,
+                "danceable_left_elbow_angle": 42.337,
+                "danceable_right_elbow_angle": 34.906
+            },
+            "leg": {
+                "score": 89,
+                "dancer_left_knee_angle": 169.575,
+                "dancer_right_knee_angle": 172.359,
+                "danceable_left_knee_angle": 157.417,
+                "danceable_right_knee_angle": 162.428
+            }
+        },
+        {
+            "sec": 52,
+            "pelvis": {
+                "score": 95,
+                "dancer_left_pelvic_angle": 170.993,
+                "dancer_right_pelvic_angle": 169.304,
+                "danceable_left_pelvic_angle": 177.567,
+                "danceable_right_pelvic_angle": 176.907
+            },
+            "shoulder": {
+                "score": 67,
+                "dancer_left_shoulder_angle": 53.833,
+                "dancer_right_shoulder_angle": 59.247,
+                "danceable_left_shoulder_angle": 116.216,
+                "danceable_right_shoulder_angle": 115.526
+            },
+            "forearm": {
+                "score": 76,
+                "dancer_left_elbow_angle": 95.479,
+                "dancer_right_elbow_angle": 117.516,
+                "danceable_left_elbow_angle": 118.912,
+                "danceable_right_elbow_angle": 115.216
+            },
+            "leg": {
+                "score": 95,
+                "dancer_left_knee_angle": 176.302,
+                "dancer_right_knee_angle": 173.748,
+                "danceable_left_knee_angle": 167.23,
+                "danceable_right_knee_angle": 174.823
+            }
+        },
+        {
+            "sec": 53,
+            "pelvis": {
+                "score": 88,
+                "dancer_left_pelvic_angle": 148.684,
+                "dancer_right_pelvic_angle": 155.321,
+                "danceable_left_pelvic_angle": 177.267,
+                "danceable_right_pelvic_angle": 168.369
+            },
+            "shoulder": {
+                "score": 81,
+                "dancer_left_shoulder_angle": 19.46,
+                "dancer_right_shoulder_angle": 11.902,
+                "danceable_left_shoulder_angle": 48.487,
+                "danceable_right_shoulder_angle": 51.466
+            },
+            "forearm": {
+                "score": 63,
+                "dancer_left_elbow_angle": 123.52,
+                "dancer_right_elbow_angle": 86.751,
+                "danceable_left_elbow_angle": 173.765,
+                "danceable_right_elbow_angle": 170.471
+            },
+            "leg": {
+                "score": 92,
+                "dancer_left_knee_angle": 159.928,
+                "dancer_right_knee_angle": 165.685,
+                "danceable_left_knee_angle": 165.857,
+                "danceable_right_knee_angle": 168.028
+            }
+        },
+        {
+            "sec": 54,
+            "pelvis": {
+                "score": 92,
+                "dancer_left_pelvic_angle": 152.706,
+                "dancer_right_pelvic_angle": 155.651,
+                "danceable_left_pelvic_angle": 170.602,
+                "danceable_right_pelvic_angle": 163.863
+            },
+            "shoulder": {
+                "score": 73,
+                "dancer_left_shoulder_angle": 37.034,
+                "dancer_right_shoulder_angle": 31.572,
+                "danceable_left_shoulder_angle": 32.565,
+                "danceable_right_shoulder_angle": 33.839
+            },
+            "forearm": {
+                "score": 62,
+                "dancer_left_elbow_angle": 74.685,
+                "dancer_right_elbow_angle": 65.815,
+                "danceable_left_elbow_angle": 142.516,
+                "danceable_right_elbow_angle": 120.322
+            },
+            "leg": {
+                "score": 91,
+                "dancer_left_knee_angle": 173.861,
+                "dancer_right_knee_angle": 177.596,
+                "danceable_left_knee_angle": 155.125,
+                "danceable_right_knee_angle": 172.32
+            }
+        },
+        {
+            "sec": 55,
+            "pelvis": {
+                "score": 92,
+                "dancer_left_pelvic_angle": 165.654,
+                "dancer_right_pelvic_angle": 152.744,
+                "danceable_left_pelvic_angle": 163.542,
+                "danceable_right_pelvic_angle": 169.693
+            },
+            "shoulder": {
+                "score": 74,
+                "dancer_left_shoulder_angle": 64.621,
+                "dancer_right_shoulder_angle": 57.817,
+                "danceable_left_shoulder_angle": 22.566,
+                "danceable_right_shoulder_angle": 13.321
+            },
+            "forearm": {
+                "score": 55,
+                "dancer_left_elbow_angle": 92.822,
+                "dancer_right_elbow_angle": 104.05,
+                "danceable_left_elbow_angle": 133.398,
+                "danceable_right_elbow_angle": 79.503
+            },
+            "leg": {
+                "score": 91,
+                "dancer_left_knee_angle": 168.384,
+                "dancer_right_knee_angle": 159.708,
+                "danceable_left_knee_angle": 168.634,
+                "danceable_right_knee_angle": 172.123
+            }
+        },
+        {
+            "sec": 56,
+            "pelvis": {
+                "score": 97,
+                "dancer_left_pelvic_angle": 174.207,
+                "dancer_right_pelvic_angle": 173.125,
+                "danceable_left_pelvic_angle": 175.193,
+                "danceable_right_pelvic_angle": 169.317
+            },
+            "shoulder": {
+                "score": 83,
+                "dancer_left_shoulder_angle": 66.935,
+                "dancer_right_shoulder_angle": 62.812,
+                "danceable_left_shoulder_angle": 48.006,
+                "danceable_right_shoulder_angle": 52.888
+            },
+            "forearm": {
+                "score": 78,
+                "dancer_left_elbow_angle": 117.001,
+                "dancer_right_elbow_angle": 123.456,
+                "danceable_left_elbow_angle": 86.494,
+                "danceable_right_elbow_angle": 103.049
+            },
+            "leg": {
+                "score": 91,
+                "dancer_left_knee_angle": 172.234,
+                "dancer_right_knee_angle": 176.298,
+                "danceable_left_knee_angle": 159.009,
+                "danceable_right_knee_angle": 160.271
+            }
+        },
+        {
+            "sec": 57,
+            "pelvis": {
+                "score": 93,
+                "dancer_left_pelvic_angle": 167.52,
+                "dancer_right_pelvic_angle": 171.833,
+                "danceable_left_pelvic_angle": 171.811,
+                "danceable_right_pelvic_angle": 159.273
+            },
+            "shoulder": {
+                "score": 79,
+                "dancer_left_shoulder_angle": 24.726,
+                "dancer_right_shoulder_angle": 21.251,
+                "danceable_left_shoulder_angle": 66.717,
+                "danceable_right_shoulder_angle": 33.225
+            },
+            "forearm": {
+                "score": 54,
+                "dancer_left_elbow_angle": 159.581,
+                "dancer_right_elbow_angle": 162.997,
+                "danceable_left_elbow_angle": 86.404,
+                "danceable_right_elbow_angle": 71.879
+            },
+            "leg": {
+                "score": 87,
+                "dancer_left_knee_angle": 166.902,
+                "dancer_right_knee_angle": 175.725,
+                "danceable_left_knee_angle": 153.354,
+                "danceable_right_knee_angle": 148.38
+            }
+        },
+        {
+            "sec": 58,
+            "pelvis": {
+                "score": 90,
+                "dancer_left_pelvic_angle": 146.383,
+                "dancer_right_pelvic_angle": 153.232,
+                "danceable_left_pelvic_angle": 165.36,
+                "danceable_right_pelvic_angle": 153.655
+            },
+            "shoulder": {
+                "score": 76,
+                "dancer_left_shoulder_angle": 35.216,
+                "dancer_right_shoulder_angle": 30.201,
+                "danceable_left_shoulder_angle": 55.34,
+                "danceable_right_shoulder_angle": 63.126
+            },
+            "forearm": {
+                "score": 43,
+                "dancer_left_elbow_angle": 137.273,
+                "dancer_right_elbow_angle": 146.693,
+                "danceable_left_elbow_angle": 42.673,
+                "danceable_right_elbow_angle": 38.848
+            },
+            "leg": {
+                "score": 89,
+                "dancer_left_knee_angle": 150.737,
+                "dancer_right_knee_angle": 151.426,
+                "danceable_left_knee_angle": 171.641,
+                "danceable_right_knee_angle": 164.294
+            }
+        },
+        {
+            "sec": 59,
+            "pelvis": {
+                "score": 86,
+                "dancer_left_pelvic_angle": 134.015,
+                "dancer_right_pelvic_angle": 152.514,
+                "danceable_left_pelvic_angle": 167.051,
+                "danceable_right_pelvic_angle": 166.014
+            },
+            "shoulder": {
+                "score": 88,
+                "dancer_left_shoulder_angle": 13.261,
+                "dancer_right_shoulder_angle": 25.608,
+                "danceable_left_shoulder_angle": 23.85,
+                "danceable_right_shoulder_angle": 30.909
+            },
+            "forearm": {
+                "score": 43,
+                "dancer_left_elbow_angle": 169.99,
+                "dancer_right_elbow_angle": 116.811,
+                "danceable_left_elbow_angle": 50.748,
+                "danceable_right_elbow_angle": 98.711
+            },
+            "leg": {
+                "score": 90,
+                "dancer_left_knee_angle": 153.228,
+                "dancer_right_knee_angle": 156.058,
+                "danceable_left_knee_angle": 166.728,
+                "danceable_right_knee_angle": 168.346
+            }
+        },
+        {
+            "sec": 60,
+            "pelvis": {
+                "score": 87,
+                "dancer_left_pelvic_angle": 133.694,
+                "dancer_right_pelvic_angle": 157.801,
+                "danceable_left_pelvic_angle": 168.454,
+                "danceable_right_pelvic_angle": 169.721
+            },
+            "shoulder": {
+                "score": 85,
+                "dancer_left_shoulder_angle": 10.699,
+                "dancer_right_shoulder_angle": 32.75,
+                "danceable_left_shoulder_angle": 37.27,
+                "danceable_right_shoulder_angle": 55.453
+            },
+            "forearm": {
+                "score": 78,
+                "dancer_left_elbow_angle": 166.694,
+                "dancer_right_elbow_angle": 102.018,
+                "danceable_left_elbow_angle": 139.739,
+                "danceable_right_elbow_angle": 102.62
+            },
+            "leg": {
+                "score": 89,
+                "dancer_left_knee_angle": 153.504,
+                "dancer_right_knee_angle": 162.916,
+                "danceable_left_knee_angle": 164.623,
+                "danceable_right_knee_angle": 174.432
+            }
+        },
+        {
+            "sec": 61,
+            "pelvis": {
+                "score": 93,
+                "dancer_left_pelvic_angle": 163.218,
+                "dancer_right_pelvic_angle": 169.5,
+                "danceable_left_pelvic_angle": 176.646,
+                "danceable_right_pelvic_angle": 161.515
+            },
+            "shoulder": {
+                "score": 85,
+                "dancer_left_shoulder_angle": 22.441,
+                "dancer_right_shoulder_angle": 20.713,
+                "danceable_left_shoulder_angle": 44.629,
+                "danceable_right_shoulder_angle": 53.235
+            },
+            "forearm": {
+                "score": 64,
+                "dancer_left_elbow_angle": 111.908,
+                "dancer_right_elbow_angle": 164.066,
+                "danceable_left_elbow_angle": 71.076,
+                "danceable_right_elbow_angle": 83.574
+            },
+            "leg": {
+                "score": 96,
+                "dancer_left_knee_angle": 171.849,
+                "dancer_right_knee_angle": 167.677,
+                "danceable_left_knee_angle": 174.796,
+                "danceable_right_knee_angle": 169.98
+            }
+        },
+        {
+            "sec": 62,
+            "pelvis": {
+                "score": 95,
+                "dancer_left_pelvic_angle": 171.9,
+                "dancer_right_pelvic_angle": 167.101,
+                "danceable_left_pelvic_angle": 170.379,
+                "danceable_right_pelvic_angle": 158.488
+            },
+            "shoulder": {
+                "score": 74,
+                "dancer_left_shoulder_angle": 22.472,
+                "dancer_right_shoulder_angle": 14.831,
+                "danceable_left_shoulder_angle": 39.9,
+                "danceable_right_shoulder_angle": 89.567
+            },
+            "forearm": {
+                "score": 72,
+                "dancer_left_elbow_angle": 133.43,
+                "dancer_right_elbow_angle": 102.161,
+                "danceable_left_elbow_angle": 116.366,
+                "danceable_right_elbow_angle": 81.213
+            },
+            "leg": {
+                "score": 94,
+                "dancer_left_knee_angle": 169.383,
+                "dancer_right_knee_angle": 169.488,
+                "danceable_left_knee_angle": 171.852,
+                "danceable_right_knee_angle": 158.918
+            }
+        },
+        {
+            "sec": 63,
+            "pelvis": {
+                "score": 96,
+                "dancer_left_pelvic_angle": 174.414,
+                "dancer_right_pelvic_angle": 169.971,
+                "danceable_left_pelvic_angle": 170.598,
+                "danceable_right_pelvic_angle": 170.3
+            },
+            "shoulder": {
+                "score": 83,
+                "dancer_left_shoulder_angle": 18.81,
+                "dancer_right_shoulder_angle": 15.0,
+                "danceable_left_shoulder_angle": 33.456,
+                "danceable_right_shoulder_angle": 59.338
+            },
+            "forearm": {
+                "score": 41,
+                "dancer_left_elbow_angle": 164.729,
+                "dancer_right_elbow_angle": 174.724,
+                "danceable_left_elbow_angle": 64.728,
+                "danceable_right_elbow_angle": 64.625
+            },
+            "leg": {
+                "score": 93,
+                "dancer_left_knee_angle": 174.044,
+                "dancer_right_knee_angle": 159.425,
+                "danceable_left_knee_angle": 165.058,
+                "danceable_right_knee_angle": 162.431
+            }
+        },
+        {
+            "sec": 64,
+            "pelvis": {
+                "score": 92,
+                "dancer_left_pelvic_angle": 167.108,
+                "dancer_right_pelvic_angle": 163.429,
+                "danceable_left_pelvic_angle": 166.624,
+                "danceable_right_pelvic_angle": 148.771
+            },
+            "shoulder": {
+                "score": 90,
+                "dancer_left_shoulder_angle": 52.833,
+                "dancer_right_shoulder_angle": 53.019,
+                "danceable_left_shoulder_angle": 51.075,
+                "danceable_right_shoulder_angle": 42.661
+            },
+            "forearm": {
+                "score": 68,
+                "dancer_left_elbow_angle": 55.776,
+                "dancer_right_elbow_angle": 134.518,
+                "danceable_left_elbow_angle": 120.992,
+                "danceable_right_elbow_angle": 124.475
+            },
+            "leg": {
+                "score": 91,
+                "dancer_left_knee_angle": 159.545,
+                "dancer_right_knee_angle": 168.013,
+                "danceable_left_knee_angle": 175.409,
+                "danceable_right_knee_angle": 173.828
+            }
+        },
+        {
+            "sec": 65,
+            "pelvis": {
+                "score": 90,
+                "dancer_left_pelvic_angle": 174.625,
+                "dancer_right_pelvic_angle": 158.046,
+                "danceable_left_pelvic_angle": 152.345,
+                "danceable_right_pelvic_angle": 167.173
+            },
+            "shoulder": {
+                "score": 88,
+                "dancer_left_shoulder_angle": 61.593,
+                "dancer_right_shoulder_angle": 30.859,
+                "danceable_left_shoulder_angle": 44.905,
+                "danceable_right_shoulder_angle": 43.615
+            },
+            "forearm": {
+                "score": 63,
+                "dancer_left_elbow_angle": 45.721,
+                "dancer_right_elbow_angle": 55.259,
+                "danceable_left_elbow_angle": 93.339,
+                "danceable_right_elbow_angle": 81.053
+            },
+            "leg": {
+                "score": 95,
+                "dancer_left_knee_angle": 170.329,
+                "dancer_right_knee_angle": 162.948,
+                "danceable_left_knee_angle": 172.496,
+                "danceable_right_knee_angle": 176.256
+            }
+        },
+        {
+            "sec": 66,
+            "pelvis": {
+                "score": 88,
+                "dancer_left_pelvic_angle": 157.401,
+                "dancer_right_pelvic_angle": 166.336,
+                "danceable_left_pelvic_angle": 171.472,
+                "danceable_right_pelvic_angle": 139.44
+            },
+            "shoulder": {
+                "score": 73,
+                "dancer_left_shoulder_angle": 56.66,
+                "dancer_right_shoulder_angle": 64.232,
+                "danceable_left_shoulder_angle": 125.427,
+                "danceable_right_shoulder_angle": 47.092
+            },
+            "forearm": {
+                "score": 57,
+                "dancer_left_elbow_angle": 44.626,
+                "dancer_right_elbow_angle": 99.986,
+                "danceable_left_elbow_angle": 145.76,
+                "danceable_right_elbow_angle": 109.48
+            },
+            "leg": {
+                "score": 87,
+                "dancer_left_knee_angle": 149.116,
+                "dancer_right_knee_angle": 176.636,
+                "danceable_left_knee_angle": 172.38,
+                "danceable_right_knee_angle": 154.636
+            }
+        },
+        {
+            "sec": 67,
+            "pelvis": {
+                "score": 87,
+                "dancer_left_pelvic_angle": 147.658,
+                "dancer_right_pelvic_angle": 168.07,
+                "danceable_left_pelvic_angle": 172.586,
+                "danceable_right_pelvic_angle": 150.943
+            },
+            "shoulder": {
+                "score": 74,
+                "dancer_left_shoulder_angle": 68.85,
+                "dancer_right_shoulder_angle": 76.99,
+                "danceable_left_shoulder_angle": 113.095,
+                "danceable_right_shoulder_angle": 46.777
+            },
+            "forearm": {
+                "score": 73,
+                "dancer_left_elbow_angle": 149.698,
+                "dancer_right_elbow_angle": 113.231,
+                "danceable_left_elbow_angle": 118.485,
+                "danceable_right_elbow_angle": 90.688
+            },
+            "leg": {
+                "score": 86,
+                "dancer_left_knee_angle": 143.437,
+                "dancer_right_knee_angle": 167.712,
+                "danceable_left_knee_angle": 166.444,
+                "danceable_right_knee_angle": 160.35
+            }
+        },
+        {
+            "sec": 68,
+            "pelvis": {
+                "score": 89,
+                "dancer_left_pelvic_angle": 151.375,
+                "dancer_right_pelvic_angle": 160.583,
+                "danceable_left_pelvic_angle": 172.388,
+                "danceable_right_pelvic_angle": 174.228
+            },
+            "shoulder": {
+                "score": 80,
+                "dancer_left_shoulder_angle": 63.394,
+                "dancer_right_shoulder_angle": 56.334,
+                "danceable_left_shoulder_angle": 30.667,
+                "danceable_right_shoulder_angle": 35.558
+            },
+            "forearm": {
+                "score": 71,
+                "dancer_left_elbow_angle": 136.466,
+                "dancer_right_elbow_angle": 142.298,
+                "danceable_left_elbow_angle": 119.694,
+                "danceable_right_elbow_angle": 106.763
+            },
+            "leg": {
+                "score": 89,
+                "dancer_left_knee_angle": 141.496,
+                "dancer_right_knee_angle": 170.744,
+                "danceable_left_knee_angle": 171.973,
+                "danceable_right_knee_angle": 175.597
+            }
+        },
+        {
+            "sec": 69,
+            "pelvis": {
+                "score": 89,
+                "dancer_left_pelvic_angle": 164.535,
+                "dancer_right_pelvic_angle": 136.785,
+                "danceable_left_pelvic_angle": 172.974,
+                "danceable_right_pelvic_angle": 160.782
+            },
+            "shoulder": {
+                "score": 94,
+                "dancer_left_shoulder_angle": 44.5,
+                "dancer_right_shoulder_angle": 37.409,
+                "danceable_left_shoulder_angle": 37.702,
+                "danceable_right_shoulder_angle": 34.993
+            },
+            "forearm": {
+                "score": 69,
+                "dancer_left_elbow_angle": 67.133,
+                "dancer_right_elbow_angle": 150.427,
+                "danceable_left_elbow_angle": 109.349,
+                "danceable_right_elbow_angle": 87.908
+            },
+            "leg": {
+                "score": 88,
+                "dancer_left_knee_angle": 165.82,
+                "dancer_right_knee_angle": 142.957,
+                "danceable_left_knee_angle": 168.239,
+                "danceable_right_knee_angle": 155.299
+            }
+        },
+        {
+            "sec": 70,
+            "pelvis": {
+                "score": 87,
+                "dancer_left_pelvic_angle": 148.475,
+                "dancer_right_pelvic_angle": 144.229,
+                "danceable_left_pelvic_angle": 170.944,
+                "danceable_right_pelvic_angle": 162.506
+            },
+            "shoulder": {
+                "score": 86,
+                "dancer_left_shoulder_angle": 41.085,
+                "dancer_right_shoulder_angle": 5.223,
+                "danceable_left_shoulder_angle": 47.55,
+                "danceable_right_shoulder_angle": 38.492
+            },
+            "forearm": {
+                "score": 57,
+                "dancer_left_elbow_angle": 116.412,
+                "dancer_right_elbow_angle": 160.014,
+                "danceable_left_elbow_angle": 70.001,
+                "danceable_right_elbow_angle": 52.243
+            },
+            "leg": {
+                "score": 85,
+                "dancer_left_knee_angle": 136.004,
+                "dancer_right_knee_angle": 148.273,
+                "danceable_left_knee_angle": 154.638,
+                "danceable_right_knee_angle": 156.91
+            }
+        },
+        {
+            "sec": 71,
+            "pelvis": {
+                "score": 95,
+                "dancer_left_pelvic_angle": 159.05,
+                "dancer_right_pelvic_angle": 169.696,
+                "danceable_left_pelvic_angle": 161.561,
+                "danceable_right_pelvic_angle": 161.669
+            },
+            "shoulder": {
+                "score": 71,
+                "dancer_left_shoulder_angle": 4.858,
+                "dancer_right_shoulder_angle": 99.575,
+                "danceable_left_shoulder_angle": 32.335,
+                "danceable_right_shoulder_angle": 35.943
+            },
+            "forearm": {
+                "score": 53,
+                "dancer_left_elbow_angle": 143.866,
+                "dancer_right_elbow_angle": 121.474,
+                "danceable_left_elbow_angle": 51.561,
+                "danceable_right_elbow_angle": 47.663
+            },
+            "leg": {
+                "score": 93,
+                "dancer_left_knee_angle": 152.779,
+                "dancer_right_knee_angle": 165.859,
+                "danceable_left_knee_angle": 152.349,
+                "danceable_right_knee_angle": 169.109
+            }
+        },
+        {
+            "sec": 72,
+            "pelvis": {
+                "score": 94,
+                "dancer_left_pelvic_angle": 168.377,
+                "dancer_right_pelvic_angle": 171.172,
+                "danceable_left_pelvic_angle": 165.961,
+                "danceable_right_pelvic_angle": 174.635
+            },
+            "shoulder": {
+                "score": 88,
+                "dancer_left_shoulder_angle": 42.319,
+                "dancer_right_shoulder_angle": 43.692,
+                "danceable_left_shoulder_angle": 33.204,
+                "danceable_right_shoulder_angle": 38.167
+            },
+            "forearm": {
+                "score": 60,
+                "dancer_left_elbow_angle": 107.651,
+                "dancer_right_elbow_angle": 117.549,
+                "danceable_left_elbow_angle": 52.038,
+                "danceable_right_elbow_angle": 55.116
+            },
+            "leg": {
+                "score": 92,
+                "dancer_left_knee_angle": 161.787,
+                "dancer_right_knee_angle": 168.711,
+                "danceable_left_knee_angle": 161.375,
+                "danceable_right_knee_angle": 172.7
+            }
+        },
+        {
+            "sec": 73,
+            "pelvis": {
+                "score": 91,
+                "dancer_left_pelvic_angle": 144.425,
+                "dancer_right_pelvic_angle": 160.807,
+                "danceable_left_pelvic_angle": 164.814,
+                "danceable_right_pelvic_angle": 168.559
+            },
+            "shoulder": {
+                "score": 80,
+                "dancer_left_shoulder_angle": 19.021,
+                "dancer_right_shoulder_angle": 23.624,
+                "danceable_left_shoulder_angle": 44.802,
+                "danceable_right_shoulder_angle": 50.747
+            },
+            "forearm": {
+                "score": 49,
+                "dancer_left_elbow_angle": 150.382,
+                "dancer_right_elbow_angle": 124.988,
+                "danceable_left_elbow_angle": 52.142,
+                "danceable_right_elbow_angle": 48.838
+            },
+            "leg": {
+                "score": 92,
+                "dancer_left_knee_angle": 153.166,
+                "dancer_right_knee_angle": 164.306,
+                "danceable_left_knee_angle": 162.915,
+                "danceable_right_knee_angle": 170.582
+            }
+        },
+        {
+            "sec": 74,
+            "pelvis": {
+                "score": 84,
+                "dancer_left_pelvic_angle": 146.02,
+                "dancer_right_pelvic_angle": 140.083,
+                "danceable_left_pelvic_angle": 172.379,
+                "danceable_right_pelvic_angle": 160.887
+            },
+            "shoulder": {
+                "score": 75,
+                "dancer_left_shoulder_angle": 74.416,
+                "dancer_right_shoulder_angle": 56.477,
+                "danceable_left_shoulder_angle": 74.166,
+                "danceable_right_shoulder_angle": 79.473
+            },
+            "forearm": {
+                "score": 53,
+                "dancer_left_elbow_angle": 154.674,
+                "dancer_right_elbow_angle": 90.11,
+                "danceable_left_elbow_angle": 67.649,
+                "danceable_right_elbow_angle": 67.315
+            },
+            "leg": {
+                "score": 82,
+                "dancer_left_knee_angle": 141.266,
+                "dancer_right_knee_angle": 137.43,
+                "danceable_left_knee_angle": 172.556,
+                "danceable_right_knee_angle": 168.364
+            }
+        },
+        {
+            "sec": 75,
+            "pelvis": {
+                "score": 90,
+                "dancer_left_pelvic_angle": 157.265,
+                "dancer_right_pelvic_angle": 150.316,
+                "danceable_left_pelvic_angle": 158.115,
+                "danceable_right_pelvic_angle": 172.078
+            },
+            "shoulder": {
+                "score": 75,
+                "dancer_left_shoulder_angle": 60.114,
+                "dancer_right_shoulder_angle": 47.374,
+                "danceable_left_shoulder_angle": 58.941,
+                "danceable_right_shoulder_angle": 87.48
+            },
+            "forearm": {
+                "score": 73,
+                "dancer_left_elbow_angle": 134.126,
+                "dancer_right_elbow_angle": 84.273,
+                "danceable_left_elbow_angle": 77.459,
+                "danceable_right_elbow_angle": 88.809
+            },
+            "leg": {
+                "score": 79,
+                "dancer_left_knee_angle": 144.447,
+                "dancer_right_knee_angle": 123.587,
+                "danceable_left_knee_angle": 159.332,
+                "danceable_right_knee_angle": 175.409
+            }
+        },
+        {
+            "sec": 76,
+            "pelvis": {
+                "score": 96,
+                "dancer_left_pelvic_angle": 160.806,
+                "dancer_right_pelvic_angle": 170.108,
+                "danceable_left_pelvic_angle": 158.114,
+                "danceable_right_pelvic_angle": 167.933
+            },
+            "shoulder": {
+                "score": 77,
+                "dancer_left_shoulder_angle": 17.293,
+                "dancer_right_shoulder_angle": 65.605,
+                "danceable_left_shoulder_angle": 55.261,
+                "danceable_right_shoulder_angle": 44.288
+            },
+            "forearm": {
+                "score": 49,
+                "dancer_left_elbow_angle": 155.938,
+                "dancer_right_elbow_angle": 99.426,
+                "danceable_left_elbow_angle": 90.922,
+                "danceable_right_elbow_angle": 100.169
+            },
+            "leg": {
+                "score": 93,
+                "dancer_left_knee_angle": 168.259,
+                "dancer_right_knee_angle": 162.599,
+                "danceable_left_knee_angle": 159.853,
+                "danceable_right_knee_angle": 172.147
+            }
+        },
+        {
+            "sec": 77,
+            "pelvis": {
+                "score": 96,
+                "dancer_left_pelvic_angle": 168.803,
+                "dancer_right_pelvic_angle": 166.945,
+                "danceable_left_pelvic_angle": 171.981,
+                "danceable_right_pelvic_angle": 167.971
+            },
+            "shoulder": {
+                "score": 91,
+                "dancer_left_shoulder_angle": 20.868,
+                "dancer_right_shoulder_angle": 17.692,
+                "danceable_left_shoulder_angle": 34.949,
+                "danceable_right_shoulder_angle": 28.851
+            },
+            "forearm": {
+                "score": 65,
+                "dancer_left_elbow_angle": 146.418,
+                "dancer_right_elbow_angle": 130.048,
+                "danceable_left_elbow_angle": 126.93,
+                "danceable_right_elbow_angle": 124.83
+            },
+            "leg": {
+                "score": 95,
+                "dancer_left_knee_angle": 170.866,
+                "dancer_right_knee_angle": 174.853,
+                "danceable_left_knee_angle": 170.166,
+                "danceable_right_knee_angle": 169.503
+            }
+        },
+        {
+            "sec": 78,
+            "pelvis": {
+                "score": 95,
+                "dancer_left_pelvic_angle": 169.37,
+                "dancer_right_pelvic_angle": 175.227,
+                "danceable_left_pelvic_angle": 168.62,
+                "danceable_right_pelvic_angle": 175.444
+            },
+            "shoulder": {
+                "score": 72,
+                "dancer_left_shoulder_angle": 45.154,
+                "dancer_right_shoulder_angle": 31.06,
+                "danceable_left_shoulder_angle": 63.621,
+                "danceable_right_shoulder_angle": 61.903
+            },
+            "forearm": {
+                "score": 69,
+                "dancer_left_elbow_angle": 70.333,
+                "dancer_right_elbow_angle": 84.253,
+                "danceable_left_elbow_angle": 112.137,
+                "danceable_right_elbow_angle": 116.328
+            },
+            "leg": {
+                "score": 88,
+                "dancer_left_knee_angle": 157.867,
+                "dancer_right_knee_angle": 173.349,
+                "danceable_left_knee_angle": 143.299,
+                "danceable_right_knee_angle": 174.91
+            }
+        },
+        {
+            "sec": 79,
+            "pelvis": {
+                "score": 96,
+                "dancer_left_pelvic_angle": 171.744,
+                "dancer_right_pelvic_angle": 171.238,
+                "danceable_left_pelvic_angle": 169.178,
+                "danceable_right_pelvic_angle": 163.19
+            },
+            "shoulder": {
+                "score": 87,
+                "dancer_left_shoulder_angle": 20.585,
+                "dancer_right_shoulder_angle": 36.826,
+                "danceable_left_shoulder_angle": 34.062,
+                "danceable_right_shoulder_angle": 36.613
+            },
+            "forearm": {
+                "score": 72,
+                "dancer_left_elbow_angle": 126.351,
+                "dancer_right_elbow_angle": 155.41,
+                "danceable_left_elbow_angle": 114.021,
+                "danceable_right_elbow_angle": 116.37
+            },
+            "leg": {
+                "score": 93,
+                "dancer_left_knee_angle": 167.053,
+                "dancer_right_knee_angle": 162.17,
+                "danceable_left_knee_angle": 165.381,
+                "danceable_right_knee_angle": 165.327
+            }
+        },
+        {
+            "sec": 80,
+            "pelvis": {
+                "score": 93,
+                "dancer_left_pelvic_angle": 173.086,
+                "dancer_right_pelvic_angle": 172.599,
+                "danceable_left_pelvic_angle": 168.672,
+                "danceable_right_pelvic_angle": 159.066
+            },
+            "shoulder": {
+                "score": 82,
+                "dancer_left_shoulder_angle": 22.716,
+                "dancer_right_shoulder_angle": 16.166,
+                "danceable_left_shoulder_angle": 45.719,
+                "danceable_right_shoulder_angle": 52.054
+            },
+            "forearm": {
+                "score": 68,
+                "dancer_left_elbow_angle": 159.776,
+                "dancer_right_elbow_angle": 148.974,
+                "danceable_left_elbow_angle": 113.399,
+                "danceable_right_elbow_angle": 94.019
+            },
+            "leg": {
+                "score": 89,
+                "dancer_left_knee_angle": 170.932,
+                "dancer_right_knee_angle": 164.921,
+                "danceable_left_knee_angle": 171.597,
+                "danceable_right_knee_angle": 139.596
+            }
+        },
+        {
+            "sec": 81,
+            "pelvis": {
+                "score": 91,
+                "dancer_left_pelvic_angle": 156.553,
+                "dancer_right_pelvic_angle": 161.464,
+                "danceable_left_pelvic_angle": 164.708,
+                "danceable_right_pelvic_angle": 160.093
+            },
+            "shoulder": {
+                "score": 87,
+                "dancer_left_shoulder_angle": 10.368,
+                "dancer_right_shoulder_angle": 30.1,
+                "danceable_left_shoulder_angle": 33.081,
+                "danceable_right_shoulder_angle": 43.221
+            },
+            "forearm": {
+                "score": 46,
+                "dancer_left_elbow_angle": 164.718,
+                "dancer_right_elbow_angle": 128.148,
+                "danceable_left_elbow_angle": 46.425,
+                "danceable_right_elbow_angle": 77.925
+            },
+            "leg": {
+                "score": 87,
+                "dancer_left_knee_angle": 152.106,
+                "dancer_right_knee_angle": 170.08,
+                "danceable_left_knee_angle": 147.242,
+                "danceable_right_knee_angle": 143.621
+            }
+        },
+        {
+            "sec": 82,
+            "pelvis": {
+                "score": 93,
+                "dancer_left_pelvic_angle": 156.561,
+                "dancer_right_pelvic_angle": 161.842,
+                "danceable_left_pelvic_angle": 169.998,
+                "danceable_right_pelvic_angle": 160.776
+            },
+            "shoulder": {
+                "score": 81,
+                "dancer_left_shoulder_angle": 5.394,
+                "dancer_right_shoulder_angle": 28.111,
+                "danceable_left_shoulder_angle": 41.532,
+                "danceable_right_shoulder_angle": 57.499
+            },
+            "forearm": {
+                "score": 48,
+                "dancer_left_elbow_angle": 156.468,
+                "dancer_right_elbow_angle": 124.763,
+                "danceable_left_elbow_angle": 24.514,
+                "danceable_right_elbow_angle": 83.532
+            },
+            "leg": {
+                "score": 86,
+                "dancer_left_knee_angle": 155.628,
+                "dancer_right_knee_angle": 167.341,
+                "danceable_left_knee_angle": 165.046,
+                "danceable_right_knee_angle": 158.082
+            }
+        },
+        {
+            "sec": 83,
+            "pelvis": {
+                "score": 95,
+                "dancer_left_pelvic_angle": 166.686,
+                "dancer_right_pelvic_angle": 165.994,
+                "danceable_left_pelvic_angle": 171.214,
+                "danceable_right_pelvic_angle": 176.492
+            },
+            "shoulder": {
+                "score": 70,
+                "dancer_left_shoulder_angle": 46.66,
+                "dancer_right_shoulder_angle": 51.882,
+                "danceable_left_shoulder_angle": 58.64,
+                "danceable_right_shoulder_angle": 69.984
+            },
+            "forearm": {
+                "score": 59,
+                "dancer_left_elbow_angle": 134.909,
+                "dancer_right_elbow_angle": 144.085,
+                "danceable_left_elbow_angle": 74.028,
+                "danceable_right_elbow_angle": 84.683
+            },
+            "leg": {
+                "score": 94,
+                "dancer_left_knee_angle": 167.928,
+                "dancer_right_knee_angle": 175.115,
+                "danceable_left_knee_angle": 171.687,
+                "danceable_right_knee_angle": 171.003
+            }
+        },
+        {
+            "sec": 84,
+            "pelvis": {
+                "score": 98,
+                "dancer_left_pelvic_angle": 176.158,
+                "dancer_right_pelvic_angle": 176.407,
+                "danceable_left_pelvic_angle": 176.242,
+                "danceable_right_pelvic_angle": 177.934
+            },
+            "shoulder": {
+                "score": 49,
+                "dancer_left_shoulder_angle": 20.557,
+                "dancer_right_shoulder_angle": 173.586,
+                "danceable_left_shoulder_angle": 56.979,
+                "danceable_right_shoulder_angle": 25.499
+            },
+            "forearm": {
+                "score": 67,
+                "dancer_left_elbow_angle": 171.615,
+                "dancer_right_elbow_angle": 174.087,
+                "danceable_left_elbow_angle": 76.784,
+                "danceable_right_elbow_angle": 154.653
+            },
+            "leg": {
+                "score": 96,
+                "dancer_left_knee_angle": 165.187,
+                "dancer_right_knee_angle": 176.812,
+                "danceable_left_knee_angle": 173.172,
+                "danceable_right_knee_angle": 173.915
+            }
+        },
+        {
+            "sec": 85,
+            "pelvis": {
+                "score": 92,
+                "dancer_left_pelvic_angle": 174.465,
+                "dancer_right_pelvic_angle": 166.406,
+                "danceable_left_pelvic_angle": 160.466,
+                "danceable_right_pelvic_angle": 168.198
+            },
+            "shoulder": {
+                "score": 58,
+                "dancer_left_shoulder_angle": 81.727,
+                "dancer_right_shoulder_angle": 98.32,
+                "danceable_left_shoulder_angle": 27.316,
+                "danceable_right_shoulder_angle": 151.905
+            },
+            "forearm": {
+                "score": 78,
+                "dancer_left_elbow_angle": 153.548,
+                "dancer_right_elbow_angle": 154.147,
+                "danceable_left_elbow_angle": 161.437,
+                "danceable_right_elbow_angle": 152.081
+            },
+            "leg": {
+                "score": 91,
+                "dancer_left_knee_angle": 168.502,
+                "dancer_right_knee_angle": 159.695,
+                "danceable_left_knee_angle": 168.095,
+                "danceable_right_knee_angle": 172.422
+            }
+        },
+        {
+            "sec": 86,
+            "pelvis": {
+                "score": 85,
+                "dancer_left_pelvic_angle": 169.17,
+                "dancer_right_pelvic_angle": 150.943,
+                "danceable_left_pelvic_angle": 141.621,
+                "danceable_right_pelvic_angle": 172.456
+            },
+            "shoulder": {
+                "score": 67,
+                "dancer_left_shoulder_angle": 32.503,
+                "dancer_right_shoulder_angle": 50.338,
+                "danceable_left_shoulder_angle": 24.743,
+                "danceable_right_shoulder_angle": 141.256
+            },
+            "forearm": {
+                "score": 88,
+                "dancer_left_elbow_angle": 161.842,
+                "dancer_right_elbow_angle": 153.394,
+                "danceable_left_elbow_angle": 174.28,
+                "danceable_right_elbow_angle": 160.997
+            },
+            "leg": {
+                "score": 88,
+                "dancer_left_knee_angle": 161.024,
+                "dancer_right_knee_angle": 150.925,
+                "danceable_left_knee_angle": 163.18,
+                "danceable_right_knee_angle": 177.506
+            }
+        },
+        {
+            "sec": 87,
+            "pelvis": {
+                "score": 89,
+                "dancer_left_pelvic_angle": 161.766,
+                "dancer_right_pelvic_angle": 164.243,
+                "danceable_left_pelvic_angle": 145.595,
+                "danceable_right_pelvic_angle": 162.191
+            },
+            "shoulder": {
+                "score": 70,
+                "dancer_left_shoulder_angle": 30.274,
+                "dancer_right_shoulder_angle": 55.111,
+                "danceable_left_shoulder_angle": 23.218,
+                "danceable_right_shoulder_angle": 150.966
+            },
+            "forearm": {
+                "score": 76,
+                "dancer_left_elbow_angle": 107.697,
+                "dancer_right_elbow_angle": 173.384,
+                "danceable_left_elbow_angle": 174.631,
+                "danceable_right_elbow_angle": 153.424
+            },
+            "leg": {
+                "score": 90,
+                "dancer_left_knee_angle": 150.098,
+                "dancer_right_knee_angle": 165.026,
+                "danceable_left_knee_angle": 165.874,
+                "danceable_right_knee_angle": 163.029
+            }
+        },
+        {
+            "sec": 88,
+            "pelvis": {
+                "score": 89,
+                "dancer_left_pelvic_angle": 163.52,
+                "dancer_right_pelvic_angle": 163.8,
+                "danceable_left_pelvic_angle": 139.588,
+                "danceable_right_pelvic_angle": 171.321
+            },
+            "shoulder": {
+                "score": 60,
+                "dancer_left_shoulder_angle": 28.294,
+                "dancer_right_shoulder_angle": 32.695,
+                "danceable_left_shoulder_angle": 21.778,
+                "danceable_right_shoulder_angle": 156.238
+            },
+            "forearm": {
+                "score": 55,
+                "dancer_left_elbow_angle": 58.911,
+                "dancer_right_elbow_angle": 125.22,
+                "danceable_left_elbow_angle": 176.529,
+                "danceable_right_elbow_angle": 160.216
+            },
+            "leg": {
+                "score": 92,
+                "dancer_left_knee_angle": 174.669,
+                "dancer_right_knee_angle": 164.863,
+                "danceable_left_knee_angle": 164.134,
+                "danceable_right_knee_angle": 174.232
+            }
+        },
+        {
+            "sec": 89,
+            "pelvis": {
+                "score": 95,
+                "dancer_left_pelvic_angle": 173.624,
+                "dancer_right_pelvic_angle": 171.633,
+                "danceable_left_pelvic_angle": 163.499,
+                "danceable_right_pelvic_angle": 174.593
+            },
+            "shoulder": {
+                "score": 63,
+                "dancer_left_shoulder_angle": 75.303,
+                "dancer_right_shoulder_angle": 63.693,
+                "danceable_left_shoulder_angle": 13.824,
+                "danceable_right_shoulder_angle": 129.966
+            },
+            "forearm": {
+                "score": 62,
+                "dancer_left_elbow_angle": 104.617,
+                "dancer_right_elbow_angle": 58.935,
+                "danceable_left_elbow_angle": 176.396,
+                "danceable_right_elbow_angle": 124.795
+            },
+            "leg": {
+                "score": 97,
+                "dancer_left_knee_angle": 174.956,
+                "dancer_right_knee_angle": 167.211,
+                "danceable_left_knee_angle": 170.989,
+                "danceable_right_knee_angle": 169.388
+            }
+        },
+        {
+            "sec": 90,
+            "pelvis": {
+                "score": 80,
+                "dancer_left_pelvic_angle": 175.976,
+                "dancer_right_pelvic_angle": 170.386,
+                "danceable_left_pelvic_angle": 120.123,
+                "danceable_right_pelvic_angle": 161.608
+            },
+            "shoulder": {
+                "score": 88,
+                "dancer_left_shoulder_angle": 28.745,
+                "dancer_right_shoulder_angle": 53.38,
+                "danceable_left_shoulder_angle": 29.329,
+                "danceable_right_shoulder_angle": 31.587
+            },
+            "forearm": {
+                "score": 46,
+                "dancer_left_elbow_angle": 72.078,
+                "dancer_right_elbow_angle": 39.449,
+                "danceable_left_elbow_angle": 166.186,
+                "danceable_right_elbow_angle": 140.284
+            },
+            "leg": {
+                "score": 68,
+                "dancer_left_knee_angle": 164.476,
+                "dancer_right_knee_angle": 158.33,
+                "danceable_left_knee_angle": 118.535,
+                "danceable_right_knee_angle": 88.213
+            }
+        }
+    ],
+    "error": {
+        "pelvis_error_time": [
+            "37",
+            "40",
+            "42~43",
+            "74",
+            "86",
+            "90"
+        ],
+        "shoulder_error_time": [
+            "1~3",
+            "7~8",
+            "12~18",
+            "21~27",
+            "29~34",
+            "36",
+            "39~42",
+            "46~58",
+            "60~63",
+            "66~68",
+            "71",
+            "73~76",
+            "78",
+            "80",
+            "82~89"
+        ],
+        "forearm_error_time": [
+            "2~3",
+            "6~46",
+            "48~85",
+            "87~90"
+        ],
+        "leg_error_time": [
+            "19~20",
+            "23",
+            "30~31",
+            "40~43",
+            "47",
+            "70",
+            "74~75",
+            "90"
+        ]
+    },
+    "avg_score": {
+        "pelvis_score": 92.2,
+        "shoulder_score": 77.58,
+        "forearm_score": 62.46,
+        "leg_score": 90.07
+    },
+    "message": [
+        "골반이 가장 높은 평균 점수를 가졌습니다.",
+        "팔이 가장 낮은 평균 점수를 가졌습니다."
+    ]
+}
