@@ -4,10 +4,24 @@ import ScrollButton from "@components/ScrollButton";
 
 import { useReadDancerPost } from "@api/posts/readDancerPost";
 import PostContent from "@scenes/Posts/PostItem/PostContent";
+import { useEffect } from "react";
+import { likeActions } from "@features/like/likeSlice";
+import { postActions } from "@features/post/postSlice";
+import { useAppDispatch } from "@toolkit/hook";
 
 export default function DancerPostDetail({ id }: { id: string }) {
+  const dispatch = useAppDispatch();
+
   // 게시글 불어오기
   const { data, isLoading, error } = useReadDancerPost(id);
+
+  // 좋아요와 게시글 정보 상태 업데이트
+  useEffect(() => {
+    if (data) {
+      dispatch(likeActions.getUserLike(data.userLike))
+      dispatch(postActions.getPostInfo({postId:id, postTitle:data.title, postContent:data.content}))
+    };
+  }, [data, id, dispatch]);
 
   return (
     <>
