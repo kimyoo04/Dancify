@@ -5,6 +5,7 @@ djangorestframework-jwt==1.11.0
 djangorestframework-simplejwt==5.2.2
 drf-yasg==1.21.5
 mysqlclient==2.1.1
+django-seed==0.3.1
 boto3==1.26.143
 flake8==6.0.0
 python-dotenv==1.0.0

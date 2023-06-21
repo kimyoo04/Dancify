@@ -19,6 +19,7 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'rest_framework_simplejwt.token_blacklist',
     'boto3',
+    'django_seed',
     # 'django_extensions',
 
     # !apps
@@ -29,7 +30,7 @@ INSTALLED_APPS = [
     'files',
     'view_history',
     'search_history',
-    'videos'
+    'videos',
 ]
 
 

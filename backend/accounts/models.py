@@ -47,6 +47,10 @@ class CustomUserManager(UserManager):
 class User(AbstractUser):
     # 기본제공 username 필드는 사용하지 않음
     username = None
+    is_superuser = None
+    is_staff = None
+    first_name = None
+    last_name = None
 
     user_pk = models.UUIDField(primary_key=True,
                                default=uuid.uuid4, editable=False)
