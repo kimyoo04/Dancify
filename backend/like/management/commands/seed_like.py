@@ -1,6 +1,6 @@
 from random import choice
 from typing import Any
-from django.core.management.base import BaseCommand, CommandParser
+from django.core.management.base import BaseCommand
 from django_seed import Seed
 
 from accounts.models import User
@@ -12,7 +12,6 @@ class Command(BaseCommand):
     help = '이 커맨드를 통해 랜덤한 좋아요 더미 데이터 생성'
 
     def handle(self, *args: Any, **options: Any) -> str | None:
-        number = options.get('number')
         seeder = Seed.seeder()
 
         users = User.objects.all()
@@ -21,11 +20,11 @@ class Command(BaseCommand):
 
         for i in range(30):
             seeder.add_entity(Like, 1,
-                            {
-                                "user": lambda x: choice(users),
-                                "post_category": category[i % 3],
-                                "post_id": lambda x: posts[i % 3].objects.order_by('?').values('post_id').first()['post_id']
-                            })
+                              {
+                                  "user": lambda x: choice(users),
+                                  "post_category": category[i % 3],
+                                  "post_id": lambda x: posts[i % 3].objects.order_by('?').values('post_id').first()['post_id']
+                              })
 
         seeder.execute()
 
@@ -37,3 +36,4 @@ class Command(BaseCommand):
         """
         post = choice([FreePost, VideoPost, DancerPost]).objects.order_by('?').values('post_id').first()
         return post['post_id'] if post else None
+    
