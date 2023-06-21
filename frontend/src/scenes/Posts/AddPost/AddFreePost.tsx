@@ -9,8 +9,8 @@ import { Button } from "@components/ui/button";
 export default function AddFreePost() {
   const [fileName, setFileName] = useState<string>("");
   const [imageFile, setImageFile] = useState<File>();
-
   const { postTitle, postContent } = useAppSelector((state) => state.post);
+
   const { mutateAsync } = useCreateFreePostMutation();
 
   const onSubmit = async () => {
@@ -34,7 +34,7 @@ export default function AddFreePost() {
   };
 
   return (
-    <div className="w-full max-w-2xl space-y-4">
+    <div className="mx-auto max-w-2xl space-y-4">
       <TitleForm />
       <Tiptap />
       <UploadImage
