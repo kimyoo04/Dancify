@@ -1,11 +1,9 @@
 from django.http import JsonResponse
 from django.utils import timezone
-import os
 
 from rest_framework_simplejwt.tokens import AccessToken, RefreshToken
 from rest_framework_simplejwt.exceptions import TokenError
 from rest_framework import status
-import boto3
 
 from accounts.models import User
 
@@ -154,14 +152,3 @@ def set_cookies_to_response(response, refresh_token, access_token):
                         max_age=ACCESS_TOKEN_EXP)
 
     return response
-
-
-def get_s3_client():
-    s3 = boto3.client(
-        service_name='s3',
-        region_name='ap-northeast-2',
-        aws_access_key_id=os.getenv('DJANGO_S3_ACCESS_KEY_ID'),
-        aws_secret_access_key=os.getenv('DJANGO_S3_SECRET_ACCESS_KEY')
-    )
-
-    return s3

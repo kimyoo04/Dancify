@@ -5,7 +5,7 @@ import io
 from rest_framework.views import APIView
 
 from accounts.authentication import get_user_info_from_token
-from accounts.authentication import get_s3_client
+from s3_modules.authentication import get_s3_client
 from ai.video_to_keypoint.vtk import video_to_keypoint
 from ai.face_mosaic.face_mosaic import face_mosaic
 
