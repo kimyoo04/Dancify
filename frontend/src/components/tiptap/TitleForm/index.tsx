@@ -15,10 +15,10 @@ import { useState } from "react";
 import { postActions } from "@features/post/postSlice";
 import { useAppDispatch, useAppSelector } from "@toolkit/hook";
 
-const TitleForm = () => {
-  const [isLoading] = useState<boolean>(false);
+const TitleForm = ({isUpdate}: {isUpdate:boolean}) => {
   const dispatch = useAppDispatch();
-  const postTitle = useAppSelector((state) => state.post.postTitle);
+  const [isLoading] = useState<boolean>(false);
+  const postTitle = useAppSelector((state) => state.post.postTitle); // 수정 데이터
 
   const form = useForm<IPostTitleForm>();
   const onSubmit = async (data: IPostTitleForm) => {
@@ -62,7 +62,7 @@ const TitleForm = () => {
                       autoCapitalize="none"
                       autoComplete="false"
                       autoCorrect="off"
-                      defaultValue={postTitle !== "" ? postTitle : ""}
+                      defaultValue={postTitle !== "" && isUpdate ? postTitle : ""}
                       disabled={isLoading}
                       {...field}
                       onChange={(data) => {

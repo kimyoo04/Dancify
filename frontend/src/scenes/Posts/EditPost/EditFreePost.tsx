@@ -1,19 +1,20 @@
-import { useCreateFreePostMutation } from "@api/posts/createFreePost";
+import {  useState } from "react";
+import {useAppSelector } from "@toolkit/hook";
+
 import Tiptap from "@components/tiptap";
 import TitleForm from "@components/tiptap/TitleForm";
-import { useAppDispatch, useAppSelector } from "@toolkit/hook";
-import { useEffect, useState } from "react";
+
 import { Button } from "@components/ui/button";
 import UploadImage from "@components/UploadImage";
-import { postActions } from "@features/post/postSlice";
 
-export default function AddFreePost() {
-  const dispatch = useAppDispatch()
+import { useUpdateFreePost } from "@api/posts/updateFreePost";
+
+export default function EditFreePost({ id }: { id: string }) {
   const [fileName, setFileName] = useState<string>("");
   const [imageFile, setImageFile] = useState<File>();
   const { postTitle, postContent } = useAppSelector((state) => state.post);
 
-  const { mutateAsync } = useCreateFreePostMutation();
+  const { mutateAsync } = useUpdateFreePost();
 
   const onSubmit = async () => {
     // title, content 필수
@@ -29,29 +30,23 @@ export default function AddFreePost() {
     formData.append("content", postContent);
 
     // POST 요청
-    mutateAsync(formData);
+    mutateAsync({postId:id, formData});
     await new Promise((resolve) => setTimeout(resolve, 500));
 
     return;
   };
 
-  useEffect(() => {
-    return () => {
-      dispatch(postActions.resetPostInfo());
-    };
-  }, []);
-
   return (
     <div className="mx-auto max-w-2xl space-y-4">
-      <TitleForm isUpdate={false}/>
-      <Tiptap isUpdate={false}/>
+      <TitleForm isUpdate={true}/>
+      <Tiptap isUpdate={true}/>
       <UploadImage
         fileName={fileName}
         setFileName={setFileName}
         setImageFile={setImageFile}
       />
       <Button className="w-full" onClick={onSubmit}>
-        작성 완료
+        수정 완료
       </Button>
     </div>
   );

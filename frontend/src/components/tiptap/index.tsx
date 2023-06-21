@@ -9,11 +9,12 @@ import MenuBar from "./MenuBar";
 import { FontSize } from "./FontSizeExtension";
 
 // state
-import { useAppDispatch } from "@toolkit/hook";
+import { useAppDispatch, useAppSelector } from "@toolkit/hook";
 import { postActions } from "@features/post/postSlice";
 
-const Tiptap = () => {
+const Tiptap = ({isUpdate}: {isUpdate:boolean}) => {
   const dispatch = useAppDispatch();
+  const postContent  = useAppSelector((state) => state.post.postContent);
 
   const editor = useEditor({
     editorProps: {
@@ -32,6 +33,7 @@ const Tiptap = () => {
         placeholder: "내용을 입력해주세요.",
       }),
     ],
+    content: isUpdate ? postContent: "",
     onUpdate: ({ editor }) => {
       // 문서 내용을 수정했을 때 실시간으로 dispatch 해서 저장
       dispatch(postActions.writingContent(editor.getHTML()));

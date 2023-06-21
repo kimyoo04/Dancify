@@ -6,13 +6,14 @@ import { TPostId } from "@type/posts";
 
 import { Button } from "@components/ui/button";
 import { MoreVerticalIcon } from "lucide-react";
+import { useAppSelector } from "@toolkit/hook";
 
-export default function UpDelButton(postId: { postId: TPostId }) {
-
+export default function UpDelButton({postId}: { postId: TPostId }) {
   // 더보기 버튼 클릭
   const [isToggle, setIsToggle] = useState(false);
   // 삭제 버튼 활성화 state
   const [isDel, setIsDel] = useState(false);
+  const postCategory = useAppSelector((state) => state.search.searchCategory).toLowerCase();
 
   const { mutateAsync } = useDeleteFreePost();
 
@@ -48,7 +49,7 @@ export default function UpDelButton(postId: { postId: TPostId }) {
             </div>
           ) : (
             <div className="row-between w-full">
-              <Link href={`/posts/free/modify/${postId}`}>
+              <Link href={`/${postCategory}/modify/${postId}`}>
                 <Button variant={"outline"}>수정</Button>
               </Link>
               <Button variant={"destructive"} onClick={() => setIsDel(true)}>
