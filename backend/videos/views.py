@@ -52,10 +52,8 @@ class UploadTestView(APIView):
         video = face_mosaic(video)
         s3.upload_fileobj(io.BytesIO(video), bucket_name, file_key)
 
-
         s3.put_object(Bucket=bucket_name, Key=folder_path)
         s3.upload_fileobj(io.BytesIO(video), bucket_name, file_key)
-
 
         # 클라이언트 해제
         s3.close()
