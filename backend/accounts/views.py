@@ -16,7 +16,7 @@ from accounts.authentication import decode_refresh_token
 from accounts.authentication import set_cookies_to_response
 from accounts.authentication import generate_token, get_user_info_from_token
 from accounts.authentication import validate_access_token, validate_refresh_token
-from accounts.authentication import get_s3_client
+from s3_modules.authentication import get_s3_client
 from accounts.models import User
 
 
