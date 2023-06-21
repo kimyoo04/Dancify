@@ -1,9 +1,9 @@
 import GenreButtons from "@components/GenreButtons";
 import VideoPostHeader from "./VideoItem/VideoPostHeader";
 import VideoPostList from "@scenes/Posts/Video/VideoItem/VideoPostList";
-import CreateButton from "@scenes/Posts/Video/VideoItem/CreateButton";
 
 import { useReadVideoPostsPerPage } from "@api/posts/readVideoPostsPerPage";
+import CreateButton from "../PostItem/CreateButton";
 
 export default function VideoPosts() {
   const {
@@ -35,7 +35,7 @@ export default function VideoPosts() {
         />
 
         {/* 게시글 추가 버튼 */}
-        <CreateButton />
+        <CreateButton category="video" />
       </div>
     </>
   );

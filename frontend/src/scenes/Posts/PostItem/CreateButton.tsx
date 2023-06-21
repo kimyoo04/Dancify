@@ -1,9 +1,9 @@
 import Link from "next/link";
 
-export default function CreateButton() {
+export default function CreateButton({ category }: { category: string }) {
   return (
     <Link
-      href="/posts/free/new"
+      href={`/${category}/new`}
       className="row-center fixed bottom-6 left-0 right-0 z-10 mx-auto h-10 w-20 rounded-full bg-tertiary shadow-md transition-all hover:scale-125"
     >
       <button>
