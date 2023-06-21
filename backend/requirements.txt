@@ -3,6 +3,7 @@ django-cors-headers==4.0.0
 djangorestframework==3.14.0
 djangorestframework-jwt==1.11.0
 djangorestframework-simplejwt==5.2.2
+django-seed==0.3.1
 drf-yasg==1.21.5
 mysqlclient==2.1.1
 boto3==1.26.143
@@ -11,7 +12,9 @@ python-dotenv==1.0.0
 django-extensions==3.2.1
 numpy==1.24.3
 mediapipe==0.10.0
+mediapipe-rpi4==0.8.8
 moviepy==1.0.3
 opencv-python==4.7.0.72
+protobuf==3.19.6
 tensorflow==2.11.0
 tensorflow-hub==0.13.0
