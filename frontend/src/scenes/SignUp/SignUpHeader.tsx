@@ -5,7 +5,7 @@ export default function SignUpHeader() {
         Dancify 회원 가입
       </h1>
       <p className="text-sm text-muted-foreground">
-        춤을 배우시면 Dancable, 춤을 가르치시면 Dancer 입니다.
+        춤을 배우시면 Danceable, 춤을 가르치시면 Dancer 입니다.
       </p>
     </div>
   );
