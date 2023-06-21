@@ -44,6 +44,11 @@ jobs:
           yarn install --immutable --immutable-cache --check-cache
 
       - name: Build Next.js app
+        env:
+          NEXT_PUBLIC_ENV_API_DOMAIN: ${{ secrets.NEXT_PUBLIC_ENV_API_DOMAIN }}
+          NEXT_PUBLIC_ENV_API_URL: ${{ secrets.NEXT_PUBLIC_ENV_API_URL }}
+          NEXT_PUBLIC_ENV_DOMAIN: ${{ secrets.NEXT_PUBLIC_ENV_DOMAIN }}
+          NEXT_PUBLIC_ENV_JWT_SECRET_KEY: ${{ secrets.NEXT_PUBLIC_ENV_JWT_SECRET_KEY }}
         run: |
           cd frontend
           yarn run build
