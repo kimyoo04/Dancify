@@ -49,12 +49,12 @@ class UploadTestView(APIView):
         file_key = folder_path + video_uuid + video_file_extension
 
         # 모자이크, 더미데이터를 위해 잠시 주석처리
-        # video = face_mosaic(video)
-        # s3.upload_fileobj(io.BytesIO(video), bucket_name, file_key)
+        video = face_mosaic(video)
+        s3.upload_fileobj(io.BytesIO(video), bucket_name, file_key)
 
 
         s3.put_object(Bucket=bucket_name, Key=folder_path)
-        s3.upload_fileobj(video, bucket_name, file_key)
+        s3.upload_fileobj(io.BytesIO(video), bucket_name, file_key)
 
 
         # 클라이언트 해제
