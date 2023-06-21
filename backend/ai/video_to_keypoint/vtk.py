@@ -15,6 +15,7 @@ import json
 import random
 import string
 
+
 def video_to_keypoint(videoname):
     '''
     ---------------함수 설명---------------
@@ -39,7 +40,7 @@ def video_to_keypoint(videoname):
     modelpath = os.path.join(localpath, 'lightning_int8.tflite')  # 모델 경로
 
     # ------------------localpath에 videoname 변수로 mp4영상 저장하기------------------
-    local_videopath = os.path.join(localpath, f'{random_string}_original.mp4') #original 비디오가 저장될 경로
+    local_videopath = os.path.join(localpath, f'{random_string}_original.mp4')  # original 비디오가 저장될 경로
     # 오리지널 비디오 파일 저장
     with open(local_videopath, 'wb') as destination:
         for chunk in videoname.chunks():
@@ -100,6 +101,7 @@ def video_to_keypoint(videoname):
     return encode_file
 
 # -----------------------------------------------
+
 
 def dancer_x_y(interpreter, image):
     '''

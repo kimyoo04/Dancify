@@ -48,7 +48,6 @@ def face_mosaic(videoname):
     localpath = os.path.join(localpath, random_string)  # 현재 폴더/random_string/
     os.makedirs(localpath, exist_ok=True)  # 폴더 생성
 
-
     # ------------------영상에 모자이크 효과------------------
     # 오리지널 비디오 : f'{random_string}_original.mp4'
     # 결과 비디오 : f'{random_string}.mp4'
@@ -130,7 +129,7 @@ def face_mosaic(videoname):
 
     # 편집 완료된 동영상을 변수에 담아 저장합니다.
     with open(resultpath, 'rb') as file:
-        result_video = file.read() #바이너리 파일
+        result_video = file.read()  # 바이너리 파일
 
     # 편집에 사용되었던 localpath 폴더 삭제
     shutil.rmtree(localpath)
