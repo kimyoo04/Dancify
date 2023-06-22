@@ -15,7 +15,7 @@ interface FreePostItemProps {
 export default function FreePostItem({ data }: FreePostItemProps) {
   return (
     <Link
-      href={`/posts/free/${data.postId}`}
+      href={`/free/${data.postId}`}
       className="w-full space-y-2 border-b pb-4 group"
     >
       <div className="flex w-full flex-nowrap items-start justify-between">

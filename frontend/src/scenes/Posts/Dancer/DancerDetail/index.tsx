@@ -1,5 +1,5 @@
 import Loading from "@components/Loading";
-import Header from "./DancerDetailItem/Header";
+import DancerHeader from "./DancerDetailItem/Header";
 import ScrollButton from "@components/ScrollButton";
 
 import { useReadDancerPost } from "@api/posts/readDancerPost";
@@ -8,8 +8,12 @@ import { useEffect } from "react";
 import { likeActions } from "@features/like/likeSlice";
 import { postActions } from "@features/post/postSlice";
 import { useAppDispatch } from "@toolkit/hook";
+import Comments from "@components/Comments";
+import { Separator } from "@components/ui/separator";
+import { TPostId } from "@type/posts";
+import NormalPlayer from "@components/VideoPlayer/NormalPlayer";
 
-export default function DancerPostDetail({ id }: { id: string }) {
+export default function DancerPostDetail({ id }: { id: TPostId }) {
   const dispatch = useAppDispatch();
 
   // 게시글 불어오기
@@ -33,12 +37,20 @@ export default function DancerPostDetail({ id }: { id: string }) {
 
       {/* 데이터가 있을 경우 화면 표시 */}
       {data && (
-        <div className="mx-auto w-full max-w-screen-lg rounded-2xl bg-white p-6 shadow-lg">
+        <div className="mx-auto w-full max-w-screen-lg rounded-2xl">
+          {/* 동영상 플레이어 */}
+          <NormalPlayer url={data.video}/>
+          <Separator className="my-4" />
+
           {/* 게시글 해더 */}
-          <Header data={data} />
+          <DancerHeader data={data} />
+          <Separator className="my-2" />
 
           {/* 게시글 내용 */}
-          <PostContent content={data.content} />
+          <PostContent content={data.content} className="pb-12 pt-2" />
+
+          <Separator className="my-2" />
+          <Comments data={data.comments} />
         </div>
       )}
 

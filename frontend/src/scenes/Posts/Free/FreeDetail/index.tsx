@@ -2,7 +2,7 @@ import { Separator } from "@components/ui/separator";
 import Loading from "@components/Loading";
 
 import PostImage from "./FreeDetailItem/PostImage";
-import Header from "./FreeDetailItem/Header";
+import FreeHeader from "./FreeDetailItem/Header";
 import PostContent from "@scenes/Posts/PostItem/PostContent";
 import Comments from "@components/Comments";
 
@@ -42,7 +42,7 @@ export default function FreePostDetail({ id }: { id: string }) {
           <Separator className="my-4" />
 
           {/* 게시글 해더 */}
-          <Header data={data} />
+          <FreeHeader data={data} />
           <Separator className="my-2" />
 
           {/* 게시글 내용 */}
