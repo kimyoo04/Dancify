@@ -4,7 +4,7 @@ import { TSearchKeyword } from "./search";
 
 export interface IMyPostQueryParams {
   page: number;
-  userId: TUserId;
+  user: TUserId;
   q?: TSearchKeyword;
   sort?: TSort;
   genre?: TGenre;
