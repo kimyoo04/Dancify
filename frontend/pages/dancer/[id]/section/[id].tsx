@@ -6,12 +6,12 @@ import { verify } from "jsonwebtoken";
 
 export default function DancerPostDetailPage() {
   const router = useRouter();
-  const { sectionId } = router.query;
+  const { id } = router.query;
 
-  if (typeof sectionId === "string") {
+  if (typeof id === "string") {
     return (
       <DetailPageLayout>
-        <PostDancerDetail id={sectionId} />
+        <PostDancerDetail id={id} />
       </DetailPageLayout>
     );
   }
