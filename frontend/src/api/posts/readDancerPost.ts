@@ -14,7 +14,7 @@ export const readDancerPost = async (id: string) => {
 
 export const useReadDancerPost = (id: string) => {
   return useQuery<IDancerPostDetail>({
-    queryKey: [`/posts/dancer/${id}`],
+    queryKey: [`/postDetail/${id}`],
     queryFn: () => readDancerPost(id),
     refetchOnMount: "always", // 유저폼 활성화를 위해 설정
   });
