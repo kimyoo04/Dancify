@@ -30,6 +30,7 @@ class BasePostViewSet(viewsets.ModelViewSet):
     def list(self, request, *args, **kwargs):
         q = self.request.GET.get('q', None)
         sort = self.request.GET.get('sort', None)
+        user_id = self.request.GET.get('user', None)
         # genre = self.request.GET.get('genre', None)
         # !장르는 나중에 정해지면 코드 추가하기
 
@@ -53,6 +54,10 @@ class BasePostViewSet(viewsets.ModelViewSet):
                 )
             else:  # 조회순
                 self.queryset = self.queryset.order_by('-views')
+
+        # 쿼리 파라미터에 사용자가 있을 경우
+        if user_id is not None:
+            self.queryset = self.queryset.filter(user=User.objects.get(user_id=user_id))
 
         return super().list(request, *args, **kwargs)
 
