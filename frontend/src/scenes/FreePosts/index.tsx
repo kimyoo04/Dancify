@@ -1,9 +1,9 @@
 import GenreButtons from "@components/GenreButtons";
 import FreePostHeader from "./FreeItem/FreePostHeader";
 import FreePostList from "@scenes/FreePosts/FreeItem/FreePostList";
+import CreateButton from "@scenes/Posts/PostItem/CreateButton";
 
 import { useReadFreePostsPerPage } from "@api/posts/readFreePostsPerPage";
-import CreateButton from "@scenes/Posts/PostItem/CreateButton";
 
 export default function FreePosts() {
   const {

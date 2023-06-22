@@ -1,9 +1,9 @@
 import GenreButtons from "@components/GenreButtons";
 import VideoPostHeader from "./VideoItem/VideoPostHeader";
 import VideoPostList from "@scenes/VideoPosts/VideoItem/VideoPostList";
+import CreateButton from "@scenes/Posts/PostItem/CreateButton";
 
 import { useReadVideoPostsPerPage } from "@api/posts/readVideoPostsPerPage";
-import CreateButton from "@scenes/Posts/PostItem/CreateButton";
 
 export default function VideoPosts() {
   const {

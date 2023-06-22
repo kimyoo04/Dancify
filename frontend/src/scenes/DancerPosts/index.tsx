@@ -1,11 +1,11 @@
 import GenreButtons from "@components/GenreButtons";
 import DancerPostHeader from "./DancerItem/DancerPostHeader";
 import DancerPostList from "@scenes/DancerPosts/DancerItem/DancerPostList";
+import CreateButton from "@scenes/Posts/PostItem/CreateButton";
 
 import { useReadDancerPostsPerPage } from "@api/posts/readDancerPostsPerPage";
 
 import { useAppSelector } from "@toolkit/hook";
-import CreateButton from "@scenes/Posts/PostItem/CreateButton";
 
 export default function DancerPosts() {
   const {
