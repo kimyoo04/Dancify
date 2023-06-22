@@ -11,6 +11,12 @@ services:
     command: >
       sh -c "python manage.py makemigrations &&
             python manage.py migrate &&
+            python manage.py flush --no-input &&
+            python manage.py seed_users &&
+            python manage.py seed_posts &&
+            python manage.py seed_comments &&
+            python manage.py seed_like &&
+            python manage.py seed_view_history &&
             python manage.py runserver 0.0.0.0:8000"
     environment:
       DJANGO_SECRET_KEY: ${DJANGO_SECRET_KEY}
