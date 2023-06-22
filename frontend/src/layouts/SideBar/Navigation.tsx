@@ -28,7 +28,7 @@ export default function Navigation({
           <div className="col-start w-[168px] gap-2">
             <Link className="w-full" href={`/${linksData[0].path}`}>
               <Button
-                variant={router.pathname === "/" ? "default" : "ghost"}
+                variant={router.pathname === "/" || router.pathname.includes("dancer") ? "default" : "ghost"}
                 size="sm"
                 className="h-10 w-full items-center justify-start pl-2"
               >
@@ -130,7 +130,7 @@ export default function Navigation({
           <div className="col-center w-10 gap-2">
             <Link className="w-full" href={`/${linksData[0].path}`}>
               <Button
-                variant={router.pathname === "/" ? "default" : "ghost"}
+                variant={router.pathname === "/" || router.pathname.includes("dancer") ? "default" : "ghost"}
                 size="sm"
                 className="col-center h-10 w-10"
               >

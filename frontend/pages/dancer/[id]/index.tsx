@@ -4,12 +4,12 @@ import DancerPostDetail from "@scenes/Posts/Dancer/DancerDetail";
 
 export default function DancerSectionPage() {
   const router = useRouter();
-  const { postId } = router.query;
+  const { id } = router.query;
 
-  if (typeof postId === "string") {
+  if (typeof id === "string") {
     return (
       <MainLayout>
-        <DancerPostDetail id={postId} />
+        <DancerPostDetail id={id} />
       </MainLayout>
     );
   }

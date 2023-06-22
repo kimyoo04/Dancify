@@ -14,7 +14,7 @@ export const readVideoPost = async (id: string) => {
 
 export const useReadVideoPost = (id: string) => {
   return useQuery<IVideoPostDetail>({
-    queryKey: [`/posts/video/${id}`],
+    queryKey: [`/postDetail/${id}`],
     queryFn: () => readVideoPost(id),
     refetchOnMount: "always", // 유저폼 활성화를 위해 설정
   });

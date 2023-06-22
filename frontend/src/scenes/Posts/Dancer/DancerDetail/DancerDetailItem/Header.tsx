@@ -5,7 +5,7 @@ interface IHeaderProps {
   data: IVideoPostDetail;
 }
 
-export default function Header({ data }: IHeaderProps) {
+export default function DancerHeader({ data }: IHeaderProps) {
   return (
     <div>
       {/* 게시글 제목 -- 수정, 삭제 버튼 */}

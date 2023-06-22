@@ -8,7 +8,7 @@ interface IHeaderProps {
   data: IFreePostDetail;
 }
 
-export default function Header({ data }: IHeaderProps) {
+export default function FreeHeader({ data }: IHeaderProps) {
   const userId = useAppSelector((state) => state.auth.userId);
 
   return (
