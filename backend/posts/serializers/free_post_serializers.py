@@ -116,7 +116,9 @@ class FreePostPostPatchSerializer(serializers.HyperlinkedModelSerializer):
     - postImage: 사진 URL
     """
     postImage = serializers.URLField(source='post_image',
-                                     required=False, allow_blank=True)
+                                     required=False,
+                                     allow_blank=True,
+                                     allow_null=True)
 
     class Meta:
         model = FreePost

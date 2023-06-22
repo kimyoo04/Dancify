@@ -3,14 +3,19 @@ import re
 from django.db.models import F
 
 from rest_framework import status
+from rest_framework.response import Response
+from rest_framework_simplejwt.exceptions import TokenError
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 
+from s3_modules.upload import upload_post_image_at_s3
 from ..serializers.free_post_serializers import (
     FreePostGetListSerializer,
     FreePostGetRetrieveSerializer,
     FreePostPostPatchSerializer
 )
+from accounts.models import User
+from accounts.authentication import get_user_info_from_token
 from .base_post_view import BasePostViewSet
 from ..models import FreePost
 from search_history.models import SearchHistory
@@ -171,7 +176,24 @@ class FreePostViewSet(BasePostViewSet):
         }
     )
     def create(self, request, *args, **kwargs):
-        return super().create(request, *args, **kwargs)
+        try:
+            user_info = get_user_info_from_token(request)
+
+            user_id = user_info['userId']
+        except (TokenError, KeyError):
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
+
+        data = request.data.copy()
+        data['postImage'] = request.FILES.get('postImage', None)
+
+        if data['postImage'] is not None:
+            data['postImage'] = upload_post_image_at_s3(user_id, data['postImage'])
+
+        serializer = self.get_serializer(data=data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save(user=User.objects.get(user_id=user_id))
+
+        return Response(status=status.HTTP_201_CREATED)
 
     @swagger_auto_schema(
         operation_summary='게시글 수정',
