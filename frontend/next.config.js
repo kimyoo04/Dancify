@@ -9,7 +9,7 @@ const nextConfig = (phase) => {
         remotePatterns: [
           {
             protocol: "https",
-            hostname: "images.unsplash.com",
+            hostname: "dancify-bucket.s3.ap-northeast-2.amazonaws.com",
             port: "",
             pathname: "/**",
           },
@@ -22,8 +22,14 @@ const nextConfig = (phase) => {
     reactStrictMode: false,
     output: "standalone",
     images: {
-      loader: "custom",
-      loaderFile: "./src/util/localImageLoader.ts",
+      remotePatterns: [
+        {
+          protocol: "https",
+          hostname: "dancify-bucket.s3.ap-northeast-2.amazonaws.com",
+          port: "",
+          pathname: "/**",
+        },
+      ],
     },
   };
 };

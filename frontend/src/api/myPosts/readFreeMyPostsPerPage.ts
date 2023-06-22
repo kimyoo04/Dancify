@@ -16,14 +16,14 @@ export const readFreeMyPostsPerPage = async (
   genre: TGenre,
   id: TUserId
 ) => {
-  const params: IMyPostQueryParams = { page, userId: id };
+  const params: IMyPostQueryParams = { page, user: id };
 
   if (searchKeyword !== "") params.q = searchKeyword;
   if (sort !== "new") params.sort = sort;
   if (genre !== "전체") params.genre = genre;
 
   try {
-    const response = await axios.get(`/my-posts/free`, { params });
+    const response = await axios.get(`/posts/free`, { params });
     return response.data;
   } catch (err) {
     console.log("🚀 readFreeMyPostsPerPage.tsx", err);

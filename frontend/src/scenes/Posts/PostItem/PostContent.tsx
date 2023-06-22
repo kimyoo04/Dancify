@@ -1,6 +1,8 @@
 import { EditorContent, useEditor } from "@tiptap/react";
 import { TContent } from "@type/posts";
 import StarterKit from "@tiptap/starter-kit";
+import TextAlign from "@tiptap/extension-text-align";
+import { FontSize } from "@components/tiptap/FontSizeExtension";
 
 interface IContentProps {
   content: TContent;
@@ -11,15 +13,17 @@ interface IContentProps {
 export default function PostContent({
   content,
   className = "",
-  textClassName = "",
 }: IContentProps) {
   const editor = useEditor({
-    editorProps: {
-      attributes: {
-        class: textClassName,
-      },
+      editorProps: {
     },
-    extensions: [StarterKit],
+    extensions: [
+      StarterKit,
+      TextAlign.configure({
+        types: ["paragraph"],
+      }),
+      FontSize,
+    ],
     content: content,
     editable: false,
   });
