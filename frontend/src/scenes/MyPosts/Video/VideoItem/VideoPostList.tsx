@@ -3,10 +3,11 @@ import { useInView } from "react-intersection-observer";
 
 import { IUseInfniteVideoPosts } from "@type/useInfiniteQueries";
 
-import VideoPostItem from "./VideoPostItem";
-import VideoPostLoader from "./VideoPostLoader";
 import PostMore from "@scenes/Posts/PostItem/PostMore";
 import PostNotFound from "@scenes/Posts/PostItem/PostNotFound";
+import VideoListWrapper from "@scenes/Posts/PostItem/VideoListWrapper";
+import VideoPostLoader from "@scenes/Posts/PostItem/VideoPostLoader";
+import VideoPostItem from "@scenes/Posts/Video/VideoItem/VideoPostItem";
 
 export default function VideoPostList({
   post,
@@ -36,7 +37,7 @@ export default function VideoPostList({
         <>{error && <p>Error: {error.message}</p>}</>
       ) : data ? (
         <>
-          <ul className="grid w-full grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+          <VideoListWrapper>
             {/* //! 자유게시판 검색결과 무한 스크롤 영역 */}
             {data.pages.map((group, indx) => (
               <Fragment key={indx + "page"}>
@@ -44,13 +45,12 @@ export default function VideoPostList({
                   <VideoPostItem
                     key={indx + data.postId}
                     data={data}
-                    width={220}
-                    height={400}
+                    href={`/posts/${data.postId}`}
                   />
                 ))}
               </Fragment>
             ))}
-          </ul>
+          </VideoListWrapper>
 
           {/* //! fetchNextPage 를 트리거 하기 위한 태그 */}
           <PostMore inViewRef={ref} hasNextPage={hasNextPage} />

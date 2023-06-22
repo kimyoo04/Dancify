@@ -1,17 +1,21 @@
 import { Separator } from "@components/ui/separator";
 import { ScrollArea, ScrollBar } from "@components/ui/scroll-area";
 
-import VideoPostLoader from "./Video/VideoItem/VideoPostLoader";
-import PreviewVideoPosts from "./Video/VideoItem/PreviewVideoPosts";
+// useInfiniteQuery
+import { useReadDancerLikesPerPage } from "@api/likes/readDancerLikesPerPage";
 import { useReadVideoLikesPerPage } from "@api/likes/readVideoLikesPerPage";
-
-import FreePostLoader from "./Free/FreeItem/FreePostLoader";
-import FreePostItem from "./Free/FreeItem/FreePostItem";
 import { useReadFreeLikesPerPage } from "@api/likes/readFreeLikesPerPage";
 
-import DancerPostLoader from "./Dancer/DancerItem/DancerPostLoader";
-import PreviewDancerPosts from "./Dancer/DancerItem/PreviewDancerPosts";
-import { useReadDancerLikesPerPage } from "@api/likes/readDancerLikesPerPage";
+// 콘텐츠 로더
+import DancerPostLoader from "@scenes/Posts/PostItem/DancerPostLoader";
+import VideoPostLoader from "@scenes/Posts/PostItem/VideoPostLoader";
+import FreePostLoader from "@scenes/Posts/PostItem/FreePostLoader";
+
+// 미리보기 목록
+import PreviewDancerPosts from "@scenes/Posts/PostItem/PreviewDancerPosts";
+import PreviewVideoPosts from "@scenes/Posts/PostItem/PreviewVideoPosts";
+import FreePostItem from "@scenes/Posts/Free/FreeItem/FreePostItem";
+
 
 import ViewMore from "@scenes/Posts/PostItem/ViewMore";
 
@@ -71,8 +75,7 @@ export default function Likes() {
                     <PreviewDancerPosts
                       key={dancerData.postId}
                       data={dancerData}
-                      width={250}
-                      height={330}
+                      href={`/likes/dancer/${dancerData.postId}`}
                     />
                   ))}
                 </ul>
@@ -113,8 +116,7 @@ export default function Likes() {
                     <PreviewVideoPosts
                       key={videoData.postId}
                       data={videoData}
-                      width={250}
-                      height={330}
+                      href={`/likes/video/${videoData.postId}`}
                     />
                   ))}
                 </ul>
@@ -153,7 +155,7 @@ export default function Likes() {
               freeData && (
                 <ul className="col-center w-full gap-4 pb-4">
                   {freeData?.pages[0].data.slice(0, 10).map((freeData) => (
-                    <FreePostItem key={freeData.postId} data={freeData} />
+                    <FreePostItem key={freeData.postId} data={freeData} href={`/likes/free/${freeData.postId}`}/>
                   ))}
                 </ul>
               )

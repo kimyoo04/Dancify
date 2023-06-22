@@ -10,12 +10,13 @@ import extractPTags from "@util/extractPTags";
 
 interface FreePostItemProps {
   data: IFreePost;
+  href: string;
 }
 
-export default function FreePostItem({ data }: FreePostItemProps) {
+export default function FreePostItem({ data, href }: FreePostItemProps) {
   return (
     <Link
-      href={`/free/${data.postId}`}
+      href={href}
       className="w-full space-y-2 border-b pb-4 group"
     >
       <div className="flex w-full flex-nowrap items-start justify-between">

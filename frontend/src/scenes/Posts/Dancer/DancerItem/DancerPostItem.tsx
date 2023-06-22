@@ -6,24 +6,22 @@ import { IDancerPost } from "@type/dancerPosts";
 
 interface DancerPostsProps {
   data: IDancerPost;
-  width: number;
-  height: number;
+  href: string;
 }
 
 export default function DancerPostItem({
   data,
-  width,
-  height,
+  href,
 }: DancerPostsProps) {
   return (
-    <Link href={`/dancer/${data.postId}`} className="space-y-3 overflow-hidden group hover:-translate-y-5  transition-all">
+    <Link href={href} className="space-y-3 overflow-hidden group hover:-translate-y-5  transition-all">
       <div className="overflow-hidden rounded-md">
         {data.thumbnail && (
           <Image
             src={data.thumbnail}
             alt={data.title}
-            width={width}
-            height={height}
+            width={400}
+            height={500}
             className={cn(
               "h-auto w-auto object-cover rounded-md transition-all group-hover:scale-105"
             )}
