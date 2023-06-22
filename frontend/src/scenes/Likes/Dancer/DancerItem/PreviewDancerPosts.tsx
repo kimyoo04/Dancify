@@ -16,7 +16,7 @@ export default function PreviewDancerPosts({
   height,
 }: DancerPostsProps) {
   return (
-    <Link href={`/posts/dancer/${data.postId}`} className="space-y-3">
+    <Link href={`/posts/dancer/${data.postId}`} className="space-y-3 flex-shrink-0">
       <div className="overflow-hidden rounded-md bg-gray-100">
         {data.thumbnail && (
           <Image

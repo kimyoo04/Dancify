@@ -36,7 +36,7 @@ export default function DancerPostList({
         <>{error && <p>Error: {error.message}</p>}</>
       ) : data ? (
         <>
-          <ul className="grid w-full grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+          <ul className="grid w-full grid-cols-1 sm:grid-cols-2 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
             {/* //! 자유게시판 검색결과 무한 스크롤 영역 */}
             {data.pages.map((group, indx) => (
               <Fragment key={indx + "page"}>
@@ -44,8 +44,8 @@ export default function DancerPostList({
                   <DancerPostItem
                     key={indx + data.postId}
                     data={data}
-                    width={240}
-                    height={330}
+                    width={400}
+                    height={500}
                   />
                 ))}
               </Fragment>

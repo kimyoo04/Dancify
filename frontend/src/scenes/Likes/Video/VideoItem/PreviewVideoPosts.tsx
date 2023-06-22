@@ -16,7 +16,7 @@ export default function PreviewVideoPosts({
   height,
 }: VideoPostsProps) {
   return (
-    <Link href={`/posts/video/${data.postId}`} className="space-y-3">
+    <Link href={`/posts/video/${data.postId}`} className="space-y-3 flex-shrink-0">
       <div className="overflow-hidden rounded-md bg-gray-100">
         {data.thumbnail && (
           <Image
