@@ -36,4 +36,3 @@ class Command(BaseCommand):
         """
         post = choice([FreePost, VideoPost, DancerPost]).objects.order_by('?').values('post_id').first()
         return post['post_id'] if post else None
-    
