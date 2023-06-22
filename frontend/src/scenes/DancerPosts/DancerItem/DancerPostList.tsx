@@ -3,11 +3,11 @@ import { useInView } from "react-intersection-observer";
 
 import { IUseInfniteDancerPosts } from "@type/useInfiniteQueries";
 
+import DancerPostItem from "./DancerPostItem";
 import PostMore from "@scenes/Posts/PostItem/PostMore";
 import PostNotFound from "@scenes/Posts/PostItem/PostNotFound";
 import DancerListWrapper from "@scenes/Posts/PostItem/DancerListWrapper";
 import DancerPostLoader from "@scenes/Posts/PostItem/DancerPostLoader";
-import DancerPostItem from "@scenes/DancerPosts/DancerItem/DancerPostItem";
 
 export default function DancerPostList({
   post,
@@ -38,14 +38,14 @@ export default function DancerPostList({
       ) : data ? (
         <>
           <DancerListWrapper>
-            {/* //! 자유게시판 검색결과 무한 스크롤 영역 */}
+            {/* //! 댄서게시판 검색결과 무한 스크롤 영역 */}
             {data.pages.map((group, indx) => (
               <Fragment key={indx + "page"}>
                 {group.data.map((data, indx) => (
                   <DancerPostItem
                     key={indx + data.postId}
                     data={data}
-                    href={`/likes/dancer/${data.postId}`}
+                    href={`/dancer/${data.postId}`}
                   />
                 ))}
               </Fragment>

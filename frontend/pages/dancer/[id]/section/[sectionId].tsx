@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import DetailPageLayout from "@layouts/DetailPageLayout";
-import PostDancerDetail from "@scenes/Posts/Dancer/DancerDetail";
+import PostDancerDetail from "@scenes/DancerPosts/DancerDetail";
 import { GetServerSideProps } from "next";
 import { verify } from "jsonwebtoken";
 

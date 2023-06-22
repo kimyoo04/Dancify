@@ -1,5 +1,5 @@
 import MainLayout from "@layouts/MainLayout";
-import FreePosts from "@scenes/Posts/Free";
+import FreePosts from "@scenes/FreePosts";
 
 export default function FreePostsPage() {
   return (

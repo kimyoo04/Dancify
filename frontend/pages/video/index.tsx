@@ -1,5 +1,5 @@
 import MainLayout from "@layouts/MainLayout";
-import VideoPosts from "@scenes/Posts/Video";
+import VideoPosts from "@scenes/VideoPosts";
 
 export default function VideoPostsPage() {
   return (

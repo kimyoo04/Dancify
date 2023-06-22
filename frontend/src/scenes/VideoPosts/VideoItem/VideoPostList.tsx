@@ -1,18 +1,18 @@
 import { Fragment, useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 
-import { IUseInfniteDancerPosts } from "@type/useInfiniteQueries";
+import { IUseInfniteVideoPosts } from "@type/useInfiniteQueries";
 
+import VideoPostItem from "./VideoPostItem";
 import PostMore from "@scenes/Posts/PostItem/PostMore";
 import PostNotFound from "@scenes/Posts/PostItem/PostNotFound";
-import DancerListWrapper from "@scenes/Posts/PostItem/DancerListWrapper";
-import DancerPostLoader from "@scenes/Posts/PostItem/DancerPostLoader";
-import DancerPostItem from "@scenes/DancerPosts/DancerItem/DancerPostItem";
+import VideoListWrapper from "@scenes/Posts/PostItem/VideoListWrapper";
+import VideoPostLoader from "@scenes/Posts/PostItem/VideoPostLoader";
 
-export default function DancerPostList({
+export default function VideoPostList({
   post,
 }: {
-  post: IUseInfniteDancerPosts;
+  post: IUseInfniteVideoPosts;
 }) {
   const {
     data,
@@ -32,25 +32,25 @@ export default function DancerPostList({
   return (
     <section className="col-start w-full gap-4">
       {status === "loading" ? (
-        <DancerPostLoader />
+        <VideoPostLoader />
       ) : status === "error" ? (
         <>{error && <p>Error: {error.message}</p>}</>
       ) : data ? (
         <>
-          <DancerListWrapper>
+          <VideoListWrapper>
             {/* //! 자유게시판 검색결과 무한 스크롤 영역 */}
             {data.pages.map((group, indx) => (
               <Fragment key={indx + "page"}>
                 {group.data.map((data, indx) => (
-                  <DancerPostItem
+                  <VideoPostItem
                     key={indx + data.postId}
                     data={data}
-                    href={`/likes/dancer/${data.postId}`}
+                    href={`/video/${data.postId}`}
                   />
                 ))}
               </Fragment>
             ))}
-          </DancerListWrapper>
+          </VideoListWrapper>
 
           {/* //! fetchNextPage 를 트리거 하기 위한 태그 */}
           <PostMore inViewRef={ref} hasNextPage={hasNextPage} />

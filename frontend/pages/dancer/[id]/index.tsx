@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import MainLayout from "@layouts/MainLayout";
-import DancerPostDetail from "@scenes/Posts/Dancer/DancerDetail";
+import DancerPostDetail from "@scenes/DancerPosts/DancerDetail";
 
 export default function DancerSectionPage() {
   const router = useRouter();
