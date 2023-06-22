@@ -27,7 +27,18 @@ def upload_post_image_at_s3(user_id, image):
     s3.put_object(Bucket=bucket_name, Key=folder_path)
     s3.upload_fileobj(io.BytesIO(image.read()), bucket_name, file_key)
 
-    image_url = AWS_DOMAIN + '/' + file_key
+    image_url = AWS_DOMAIN + file_key
     print('자유게시판 이미지 경로: ', image_url)
 
     return image_url
+
+def upload_video_at_s3(user_id, video, video_type):
+    """
+    Args:
+        user_id: user_id(토큰 에서 받아온 정보)
+        image: request.FILES['video']
+        video_type: 'dancer', 'boast', 'feedback', 'dancable'
+
+    Returns:
+        s3에 저장된 자유게시판 이미지 URL
+    """
