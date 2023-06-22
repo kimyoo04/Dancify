@@ -2,22 +2,22 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { cn } from "@lib/utils";
-import { IVideoPost } from "@type/videoPosts";
+import { IDancerPost } from "@type/dancerPosts";
 
-interface VideoPostsProps {
-  data: IVideoPost;
+interface DancerPostsProps {
+  data: IDancerPost;
   width: number;
   height: number;
 }
 
-export default function VideoPostItem({
+export default function DancerPostItem({
   data,
   width,
   height,
-}: VideoPostsProps) {
+}: DancerPostsProps) {
   return (
-    <Link href={`/video/${data.postId}`} className="space-y-3">
-      <div className="overflow-hidden rounded-md bg-gray-100">
+    <Link href={`/dancer/${data.postId}`} className="space-y-3 overflow-hidden group hover:-translate-y-5  transition-all">
+      <div className="overflow-hidden rounded-md">
         {data.thumbnail && (
           <Image
             src={data.thumbnail}
@@ -25,7 +25,7 @@ export default function VideoPostItem({
             width={width}
             height={height}
             className={cn(
-              "aspect-[3/4] h-auto w-auto object-cover transition-all hover:scale-105"
+              "h-auto w-auto object-cover rounded-md transition-all group-hover:scale-105"
             )}
           />
         )}

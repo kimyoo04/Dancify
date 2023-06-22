@@ -16,7 +16,7 @@ export default function FreePostItem({ data }: FreePostItemProps) {
   return (
     <Link
       href={`/posts/free/${data.postId}`}
-      className="w-full space-y-2 border-b pb-4"
+      className="w-full space-y-2 border-b pb-4 group"
     >
       <div className="flex w-full flex-nowrap items-start justify-between">
         {/* 제목 | 내용 */}
@@ -39,7 +39,7 @@ export default function FreePostItem({ data }: FreePostItemProps) {
               width={110}
               height={70}
               className={cn(
-                "aspect-square h-auto w-auto object-cover transition-all hover:scale-105"
+                "aspect-square h-auto w-auto object-cover transition-all group-hover:scale-105"
               )}
             />
           )}
