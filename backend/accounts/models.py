@@ -8,9 +8,6 @@ import uuid
 class CustomUserManager(UserManager):
     def create_user(self, user_id, password, nickname,
                     email, phone, **extra_fields):
-        extra_fields.setdefault('is_staff', False)
-        extra_fields.setdefault('is_superuser', False)
-
         user = self.model(user_id=user_id, email=email,
                           nickname=nickname,
                           phone=phone, **extra_fields)
@@ -22,24 +19,12 @@ class CustomUserManager(UserManager):
 
     def create_superuser(self, user_id, password,
                          nickname, email, phone, **extra_fields):
-
-        extra_fields.setdefault('is_staff', False)
-        extra_fields.setdefault('is_superuser', False)
-
         user = self.model(user_id=user_id, email=email,
                           nickname=nickname,
                           phone=phone, **extra_fields)
 
-        user.is_superuser = True
-        user.is_staff = True
-
         user.set_password(password)
         user.save(using=self._db)
-
-        if extra_fields.get('is_staff') is not True:
-            raise ValueError('Superuser must have is_staff=True.')
-        if extra_fields.get('is_superuser') is not True:
-            raise ValueError('Superuser must have is_superuser=True.')
 
         return user
 
