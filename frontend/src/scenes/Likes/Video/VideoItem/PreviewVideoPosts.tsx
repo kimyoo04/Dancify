@@ -20,8 +20,7 @@ export default function PreviewVideoPosts({
       <div className="overflow-hidden rounded-md bg-gray-100">
         {data.thumbnail && (
           <Image
-            // src={"" ||data.thumbnail}
-            src={""} // 임시
+            src={data.thumbnail}
             alt={data.title}
             width={width}
             height={height}

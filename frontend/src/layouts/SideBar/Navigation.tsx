@@ -16,8 +16,6 @@ export default function Navigation({
   const isOpen = useAppSelector((state) => state.sideBar.isOpen);
   const userId = useAppSelector((state) => state.auth.userId);
 
-  console.log(router, userId);
-
   return (
     <>
       {isOpen ? (
