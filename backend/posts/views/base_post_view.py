@@ -4,7 +4,7 @@ from rest_framework import viewsets, status
 from rest_framework.response import Response
 from rest_framework.pagination import PageNumberPagination
 
-from accounts.authentication import decode_access_token
+from accounts.authentication import get_user_info_from_token
 from rest_framework_simplejwt.exceptions import TokenError
 
 from accounts.models import User
@@ -73,11 +73,9 @@ class BasePostViewSet(viewsets.ModelViewSet):
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
 
         try:
-            access_token = request.COOKIES['Access-Token']
-            user_info = decode_access_token(access_token)
+            user_info = get_user_info_from_token(request)
 
             user_id = user_info['userId']
             serializer.save(user=User.objects.get(user_id=user_id))
