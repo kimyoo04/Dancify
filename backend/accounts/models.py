@@ -17,17 +17,6 @@ class CustomUserManager(UserManager):
 
         return user
 
-    def create_superuser(self, user_id, password,
-                         nickname, email, phone, **extra_fields):
-        user = self.model(user_id=user_id, email=email,
-                          nickname=nickname,
-                          phone=phone, **extra_fields)
-
-        user.set_password(password)
-        user.save(using=self._db)
-
-        return user
-
 
 class User(AbstractUser):
     # 기본제공 username 필드는 사용하지 않음
