@@ -71,9 +71,6 @@ def upload_keypoint_to_s3(user_id, json_obj, video_uuid):
 
 
 def upload_video_to_s3(user_id, video, video_type, video_uuid, video_file_extension):
-    # 파일 포인터를 맨 앞으로 위치시킴
-    video.seek(0)
-
     bucket_name = 'dancify-input'
     folder_path = 'vod/' + video_type + f'/{user_id}/'
     file_key = folder_path + video_uuid + video_file_extension
@@ -81,6 +78,8 @@ def upload_video_to_s3(user_id, video, video_type, video_uuid, video_file_extens
     upload_obj_to_s3(bucket_name, folder_path, file_key, video)
 
     video_url = CLOUDFRONT_DOMAIN + '/' + file_key
+    # mp3 to m3u8
+    video_url = video_url.replace('.mp4', '.m3u8')
     print('비디오 파일 경로: ', video_url)
 
     return video_url
@@ -113,10 +112,13 @@ def upload_video_with_metadata_to_s3(user_id, video, thumbnail,
                                                      video_uuid)
 
     # 키포인트 업로드(댄서, 댄서블인 경우)
-    if video_type in ['dancer', 'dancable']:
+    if video_type in ['dancer', 'danceable']:
         json_obj = video_to_keypoint(video)
         result['keypoint_url'] = upload_keypoint_to_s3(user_id, json_obj,
                                                        video_uuid)
+
+    # 파일 포인터를 맨 앞으로 위치시킴
+    video.seek(0)
 
     # 모자이크 여부에 따른 처리
     if is_mosaic:

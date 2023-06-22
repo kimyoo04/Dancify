@@ -67,5 +67,5 @@ class IntegratedTestView(APIView):
 
         result = upload_video_with_metadata_to_s3(user_id, request.FILES['video'],
                                                   request.FILES['thumbnail'],
-                                                  'daceable', True)
+                                                  'danceable', True)
         return JsonResponse(result)
