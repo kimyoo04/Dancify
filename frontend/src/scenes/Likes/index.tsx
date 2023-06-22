@@ -14,8 +14,7 @@ import FreePostLoader from "@scenes/Posts/PostItem/FreePostLoader";
 // 미리보기 목록
 import PreviewDancerPosts from "@scenes/Posts/PostItem/PreviewDancerPosts";
 import PreviewVideoPosts from "@scenes/Posts/PostItem/PreviewVideoPosts";
-import FreePostItem from "@scenes/Posts/Free/FreeItem/FreePostItem";
-
+import FreePostItem from "@scenes/FreePosts/FreeItem/FreePostItem";
 
 import ViewMore from "@scenes/Posts/PostItem/ViewMore";
 
@@ -155,7 +154,11 @@ export default function Likes() {
               freeData && (
                 <ul className="col-center w-full gap-4 pb-4">
                   {freeData?.pages[0].data.slice(0, 10).map((freeData) => (
-                    <FreePostItem key={freeData.postId} data={freeData} href={`/likes/free/${freeData.postId}`}/>
+                    <FreePostItem
+                      key={freeData.postId}
+                      data={freeData}
+                      href={`/likes/free/${freeData.postId}`}
+                    />
                   ))}
                 </ul>
               )

@@ -1,16 +1,18 @@
-import Loading from "@components/Loading";
-import DancerHeader from "./DancerDetailItem/Header";
-import ScrollButton from "@components/ScrollButton";
-
-import { useReadDancerPost } from "@api/posts/readDancerPost";
-import PostContent from "@scenes/Posts/PostItem/PostContent";
 import { useEffect } from "react";
+
+import { useAppDispatch } from "@toolkit/hook";
 import { likeActions } from "@features/like/likeSlice";
 import { postActions } from "@features/post/postSlice";
-import { useAppDispatch } from "@toolkit/hook";
-import Comments from "@components/Comments";
-import { Separator } from "@components/ui/separator";
 import { TPostId } from "@type/posts";
+
+import { useReadDancerPost } from "@api/posts/readDancerPost";
+
+import Loading from "@components/Loading";
+import Comments from "@components/Comments";
+import ScrollButton from "@components/ScrollButton";
+import DancerHeader from "./DancerDetailItem/Header";
+import { Separator } from "@components/ui/separator";
+import PostContent from "@scenes/Posts/PostItem/PostContent";
 import NormalPlayer from "@components/VideoPlayer/NormalPlayer";
 
 export default function DancerPostDetail({ id }: { id: TPostId }) {
@@ -22,9 +24,15 @@ export default function DancerPostDetail({ id }: { id: TPostId }) {
   // 좋아요와 게시글 정보 상태 업데이트
   useEffect(() => {
     if (data) {
-      dispatch(likeActions.getUserLike(data.userLike))
-      dispatch(postActions.getPostInfo({postId:id, postTitle:data.title, postContent:data.content}))
-    };
+      dispatch(likeActions.getUserLike(data.userLike));
+      dispatch(
+        postActions.getPostInfo({
+          postId: id,
+          postTitle: data.title,
+          postContent: data.content,
+        })
+      );
+    }
   }, [data, id, dispatch]);
 
   return (
@@ -39,7 +47,7 @@ export default function DancerPostDetail({ id }: { id: TPostId }) {
       {data && (
         <div className="mx-auto w-full max-w-screen-lg rounded-2xl">
           {/* 동영상 플레이어 */}
-          <NormalPlayer url={data.video}/>
+          <NormalPlayer url={data.video} />
           <Separator className="my-4" />
 
           {/* 게시글 해더 */}

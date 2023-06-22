@@ -1,3 +1,9 @@
+import { useEffect } from "react";
+import { useAppDispatch } from "@toolkit/hook";
+import { likeActions } from "@features/like/likeSlice";
+import { postActions } from "@features/post/postSlice";
+import { useReadFreePost } from "@api/posts/readFreePost";
+
 import { Separator } from "@components/ui/separator";
 import Loading from "@components/Loading";
 
@@ -5,12 +11,6 @@ import PostImage from "./FreeDetailItem/PostImage";
 import FreeHeader from "./FreeDetailItem/Header";
 import PostContent from "@scenes/Posts/PostItem/PostContent";
 import Comments from "@components/Comments";
-
-import { useReadFreePost } from "@api/posts/readFreePost";
-import { useEffect } from "react";
-import { likeActions } from "@features/like/likeSlice";
-import { useAppDispatch } from "@toolkit/hook";
-import { postActions } from "@features/post/postSlice";
 
 export default function FreePostDetail({ id }: { id: string }) {
   const dispatch = useAppDispatch();
@@ -21,9 +21,15 @@ export default function FreePostDetail({ id }: { id: string }) {
   // 좋아요와 게시글 정보 상태 업데이트
   useEffect(() => {
     if (data) {
-      dispatch(likeActions.getUserLike(data.userLike))
-      dispatch(postActions.getPostInfo({postId:id, postTitle:data.title, postContent:data.content}))
-    };
+      dispatch(likeActions.getUserLike(data.userLike));
+      dispatch(
+        postActions.getPostInfo({
+          postId: id,
+          postTitle: data.title,
+          postContent: data.content,
+        })
+      );
+    }
   }, [data, id, dispatch]);
 
   return (

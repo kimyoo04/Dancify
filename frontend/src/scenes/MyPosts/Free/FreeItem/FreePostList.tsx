@@ -7,7 +7,7 @@ import PostMore from "@scenes/Posts/PostItem/PostMore";
 import PostNotFound from "@scenes/Posts/PostItem/PostNotFound";
 import FreeListWrapper from "@scenes/Posts/PostItem/FreeListWrapper";
 import FreePostLoader from "@scenes/Posts/PostItem/FreePostLoader";
-import FreePostItem from "@scenes/Posts/Free/FreeItem/FreePostItem";
+import FreePostItem from "@scenes/FreePosts/FreeItem/FreePostItem";
 
 export default function FreePostList({ post }: { post: IUseInfniteFreePosts }) {
   const {
@@ -38,7 +38,11 @@ export default function FreePostList({ post }: { post: IUseInfniteFreePosts }) {
             {data.pages.map((group, indx) => (
               <Fragment key={indx + "page"}>
                 {group.data.map((data, indx) => (
-                  <FreePostItem key={indx + data.postId} data={data} href={`/posts/${data.postId}`} />
+                  <FreePostItem
+                    key={indx + data.postId}
+                    data={data}
+                    href={`/posts/${data.postId}`}
+                  />
                 ))}
               </Fragment>
             ))}

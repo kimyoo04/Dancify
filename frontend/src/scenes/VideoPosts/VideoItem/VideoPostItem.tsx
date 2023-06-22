@@ -9,12 +9,12 @@ interface VideoPostsProps {
   href: string;
 }
 
-export default function VideoPostItem({
-  data,
-  href
-}: VideoPostsProps) {
+export default function VideoPostItem({ data, href }: VideoPostsProps) {
   return (
-    <Link href={href} className="space-y-3 overflow-hidden group hover:-translate-y-5  transition-all">
+    <Link
+      href={href}
+      className="group space-y-3 overflow-hidden transition-all  hover:-translate-y-5"
+    >
       <div className="overflow-hidden rounded-md">
         {data.thumbnail && (
           <Image
@@ -23,7 +23,7 @@ export default function VideoPostItem({
             width={400}
             height={500}
             className={cn(
-              "h-auto w-auto object-cover rounded-md transition-all group-hover:scale-105"
+              "h-auto w-auto rounded-md object-cover transition-all group-hover:scale-105"
             )}
           />
         )}

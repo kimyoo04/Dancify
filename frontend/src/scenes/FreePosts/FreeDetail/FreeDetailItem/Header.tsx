@@ -1,8 +1,10 @@
-import PostDesktopLikeIcon from "@scenes/Posts/PostItem/PostDesktopLikeIcon";
-import UpDelButton from "@scenes/Posts/PostItem/UpDelButton";
 import { useAppSelector } from "@toolkit/hook";
 import { IFreePostDetail } from "@type/freePosts";
+
 import { timeYmd } from "@util/dateTime";
+
+import PostDesktopLikeIcon from "@scenes/Posts/PostItem/PostDesktopLikeIcon";
+import UpDelButton from "@scenes/Posts/PostItem/UpDelButton";
 
 interface IHeaderProps {
   data: IFreePostDetail;

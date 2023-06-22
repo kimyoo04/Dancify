@@ -2,11 +2,11 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { cn } from "@lib/utils";
-import { Eye, MessageSquare, ThumbsUp } from "lucide-react";
 import { IFreePost } from "@type/freePosts";
 import { timeYmd } from "@util/dateTime";
-import PostContent from "@scenes/Posts/PostItem/PostContent";
 import extractPTags from "@util/extractPTags";
+import { Eye, MessageSquare, ThumbsUp } from "lucide-react";
+import PostContent from "@scenes/Posts/PostItem/PostContent";
 
 interface FreePostItemProps {
   data: IFreePost;
@@ -15,10 +15,7 @@ interface FreePostItemProps {
 
 export default function FreePostItem({ data, href }: FreePostItemProps) {
   return (
-    <Link
-      href={href}
-      className="w-full space-y-2 border-b pb-4 group"
-    >
+    <Link href={href} className="group w-full space-y-2 border-b pb-4">
       <div className="flex w-full flex-nowrap items-start justify-between">
         {/* 제목 | 내용 */}
         <div className="w-fit space-y-1">

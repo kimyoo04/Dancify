@@ -1,16 +1,16 @@
-import Loading from "@components/Loading";
-import VideoHeader from "./VideoDetailItem/Header";
-import ScrollButton from "@components/ScrollButton";
-
-import { useReadVideoPost } from "@api/posts/readVideoPost";
-import PostContent from "@scenes/Posts/PostItem/PostContent";
 import { useEffect } from "react";
+import { useAppDispatch } from "@toolkit/hook";
 import { likeActions } from "@features/like/likeSlice";
 import { postActions } from "@features/post/postSlice";
-import { useAppDispatch } from "@toolkit/hook";
+import { useReadVideoPost } from "@api/posts/readVideoPost";
+
+import Loading from "@components/Loading";
 import Comments from "@components/Comments";
-import NormalPlayer from "@components/VideoPlayer/NormalPlayer";
+import VideoHeader from "./VideoDetailItem/Header";
+import ScrollButton from "@components/ScrollButton";
 import { Separator } from "@components/ui/separator";
+import PostContent from "@scenes/Posts/PostItem/PostContent";
+import NormalPlayer from "@components/VideoPlayer/NormalPlayer";
 
 export default function VideoPostDetail({ id }: { id: string }) {
   const dispatch = useAppDispatch();
@@ -21,9 +21,15 @@ export default function VideoPostDetail({ id }: { id: string }) {
   // 좋아요와 게시글 정보 상태 업데이트
   useEffect(() => {
     if (data) {
-      dispatch(likeActions.getUserLike(data.userLike))
-      dispatch(postActions.getPostInfo({postId:id, postTitle:data.title, postContent:data.content}))
-    };
+      dispatch(likeActions.getUserLike(data.userLike));
+      dispatch(
+        postActions.getPostInfo({
+          postId: id,
+          postTitle: data.title,
+          postContent: data.content,
+        })
+      );
+    }
   }, [data, id, dispatch]);
 
   return (
@@ -38,7 +44,7 @@ export default function VideoPostDetail({ id }: { id: string }) {
       {data && (
         <div className="mx-auto w-full max-w-screen-lg rounded-2xl">
           {/* 동영상 플레이어 */}
-          <NormalPlayer url={data.video}/>
+          <NormalPlayer url={data.video} />
           <Separator className="my-4" />
 
           {/* 게시글 해더 */}

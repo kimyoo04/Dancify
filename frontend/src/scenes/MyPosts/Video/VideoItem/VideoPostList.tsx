@@ -7,7 +7,7 @@ import PostMore from "@scenes/Posts/PostItem/PostMore";
 import PostNotFound from "@scenes/Posts/PostItem/PostNotFound";
 import VideoListWrapper from "@scenes/Posts/PostItem/VideoListWrapper";
 import VideoPostLoader from "@scenes/Posts/PostItem/VideoPostLoader";
-import VideoPostItem from "@scenes/Posts/Video/VideoItem/VideoPostItem";
+import VideoPostItem from "@scenes/VideoPosts/VideoItem/VideoPostItem";
 
 export default function VideoPostList({
   post,

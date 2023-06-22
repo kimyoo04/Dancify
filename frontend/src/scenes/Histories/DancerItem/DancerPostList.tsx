@@ -7,7 +7,7 @@ import PostMore from "@scenes/Posts/PostItem/PostMore";
 import PostNotFound from "@scenes/Posts/PostItem/PostNotFound";
 import DancerListWrapper from "@scenes/Posts/PostItem/DancerListWrapper";
 import DancerPostLoader from "@scenes/Posts/PostItem/DancerPostLoader";
-import DancerPostItem from "@scenes/Posts/Dancer/DancerItem/DancerPostItem";
+import DancerPostItem from "@scenes/DancerPosts/DancerItem/DancerPostItem";
 
 export default function DancerPostList({
   post,

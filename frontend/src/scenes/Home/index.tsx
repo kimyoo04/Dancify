@@ -1,4 +1,4 @@
-import DancerPosts from "@scenes/Posts/Dancer";
+import DancerPosts from "@scenes/DancerPosts";
 
 export default function Home() {
   return (

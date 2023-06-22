@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import MainLayout from "@layouts/MainLayout";
-import FreePostDetail from "@scenes/Posts/Free/FreeDetail";
+import FreePostDetail from "@scenes/FreePosts/FreeDetail";
 
 export default function FreePostDetailPage() {
   const router = useRouter();
