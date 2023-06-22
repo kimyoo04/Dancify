@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { Pose as posetype } from "./utils/types";
 import Webcam from "react-webcam";
 import * as poseDetection from "@tensorflow-models/pose-detection";
@@ -13,6 +13,30 @@ import "@tensorflow/tfjs-backend-webgl";
 export default function Test() {
   const webcamRef = useRef<Webcam>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [status, setStatus] = useState("");
+  // const containerRef = useRef<HTMLDivElement>(null);
+
+  // useEffect(() => {
+  //   const handleResize = () => {
+  //     const container = containerRef.current;
+  //     if (container) {
+  //       const containerWidth = container.clientWidth;
+  //       const video = webcamRef.current?.video as HTMLVideoElement;
+  //       const canvas = canvasRef.current as HTMLCanvasElement;
+
+  //       video.width = containerWidth;
+  //       video.style.transform = "scaleX(-1)";
+
+  //       canvas.width = containerWidth;
+  //     }
+  //   };
+
+  //   handleResize();
+  //   window.addEventListener("resize", handleResize);
+  //   return () => {
+  //     window.removeEventListener("resize", handleResize);
+  //   };
+  // }, []);
 
   const detect = async (movenet_model: poseDetection.PoseDetector) => {
     if (
@@ -72,18 +96,22 @@ export default function Test() {
 
     if (pose[0].score) {
       //(keypoints, confidence_score, canvas)
-      drawKeypoints(pose[0]["keypoints"], 0.3, ctx);
-      drawSkeleton(pose[0]["keypoints"], 0.3, ctx);
+      drawKeypoints(pose[0]["keypoints"], 0.45, ctx);
+      drawSkeleton(pose[0]["keypoints"], 0.45, ctx);
     }
   };
 
-  const runPosenet = async () => {
-    await tf.ready();
+  const clearCanvas = () => {
+    if (canvasRef && canvasRef.current) {
+      const canvas = canvasRef.current;
+      const ctx = canvas.getContext("2d");
+      if (ctx) {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+      }
+    }
+  };
 
-    //모델 로드
-    const model = await poseDetection.SupportedModels.MoveNet;
-    const detector = await poseDetection.createDetector(model);
-
+  const runMovenet = async (detector: poseDetection.PoseDetector) => {
     //구간의 실시간 댄서블 keypoint 점수
     const danceable_json: posetype[][] = [];
 
@@ -118,7 +146,8 @@ export default function Test() {
       if (indx == dancer_json.length) {
         //강사 영상 끝나면 setInterval 멈춤
         clearInterval(intervalId);
-        console.log("완료");
+        clearCanvas();
+        setStatus("완료");
 
         console.log(danceable_json);
 
@@ -129,12 +158,50 @@ export default function Test() {
     // Clean up the interval when the component unmounts
   };
 
-  runPosenet();
+  //게임 시작 전 몸 전체가 나오는지 확인
+  const dance_start = async () => {
+    await tf.ready();
+
+    //모델 로드
+    const model = await poseDetection.SupportedModels.MoveNet;
+    const detector = await poseDetection.createDetector(model);
+    const check_state = setInterval(async () => {
+      const precheck = await detect(detector);
+      let check = false;
+      if (precheck !== "error") {
+        const scores = precheck[0].keypoints.map((keypoint) => keypoint.score);
+        // console.log(scores);
+
+        //모든 부위의 confidence score가 0.5이상이어야 함
+        if (scores.every((score) => score >= 0.5)) {
+          check = true;
+        } else {
+          setStatus("아직 준비 안 됨");
+        }
+      } else {
+        console.log("에러 발생");
+      }
+      if (check) {
+        clearInterval(check_state); //precheck 중지
+        clearCanvas(); //캔버스 지우기
+        setStatus("준비 완료, 5초 뒤 시작됩니다.");
+        setTimeout(() => {
+          setStatus("시작");
+          runMovenet(detector); //연습 시작
+        }, 5000);
+      }
+    }, 1000);
+  };
+
+  useEffect(() => {
+    dance_start();
+  }, []);
 
   return (
     <div className="col-center fixed h-screen w-screen">
       <header>
         <Webcam
+          mirrored={true}
           ref={webcamRef}
           style={{
             position: "absolute",
@@ -163,9 +230,15 @@ export default function Test() {
             zIndex: 9,
             width: 640,
             height: 480,
+            transform: "scaleX(-1)",
+            flex: 1,
           }}
         />
       </header>
+
+      <footer style={{ position: "fixed", bottom: 0 }}>
+        {status && <div style={{ fontSize: "300%" }}>{status}</div>}
+      </footer>
     </div>
   );
 }
