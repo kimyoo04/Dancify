@@ -32,6 +32,7 @@ def upload_post_image_at_s3(user_id, image):
 
     return image_url
 
+
 def upload_video_at_s3(user_id, video, video_type):
     """
     Args:
