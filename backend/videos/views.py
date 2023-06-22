@@ -8,6 +8,7 @@ from accounts.authentication import get_user_info_from_token
 from s3_modules.authentication import get_s3_client
 from ai.video_to_keypoint.vtk import video_to_keypoint
 from ai.face_mosaic.face_mosaic import face_mosaic
+from s3_modules.upload import upload_video_with_metadata_to_s3
 
 
 # 실제 플로우에는 썸네일 이미지도 요청에 포함되어있음
@@ -48,9 +49,7 @@ class UploadTestView(APIView):
         folder_path = f'vod/danceable/{user_id}/'
         file_key = folder_path + video_uuid + video_file_extension
 
-        # 모자이크, 더미데이터를 위해 잠시 주석처리
         video = face_mosaic(video)
-        s3.upload_fileobj(io.BytesIO(video), bucket_name, file_key)
 
         s3.put_object(Bucket=bucket_name, Key=folder_path)
         s3.upload_fileobj(io.BytesIO(video), bucket_name, file_key)
@@ -59,3 +58,14 @@ class UploadTestView(APIView):
         s3.close()
 
         return JsonResponse({"message": "success!"})
+
+
+class IntegratedTestView(APIView):
+    def post(self, request):
+        user_info = get_user_info_from_token(request)
+        user_id = user_info['userId']
+
+        result = upload_video_with_metadata_to_s3(user_id, request.FILES['video'],
+                                                  request.FILES['thumbnail'],
+                                                  'danceable', True)
+        return JsonResponse(result)

@@ -163,7 +163,7 @@ class JWTRefreshView(APIView):
 
 
 class UpdateProfileView(APIView):
-    def save_profile_image_at_s3(self, user_id, decoded_data):
+    def upload_profile_image_to_s3(self, user_id, decoded_data):
 
         # 이미지를 메모리에 저장
         image_file = io.BytesIO(decoded_data)
@@ -201,8 +201,8 @@ class UpdateProfileView(APIView):
             image_data = parsed_data['profileImage']
             decoded_data = base64.b64decode(image_data)
 
-            profile_image_url = self.save_profile_image_at_s3(user_info['userId'],
-                                                              decoded_data)
+            profile_image_url = self.upload_profile_image_to_s3(user_info['userId'],
+                                                                decoded_data)
             update_data['profileImage'] = profile_image_url
 
         serializer = ProfileSerializer(user, data=update_data, partial=True)  # type: ignore
