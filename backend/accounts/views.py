@@ -176,7 +176,7 @@ class UpdateProfileView(APIView):
         s3 = get_s3_client()
 
         bucket_name = 'dancify-bucket'
-        folder_path = f'profile-image/{user_id}'
+        folder_path = 'profile-image'
         file_key = folder_path + '/' + file_name
 
         # s3 버킷에 이미지 업로드
