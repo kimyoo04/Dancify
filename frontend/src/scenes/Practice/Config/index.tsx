@@ -1,8 +1,19 @@
-import { Button } from "@components/ui/button";
-import { useRouter } from "next/router";
 import { useEffect } from "react";
+import { useRouter } from "next/router";
 
-export default function Config({ onNext }: { onNext: () => void }) {
+import MainWrapper from "../Wrapper/MainWarpper";
+import BottomWrapper from "../Wrapper/BottomWrapper";
+
+import { Button } from "@components/ui/button";
+import { IPractice } from "@type/practice";
+
+export default function Config({
+  onNext,
+  data,
+}: {
+  onNext: () => void;
+  data: IPractice;
+}) {
   const router = useRouter();
 
   useEffect(() => {
@@ -22,11 +33,14 @@ export default function Config({ onNext }: { onNext: () => void }) {
   }, []);
 
   return (
-    <div>
-      <h1>Config</h1>
+    <div className="h-screen w-screen">
+      <MainWrapper>
+        <h1>Config</h1>
+      </MainWrapper>
 
-
-      <Button onClick={onNext}>다음</Button>
+      <BottomWrapper>
+        <Button onClick={onNext}>다음</Button>
+      </BottomWrapper>
     </div>
   );
 }

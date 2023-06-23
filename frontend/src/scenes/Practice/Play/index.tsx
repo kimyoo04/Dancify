@@ -1,9 +1,20 @@
-import { Button } from "@components/ui/button";
-import { useRouter } from "next/router";
 import { useEffect } from "react";
+import { useRouter } from "next/router";
 
-export default function Play({ onNext }: { onNext: () => void }) {
-  const router = useRouter()
+import MainWrapper from "../Wrapper/MainWarpper";
+import BottomWrapper from "../Wrapper/BottomWrapper";
+
+import { Button } from "@components/ui/button";
+import { IPractice } from "@type/practice";
+
+export default function Play({
+  onNext,
+  data,
+}: {
+  onNext: () => void;
+  data: IPractice;
+}) {
+  const router = useRouter();
 
   useEffect(() => {
     if (window) {
@@ -22,9 +33,14 @@ export default function Play({ onNext }: { onNext: () => void }) {
   }, []);
 
   return (
-    <div>
-      <h1>Play</h1>
-      <Button onClick={onNext}>다음</Button>
+    <div className="h-screen w-screen">
+      <MainWrapper>
+        <h1>Play</h1>
+      </MainWrapper>
+
+      <BottomWrapper>
+        <Button onClick={onNext}>다음</Button>
+      </BottomWrapper>
     </div>
   );
 }
