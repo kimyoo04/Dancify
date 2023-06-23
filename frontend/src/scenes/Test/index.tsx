@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from "react";
-import { Pose as posetype } from "./utils/types";
+import { Pose as posetype } from "@type/moveNet";
 import Webcam from "react-webcam";
 import * as poseDetection from "@tensorflow-models/pose-detection";
 
@@ -14,6 +14,7 @@ export default function Test() {
   const webcamRef = useRef<Webcam>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [status, setStatus] = useState("");
+
   // const containerRef = useRef<HTMLDivElement>(null);
 
   // useEffect(() => {
@@ -155,7 +156,6 @@ export default function Test() {
         console.log("평균 유사도 점수:", avgcosineDistance);
       }
     }, 1000 / 15); //15fps
-    // Clean up the interval when the component unmounts
   };
 
   //게임 시작 전 몸 전체가 나오는지 확인
@@ -163,8 +163,9 @@ export default function Test() {
     await tf.ready();
 
     //모델 로드
-    const model = await poseDetection.SupportedModels.MoveNet;
-    const detector = await poseDetection.createDetector(model);
+    const model = await poseDetection.SupportedModels.MoveNet; // 15초
+    const detector = await poseDetection.createDetector(model); // 15초
+
     const check_state = setInterval(async () => {
       const precheck = await detect(detector);
       let check = false;

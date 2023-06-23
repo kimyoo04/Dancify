@@ -15,16 +15,16 @@ export default function MainLayout({
   return (
     <>
       {/* 메인 영역 */}
-      <div className={`row-start overflow-hidden`}>
+      <main className={`row-start overflow-hidden`}>
         {/* 사이드바 영역 */}
         <Navigation />
 
         {/* 콘텐츠 영역 */}
-        <main className={`w-full bg-background pt-[56px] ${paddingleft}`}>
+        <div className={`w-full bg-background pt-[56px] ${paddingleft}`}>
           <div className="p-6"> {children}</div>
           <Footer />
-        </main>
-      </div>
+        </div>
+      </main>
 
       {/* 레이아웃 요소 */}
       <TabBar />

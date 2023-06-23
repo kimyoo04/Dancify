@@ -1,11 +1,11 @@
-import OnePageLayout from "@layouts/OnePageLayout";
+import MainLayout from "@layouts/MainLayout";
 import Test from "@scenes/Test";
 import React from "react";
 
 export default function SignUpPage() {
   return (
-    <OnePageLayout>
+    <MainLayout>
       <Test />
-    </OnePageLayout>
+    </MainLayout>
   );
 }

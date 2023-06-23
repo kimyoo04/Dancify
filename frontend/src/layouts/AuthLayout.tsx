@@ -8,9 +8,9 @@ export default function AuthLayout({
 }) {
   return (
     <>
-      <div>
+      <main>
         <div className="col-center container h-screen w-full">{children}</div>
-      </div>
+      </main>
 
       {/* 레이아웃 요소 */}
       <Header />

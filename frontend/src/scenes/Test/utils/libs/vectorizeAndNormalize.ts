@@ -4,7 +4,7 @@ import {
   Options,
   WeightOption,
   WeightOptionMode,
-} from "../types";
+} from "@type/moveNet";
 
 export function vectorizeAndNormalize(
   pose: Pose,

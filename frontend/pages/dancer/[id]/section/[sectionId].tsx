@@ -1,8 +1,8 @@
 import { useRouter } from "next/router";
-import DetailPageLayout from "@layouts/DetailPageLayout";
 import PostDancerDetail from "@scenes/DancerPosts/DancerDetail";
 import { GetServerSideProps } from "next";
 import { verify } from "jsonwebtoken";
+import MainLayout from "@layouts/MainLayout";
 
 export default function DancerPostDetailPage() {
   const router = useRouter();
@@ -10,9 +10,9 @@ export default function DancerPostDetailPage() {
 
   if (typeof sectionId === "string") {
     return (
-      <DetailPageLayout>
+      <MainLayout>
         <PostDancerDetail id={sectionId} />
-      </DetailPageLayout>
+      </MainLayout>
     );
   }
 }

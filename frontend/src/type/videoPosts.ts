@@ -52,3 +52,12 @@ export interface IVideoPostDetail {
 export interface IVideoPostDataArr {
   data: IVideoPost[];
 }
+
+export interface ICreateVideoPostData {
+  formData: FormData; // { title: string, content: string, video: File}
+}
+
+export interface IUpdateVideoPostData {
+  postId: TPostId;
+  formData: FormData; // { title: string, content: string, video: File}
+}

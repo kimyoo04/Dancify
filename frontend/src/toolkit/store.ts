@@ -7,6 +7,7 @@ import filterReducer from "@features/filter/filterSlice";
 import postReducer from "@features/post/postSlice";
 import commentReducer from "@features/comment/commentSlice";
 import sideBarReducer from "@features/sideBar/sideBarSlice";
+import practiceReducer from "@features/practice/practiceSlice";
 
 export const store = configureStore({
   reducer: {
@@ -17,6 +18,7 @@ export const store = configureStore({
     post: postReducer,
     comment: commentReducer,
     sideBar: sideBarReducer,
+    practice: practiceReducer,
   },
   // middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
 });

@@ -14,6 +14,7 @@ import DancerHeader from "./DancerDetailItem/Header";
 import { Separator } from "@components/ui/separator";
 import PostContent from "@scenes/Posts/PostItem/PostContent";
 import NormalPlayer from "@components/VideoPlayer/NormalPlayer";
+import StartPracticeButton from "./DancerDetailItem/StartPracticeButton";
 
 export default function DancerPostDetail({ id }: { id: TPostId }) {
   const dispatch = useAppDispatch();
@@ -57,6 +58,10 @@ export default function DancerPostDetail({ id }: { id: TPostId }) {
           {/* 게시글 내용 */}
           <PostContent content={data.content} className="pb-12 pt-2" />
 
+          {/* 연습 시작 버튼 */}
+          <StartPracticeButton postId={id} />
+
+          {/* 댓글 영역 */}
           <Separator className="my-2" />
           <Comments data={data.comments} />
         </div>

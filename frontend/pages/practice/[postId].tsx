@@ -1,20 +1,19 @@
-import { useRouter } from "next/router";
-import MainLayout from "@layouts/MainLayout";
-import FeedbackDetail from "@scenes/FeedBacks/FeedbackDetail";
-import { GetServerSideProps } from "next";
+import PracticeLayout from "@layouts/PracticeLayout";
+import Practice from "@scenes/Practice";
+import { TPostId } from "@type/posts";
 import { verify } from "jsonwebtoken";
+import { GetServerSideProps } from "next";
+import { useRouter } from "next/router";
 
-export default function FeedbackDetailPage() {
+export default function CreatePostPage() {
   const router = useRouter();
-  const { id } = router.query;
+  const { postId } = router.query;
 
-  if (typeof id === "string") {
-    return (
-      <MainLayout>
-        <FeedbackDetail id={id} />
-      </MainLayout>
-    );
-  }
+  return (
+    <PracticeLayout>
+      <Practice postId={postId as TPostId} />
+    </PracticeLayout>
+  );
 }
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
