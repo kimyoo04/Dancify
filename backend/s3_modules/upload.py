@@ -87,7 +87,6 @@ def upload_video_with_metadata_to_s3(user_id, video, video_type, is_mosaic):
     Args:
         user_id: user_id(토큰 에서 받아온 정보)\n
         video: request.FILES['video']\n
-        thumbnail: request.FILES['thumbnail]\n
         video_type: 'dancer', 'danceable', 'boast', 'feedback'\n
         is_mosaic: 모자이크 여부(boolean)
 
