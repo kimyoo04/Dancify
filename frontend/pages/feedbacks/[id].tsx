@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import DetailPageLayout from "@layouts/DetailPageLayout";
+import MainLayout from "@layouts/MainLayout";
 import FeedbackDetail from "@scenes/FeedBacks/FeedbackDetail";
 import { GetServerSideProps } from "next";
 import { verify } from "jsonwebtoken";
@@ -10,9 +10,9 @@ export default function FeedbackDetailPage() {
 
   if (typeof id === "string") {
     return (
-      <DetailPageLayout>
+      <MainLayout>
         <FeedbackDetail id={id} />
-      </DetailPageLayout>
+      </MainLayout>
     );
   }
 }
