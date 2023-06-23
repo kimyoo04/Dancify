@@ -46,3 +46,4 @@ class VideoPost(BaseVideoPostModel):
 
 class DancerPost(BaseVideoPostModel):
     feedback_price = models.IntegerField()
+    keypoints = models.URLField()
