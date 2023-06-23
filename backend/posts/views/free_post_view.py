@@ -8,7 +8,7 @@ from rest_framework_simplejwt.exceptions import TokenError
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 
-from s3_modules.upload import upload_post_image_at_s3
+from s3_modules.upload import upload_post_image_to_s3
 from ..serializers.free_post_serializers import (
     FreePostGetListSerializer,
     FreePostGetRetrieveSerializer,
@@ -187,7 +187,7 @@ class FreePostViewSet(BasePostViewSet):
         data['postImage'] = request.FILES.get('postImage', None)
 
         if data['postImage'] is not None:
-            data['postImage'] = upload_post_image_at_s3(user_id, data['postImage'])
+            data['postImage'] = upload_post_image_to_s3(user_id, data['postImage'])
 
         serializer = self.get_serializer(data=data)
         serializer.is_valid(raise_exception=True)
