@@ -119,5 +119,5 @@ def upload_video_with_metadata_to_s3(user_id, video, video_type, is_mosaic):
     result['video_url'] = upload_video_to_s3(user_id, video, video_type,
                                              video_uuid, video_file_extension)
     # 썸네일 URL
-    result['thumbnail_url'] = get_thumbnailURL_from_s3
+    result['thumbnail_url'] = get_thumbnailURL_from_s3(user_id, video_uuid)
     return result
