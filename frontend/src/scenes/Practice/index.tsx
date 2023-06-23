@@ -6,12 +6,14 @@ import Play from "./Play";
 import Finish from "./Finish";
 import Step from "@components/Step";
 import { TPostId } from "@type/posts";
+import { useReadVideoSection } from "@api/videoSection/readVideoSection";
 
 export default function Practice({ postId }: { postId: TPostId }) {
   // 페이지 관리 state
   const [state, setState] = useState("연습설정");
 
   // API GET 요청
+  const { data, isLoading, error } = useReadVideoSection(postId);
 
   return (
     <main>
