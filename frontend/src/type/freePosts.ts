@@ -49,3 +49,12 @@ export interface IFreePostDetail {
 export interface IFreePostDataArr {
   data: IFreePost[];
 }
+
+export interface ICreateFreePostData {
+  formData: FormData; // { title: string, content: string, postImage: File}
+}
+
+export interface IUpdateFreePostData {
+  postId: TPostId;
+  formData: FormData; // { title: string, content: string, postImage: File}
+}

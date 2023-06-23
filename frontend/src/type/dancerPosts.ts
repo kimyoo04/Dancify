@@ -54,4 +54,13 @@ export interface IDancerPostDataArr {
   data: IDancerPost[];
 }
 
+export interface ICreateDancerPostData {
+  formData: FormData; // { title: string, content: string, video: File, feedbackPrice: number, startTime: string, endTime: string }
+}
+
+export interface IUpdateDancerPostData {
+  postId: TPostId;
+  formData: FormData; // { title: string, content: string, video: File, feedbackPrice: number, startTime: string, endTime: string }
+}
+
 export type TFeedbackPrice = number;
