@@ -9,7 +9,7 @@ from posts.models import DancerPost
 class VideoSectionRetrieveView(APIView):
     serializer_class = VideoSectionListSerializer
 
-    def get(self, post_id):
+    def get(self, request, post_id, format=None):
         try:
             dancer_post = DancerPost.objects.get(post_id=post_id)
         except DancerPost.DoesNotExist:

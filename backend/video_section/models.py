@@ -13,3 +13,4 @@ class VideoSection(models.Model):
     video = models.URLField()
     thumbnail = models.URLField()
     section_number = models.SmallIntegerField()
+    keypoints = models.URLField()

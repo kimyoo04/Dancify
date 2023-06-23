@@ -20,7 +20,8 @@ class VideoSectionListSerializer(serializers.Serializer):
             'video': dancer_post.video,
             'thumbnail': dancer_post.thumbnail,
             'views': dancer_post.views,
-            'feedbackPrice': dancer_post.feedback_price
+            'feedbackPrice': dancer_post.feedback_price,
+            'keypoints': dancer_post.keypoints
         }
         return post
 
@@ -33,7 +34,8 @@ class VideoSectionListSerializer(serializers.Serializer):
             serialized_section = {
                 'sectionId': section.section_id,
                 'video': section.video,
-                'thumbnail': section.thumbnail
+                'thumbnail': section.thumbnail,
+                'keypoints': section.keypoints,
             }
             serialized_sections.append(serialized_section)
         return serialized_sections

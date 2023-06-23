@@ -47,6 +47,7 @@ class Command(BaseCommand):
                                       "dancer_post": post,
                                       'video': lambda x: choice(video_urls),
                                       'thumbnail': lambda x: choice(thumbnail_urls),
+                                      'keypoints': 'https://dancify-bucket.s3.ap-northeast-2.amazonaws.com/key-points/dancable1/e1a27bdfc7f445f0a15b457de5d9f427.json',
                                       'section_number': j
                                   })
 
