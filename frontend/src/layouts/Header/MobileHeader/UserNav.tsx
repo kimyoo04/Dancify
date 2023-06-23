@@ -1,6 +1,6 @@
 import { LogOut, User } from "lucide-react";
 
-import { Avatar, AvatarFallback } from "@components/ui/avatar";
+import { Avatar } from "@components/ui/avatar";
 import { Button } from "@components/ui/button";
 import {
   DropdownMenu,
@@ -30,16 +30,13 @@ export function UserNav() {
       <DropdownMenuTrigger asChild>
         <Button variant="ghost" className="relative h-8 w-8 rounded-full">
           <Avatar className="h-8 w-8">
-            <Image src={imageUrl} alt="profile_image" width={32} height={32} />
-
-            <AvatarFallback>
-              <Image
-                src="/images/avatar.jpg"
-                alt="profile_image_fallback"
-                width={32}
-                height={32}
-              />
-            </AvatarFallback>
+            <Image
+              src={imageUrl}
+              alt="profile_image"
+              className="object-cover"
+              quality={10}
+              fill
+            />
           </Avatar>
         </Button>
       </DropdownMenuTrigger>
