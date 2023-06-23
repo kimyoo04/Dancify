@@ -42,21 +42,6 @@ def upload_post_image_to_s3(user_id, image):
     return image_url
 
 
-def upload_thumbnail_to_s3(user_id, thumbnail, video_uuid):
-    thumbnail_file_extension = '.' + thumbnail.name.split('.')[-1]
-
-    bucket_name = 'dancify-bucket'
-    folder_path = f'thumbnail/{user_id}/'
-    file_key = folder_path + video_uuid + thumbnail_file_extension
-
-    upload_obj_to_s3(bucket_name, folder_path, file_key, thumbnail.read())
-
-    thumbnail_url = AWS_DOMAIN + file_key
-    print('썸네일 이미지 경로: ', thumbnail_url)
-
-    return thumbnail_url
-
-
 def upload_keypoint_to_s3(user_id, json_obj, video_uuid):
     bucket_name = 'dancify-bucket'
     folder_path = f'key-points/{user_id}/'
@@ -71,6 +56,8 @@ def upload_keypoint_to_s3(user_id, json_obj, video_uuid):
 
 
 def upload_video_to_s3(user_id, video, video_type, video_uuid, video_file_extension):
+    """썸네일은 AWS MediaConvert job생성하여 자동으로 생성하고 업로드됨
+    """
     bucket_name = 'dancify-input'
     folder_path = 'vod/' + video_type + f'/{user_id}/'
     file_key = folder_path + video_uuid + video_file_extension
@@ -85,8 +72,17 @@ def upload_video_to_s3(user_id, video, video_type, video_uuid, video_file_extens
     return video_url
 
 
-def upload_video_with_metadata_to_s3(user_id, video, thumbnail,
-                                     video_type, is_mosaic):
+def get_thumbnailURL_from_s3(user_id, video_uuid):
+    folder_path = f'thumbnail/{user_id}/'
+    file_key = folder_path + video_uuid + '-thumbnail.0000000.jpg'
+
+    thumbnail_url = AWS_DOMAIN + file_key
+    print('썸네일 이미지 경로: ', thumbnail_url)
+
+    return thumbnail_url
+
+
+def upload_video_with_metadata_to_s3(user_id, video, video_type, is_mosaic):
     """
     Args:
         user_id: user_id(토큰 에서 받아온 정보)\n
@@ -107,10 +103,6 @@ def upload_video_with_metadata_to_s3(user_id, video, thumbnail,
     video_file_extension = '.' + video.name.split('.')[-1]
     result = {}
 
-    # 썸네일 업로드
-    result['thumbnail_url'] = upload_thumbnail_to_s3(user_id, thumbnail,
-                                                     video_uuid)
-
     # 키포인트 업로드(댄서, 댄서블인 경우)
     if video_type in ['dancer', 'danceable']:
         json_obj = video_to_keypoint(video)
@@ -124,7 +116,9 @@ def upload_video_with_metadata_to_s3(user_id, video, thumbnail,
     if is_mosaic:
         video = face_mosaic(video)
 
-    # 영상 업로드
+    # 영상 업로드 & 썸네일 이미지 생성, 업로드
     result['video_url'] = upload_video_to_s3(user_id, video, video_type,
                                              video_uuid, video_file_extension)
+    # 썸네일 URL
+    result['thumbnail_url'] = get_thumbnailURL_from_s3
     return result
