@@ -1,6 +1,6 @@
 // import * as tf from "@tensorflow/tfjs";
 import * as poseDetection from "@tensorflow-models/pose-detection";
-import { Keypoint } from "./utils/types";
+import { Keypoint } from "@type/moveNet";
 
 const model = poseDetection.SupportedModels.MoveNet;
 

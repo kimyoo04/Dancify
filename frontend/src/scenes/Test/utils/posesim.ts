@@ -1,4 +1,4 @@
-import { Pose, Options } from "./types";
+import { Pose, Options } from "@type/moveNet";
 import { vectorizeAndNormalize } from "./libs/vectorizeAndNormalize";
 import {
   cosineSimilarity,
