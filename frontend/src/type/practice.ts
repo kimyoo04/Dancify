@@ -1,9 +1,11 @@
-import { TVideo } from "./posts";
+import { TThumbnail, TVideo } from "./posts";
 
 // practiceSlice.ts
 export interface IPracticeState {
-  step: TStep;
-  sectionPractice: ISectionPractice[];
+  step: TStep; // 현재 단계
+  isSkeleton: boolean; // 스켈레톤 매핑 유무
+  selectedSections: number[]; // 선택한 섹션 인덱스 리스트
+  sectionPracticeArr: ISectionPractice[]; // 섹션별 연습 기록 리스트
 }
 
 // practiceSlice.ts ~ setFirstScore
@@ -34,15 +36,17 @@ export interface IDancerPost {
   nickname: string;
   content: string;
   createDate: string;
-  thumbnail: string;
   video: TVideo;
+  thumbnail: TThumbnail;
+  keypoints: TKeypoints;
   feedbackPrice: number;
 }
 
 export interface ISection {
   sectionId: string;
-  sectionNumber: number;
   video: TVideo;
+  thumbnail: TThumbnail;
+  keypoints: TKeypoints;
 }
 
 // POST /api/dance/<sectionId>
@@ -51,6 +55,7 @@ export interface IPracticeResult {
   formData: FormData; // { keyPoints: Pose, video: File }
 }
 
+export type TKeypoints = string;
 export type TSectionNumber = number;
 export type TSectionId = string;
 export type TStep = number;
