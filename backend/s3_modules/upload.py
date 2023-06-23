@@ -114,6 +114,9 @@ def upload_video_with_metadata_to_s3(user_id, video, video_type, is_mosaic):
     # 모자이크 여부에 따른 처리
     if is_mosaic:
         video = face_mosaic(video)
+    # upload_fileobj 사용을 위해 모자이크 함수를 거치지 않으면 파일객체를 읽어서 bytes객체 반환
+    else:
+        video = video.read()
 
     # 영상 업로드 & 썸네일 이미지 생성, 업로드
     result['video_url'] = upload_video_to_s3(user_id, video, video_type,
