@@ -206,14 +206,13 @@ class DancerPostViewSet(BasePostViewSet):
         except (TokenError, KeyError):
             return Response(status=status.HTTP_401_UNAUTHORIZED)
 
-        data = request.data.copy()
-        data['video'] = request.FILES.get('video', None)
+        data = request.data
 
         if data['video'] is not None:
             url_data = upload_video_with_metadata_to_s3(user_id, data['video'],
-                                                                 'dancer', is_mosaic=False)
+                                                        'dancer', is_mosaic=False)
             data['video'] = url_data['video_url']
-            data['thumnbnail'] = url_data['thumbnail_url']
+            data['thumbnail'] = url_data['thumbnail_url']
 
         serializer = self.get_serializer(data=data)
         serializer.is_valid(raise_exception=True)
