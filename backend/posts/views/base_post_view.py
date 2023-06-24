@@ -31,8 +31,6 @@ class BasePostViewSet(viewsets.ModelViewSet):
         q = self.request.GET.get('q', None)
         sort = self.request.GET.get('sort', None)
         user_id = self.request.GET.get('user', None)
-        # genre = self.request.GET.get('genre', None)
-        # !장르는 나중에 정해지면 코드 추가하기
 
         # 쿼리 파라미터에 검색어가 있을 경우
         if q is not None:

@@ -91,6 +91,7 @@ class Command(BaseCommand):
                               "content": lambda x: seeder.faker.sentence(nb_words=10, variable_nb_words=True, ext_word_list=None),
                               "video": lambda x: choice(video_urls),
                               "thumbnail": lambda x: choice(thumbnail_urls),
+                              "genre": lambda x: choice(['BASIC', 'KPOP']),
                               "feedback_price": lambda x: randint(10, 99) * 1000,
                               "views": lambda x: randint(0, 999)
                           })

@@ -91,6 +91,7 @@ class DancerPostViewSet(BasePostViewSet):
     )
     def list(self, request, *args, **kwargs):
         q = self.request.GET.get('q', None)
+        genre = self.request.GET.get('genre', None)
 
         if q is not None and q.strip() != '':
             q = re.sub(r'\s+', ' ', q.strip())
@@ -102,6 +103,9 @@ class DancerPostViewSet(BasePostViewSet):
             if not created:
                 search_history.search_count = F('search_count') + 1
                 search_history.save()
+
+        if genre is not None:
+            self.queryset = self.queryset.filter(genre=genre)
 
         return super().list(request, *args, **kwargs)
 

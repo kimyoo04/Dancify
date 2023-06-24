@@ -45,5 +45,6 @@ class VideoPost(BaseVideoPostModel):
 
 
 class DancerPost(BaseVideoPostModel):
+    genre = models.CharField(max_length=20)
     feedback_price = models.IntegerField()
     keypoints = models.URLField()
