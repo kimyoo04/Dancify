@@ -20,6 +20,8 @@ export default function Practice({ postId }: { postId: TPostId }) {
   // API GET 요청
   const { data, isLoading, error } = useReadVideoSection(postId);
 
+  console.log(data)
+
   return (
     <main>
       {isLoading ? (

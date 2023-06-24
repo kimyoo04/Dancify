@@ -4,6 +4,6 @@ export default function PracticeLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="col-center h-screen w-screen bg-background">{children}</div>
+    <div className="col-center h-screen w-screen">{children}</div>
   );
 }
