@@ -164,21 +164,7 @@ class DancerPostViewSet(BasePostViewSet):
         }
     )
     def retrieve(self, request, *args, **kwargs):
-        post_id = kwargs['pk']
-        try:
-            access_token = request.COOKIES.get('Access-Token', None)
-            user_info = decode_access_token(access_token)
-
-            user_id = user_info['userId']
-            user = User.objects.get(user_id=user_id)
-            ViewHistory.objects.update_or_create(
-                dancer_post=DancerPost.objects.get(post_id=post_id),
-                user=user
-            )
-
-            return super().retrieve(request, *args, **kwargs)
-        except (TokenError, KeyError, User.DoesNotExist):
-            return Response(status=status.HTTP_401_UNAUTHORIZED)
+        return super().retrieve(request, *args, **kwargs)
 
     @swagger_auto_schema(
         operation_summary='게시글 생성',
