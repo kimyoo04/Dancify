@@ -18,14 +18,23 @@ export default function PreviewSection({
     <div className="flex-shrink-0 space-y-3">
       {/* //? 영상으로 대체 가능하면 대체할 것 */}
       {data.thumbnail && (
-        <div className={`${selectedSections.includes(index) && "border-2 border-primary"} cursor-pointer`} onClick={() => dispatch(practiceActions.toggleSelectedSections(index))}>
+        <div
+          className={`${
+            selectedSections.includes(index)
+              ? "border-2 border-primary opacity-100"
+              : "border-2 opacity-60"
+          } cursor-pointer overflow-hidden rounded-md`}
+          onClick={() =>
+            dispatch(practiceActions.toggleSelectedSections(index))
+          }
+        >
           <Image
             src={data.thumbnail}
             alt={index + "-thumbnail-" + data.sectionId}
             width={250}
             height={330}
             className={cn(
-              "h-auto w-auto object-cover transition-all hover:scale-105"
+              "h-auto w-auto object-cover transition-all scale-105 hover:scale-110"
             )}
             style={{ width: `250px`, height: `330px` }}
           />

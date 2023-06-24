@@ -5,12 +5,10 @@ import { useEffect } from "react";
 import { IPractice } from "@type/practice";
 
 export default function Finish({ data }: { data: IPractice }) {
+  // 새로고침 방지
   useEffect(() => {
     if (window) {
-      // 새로고침 방지
-      window.onbeforeunload = () => {
-        return true;
-      };
+      window.onbeforeunload = () => true;
       return () => {
         window.onbeforeunload = null;
       };

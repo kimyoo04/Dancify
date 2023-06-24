@@ -14,7 +14,8 @@ export default function PreviewDancerPosts({
   href,
 }: VideoPostsProps) {
   return (
-    <Link href={href} className="space-y-3 flex-shrink-0">
+    <Link href={href} className="flex-shrink-0 space-y-3">
+      <div className="overflow-hidden rounded-md">
         {data.thumbnail && (
           <Image
             src={data.thumbnail}
@@ -27,6 +28,7 @@ export default function PreviewDancerPosts({
             style={{ width: `250px`, height: `330px` }}
           />
         )}
+      </div>
 
       <div className="space-y-1 text-sm">
         <h3 className="font-medium leading-none">{data.title}</h3>
