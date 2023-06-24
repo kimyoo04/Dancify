@@ -27,7 +27,6 @@ INSTALLED_APPS = [
     'posts',
     'like',
     'comments',
-    'files',
     'view_history',
     'search_history',
     'videos',
