@@ -3,8 +3,10 @@ import re
 from django.db.models import F
 
 from rest_framework import status
+from rest_framework.response import Response
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
+from rest_framework_simplejwt.exceptions import TokenError
 
 from ..serializers.video_post_serializers import (
     VideoPostGetListSerializer,
@@ -13,6 +15,9 @@ from ..serializers.video_post_serializers import (
 )
 from .base_post_view import BasePostViewSet
 from ..models import VideoPost
+from accounts.models import User
+from accounts.authentication import get_user_info_from_token
+from s3_modules.upload import upload_video_with_metadata_to_s3
 
 from search_history.models import SearchHistory
 
@@ -175,7 +180,26 @@ class VideoPostViewSet(BasePostViewSet):
         }
     )
     def create(self, request, *args, **kwargs):
-        return super().create(request, *args, **kwargs)
+        try:
+            user_info = get_user_info_from_token(request)
+
+            user_id = user_info['userId']
+        except (TokenError, KeyError):
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
+
+        data = request.data
+
+        if data['video'] is not None:
+            url_data = upload_video_with_metadata_to_s3(user_id, data['video'],
+                                                        'dancer', data['mosaic'])
+            data['video'] = url_data['video_url']
+            data['thumbnail'] = url_data['thumbnail_url']
+
+        serializer = self.get_serializer(data=data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save(user=User.objects.get(user_id=user_id))
+
+        return Response(status=status.HTTP_201_CREATED)
 
     @swagger_auto_schema(
         operation_summary='게시글 수정',
