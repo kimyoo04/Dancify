@@ -12,6 +12,7 @@ import Finish from "./Finish";
 import { useReadVideoSection } from "@api/videoSection/readVideoSection";
 import Link from "next/link";
 import { Button } from "@components/ui/button";
+import Result from "./Result";
 
 export default function Practice({ postId }: { postId: TPostId }) {
   // 페이지 관리 state
@@ -20,7 +21,7 @@ export default function Practice({ postId }: { postId: TPostId }) {
   // API GET 요청
   const { data, isLoading, error } = useReadVideoSection(postId);
 
-  console.log(data)
+  console.log(data);
 
   return (
     <main>
@@ -42,11 +43,15 @@ export default function Practice({ postId }: { postId: TPostId }) {
           </Step>
 
           <Step isActive={state === "연습시작"}>
-            <Play onNext={() => setState("연습완료")} data={data} />
+            <Play onNext={() => setState("연습결과")} data={data} />
+          </Step>
+
+          <Step isActive={state === "연습결과"}>
+            <Result onNext={() => setState("연습완료")} data={data} />
           </Step>
 
           <Step isActive={state === "연습완료"}>
-            <Finish data={data} />
+            <Finish />
           </Step>
         </>
       ) : (
