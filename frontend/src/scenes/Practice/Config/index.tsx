@@ -24,16 +24,13 @@ export default function Config({
   const router = useRouter();
   const [mode, setMode] = useState("연습 모드");
 
+  // 새로고침 및 뒤로가기 방지
   useEffect(() => {
     if (window) {
-      // 뒤로가기 방지
       if (router.asPath !== window.location.pathname) {
         window.history.pushState("", "", router.asPath);
       }
-      // 새로고침 방지
-      window.onbeforeunload = () => {
-        return true;
-      };
+      window.onbeforeunload = () => true;
       return () => {
         window.onbeforeunload = null;
       };

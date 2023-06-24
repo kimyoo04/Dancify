@@ -22,18 +22,15 @@ export default function Prepare({
   data: IPractice;
 }) {
   const router = useRouter();
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false); //? true로 바꿔야함
 
+  // 새로고침 및 뒤로가기 방지
   useEffect(() => {
     if (window) {
-      // 뒤로가기 방지
       if (router.asPath !== window.location.pathname) {
         window.history.pushState("", "", router.asPath);
       }
-      // 새로고침 방지
-      window.onbeforeunload = () => {
-        return true;
-      };
+      window.onbeforeunload = () => true;
       return () => {
         window.onbeforeunload = null;
       };
@@ -61,7 +58,7 @@ export default function Prepare({
                 </div>
 
                 <div>
-                  <Logo/>
+                  <Logo />
                 </div>
               </div>
             </div>
