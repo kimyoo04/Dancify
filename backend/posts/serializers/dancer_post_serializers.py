@@ -128,7 +128,7 @@ class DancerPostPostPatchSerializer(serializers.HyperlinkedModelSerializer):
     def validate(self, attrs):
         GENRES = ['BASIC', 'KPOP']
         genre = attrs.get('genre')
-        if genre not in GENRES:
+        if genre and genre not in GENRES:
             raise serializers.ValidationError('올바른 장르를 선택해야 합니다.', code='invalid')
         return super().validate(attrs)
 
