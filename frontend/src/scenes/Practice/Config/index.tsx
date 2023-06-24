@@ -12,6 +12,7 @@ import PostContent from "@scenes/Posts/PostItem/PostContent";
 import ConfigHeader from "./Header";
 import NormalPlayer from "@components/VideoPlayer/NormalPlayer";
 import SkeletonCheckBox from "./SkeletonCheckBox";
+import { ScrollArea, ScrollBar } from "@components/ui/scroll-area";
 
 export default function Config({
   onNext,
@@ -83,15 +84,18 @@ export default function Config({
           {/* 연습 모드 설정 영역 */}
           {mode === "연습 모드" && (
             <div className="w-full px-2">
-              <ul className="flex space-x-4 pb-4">
-                {data.sections.map((data, index) => (
-                  <PreviewSection
-                    key={data.sectionId}
-                    data={data}
-                    index={index}
-                  />
-                ))}
-              </ul>
+              <ScrollArea>
+                <ul className="flex space-x-4 pb-4">
+                  {data.sections.map((data, index) => (
+                    <PreviewSection
+                      key={data.sectionId}
+                      data={data}
+                      index={index}
+                    />
+                  ))}
+                </ul>
+                <ScrollBar orientation="horizontal" />
+              </ScrollArea>
             </div>
           )}
 
