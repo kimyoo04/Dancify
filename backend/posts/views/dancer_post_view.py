@@ -8,7 +8,6 @@ from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework_simplejwt.exceptions import TokenError
 
-from accounts.authentication import get_user_info_from_token
 from ..serializers.dancer_post_serializers import (
     DancerPostGetListSerializer,
     DancerPostGetRetrieveSerializer,
