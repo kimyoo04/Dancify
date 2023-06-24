@@ -43,7 +43,7 @@ export interface IDancerPost {
 }
 
 export interface ISection {
-  sectionId: string;
+  sectionId: TSectionId;
   video: TVideo;
   thumbnail: TThumbnail;
   keypoints: TKeypoints;

@@ -38,7 +38,7 @@ export interface IDancerPostDetail {
   postId: TPostId;
   title: TTitle;
   userId: string;
-  userLike: boolean; // 미완
+  userLike: boolean;
   nickname: TNickname;
   content: TContent;
   createDate: TcreateDate;

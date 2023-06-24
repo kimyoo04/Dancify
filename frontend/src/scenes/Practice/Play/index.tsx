@@ -97,7 +97,9 @@ export default function Play({
       if (router.asPath !== window.location.pathname) {
         window.history.pushState("", "", router.asPath);
       }
-      window.onbeforeunload = () => true;
+      window.onbeforeunload = () => {
+        return true;
+      };
       return () => {
         window.onbeforeunload = null;
       };
@@ -151,7 +153,7 @@ export default function Play({
       <BottomWrapper>
         <p>신체 전부가 보이도록 뒤로 이동해주세요.</p>
         {/* //? 여기서는 다음 버튼이 없어야함 */}
-        {/* <Button onClick={onNext}>다음</Button>  */}
+        <Button onClick={onNext}>다음</Button>
       </BottomWrapper>
     </div>
   );
