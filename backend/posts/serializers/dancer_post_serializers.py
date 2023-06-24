@@ -126,7 +126,7 @@ class DancerPostPostPatchSerializer(serializers.HyperlinkedModelSerializer):
     feedbackPrice = serializers.IntegerField(source='feedback_price')
 
     def validate(self, attrs):
-        GENRES = ['BASIC', 'KPOP']
+        GENRES = ['basic', 'kpop']
         genre = attrs.get('genre')
         if genre and genre not in GENRES:
             raise serializers.ValidationError('올바른 장르를 선택해야 합니다.', code='invalid')

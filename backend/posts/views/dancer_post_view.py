@@ -8,7 +8,7 @@ from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework_simplejwt.exceptions import TokenError
 
-from accounts.authentication import decode_access_token
+from accounts.authentication import get_user_info_from_token
 from ..serializers.dancer_post_serializers import (
     DancerPostGetListSerializer,
     DancerPostGetRetrieveSerializer,
@@ -164,7 +164,20 @@ class DancerPostViewSet(BasePostViewSet):
         }
     )
     def retrieve(self, request, *args, **kwargs):
-        return super().retrieve(request, *args, **kwargs)
+        post_id = kwargs['pk']
+        try:
+            user_info = get_user_info_from_token(request)
+
+            user_id = user_info['userId']
+            user = User.objects.get(user_id=user_id)
+            ViewHistory.objects.update_or_create(
+                dancer_post=DancerPost.objects.get(post_id=post_id),
+                user=user
+            )
+
+            return super().retrieve(request, *args, **kwargs)
+        except (TokenError, KeyError, User.DoesNotExist):
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
 
     @swagger_auto_schema(
         operation_summary='게시글 생성',
