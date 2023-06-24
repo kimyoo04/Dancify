@@ -52,6 +52,13 @@ class Command(BaseCommand):
             'http://dyago72jbsqcn.cloudfront.net/vod/feedback/dancer1/5425e72fc9b9498ea221b6d1854e0568.m3u8',
         ]
 
+        group_names = ['르세라핌', '유키스', '아이브', '(여자)아이들',
+                       '몬스타엑스', '하이라이트', '뉴진스', '클라씨',
+                       '트러블메이커', '트와이스', '워너원', '에스파',
+                       '소녀시대', '블랙핑크', '백퍼센트', '비아이지',
+                       '빅스타', '라붐', '브레이브걸스', '에이스',
+                       'EXID', '스테이씨', '티아라', '미쓰에이']
+
         # 전체 유저 리스트 (자유게시판 작성용)
         users = User.objects.all()
 
@@ -59,7 +66,7 @@ class Command(BaseCommand):
         seeder.add_entity(FreePost, number,
                           {
                               "user": lambda x: choice(users),
-                              "title": lambda x: seeder.faker.sentence(nb_words=4, variable_nb_words=True, ext_word_list=None),
+                              "title": lambda x: seeder.faker.sentence(nb_words=4, variable_nb_words=True, ext_word_list=None) + choice(group_names),
                               "content": lambda x: seeder.faker.sentence(nb_words=10, variable_nb_words=True, ext_word_list=None),
                               "post_image": lambda x: choice(free_image_urls) if random() > 0.5 else None,
                               "views": lambda x: randint(0, 999)
@@ -69,7 +76,7 @@ class Command(BaseCommand):
         seeder.add_entity(VideoPost, number,
                           {
                               "user": lambda x: choice(users),
-                              "title": lambda x: seeder.faker.sentence(nb_words=4, variable_nb_words=True, ext_word_list=None),
+                              "title": lambda x: seeder.faker.sentence(nb_words=4, variable_nb_words=True, ext_word_list=None) + choice(group_names),
                               "content": lambda x: seeder.faker.sentence(nb_words=10, variable_nb_words=True, ext_word_list=None),
                               "video": lambda x: choice(video_urls),
                               "thumbnail": lambda x: choice(thumbnail_urls),
@@ -80,7 +87,7 @@ class Command(BaseCommand):
         seeder.add_entity(DancerPost, number,
                           {
                               "user": lambda x: choice(users),
-                              "title": lambda x: seeder.faker.sentence(nb_words=4, variable_nb_words=True, ext_word_list=None),
+                              "title": lambda x: seeder.faker.sentence(nb_words=4, variable_nb_words=True, ext_word_list=None) + choice(group_names),
                               "content": lambda x: seeder.faker.sentence(nb_words=10, variable_nb_words=True, ext_word_list=None),
                               "video": lambda x: choice(video_urls),
                               "thumbnail": lambda x: choice(thumbnail_urls),
