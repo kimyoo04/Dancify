@@ -7,9 +7,6 @@ export default function GenreButtons() {
     { genre: "전체" },
     { genre: "기본동작" },
     { genre: "k-pop" },
-    { genre: "키즈" },
-    { genre: "팝핀" },
-    { genre: "뮤지컬" },
   ];
 
   return (
