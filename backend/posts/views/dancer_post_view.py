@@ -16,7 +16,7 @@ from ..serializers.dancer_post_serializers import (
 from .base_post_view import BasePostViewSet
 from ..models import DancerPost
 from accounts.models import User
-from accounts.authentication import get_user_info_from_token
+from accounts.authentication import get_user_info_from_token, is_logined
 from s3_modules.upload import upload_video_with_metadata_to_s3
 from view_history.models import ViewHistory
 from search_history.models import SearchHistory
@@ -164,19 +164,25 @@ class DancerPostViewSet(BasePostViewSet):
     )
     def retrieve(self, request, *args, **kwargs):
         post_id = kwargs['pk']
-        try:
-            user_info = get_user_info_from_token(request)
 
-            user_id = user_info['userId']
-            user = User.objects.get(user_id=user_id)
-            ViewHistory.objects.update_or_create(
-                dancer_post=DancerPost.objects.get(post_id=post_id),
-                user=user
-            )
+        if is_logined(request):
+            try:
+                user_info = get_user_info_from_token(request)
 
-            return super().retrieve(request, *args, **kwargs)
-        except (TokenError, KeyError, User.DoesNotExist):
-            return Response(status=status.HTTP_401_UNAUTHORIZED)
+                user_id = user_info['userId']
+                user = User.objects.get(user_id=user_id)
+                ViewHistory.objects.update_or_create(
+                    dancer_post=DancerPost.objects.get(post_id=post_id),
+                    user=user
+                )
+
+                return super().retrieve(request, *args, **kwargs)
+            except (User.DoesNotExist):
+                return Response(status=status.HTTP_401_UNAUTHORIZED)
+            except (TokenError, KeyError):
+                return super().retrieve(request, *args, **kwargs)
+
+        return super().retrieve(request, *args, **kwargs)
 
     @swagger_auto_schema(
         operation_summary='게시글 생성',
