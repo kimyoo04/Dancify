@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from accounts.authentication import decode_access_token
+from rest_framework_simplejwt.exceptions import TokenError
 
 from accounts.models import User
 from ..models import DancerPost
@@ -112,7 +113,7 @@ class DancerPostGetRetrieveSerializer(DancerPostInfoSerializer):
 
             user_id = user_info['userId']
             return Like.objects.filter(post_id=instance.post_id, user=User.objects.get(user_id=user_id)).exists()
-        except KeyError:
+        except (KeyError, TokenError):
             return False
 
     def get_comments(self, instance):
