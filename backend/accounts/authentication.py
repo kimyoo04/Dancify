@@ -153,6 +153,7 @@ def set_cookies_to_response(response, refresh_token, access_token):
 
     return response
 
+
 def is_logined(request):
     """
     사용자의 로그인 여부를 반환합니다.
