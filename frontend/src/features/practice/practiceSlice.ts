@@ -66,6 +66,15 @@ export const practiceSlice = createSlice({
         poseEstimation,
       };
     },
+
+    // 연습 초기화
+    resetPractice: (state) => {
+      state.step = 1;
+      state.playIndex = 0;
+      state.isSkeleton = false;
+      state.selectedSections = [];
+      state.sectionPracticeArr = [];
+    }
   },
 });
 
