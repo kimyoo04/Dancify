@@ -34,13 +34,13 @@ export default function Result({
   }, []);
 
   return (
-    <div className="h-screen w-screen">
+    <div className="min-h-[93%] w-screen">
       <MainWrapper>
         <h1>총 연습 결과</h1>
 
-        <div className="row-center">
-          <Information />
-          <ScoreBoard />
+        <div className="col-center w-full gap-6 sm:gap-10 lg:flex-row">
+          <ScoreBoard data={data} />
+          <Information data={data} />
         </div>
       </MainWrapper>
 
