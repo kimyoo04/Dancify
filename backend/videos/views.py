@@ -1,14 +1,18 @@
 from django.http import JsonResponse
 import uuid
 import io
+import os
+import shutil
 
 from rest_framework.views import APIView
+from moviepy.editor import VideoFileClip, AudioFileClip
 
 from accounts.authentication import get_user_info_from_token
 from s3_modules.authentication import get_s3_client
 from ai.video_to_keypoint.vtk import video_to_keypoint
 from ai.face_mosaic.face_mosaic import face_mosaic
 from s3_modules.upload import upload_video_with_metadata_to_s3
+from s3_modules.upload import upload_video_to_s3
 
 
 # 실제 플로우에는 썸네일 이미지도 요청에 포함되어있음
@@ -68,3 +72,40 @@ class IntegratedTestView(APIView):
         result = upload_video_with_metadata_to_s3(user_id, request.FILES['video'],
                                                   'dancer', False)
         return JsonResponse(result)
+
+
+class CutVideoTestView(APIView):
+    def post(self, request):
+        video = request.FILES['video']
+        start = int(request.data['start'])
+        end = int(request.data['end'])
+
+        # 영상 저장할 경로 지정
+        localpath = os.path.dirname(os.path.abspath(__file__))  # 현재 폴더
+        localpath = os.path.join(localpath, 'video')  # 현재 폴더/video/
+        os.makedirs(localpath, exist_ok=True)  # 폴더 생성
+
+        local_videopath = os.path.join(localpath, 'video_original.mp4')
+        result_path = os.path.join(localpath, 'result.mp4')
+
+        with open(local_videopath, 'wb') as destination:
+            for chunk in video.chunks():
+                destination.write(chunk)
+
+        # 비디오 자르기
+        video = VideoFileClip(local_videopath).subclip(start, end)
+        audio = AudioFileClip(local_videopath).subclip(start, end)
+
+        result = video.set_audio(audio)
+        result.write_videofile(result_path)
+
+        with open(result_path, 'rb') as file:
+            result_video = file.read()  # 바이너리 파일
+
+        # 편집에 사용되었던 localpath 폴더 삭제
+        shutil.rmtree(localpath)
+
+        result = upload_video_to_s3('user_id', result_video,
+                                    'dancer', 'dsifji321432jf', '.mp4')
+
+        return JsonResponse({'video_url': result})
