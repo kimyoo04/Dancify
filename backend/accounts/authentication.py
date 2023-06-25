@@ -131,18 +131,21 @@ def handle_invalid_token():
 
 def get_user_info_from_token(request, token_type='access'):
 
-    if token_type == 'access':
-        access_token = request.COOKIES['Access-Token']
-        user_info = decode_access_token(access_token)
+    try:
+        if token_type == 'access':
+            access_token = request.COOKIES['Access-Token']
+            user_info = decode_access_token(access_token)
 
-    elif token_type == 'refresh':
-        refresh_token = request.COOKIES['Refresh-Token']
-        user_info = decode_refresh_token(refresh_token)
+        elif token_type == 'refresh':
+            refresh_token = request.COOKIES['Refresh-Token']
+            user_info = decode_refresh_token(refresh_token)
 
-    else:
-        raise ValueError('잘못된 토큰 타입')
+        else:
+            raise ValueError('잘못된 토큰 타입')
 
-    return user_info
+        return user_info
+    except TokenError:
+        raise TokenError('토큰이 유효하지 않는다잉')
 
 
 def set_cookies_to_response(response, refresh_token, access_token):
