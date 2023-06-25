@@ -16,7 +16,7 @@ export default function ProgressBar() {
       initial="hidden"
       animate="visible"
       variants={containerVariants}
-      className="h-8 w-full rounded-md bg-gray-300"
+      className="h-10 w-full rounded-md bg-gray-300"
     >
       {/* 현재 단계 막대 */}
       <motion.div
