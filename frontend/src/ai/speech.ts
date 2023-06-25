@@ -62,10 +62,9 @@ export function speechToText(speakButtonRef: any) {
 }
 
 // 텍스트 분류 함수
-export function wordDict() {
-  speechStore.texts = speechStore.texts.replace(" ", "");
+export async function wordToCommand(text:string) {
+  const speechWord = text.replace(" ", "");
   const WD: Record<string, string[]> = {
-    이전: ["이전", "이전으로", "이정", "이전구간으로"],
     다음: ["다음", "다음으로", "다음순서로", "다음구간으로", "당", "담"],
     한번더: ["한번더", "함더", "한번더해", "함덕", "한번더할게"],
     종료: [
@@ -80,11 +79,10 @@ export function wordDict() {
   };
 
   for (const key of Object.keys(WD)) {
-    if (WD[key].includes(speechStore.texts)) {
-      console.log(key);
+    if (WD[key].includes(speechWord)) {
       return key;
     }
   }
-  console.log("기타");
+
   return "기타";
 }

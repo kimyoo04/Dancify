@@ -9,12 +9,12 @@ export default function SectionResult({ data }: { data: IPractice }) {
   const { playIndex } = useAppSelector((state) => state.practice);
 
   return (
-    <div className="space-y-20">
-      <h1>{convertToOrdinal(playIndex)} 구간 연습 결과</h1>
+    <div className="h-full w-full space-y-10">
+      <h1 className="text-xl font-medium">{convertToOrdinal(playIndex)} 구간 연습 결과</h1>
 
       <ProgressBar />
 
-      <div className="row-center gap-10">
+      <div className="col-center w-full gap-6 sm:gap-10 lg:flex-row">
         <ScoreBoard />
         <SpeechCommand />
       </div>
