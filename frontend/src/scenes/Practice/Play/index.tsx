@@ -29,7 +29,7 @@ export default function Play({
   ); //? 인덱스를 바꿔주는 작업으로 숏폼 진행
 
   return (
-    <div className="h-screen w-screen">
+    <div className="min-h-[93%] w-screen">
       <MainWrapper>
         {isFinished ? (
           <SectionResult data={data} />
