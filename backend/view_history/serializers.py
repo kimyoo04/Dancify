@@ -1,8 +1,8 @@
 from rest_framework import serializers
 
 from .models import ViewHistory
-from posts.models import DancerPost
 from posts.serializers.dancer_post_serializers import DancerPostInfoSerializer
+
 
 class ViewHistorySerializer(serializers.ModelSerializer):
     """
