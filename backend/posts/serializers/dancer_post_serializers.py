@@ -7,7 +7,38 @@ from comments.models import Comment
 from like.models import Like
 
 
-class DancerPostGetListSerializer(serializers.ModelSerializer):
+class DancerPostInfoSerializer(serializers.ModelSerializer):
+    """
+    DancerPost의 기본 정보를 담고 있는 시리얼라이저
+    _____
+    - postId: 아이디
+    - genre: 장르
+    - title: 게시글 제목
+    - userId: 작성자 아이디
+    - nickname: 작성자 닉네임
+    - content: 게시글 내용
+    - createDate: 작성 일자
+    - video: 영상 URL
+    - thumbnail: 썸네일 URL
+    - views: 게시글 조회수
+    - !totalVideoLength: 전체 영상 길이
+    - feedbackPrice: 피드백 가격
+    """
+    postId = serializers.UUIDField(source='post_id')
+    userId = serializers.CharField(source='user.user_id')
+    nickname = serializers.CharField(source='user.nickname')
+    createDate = serializers.DateTimeField(source='create_date')
+    feedbackPrice = serializers.IntegerField(source='feedback_price')
+
+    class Meta:
+        model = DancerPost
+        ref_name = 'DancerPostInfoSerializer'
+        fields = ['postId', 'genre', 'title', 'userId', 'nickname',
+                  'content', 'createDate', 'video', 'thumbnail',
+                  'views', 'feedbackPrice']
+
+
+class DancerPostGetListSerializer(DancerPostInfoSerializer):
     """
     GET 요청이 들어와 List 액션을 실행할 때
     다음 Json을 반환하는 Serializer
@@ -16,22 +47,20 @@ class DancerPostGetListSerializer(serializers.ModelSerializer):
     - postId: 아이디
     - genre: 장르
     - title: 게시글 제목
+    - userId: 작성자 아이디
     - nickname: 작성자 닉네임
     - content: 게시글 내용
     - createDate: 작성 일자
     - video: 영상 URL
+    - thumbnail: 썸네일 URL
     - views: 게시글 조회수
     - likesCount: 좋아요 개수
     - commentsCount: 댓글 개수
     - !totalVideoLength: 전체 영상 길이
     - feedbackPrice: 피드백 가격
     """
-    postId = serializers.UUIDField(source='post_id')
-    nickname = serializers.CharField(source='user.nickname')
-    createDate = serializers.DateTimeField(source='create_date')
     commentsCount = serializers.SerializerMethodField()
     likesCount = serializers.SerializerMethodField()
-    feedbackPrice = serializers.IntegerField(source='feedback_price')
 
     def get_commentsCount(self, instance):
         return Comment.objects.filter(post_id=instance.post_id).count()
@@ -47,7 +76,7 @@ class DancerPostGetListSerializer(serializers.ModelSerializer):
         ref_name = 'DancerPostGetListSerializer'
 
 
-class DancerPostGetRetrieveSerializer(serializers.ModelSerializer):
+class DancerPostGetRetrieveSerializer(DancerPostInfoSerializer):
     """
     GET 요청이 들어와 Retrieve 액션을 실행할 때
     다음 Json을 반환하는 Serializer
@@ -61,6 +90,7 @@ class DancerPostGetRetrieveSerializer(serializers.ModelSerializer):
     - content: 게시글 내용
     - createDate: 작성 일자
     - video: 영상 URL
+    - thumbnail: 썸네일 URL
     - totalVideoLength: 전체 영상 길이
     - views: 게시글 조회수
     - userLike: 유저 좋아요 여부
@@ -68,13 +98,8 @@ class DancerPostGetRetrieveSerializer(serializers.ModelSerializer):
     - feedbackPrice: 피드백 가격
     - comments: 댓글 정보 리스트
     """
-    postId = serializers.UUIDField(source='post_id')
-    userId = serializers.CharField(source='user.user_id')
-    nickname = serializers.CharField(source='user.nickname')
-    createDate = serializers.DateTimeField(source='create_date')
     likesCount = serializers.SerializerMethodField()
     userLike = serializers.SerializerMethodField()
-    feedbackPrice = serializers.IntegerField(source='feedback_price')
     comments = serializers.SerializerMethodField()
 
     def get_likesCount(self, instance):
