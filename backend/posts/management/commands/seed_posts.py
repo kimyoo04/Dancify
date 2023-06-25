@@ -83,29 +83,29 @@ class Command(BaseCommand):
         # 영상 자랑 게시판 더미데이터 생성
         for i in range(18):
             seeder.add_entity(VideoPost, 1,
-                            {
-                                "user": lambda x: choice(users),
-                                "title": lambda x: seeder.faker.sentence(nb_words=4, variable_nb_words=True, ext_word_list=None) + choice(group_names),
-                                "content": lambda x: seeder.faker.sentence(nb_words=10, variable_nb_words=True, ext_word_list=None),
-                                "video": video_urls[i % 9],
-                                "thumbnail": thumbnail_urls[i % 9],
-                                "views": lambda x: randint(0, 999)
-                            })
+                              {
+                                  "user": lambda x: choice(users),
+                                  "title": lambda x: seeder.faker.sentence(nb_words=4, variable_nb_words=True, ext_word_list=None) + choice(group_names),
+                                  "content": lambda x: seeder.faker.sentence(nb_words=10, variable_nb_words=True, ext_word_list=None),
+                                  "video": video_urls[i % 9],
+                                  "thumbnail": thumbnail_urls[i % 9],
+                                  "views": lambda x: randint(0, 999)
+                              })
 
         # 댄서 게시판 더미데이터 생성
         for i in range(3):
             for j in range(6):
                 seeder.add_entity(DancerPost, 1,
-                                {
-                                    "user": lambda x: choice(users),
-                                    "title": lambda x: seeder.faker.sentence(nb_words=4, variable_nb_words=True, ext_word_list=None) + choice(group_names),
-                                    "content": lambda x: seeder.faker.sentence(nb_words=10, variable_nb_words=True, ext_word_list=None),
-                                    "video": video_urls[j],
-                                    "thumbnail": thumbnail_urls[j],
-                                    "keypoints": keypoints_urls[j],
-                                    "genre": lambda x: choice(['basic', 'kpop']),
-                                    "feedback_price": lambda x: randint(10, 99) * 1000,
-                                    "views": lambda x: randint(0, 999)
-                                })
+                                  {
+                                      "user": lambda x: choice(users),
+                                      "title": lambda x: seeder.faker.sentence(nb_words=4, variable_nb_words=True, ext_word_list=None) + choice(group_names),
+                                      "content": lambda x: seeder.faker.sentence(nb_words=10, variable_nb_words=True, ext_word_list=None),
+                                      "video": video_urls[j],
+                                      "thumbnail": thumbnail_urls[j],
+                                      "keypoints": keypoints_urls[j],
+                                      "genre": lambda x: choice(['basic', 'kpop']),
+                                      "feedback_price": lambda x: randint(10, 99) * 1000,
+                                      "views": lambda x: randint(0, 999)
+                                  })
 
         seeder.execute()
