@@ -16,23 +16,29 @@ export default function ProgressBar() {
       initial="hidden"
       animate="visible"
       variants={containerVariants}
-      style={{
-        width: "100%",
-        height: "20px",
-        backgroundColor: "#e0e0e0",
-        borderRadius: "10px",
-      }}
+      className="h-8 w-full rounded-md bg-gray-300"
     >
+      {/* 현재 단계 막대 */}
       <motion.div
         initial="initial"
         animate="animate"
         variants={barVariants(currentStep, totalSteps)}
-        style={{
-          height: "100%",
-          backgroundColor: "#3f51b5",
-          borderRadius: "10px",
-        }}
-      />
+        className="relative h-full rounded-l-md bg-primary"
+      >
+        <div>
+          {/* 툴팁 상자 */}
+          <div className="absolute -top-2 right-0 -translate-y-full translate-x-1/2 transform">
+            <div className="row-center gap-1 rounded-md bg-primary px-4 py-1 text-xs text-white">
+              <span className="text-lg">{currentStep}</span>
+              <span className="text-lg">/</span>
+              <span className="text-lg">{totalSteps}</span>
+            </div>
+          </div>
+
+          {/* 툴팁 삼각형 */}
+          <div className="absolute -top-2 right-0 h-0 w-0 translate-x-1/2 transform border-4 border-primary  border-l-transparent border-r-transparent border-b-transparent"></div>
+        </div>
+      </motion.div>
     </motion.div>
   );
 }
