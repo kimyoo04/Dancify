@@ -6,6 +6,8 @@ import BottomWrapper from "../Wrapper/BottomWrapper";
 
 import { Button } from "@components/ui/button";
 import { IPractice } from "@type/practice";
+import Information from "./Infomation";
+import ScoreBoard from "./ScoreBoard";
 
 export default function Result({
   onNext,
@@ -34,7 +36,12 @@ export default function Result({
   return (
     <div className="h-screen w-screen">
       <MainWrapper>
-        <h1>Result</h1>
+        <h1>총 연습 결과</h1>
+
+        <div className="row-center">
+          <Information />
+          <ScoreBoard />
+        </div>
       </MainWrapper>
 
       <BottomWrapper>
