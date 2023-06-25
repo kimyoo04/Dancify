@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { IFilterState, TGenre, TSort } from "@type/filter";
+import { IFilterState, TGenreValue, TSort } from "@type/filter";
 
 const initialState: IFilterState = {
   sort: "new",
@@ -15,7 +15,7 @@ export const filterSlice = createSlice({
       state.sort = actions.payload;
     },
     // 장르 변경
-    getGenre: (state, actions: PayloadAction<TGenre>) => {
+    getGenre: (state, actions: PayloadAction<TGenreValue>) => {
       state.genre = actions.payload;
     },
     // 필터 초기화

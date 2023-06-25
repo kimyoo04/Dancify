@@ -1,9 +1,9 @@
 import { Button } from "@components/ui/button";
 import { filterActions } from "@features/filter/filterSlice";
 import { useAppDispatch, useAppSelector } from "@toolkit/hook";
-import { TGenre } from "@type/filter";
+import { TGenreValue } from "@type/filter";
 
-export default function GenreButton({ genre }: { genre: TGenre }) {
+export default function GenreButton({ genre }: { genre: TGenreValue }) {
   const dispatch = useAppDispatch();
   const genreState = useAppSelector((state) => state.filter.genre);
   const activeColor =
