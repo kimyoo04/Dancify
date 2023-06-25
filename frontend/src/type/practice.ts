@@ -2,25 +2,46 @@ import { TThumbnail, TVideo } from "./posts";
 
 // practiceSlice.ts
 export interface IPracticeState {
-  step: TStep; // 현재 단계
+  step: TStep; // 연습의 단계
+  playIndex: TPlayIndex; // 영상의 단계
   isSkeleton: boolean; // 스켈레톤 매핑 유무
   selectedSections: number[]; // 선택한 섹션 인덱스 리스트
   sectionPracticeArr: ISectionPractice[]; // 섹션별 연습 기록 리스트
 }
 
+// 구간별 평가 및 연습 정보
 // practiceSlice.ts ~ setFirstScore
 export interface ISectionPractice {
-  sectionNumber: TSectionNumber;
   sectionId: TSectionId;
   firstScore: TFirstScore;
   bestScore: TBestScore;
   playCounts: TPlayCounts;
+  poseEstimation: IPoseEstimation;
 }
 
+// 구간별 첫 state 생성
+// practiceSlice.ts ~ setFirstScore
+export interface ISetFirstScore {
+  sectionId: TSectionId;
+  initScore: TInitScore; // 첫 점수로 firstScore와 bestScore 둘 다 전달
+  playCounts: TPlayCounts;
+  poseEstimation: IPoseEstimation;
+}
+
+// bestScore가 클 때 state 갱신
 // practiceSlice.ts ~ setBestScore
-export interface ISectionBestScore {
+export interface ISetBestScore {
   sectionId: TSectionId;
   bestScore: TBestScore;
+  poseEstimation: IPoseEstimation;
+}
+
+// 구간별 pose에 대한 평가 4가지 누적 값
+export interface IPoseEstimation {
+  miss: number;
+  good: number;
+  great: number;
+  excellent: number;
 }
 
 // GET /api/video-section/<postId>
@@ -43,7 +64,7 @@ export interface IDancerPost {
 }
 
 export interface ISection {
-  sectionId: string;
+  sectionId: TSectionId;
   video: TVideo;
   thumbnail: TThumbnail;
   keypoints: TKeypoints;
@@ -61,4 +82,12 @@ export type TSectionId = string;
 export type TStep = number;
 export type TFirstScore = number;
 export type TBestScore = number;
+export type TInitScore = number;
 export type TPlayCounts = number;
+export type TPlayIndex = 0 | 1 | 2 | 3 | 4;
+export type TPlayOrdinal =
+  | "첫번째"
+  | "두번째"
+  | "세번째"
+  | "네번째"
+  | "다섯번째";

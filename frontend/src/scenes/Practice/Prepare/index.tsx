@@ -30,7 +30,9 @@ export default function Prepare({
       if (router.asPath !== window.location.pathname) {
         window.history.pushState("", "", router.asPath);
       }
-      window.onbeforeunload = () => true;
+      window.onbeforeunload = () => {
+        return true;
+      };
       return () => {
         window.onbeforeunload = null;
       };
