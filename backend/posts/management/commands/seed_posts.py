@@ -93,7 +93,7 @@ class Command(BaseCommand):
                             })
 
         # 댄서 게시판 더미데이터 생성
-        for i in range(2):
+        for i in range(3):
             for j in range(6):
                 seeder.add_entity(DancerPost, 1,
                                 {
