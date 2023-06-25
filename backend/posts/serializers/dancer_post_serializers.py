@@ -14,6 +14,7 @@ class DancerPostGetListSerializer(serializers.ModelSerializer):
 
     _____
     - postId: 아이디
+    - genre: 장르
     - title: 게시글 제목
     - nickname: 작성자 닉네임
     - content: 게시글 내용
@@ -40,7 +41,7 @@ class DancerPostGetListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = DancerPost
-        fields = ['postId', 'title', 'nickname', 'content',
+        fields = ['postId', 'genre', 'title', 'nickname', 'content',
                   'createDate', 'video', 'thumbnail', 'views',
                   'commentsCount', 'likesCount', 'feedbackPrice']
         ref_name = 'DancerPostGetListSerializer'
@@ -53,6 +54,7 @@ class DancerPostGetRetrieveSerializer(serializers.ModelSerializer):
 
     _____
     - postId: 아이디
+    - genre: 장르
     - title: 게시글 제목
     - userId: 작성자 아이디
     - nickname: 작성자 닉네임
@@ -105,7 +107,7 @@ class DancerPostGetRetrieveSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = DancerPost
-        fields = ['postId', 'title', 'userId', 'nickname',
+        fields = ['postId', 'genre', 'title', 'userId', 'nickname',
                   'content', 'createDate', 'video', 'thumbnail',
                   'views', 'likesCount', 'userLike', 'feedbackPrice', 'comments']
         ref_name = 'DancerPostGetRetrieveSerializer'
@@ -116,13 +118,21 @@ class DancerPostPostPatchSerializer(serializers.HyperlinkedModelSerializer):
     POST, PATCH 요청이 들어오면 다음 Json을 받아 요청을 처리하는 Serializer
 
     ___
+    - genre: 장르
     - title: 게시글 제목
     - content: 게시글 내용
     - video: 사진 URL
     """
     feedbackPrice = serializers.IntegerField(source='feedback_price')
 
+    def validate(self, attrs):
+        GENRES = ['basic', 'kpop']
+        genre = attrs.get('genre')
+        if genre and genre not in GENRES:
+            raise serializers.ValidationError('올바른 장르를 선택해야 합니다.', code='invalid')
+        return super().validate(attrs)
+
     class Meta:
         model = DancerPost
-        fields = ['title', 'content', 'video', 'thumbnail', 'feedbackPrice']
+        fields = ['genre', 'title', 'content', 'video', 'thumbnail', 'feedbackPrice']
         ref_name = 'DancerPostPostPatchSerializer'

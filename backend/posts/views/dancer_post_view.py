@@ -8,7 +8,6 @@ from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework_simplejwt.exceptions import TokenError
 
-from accounts.authentication import decode_access_token
 from ..serializers.dancer_post_serializers import (
     DancerPostGetListSerializer,
     DancerPostGetRetrieveSerializer,
@@ -91,6 +90,7 @@ class DancerPostViewSet(BasePostViewSet):
     )
     def list(self, request, *args, **kwargs):
         q = self.request.GET.get('q', None)
+        genre = self.request.GET.get('genre', None)
 
         if q is not None and q.strip() != '':
             q = re.sub(r'\s+', ' ', q.strip())
@@ -102,6 +102,9 @@ class DancerPostViewSet(BasePostViewSet):
             if not created:
                 search_history.search_count = F('search_count') + 1
                 search_history.save()
+
+        if genre is not None:
+            self.queryset = self.queryset.filter(genre=genre)
 
         return super().list(request, *args, **kwargs)
 
@@ -162,8 +165,7 @@ class DancerPostViewSet(BasePostViewSet):
     def retrieve(self, request, *args, **kwargs):
         post_id = kwargs['pk']
         try:
-            access_token = request.COOKIES.get('Access-Token', None)
-            user_info = decode_access_token(access_token)
+            user_info = get_user_info_from_token(request)
 
             user_id = user_info['userId']
             user = User.objects.get(user_id=user_id)
