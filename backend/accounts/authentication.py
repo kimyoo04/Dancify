@@ -152,3 +152,31 @@ def set_cookies_to_response(response, refresh_token, access_token):
                         max_age=ACCESS_TOKEN_EXP)
 
     return response
+
+
+def is_logined(request):
+    """
+    사용자의 로그인 여부를 반환합니다.
+    Args:
+        request: 토큰이 포함된 요청
+
+    Returns:
+        boolean: 로그인 여부
+
+    """
+    refresh_token = None
+    access_token = None
+    try:
+        refresh_token = request.COOKIES['Refresh-Token']
+        access_token = request.COOKIES['Access-Token']
+
+        if (not validate_refresh_token(refresh_token) or not
+                validate_access_token(access_token)):
+            return False
+
+        print('리프레쉬, 엑세스 토큰 모두 정상입니다.')
+        # 위의 시나리오에서 걸러지지 않은 요청은 로그인된 사용자
+        return True
+
+    except KeyError:
+        return False
