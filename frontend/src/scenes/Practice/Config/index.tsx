@@ -13,16 +13,17 @@ import ConfigHeader from "./Header";
 import NormalPlayer from "@components/VideoPlayer/NormalPlayer";
 import SkeletonCheckBox from "./SkeletonCheckBox";
 import { ScrollArea, ScrollBar } from "@components/ui/scroll-area";
+import { practiceActions } from "@features/practice/practiceSlice";
+import { useAppDispatch, useAppSelector } from "@toolkit/hook";
 
 export default function Config({
-  onNext,
   data,
 }: {
-  onNext: () => void;
   data: IPractice;
-}) {
-  const router = useRouter();
-  const [mode, setMode] = useState("연습 모드");
+  }) {
+    const router = useRouter();
+    const dispatch = useAppDispatch();
+  const isRealMode = useAppSelector((state) => state.practice.isRealMode);
 
   // 새로고침 및 뒤로가기 방지
   useEffect(() => {
@@ -60,29 +61,25 @@ export default function Config({
           <div className="w-full px-2">
             <div className="row-center w-full overflow-hidden rounded-lg border-2 border-primary">
               <Button
-                variant={mode === "연습 모드" ? "default" : "ghost"}
-                onClick={() => setMode("연습 모드")}
-                className={`${
-                  mode === "연습 모드" ? "" : "bg-muted"
-                } w-full rounded-none`}
+                variant={!isRealMode ? "default" : "ghost"}
+                onClick={() => dispatch(practiceActions.toggleReal())}
+                className={`${!isRealMode ? "" : "bg-muted"} w-full rounded-none`}
               >
                 연습 모드
               </Button>
               <Button
-                variant={mode === "실전 모드" ? "default" : "ghost"}
-                onClick={() => setMode("실전 모드")}
-                className={`${
-                  mode === "실전 모드" ? "" : "bg-muted"
-                } w-full rounded-none`}
+                variant={isRealMode ? "default" : "ghost"}
+                onClick={() => dispatch(practiceActions.toggleReal())}
+                className={`${isRealMode ? "" : "bg-muted"} w-full rounded-none`}
               >
                 실전 모드
               </Button>
             </div>
           </div>
 
-          {/* 연습 모드 설정 영역 */}
-          {mode === "연습 모드" && (
+          {!isRealMode ? (
             <div className="w-full px-2">
+              {/* 연습 모드 설정 영역 */}
               <ScrollArea>
                 <ul className="flex space-x-4 pb-4">
                   {data.sections.map((data, index) => (
@@ -96,11 +93,9 @@ export default function Config({
                 <ScrollBar orientation="horizontal" />
               </ScrollArea>
             </div>
-          )}
-
-          {/* 실전 모드 설정 영역 */}
-          {mode === "실전 모드" && (
+          ) : (
             <div className="max-w-2xl px-2">
+              {/* 실전 모드 설정 영역 */}
               <NormalPlayer url={data.dancerPost.video} />
             </div>
           )}
@@ -111,7 +106,9 @@ export default function Config({
       </MainWrapper>
 
       <BottomWrapper>
-        <Button onClick={onNext}>다음</Button>
+        <Button onClick={() => dispatch(practiceActions.increaseStep())}>
+          다음
+        </Button>
       </BottomWrapper>
     </div>
   );

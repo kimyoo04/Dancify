@@ -28,20 +28,31 @@ export default function SectionPlay({
     height: 0,
   });
 
-  const [isBody, setIsBody] = useState(false); //? 전신 인식 확인
-  const [isVodReady, setIsVodReady] = useState(false); //? 스트리밍 준비 확인
+  const [count, setCount] = useState(5);
   const [poseMessage, setPoseMessage] = useState(""); //? 1초 마다 동작 평가를 저장
   // const [countDown, setCountDown] = useState(5);
-  const { playIndex, isSkeleton, selectedSections } = useAppSelector(
-    (state) => state.practice
-  ); // 선택된 섹션 인덱스 배열 가져오기
+  const {
+    playIndex,
+    isRealMode,
+    isSkeleton,
+    isFullBody,
+    isPlaying,
+    selectedSections,
+  } = useAppSelector((state) => state.practice); // 선택된 섹션 인덱스 배열 가져오기
 
   // 선택된 섹션만 추출
-  const selectedSectionUrls = data.sections.filter((section, index) =>
-    selectedSections.includes(index)
-  );
+  const selectedSectionUrls = isRealMode
+    ? [{video: data.dancerPost.video}]
+    : data.sections.filter((section, index) =>
+        selectedSections.includes(index)
+      );
 
-  function updateCallback(avgScore: number, poseMessages: IPoseMessages) {
+  function bodyCheckCallback() {
+    console.log("bodyCheckCallback");
+    dispatch(practiceActions.checkFullBody());
+  }
+
+  function resultCallback(avgScore: number, poseMessages: IPoseMessages) {
     dispatch(
       practiceActions.updateSectionPractice({
         sectionId: data.sections[playIndex].sectionId,
@@ -49,7 +60,7 @@ export default function SectionPlay({
         poseMessages,
       })
     );
-    dispatch(practiceActions.finishSectionPractice());
+    dispatch(practiceActions.finishSectionPlay());
   }
 
   // 창 크기가 변경될 때마다 웹캠의 크기를 변경하는 함수
@@ -66,15 +77,15 @@ export default function SectionPlay({
     const video = webcamRef.current?.video;
     if (video) {
       const { clientWidth, clientHeight } = video;
-      setVideoDimensions({width: clientWidth, height: clientHeight});
+      setVideoDimensions({ width: clientWidth, height: clientHeight });
     }
   };
 
-  // 1.5초 뒤와 resize 시 캔버스 크기 변경 (canvas 화질 문제 해결)
+  // 1.5초 뒤와 resize 시 캔버스 크기 변경 및 전신 체크 함수 실행
   useEffect(() => {
-    handleVideoResize()
+    handleVideoResize();
     handleWebcamResize();
-    webcamRef && danceableBodyCheck(webcamRef, detactor);
+    danceableBodyCheck(webcamRef, bodyCheckCallback);
     window.addEventListener("resize", handleWebcamResize);
     const tick = setTimeout(() => {
       handleVideoResize();
@@ -112,18 +123,39 @@ export default function SectionPlay({
     captureFrame();
   }, [webcamDimensions, isSkeleton]);
 
+  //! 카운트 다운 (수정 필요)
+  useEffect(() => {
+    if (isFullBody) {
+      const countDown = setInterval(() => {
+        setCount((prevCount) => prevCount - 1);
+      }, 1000);
+
+      return () => clearInterval(countDown);
+    }
+  }, [isFullBody]);
+
+  // 카운트 다운이 끝나면 영상 재생
+  useEffect(() => {
+    if (isFullBody) {
+      const timer = setTimeout(() => {
+        dispatch(practiceActions.playVideo());
+      }, 5000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [isFullBody, dispatch]);
+
   return (
     <div className="row-center w-full gap-10">
       <div className="row-center h-80 w-full">
-        {/* 스트리밍 영역 */}
         {/* //! 숏폼 UI 구현 필요 */}
-        {/* //! 무한스크롤과 비슷하게 구현이 될 것으로 보임 */}
+        {/* 스트리밍 영역 */}
         <motion.section
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.5 }}
-          className={`relative h-0 rounded-md overflow-hidden`}
+          className={`relative h-0 overflow-hidden rounded-md`}
           style={{
             width: `${videoDimensions.width / 2}px`,
             aspectRatio: `${videoDimensions.width / videoDimensions.height}`,
@@ -132,18 +164,19 @@ export default function SectionPlay({
         >
           <ReactPlayer
             url={selectedSectionUrls.map((section) => section.video)[playIndex]}
-            playing={true}
+            playing={isPlaying}
             width={"100%"}
             height={"100%"}
             className="absolute left-0 top-0 h-full w-full"
+            onEnded={() => dispatch(practiceActions.finishSectionPlay())}
           />
         </motion.section>
 
         <section className="relative overflow-hidden rounded-md">
-          {/* //! 웹캠 영상 */}
+          {/* 웹캠 영상 */}
           <Webcam ref={webcamRef} mirrored={true} />
 
-          {/* //! 스캘레톤 매핑 */}
+          {/* 스캘레톤 매핑 */}
           <canvas
             ref={canvasRef}
             style={{
@@ -152,14 +185,23 @@ export default function SectionPlay({
             className={`absolute top-0 z-10 h-full w-full`}
           />
 
-          {/* //! 전신 메시지 */}
-          <div className="col-center absolute top-0 z-10 h-full w-full">
-            {!isBody && (
-              <p className="text-xl bg-background px-2 rounded-md">전신이 보이도록 뒤로 이동해주세요.</p>
-            )}
-          </div>
+          {!isFullBody ? (
+            <div className="col-center absolute top-0 z-10 h-full w-full">
+              {/* 전신 메시지 */}
+              <p className="rounded-md bg-background px-2 text-xl">
+                전신이 보이도록 뒤로 이동해주세요.
+              </p>
+            </div>
+          ) : count > -1 ? (
+            <div className="col-center absolute top-0 z-10 h-full w-full">
+              {/* 카운트 다운 */}
+              <div className="col-center h-32 w-32 rounded-full bg-background">
+                <span className="text-5xl font-medium">{count}</span>
+              </div>
+            </div>
+          ) : null}
 
-          {/* //! 평가 UI 영역 */}
+          {/* 평가 UI 영역 */}
           <div className="col-center absolute bottom-4 left-4 z-10">
             {poseMessage !== "" && (
               <span className="text-lg font-medium">{poseMessage}</span>
