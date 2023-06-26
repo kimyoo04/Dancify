@@ -30,7 +30,7 @@ class Command(BaseCommand):
             'https://dancify-bucket.s3.ap-northeast-2.amazonaws.com/thumbnail/danceable1/dasd22141sdd12e21a-thumbnail.0000000.jpg',
             'https://dancify-bucket.s3.ap-northeast-2.amazonaws.com/thumbnail/danceable2/daslidj2189dhjq8wdjh-thumbnail.0000000.jpg',
             'https://dancify-bucket.s3.ap-northeast-2.amazonaws.com/thumbnail/user2/fdad21421098qwdd-thumbnail.0000000.jpg',
-            'https://dancify-bucket.s3.ap-northeast-2.amazonaws.com/thumbnail/dancer1/di391d890j31d8j231d8213jd-thumbnail.0000000.jpg',
+            'https://dancify-bucket.s3.ap-northeast-2.amazonaws.com/thumbnail/dancer1/d2390dj23dj2309f2f32-thumbnail.0000000.jpg',
             'https://dancify-bucket.s3.ap-northeast-2.amazonaws.com/thumbnail/dancer2/32e1209ujqwi0dj01289jd12-thumbnail.0000000.jpg',
             'https://dancify-bucket.s3.ap-northeast-2.amazonaws.com/thumbnail/dancer3/fd32fhj890fjwefiwefjwe-thumbnail.0000000.jpg',
             'https://dancify-bucket.s3.ap-northeast-2.amazonaws.com/thumbnail/user1/398ry238fh23ofj9280fjef-thumbnail.0000000.jpg',
