@@ -84,7 +84,7 @@ class DancerPostViewSet(BasePostViewSet):
         except (TokenError, KeyError):
             return Response(status=status.HTTP_401_UNAUTHORIZED)
 
-        data = request.data.copy()
+        data = request.data
 
         if data['video'] is not None:
             url_data = upload_video_with_metadata_to_s3(user_id, data['video'],
@@ -110,7 +110,7 @@ class DancerPostViewSet(BasePostViewSet):
         if instance.user.user_id != user_id:
             return Response(status=status.HTTP_403_FORBIDDEN)
 
-        data = request.data.copy()
+        data = request.data
         video = request.FILES.get('video', None)
 
         if video is not None:

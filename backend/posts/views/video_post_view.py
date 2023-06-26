@@ -87,7 +87,7 @@ class VideoPostViewSet(BasePostViewSet):
         if instance.user.user_id != user_id:
             return Response(status=status.HTTP_403_FORBIDDEN)
 
-        data = request.data.copy()
+        data = request.data
         video = request.FILES.get('video', None)
 
         if video is not None:

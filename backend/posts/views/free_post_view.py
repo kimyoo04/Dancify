@@ -60,7 +60,7 @@ class FreePostViewSet(BasePostViewSet):
         except (TokenError, KeyError):
             return Response(status=status.HTTP_401_UNAUTHORIZED)
 
-        data = request.data.copy()
+        data = request.data
         data['postImage'] = request.FILES.get('postImage', None)
 
         if data['postImage'] is not None:
@@ -84,7 +84,7 @@ class FreePostViewSet(BasePostViewSet):
         if instance.user.user_id != user_id:
             return Response(status=status.HTTP_403_FORBIDDEN)
 
-        data = request.data.copy()
+        data = request.data
         postImage = request.FILES.get('postImage', None)
 
         if postImage is not None:
