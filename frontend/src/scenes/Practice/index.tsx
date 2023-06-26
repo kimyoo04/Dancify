@@ -15,19 +15,24 @@ import { Button } from "@components/ui/button";
 import Result from "./Result";
 import { practiceActions } from "@features/practice/practiceSlice";
 import { useAppDispatch } from "@toolkit/hook";
+import { loadMoveNetDetector } from "@ai/movenet";
+import * as poseDetection from "@tensorflow-models/pose-detection";
 
 export default function Practice({ postId }: { postId: TPostId }) {
-  const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch();
 
   // 페이지 관리 state
   const [state, setState] = useState("연습설정");
+  const [detector, setDetector] = useState<poseDetection.PoseDetector | null>(
+    null
+  );
 
   // API GET 요청
   const { data, isLoading, error } = useReadVideoSection(postId);
 
   // 연습 초기화
   useEffect(() => {
-    dispatch(practiceActions.resetPractice())
+    dispatch(practiceActions.resetPractice());
   }, []);
 
   return (
@@ -46,12 +51,22 @@ export default function Practice({ postId }: { postId: TPostId }) {
           </Step>
 
           <Step isActive={state === "연습준비"}>
-            <Prepare onNext={() => setState("연습시작")} data={data} />
+            <Prepare
+              onNext={() => setState("연습시작")}
+              data={data}
+              setDetector={setDetector}
+            />
           </Step>
 
-          <Step isActive={state === "연습시작"}>
-            <Play onNext={() => setState("연습결과")} data={data} />
-          </Step>
+          {detector && (
+            <Step isActive={state === "연습시작"}>
+              <Play
+                onNext={() => setState("연습결과")}
+                data={data}
+                detactor={detector}
+              />
+            </Step>
+          )}
 
           <Step isActive={state === "연습결과"}>
             <Result onNext={() => setState("연습완료")} data={data} />
