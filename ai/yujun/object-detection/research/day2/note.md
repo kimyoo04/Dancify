@@ -8,22 +8,23 @@
 - 음성합성: 합성할 영상과 합성할 음성을 입력하면 .mp4 확장자로 저장
 - **음성분리** → object detection → object crop → **음성합성**
 
-## YOLOv5에서 사람만 인식하는 방법
+## YOLOv5에서 사람만 인식하는 방법 (폐기)
 - `python3 detect.py --weights yolov5s.pt --source (영상경로) --classes 0`
 
-## YOLOv5에서 인식한 객체를 크롭하는 방법 (후보군)
-- `python3 detect.py --weights yolov5s.pt --source (영상경로) --save-txt --classes 0`
-- YOLOv5의 결과물을 OpenCV를 통해 bounding box 안쪽만 잘라내는 방법
-    - 커맨드에 `--save-txt`를 입력하여 프레임 단위로 텍스트 파일을 받을 수 있음
-    - `class x_center y_center width height (0 0.517969 0.629861 0.0703125 0.434722)`
-        - class: 감지된 객체의 유형
+## mediapipe를 이용한 사람 인식
+- `mediapipe`의 Pose Estimation을 이용하여 신체 추정
+- YOLOv5 대비 작업속도 대폭 개선 (antifragile 기준)
+    - YOLOv5
+        - 소요시간: 3min
+        - 새로운 영상 생성, 프레임 단위로 detect 값 txt 파일 생성
+    - mediapipe
+        - 소요시간: 17sec
+        - detect 값을 리스트로 바로 받을 수 있음
+- `left_hip(11)`과 `right_hip(12)`만 구해서 그 가운데를 `x_center`로 놓음
+- `x_center`를 구해서 30 프레임의 이동평균을 구해 Smoothing하여 사용
 
-            (해석: 클래스 ID가 0인 객체가 있음)
-        - x_center, y_center: bounding box의 중심점 좌표, 이미지의 너비와 높이에 대한 비율로 표현됨
-
-            (해석: 그 중심점은 이미지의 너비와 높이에 대해 각각 51.8%, 63.0%에 있음)
-        - width, height: bounding box의 너비와 높이, 이미지의 너비와 높이에 대한 비율로 표현됨
-
-
-            (해석: bounding box의 너비와 높이는 이미지의 너비와 높이에 대해 각각 7.0%, 43.5%에 있음)
-- 몰라잉...
+## 최종 로직
+1. `moviepy`를 이용하여 음성 분리
+2. `mediapipe`를 이용하여 신체 인식
+3. `opencv`를 이용하여 영상 크롭
+4. `moviepy`를 이용하여 음성 합성
