@@ -14,12 +14,12 @@ import Link from "next/link";
 import { Button } from "@components/ui/button";
 import Result from "./Result";
 import { practiceActions } from "@features/practice/practiceSlice";
-import { useAppDispatch } from "@toolkit/hook";
-import { loadMoveNetDetector } from "@ai/movenet";
+import { useAppDispatch, useAppSelector } from "@toolkit/hook";
 import * as poseDetection from "@tensorflow-models/pose-detection";
 
 export default function Practice({ postId }: { postId: TPostId }) {
   const dispatch = useAppDispatch();
+  const step = useAppSelector((state) => state.practice.step);
 
   // 페이지 관리 state
   const [state, setState] = useState("연습설정");
@@ -46,33 +46,25 @@ export default function Practice({ postId }: { postId: TPostId }) {
       ) : //! 임시 조건 허용 data.dancerPost.hasOwnProperty("postId") && data.sections.length > 0
       data ? (
         <>
-          <Step isActive={state === "연습설정"}>
-            <Config onNext={() => setState("연습준비")} data={data} />
+          <Step isActive={step === 1}>
+            <Config data={data} />
           </Step>
 
-          <Step isActive={state === "연습준비"}>
-            <Prepare
-              onNext={() => setState("연습시작")}
-              data={data}
-              setDetector={setDetector}
-            />
+          <Step isActive={step === 2}>
+            <Prepare data={data} setDetector={setDetector} />
           </Step>
 
           {detector && (
-            <Step isActive={state === "연습시작"}>
-              <Play
-                onNext={() => setState("연습결과")}
-                data={data}
-                detactor={detector}
-              />
+            <Step isActive={step === 3}>
+              <Play data={data} detactor={detector} />
             </Step>
           )}
 
-          <Step isActive={state === "연습결과"}>
-            <Result onNext={() => setState("연습완료")} data={data} />
+          <Step isActive={step === 4}>
+            <Result data={data} />
           </Step>
 
-          <Step isActive={state === "연습완료"}>
+          <Step isActive={step === 5}>
             <Finish />
           </Step>
         </>

@@ -8,15 +8,12 @@ import { Button } from "@components/ui/button";
 import { IPractice } from "@type/practice";
 import Information from "./Infomation";
 import ScoreBoard from "./ScoreBoard";
+import { practiceActions } from "@features/practice/practiceSlice";
+import { useAppDispatch } from "@toolkit/hook";
 
-export default function Result({
-  onNext,
-  data,
-}: {
-  onNext: () => void;
-  data: IPractice;
-}) {
+export default function Result({ data }: { data: IPractice }) {
   const router = useRouter();
+  const dispatch = useAppDispatch();
 
   // 새로고침 및 뒤로가기 방지
   useEffect(() => {
@@ -45,7 +42,9 @@ export default function Result({
       </MainWrapper>
 
       <BottomWrapper>
-        <Button onClick={onNext}>확인</Button>
+        <Button onClick={() => dispatch(practiceActions.increaseStep())}>
+          확인
+        </Button>
       </BottomWrapper>
     </div>
   );

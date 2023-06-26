@@ -21,17 +21,18 @@ import Loading from "@components/Loading";
 import Link from "next/link";
 import Logo from "@components/Logo";
 import { loadMoveNetDetector } from "@ai/movenet";
+import { practiceActions } from "@features/practice/practiceSlice";
+import { useAppDispatch } from "@toolkit/hook";
 
 export default function Prepare({
-  onNext,
   data,
   setDetector,
 }: {
-  onNext: () => void;
   data: IPractice;
   setDetector: Dispatch<SetStateAction<poseDetection.PoseDetector | null>>;
 }) {
   const router = useRouter();
+  const dispatch = useAppDispatch();
   const [loading, setLoading] = useState(true);
   const [isDevice, setIsDevice] = useState(false);
   const [isDetactor, setIsDetactor] = useState(false);
@@ -47,7 +48,7 @@ export default function Prepare({
   // 모든 환경이 준비되었는지 확인
   useEffect(() => {
     async function initPractice() {
-      // 모델 로드
+      // 모델 로드 확인
       const moveNetDetector = await loadMoveNetDetector();
       setDetector(moveNetDetector);
       // 모델 유무 확인
@@ -141,7 +142,7 @@ export default function Prepare({
                   <Button
                     onClick={() => {
                       getFullScreen();
-                      onNext();
+                      dispatch(practiceActions.increaseStep());
                     }}
                     className="row-center w-full gap-2"
                     disabled={!isDevice || !isDetactor}

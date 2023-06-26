@@ -1,70 +1,38 @@
-const selector = (el: string): Element | null => document.querySelector(el);
-
-const speechStore = {
-  texts: "", // 인식된 텍스트 저장
-  isRecognizing: true, // 현재 음성 인식 중인지를 나타내는 프로퍼티
-};
-
-// 익명 함수를 정의하고 바로 실행 -> 코드 모듈화하여 전역 스코프 오염을 방지
-export function speechToText(speakButtonRef: any) {
-  // 만약 지원하지 않는 브라우저라면 알림 출력
+export default async function speechRecogFn(
+  updateCallback: (text: string | null) => void
+) {
+  const SpeechRecognition =
+    window.SpeechRecognition || window.webkitSpeechRecognition;
   if (!("webkitSpeechRecognition" in window)) {
-    alert("지원하지 않는 브라우저 입니다!");
+    alert("음성인식을 지원하지 않는 브라우저 입니다!");
+    updateCallback(null);
   } else {
-    const recognition = new webkitSpeechRecognition();
+    const recognition = new SpeechRecognition();
     recognition.interimResults = false; // true: 연속적 음절 인식 / false: 연속적 음절 인식 x
     recognition.lang = "ko-KR"; // 값이 없으면 HTML의 <html lang="en">을 참고합니다. ko-KR, en-US
     recognition.continuous = false; // true: 연속 결과 반환 / false: 단일 결과 반환
-    recognition.maxAlternatives = 20000; // 숫자가 작을수록 발음대로 적고, 클수록 문장의 적합도에 따라 알맞은 단어로 대체
+    recognition.maxAlternatives = 20000; // maxAlternatives가 숫자가 작을수록 발음대로 적고, 크면 문장의 적합도에 따라 알맞은 단어로 대체합니다.
 
     // 음성 인식이 끝났을 때 수행되는 동작
-    recognition.onspeechend = function () {
+    recognition.onspeechend = () => {
       recognition.stop();
-      speakButtonRef.classList.remove("on"); // 버튼 동작(마이크 on/off 표시)
-      speechStore.isRecognizing = true;
     };
 
     // 음성 인식 서비스 결과 반환
-    recognition.onresult = function (e: {
-      results: SpeechRecognitionResultList;
-    }) {
-      speechStore.texts = Array.from(e.results as SpeechRecognitionResultList)
-        .map((results) => results[0].transcript)
-        .join("");
-
-      console.log(speechStore.texts);
-      (selector("input") as HTMLInputElement).value = speechStore.texts;
-    };
-    /* Speech API END */
-
-    // 음성인식 활성화
-    const active = () => {
-      speakButtonRef.classList.add("on");
-      recognition.start();
-      speechStore.isRecognizing = false;
+    recognition.onresult = (e: SpeechRecognitionEvent) => {
+      const text = Array.from(e.results)
+        .map((result) => result[0].transcript)
+        .join("")
+        .replaceAll(" ", "");
+      updateCallback(wordToCommand(text));
     };
 
-    // 음성인식 비활성화
-    const unactive = () => {
-      speakButtonRef.classList.remove("on");
-      recognition.stop();
-      speechStore.isRecognizing = true;
-    };
-
-    speakButtonRef.addEventListener("click", () => {
-      if (speechStore.isRecognizing) {
-        active();
-      } else {
-        unactive();
-      }
-    });
+    recognition.start();
   }
 }
 
-// 텍스트 분류 함수
-export async function wordToCommand(text:string) {
+export function wordToCommand(text: string) {
   const speechWord = text.replace(" ", "");
-
   // 다음, 한번더, 종료가 포함되어 있으면 해당 키워드를 반환
   if (speechWord.includes("다음")) {
     return "다음";
@@ -72,7 +40,9 @@ export async function wordToCommand(text:string) {
     return "한번더";
   } else if (speechWord.includes("종료")) {
     return "종료";
+  } else if (speechWord.includes("완료")) {
+    return "완료";
   } else {
-    return "기타";
+    return speechWord;
   }
 }

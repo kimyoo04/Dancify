@@ -10,9 +10,11 @@ export default function PreviewSection({
 }: {
   data: ISection;
   index: number;
-  }) {
-  const dispatch = useAppDispatch()
-  const selectedSections = useAppSelector(state => state.practice.selectedSections)
+}) {
+  const dispatch = useAppDispatch();
+  const selectedSections = useAppSelector(
+    (state) => state.practice.selectedSections
+  );
 
   return (
     <div className="flex-shrink-0 space-y-3">
@@ -34,7 +36,7 @@ export default function PreviewSection({
             width={250}
             height={330}
             className={cn(
-              "h-auto w-auto object-cover transition-all scale-105 hover:scale-110"
+              "h-auto w-auto scale-105 object-cover transition-all hover:scale-110"
             )}
             style={{ width: `250px`, height: `330px` }}
           />
