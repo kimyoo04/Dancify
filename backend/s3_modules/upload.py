@@ -182,6 +182,9 @@ def upload_splitted_video_to_s3(request, user_id):
     Args:
         video (_type_): request.FILES['video']
         time_stamps (request(Text)): _description_
+    Returns:
+        result(list): 리스트 안에 분할영상의 키포인트, 썸네일, 동영상의 주소 가
+        딕셔너리 형태로 저장되어 있습니다.
     """
     video = request.FILES['video']
     video_type = 'dancer'
@@ -189,11 +192,10 @@ def upload_splitted_video_to_s3(request, user_id):
     video_file_extension = '.' + video.name.split('.')[-1]
     time_stamps = request.data['timestamp']
 
-
     time_stamps = list(map(int, time_stamps.split()))
     result = []
     for i in range(0, len(time_stamps), 2):
-        splitted_video = split_video(video, time_stamps[i], time_stamps[i+1])
+        splitted_video = split_video(video, time_stamps[i], time_stamps[i + 1])
         result.append(upload_video_with_metadata_to_s3(user_id, splitted_video, video_type,
                                                        is_mosaic, video_file_extension))
 
