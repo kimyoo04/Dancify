@@ -77,7 +77,7 @@ class FreePostViewSet(BasePostViewSet):
             user_info = get_user_info_from_token(request)
 
             user_id = user_info['userId']
-        except (TokenError, KeyError, User.DoesNotExist):
+        except (TokenError, KeyError):
             return Response(status=status.HTTP_401_UNAUTHORIZED)
 
         instance = self.get_object()
@@ -90,11 +90,11 @@ class FreePostViewSet(BasePostViewSet):
         if postImage is not None:
             data['postImage'] = upload_post_image_to_s3(user_id, postImage)
 
-        serializer = self.get_serializer(data=data, partial=True)
+        serializer = self.get_serializer(instance, data=data, partial=True)
         serializer.is_valid(raise_exception=True)
         self.perform_update(serializer)
 
-        return super().partial_update(request, *args, **kwargs)
+        return Response(status=status.HTTP_200_OK)
 
     def destroy(self, request, *args, **kwargs):
         return super().destroy(request, *args, **kwargs)
