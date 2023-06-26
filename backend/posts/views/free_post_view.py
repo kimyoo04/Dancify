@@ -77,7 +77,6 @@ class FreePostViewSet(BasePostViewSet):
             user_info = get_user_info_from_token(request)
 
             user_id = user_info['userId']
-            user = User.objects.get(user_id=user_id)
         except (TokenError, KeyError, User.DoesNotExist):
             return Response(status=status.HTTP_401_UNAUTHORIZED)
 
