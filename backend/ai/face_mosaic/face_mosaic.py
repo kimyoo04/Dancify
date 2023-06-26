@@ -60,9 +60,17 @@ def face_mosaic(videoname):
 
     # ---localpath에 videoname 변수로 mp4영상 저장하기---
     # 오리지널 비디오 파일 저장
-    with open(local_videopath, 'wb') as destination:
-        for chunk in videoname.chunks():
-            destination.write(chunk)
+    # bytes 객체이면
+    if isinstance(videoname, bytes):
+        with open(local_videopath, 'wb') as file:
+            # 파일 쓰기 작업 수행
+            file.write(videoname)
+
+    # file 객체이면
+    else:
+        with open(local_videopath, 'wb') as destination:
+            for chunk in videoname.chunks():
+                destination.write(chunk)
 
     # 오리지널 동영상 파일 열기
     cap = cv2.VideoCapture(local_videopath)

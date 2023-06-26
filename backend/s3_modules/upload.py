@@ -1,9 +1,12 @@
 import uuid
 import io
+import os
+import shutil
 
 from s3_modules.authentication import get_s3_client
 from ai.video_to_keypoint.vtk import video_to_keypoint
 from ai.face_mosaic.face_mosaic import face_mosaic
+from moviepy.editor import VideoFileClip, AudioFileClip
 
 AWS_DOMAIN = "https://dancify-bucket.s3.ap-northeast-2.amazonaws.com/"
 CLOUDFRONT_DOMAIN = "http://dyago72jbsqcn.cloudfront.net"
@@ -82,7 +85,7 @@ def get_thumbnailURL_from_s3(user_id, video_uuid):
     return thumbnail_url
 
 
-def upload_video_with_metadata_to_s3(user_id, video, video_type, is_mosaic):
+def upload_video_with_metadata_to_s3(user_id, video, video_type, is_mosaic, video_file_extension=''):
     """
     Args:
         user_id: user_id(토큰 에서 받아온 정보)\n
@@ -99,7 +102,10 @@ def upload_video_with_metadata_to_s3(user_id, video, video_type, is_mosaic):
 
     """
     video_uuid = str(uuid.uuid4()).replace('-', '')
-    video_file_extension = '.' + video.name.split('.')[-1]
+
+    if video_file_extension == '':
+        video_file_extension = '.' + video.name.split('.')[-1]
+
     result = {}
 
     # 키포인트 업로드(댄서, 댄서블인 경우)
@@ -107,15 +113,18 @@ def upload_video_with_metadata_to_s3(user_id, video, video_type, is_mosaic):
         json_obj = video_to_keypoint(video)
         result['keypoint_url'] = upload_keypoint_to_s3(user_id, json_obj,
                                                        video_uuid)
-
-    # 파일 포인터를 맨 앞으로 위치시킴
-    video.seek(0)
+    if not isinstance(video, bytes):
+        # 파일 포인터를 맨 앞으로 위치시킴
+        # bytes 객체는 seek()가 없음
+        video.seek(0)
 
     # 모자이크 여부에 따른 처리
     if is_mosaic:
         video = face_mosaic(video)
+
     # upload_fileobj 사용을 위해 모자이크 함수를 거치지 않으면 파일객체를 읽어서 bytes객체 반환
-    else:
+    # bytes 객체는 read() 없음
+    elif not isinstance(video, bytes):
         video = video.read()
 
     # 영상 업로드 & 썸네일 이미지 생성, 업로드
@@ -123,4 +132,69 @@ def upload_video_with_metadata_to_s3(user_id, video, video_type, is_mosaic):
                                              video_uuid, video_file_extension)
     # 썸네일 URL
     result['thumbnail_url'] = get_thumbnailURL_from_s3(user_id, video_uuid)
+    return result
+
+
+def split_video(video, start_timestamp, end_timestamp):
+    """타임스탬프에 맞게 비디오를 분할합니다.
+
+    Args:
+        video (_type_): request.FILES['video']
+        start_timestamp (int): 분할 영상의 시작지점(초)
+        end_timestamp (int): 분할 영상의 종료지점(초)
+
+    Returns:
+        _type_: result_video(Bytes)
+    """
+    # 영상 저장할 경로 지정
+    localpath = os.path.dirname(os.path.abspath(__file__))  # 현재 폴더
+    localpath = os.path.join(localpath, 'video')  # 현재 폴더/video/
+    os.makedirs(localpath, exist_ok=True)  # 폴더 생성
+
+    local_videopath = os.path.join(localpath, 'video_original.mp4')
+    result_path = os.path.join(localpath, 'result.mp4')
+
+    with open(local_videopath, 'wb') as destination:
+        for chunk in video.chunks():
+            destination.write(chunk)
+
+    # 비디오 자르기
+    video = VideoFileClip(local_videopath).subclip(start_timestamp,
+                                                   end_timestamp)
+    audio = AudioFileClip(local_videopath).subclip(start_timestamp,
+                                                   end_timestamp)
+    # 영상과 오디오 합치기
+    result = video.set_audio(audio)
+    result.write_videofile(result_path)
+
+    with open(result_path, 'rb') as file:
+        result_video = file.read()  # 바이너리 파일
+
+    # 편집에 사용되었던 localpath 폴더 삭제
+    shutil.rmtree(localpath)
+
+    return result_video
+
+
+def upload_splitted_video_to_s3(request, user_id):
+    """분할한 영상을 s3에 업로드합니다.
+
+    Args:
+        video (_type_): request.FILES['video']
+        time_stamps (request(Text)): _description_
+    """
+    video = request.FILES['video']
+    video_type = 'dancer'
+    is_mosaic = False
+    video_file_extension = '.' + video.name.split('.')[-1]
+    time_stamps = request.data['timestamp']
+
+
+    time_stamps = list(map(int, time_stamps.split()))
+    result = []
+    for i in range(0, len(time_stamps), 2):
+        splitted_video = split_video(video, time_stamps[i], time_stamps[i+1])
+        result.append(upload_video_with_metadata_to_s3(user_id, splitted_video, video_type,
+                                                       is_mosaic, video_file_extension))
+
     return result
