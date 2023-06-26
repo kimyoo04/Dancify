@@ -50,6 +50,7 @@ class VideoSectionPatchSerializer(serializers.ModelSerializer):
     video_url = serializers.URLField(source='video')
     thumbnail_url = serializers.URLField(source='thumbnail')
     keypoint_url = serializers.URLField(source='keypoints')
+
     class Meta:
         model = VideoSection
         fields = ['video_url', 'thumbnail_url',

@@ -1,7 +1,6 @@
 import re
 from django.http import JsonResponse
 from django.db.models import F
-from uuid import UUID
 
 from rest_framework import status
 from rest_framework.response import Response
@@ -108,7 +107,7 @@ class DancerPostViewSet(BasePostViewSet):
             section_serializer.is_valid(raise_exception=True)
             section_serializer.save(dancer_post=DancerPost.objects.get(post_id=serializer.instance.post_id))
 
-        return JsonResponse({'result':result}, status=status.HTTP_201_CREATED)
+        return JsonResponse({'result': result}, status=status.HTTP_201_CREATED)
 
     def partial_update(self, request, *args, **kwargs):
         try:
