@@ -7,13 +7,13 @@ import { IVideoPostsPerPage } from "@type/videoPosts";
 import { TUserId } from "@type/auth";
 import { useAppSelector } from "@toolkit/hook";
 import { TSearchKeyword } from "@type/search";
-import { TGenre, TSort } from "@type/filter";
+import { TGenreValue, TSort } from "@type/filter";
 
 export const readVideoMyPostsPerPage = async (
   page: number,
   searchKeyword: TSearchKeyword,
   sort: TSort,
-  genre: TGenre,
+  genre: TGenreValue,
   id: TUserId
 ) => {
   const params: IMyPostQueryParams = { page, user: id };
