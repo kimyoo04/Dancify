@@ -1,15 +1,19 @@
-import audio_editing
+import os
+import shortform_generator
+import sys
+sys.path.append(
+    "/Users/yujunwon/Project/dancify/ai/yujun/object-detection/code/")
 
-audio_editing.extract_audio(
-    "./original_videos/hypeboy.mp4", './audios/hypeboy.mp3')
+# 현재 스크립트의 절대 경로를 얻음
+abs_path = os.path.abspath(__file__)
 
-# ---------------------------------------------------------------------------------
-# 1. 신체 인식
-# 2. 크롭
-# ---------------------------------------------------------------------------------
+# 현재 스크립트의 디렉토리를 얻음
+dir_name = os.path.dirname(abs_path)
 
-audio_editing.merge_video_audio(
-    "./detected_videos/hypeboy.mp4", "./audios/hypeboy.mp3", "./results/hypeboy.mp4")
+# 작업 디렉토리를 현재 스크립트의 디렉토리로 설정
+os.chdir(dir_name)
 
-
-# 아직 미완성
+# 사용 예시
+shortform_generator.generate_video(
+    video_path="ai/yujun/object-detection/code/audio_video/omg.mp4",
+    output_path="ai/yujun/object-detection/code/result", keyword="omg")
