@@ -62,7 +62,8 @@ def calculate_keypoints(video_path):
     total_frame_no = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
     keypoints_dict = {}
 
-    with mp_pose.Pose(min_detection_confidence=0.5, min_tracking_confidence=0.5) as pose:
+    with mp_pose.Pose(min_detection_confidence=0.5,
+                      min_tracking_confidence=0.5) as pose:
         frame_num = 0
         last_valid_keypoints = None
         while cap.isOpened():
@@ -78,8 +79,10 @@ def calculate_keypoints(video_path):
 
             if results.pose_landmarks:
                 keypoints = results.pose_landmarks.landmark
-                keypoints_dict[frame_num] = [(int(keypoints[11].x * width), int(keypoints[11].y * height)),
-                                             (int(keypoints[12].x * width), int(keypoints[12].y * height))]
+                keypoints_dict[frame_num] = [(int(keypoints[11].x * width),
+                                              int(keypoints[11].y * height)),
+                                             (int(keypoints[12].x * width),
+                                              int(keypoints[12].y * height))]
                 last_valid_keypoints = keypoints_dict[frame_num]
             else:
                 keypoints_dict[frame_num] = last_valid_keypoints
@@ -109,7 +112,8 @@ def interpolate_keypoints(total_frame_no, keypoints_dict):
                 end = np.array(keypoints_dict[i])
                 for j in range(start_frame + 1, i):
                     keypoints_dict[j] = tuple(
-                        int(start + (end - start) * (j - start_frame) / (i - start_frame)))  # type: ignore
+                        int(start + (end - start) * (j - start_frame)
+                            / (i - start_frame)))  # type: ignore
                 start_frame = None
 
     for i in range(total_frame_no - 1, -1, -1):
@@ -146,7 +150,7 @@ def create_video(video_path, x_centers, output_path):
     frame_no = 0
     while (cap.isOpened()):
         ret, frame = cap.read()
-        if ret == True:
+        if ret is True:
             H, W = frame.shape[:2]
             x_center = x_centers[frame_no]
             start_x = max(0, int(x_center - (1080 * (9 / 16)) // 2))
