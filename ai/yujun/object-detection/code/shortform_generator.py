@@ -126,10 +126,10 @@ def calculate_moving_average(numbers, window_size):
     moving_averages = []
     for i in range(len(numbers)):
         if i < window_size - 1:
-            window_sum = sum(numbers[:i+1])
-            moving_averages.append(int(window_sum / (i+1)))
+            window_sum = sum(numbers[:i + 1])
+            moving_averages.append(int(window_sum / (i + 1)))
         else:
-            window_sum = sum(numbers[i-window_size+1:i+1])
+            window_sum = sum(numbers[i - window_size + 1:i + 1])
             moving_averages.append(int(window_sum / window_size))
     return moving_averages
 
@@ -140,7 +140,8 @@ def create_video(video_path, x_centers, output_path):
     x_centers = np.array(x_centers)
 
     fourcc = cv2.VideoWriter_fourcc(*"avc1")
-    out = cv2.VideoWriter(output_path, fourcc, 30.0, (int(1080*(9/16)), 1080))
+    out = cv2.VideoWriter(output_path, fourcc, 30.0,
+                          (int(1080 * (9 / 16)), 1080))
 
     frame_no = 0
     while (cap.isOpened()):
@@ -148,12 +149,13 @@ def create_video(video_path, x_centers, output_path):
         if ret == True:
             H, W = frame.shape[:2]
             x_center = x_centers[frame_no]
-            start_x = max(0, int(x_center - (1080*(9/16))//2))
-            end_x = min(W, int(x_center + (1080*(9/16))//2))
+            start_x = max(0, int(x_center - (1080 * (9 / 16)) // 2))
+            end_x = min(W, int(x_center + (1080 * (9 / 16)) // 2))
             start_y = 0
             end_y = H
             cropped_frame = frame[start_y:end_y, start_x:end_x]
-            resized_frame = cv2.resize(cropped_frame, (int(1080*(9/16)), 1080))
+            resized_frame = cv2.resize(
+                cropped_frame, (int(1080 * (9 / 16)), 1080))
             out.write(resized_frame)
             frame_no += 1
         else:
