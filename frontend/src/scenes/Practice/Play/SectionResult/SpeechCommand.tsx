@@ -46,9 +46,9 @@ export default function SpeechCommand() {
         {/* 녹음된 음성 */}
         <div className="col-center h-2/3 w-full rounded-md">
           {transcript !== "" ? (
-              <p className="text-2xl font-medium">{transcript}</p>
+            <p className="text-2xl font-medium">{transcript}</p>
           ) : (
-            <SpeechLoading/>
+            <SpeechLoading />
           )}
         </div>
 

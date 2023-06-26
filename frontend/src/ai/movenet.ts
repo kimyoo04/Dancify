@@ -73,7 +73,7 @@ export async function loadMoveNetDetector() {
   await tf.ready();
   const model = poseDetection.SupportedModels.MoveNet;
   const detector = await poseDetection.createDetector(model); // 모델 로드
-  return detector
+  return detector;
 }
 
 export async function detect(
@@ -88,7 +88,7 @@ export async function detect(
     webcam.width = videoWidth;
     webcam.height = videoHeight;
 
-    const pose = await detactor.estimatePoses(webcam) as poseType[];
+    const pose = (await detactor.estimatePoses(webcam)) as poseType[];
     if (pose.length > 0) return pose;
     else return "error";
   } catch (error) {

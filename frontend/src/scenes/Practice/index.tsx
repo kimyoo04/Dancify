@@ -19,7 +19,7 @@ import * as poseDetection from "@tensorflow-models/pose-detection";
 
 export default function Practice({ postId }: { postId: TPostId }) {
   const dispatch = useAppDispatch();
-  const step = useAppSelector(state => state.practice.step)
+  const step = useAppSelector((state) => state.practice.step);
 
   // 페이지 관리 state
   const [state, setState] = useState("연습설정");
@@ -51,18 +51,12 @@ export default function Practice({ postId }: { postId: TPostId }) {
           </Step>
 
           <Step isActive={step === 2}>
-            <Prepare
-              data={data}
-              setDetector={setDetector}
-            />
+            <Prepare data={data} setDetector={setDetector} />
           </Step>
 
           {detector && (
             <Step isActive={step === 3}>
-              <Play
-                data={data}
-                detactor={detector}
-              />
+              <Play data={data} detactor={detector} />
             </Step>
           )}
 

@@ -30,9 +30,9 @@ export default function Prepare({
 }: {
   data: IPractice;
   setDetector: Dispatch<SetStateAction<poseDetection.PoseDetector | null>>;
-  }) {
+}) {
   const router = useRouter();
-  const dispatch = useAppDispatch()
+  const dispatch = useAppDispatch();
   const [loading, setLoading] = useState(true);
   const [isDevice, setIsDevice] = useState(false);
   const [isDetactor, setIsDetactor] = useState(false);

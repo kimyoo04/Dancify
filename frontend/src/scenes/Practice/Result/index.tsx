@@ -11,11 +11,7 @@ import ScoreBoard from "./ScoreBoard";
 import { practiceActions } from "@features/practice/practiceSlice";
 import { useAppDispatch } from "@toolkit/hook";
 
-export default function Result({
-  data,
-}: {
-  data: IPractice;
-}) {
+export default function Result({ data }: { data: IPractice }) {
   const router = useRouter();
   const dispatch = useAppDispatch();
 

@@ -97,7 +97,7 @@ export default function Finish() {
   ];
 
   return (
-    <div className="w-full space-y-20 px-6 -mb-[7%]">
+    <div className="-mb-[7%] w-full space-y-20 px-6">
       <section className="space-y-4">
         <p className="text-xl font-medium">다른 영상을 연습해보시겠어요?</p>
 

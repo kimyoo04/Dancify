@@ -59,9 +59,7 @@ export default function Play({
             연습 완료
           </Button>
         ) : (
-          <Button
-            onClick={() => dispatch(practiceActions.moveNextSection())}
-          >
+          <Button onClick={() => dispatch(practiceActions.moveNextSection())}>
             다음 구간 연습
           </Button>
         )}

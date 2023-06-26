@@ -1,4 +1,4 @@
-import { DotTransition, DotVariants, dotContainerVariants } from "@util/variants/dot";
+import { DotVariants, dotContainerVariants } from "@util/variants/dot";
 import { motion } from "framer-motion";
 
 export default function SpeechLoading() {

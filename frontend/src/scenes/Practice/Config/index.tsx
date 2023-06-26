@@ -16,13 +16,9 @@ import { ScrollArea, ScrollBar } from "@components/ui/scroll-area";
 import { practiceActions } from "@features/practice/practiceSlice";
 import { useAppDispatch, useAppSelector } from "@toolkit/hook";
 
-export default function Config({
-  data,
-}: {
-  data: IPractice;
-  }) {
-    const router = useRouter();
-    const dispatch = useAppDispatch();
+export default function Config({ data }: { data: IPractice }) {
+  const router = useRouter();
+  const dispatch = useAppDispatch();
   const isRealMode = useAppSelector((state) => state.practice.isRealMode);
 
   // 새로고침 및 뒤로가기 방지
@@ -63,14 +59,18 @@ export default function Config({
               <Button
                 variant={!isRealMode ? "default" : "ghost"}
                 onClick={() => dispatch(practiceActions.toggleReal())}
-                className={`${!isRealMode ? "" : "bg-muted"} w-full rounded-none`}
+                className={`${
+                  !isRealMode ? "" : "bg-muted"
+                } w-full rounded-none`}
               >
                 연습 모드
               </Button>
               <Button
                 variant={isRealMode ? "default" : "ghost"}
                 onClick={() => dispatch(practiceActions.toggleReal())}
-                className={`${isRealMode ? "" : "bg-muted"} w-full rounded-none`}
+                className={`${
+                  isRealMode ? "" : "bg-muted"
+                } w-full rounded-none`}
               >
                 실전 모드
               </Button>
