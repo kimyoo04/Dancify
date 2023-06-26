@@ -44,3 +44,10 @@ class VideoSectionListSerializer(serializers.Serializer):
         model = VideoSection
         fields = ['dancerPost', 'sections']
         ref_name = 'VideoSectionListSerializer'
+
+
+class VideoSectionPatchSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = VideoSection
+        fields = ['video', 'thumbnail',
+                  'section_number', 'keypoints']
