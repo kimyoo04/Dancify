@@ -33,7 +33,7 @@
  ┣ 📜ai_feedback.py
  ┣ 📜angle_calculation.py
  ┣ 📜example.py
- ┗ 📜note.md```
+ ┗ 📜note.md
 ```
 - `aihub_sample`: 댄서 JSON
 - `final_result`: `aihub_sample`의 JSON을 댄서-댄서블 JSON으로 가정하여 입력으로 사용한 결과물
