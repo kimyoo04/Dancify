@@ -112,8 +112,7 @@ def interpolate_keypoints(total_frame_no, keypoints_dict):
                 end = np.array(keypoints_dict[i])
                 for j in range(start_frame + 1, i):
                     keypoints_dict[j] = tuple(
-                        int(start + (end - start) * (j - start_frame)
-                            / (i - start_frame)))  # type: ignore
+                        int(start + (end - start) * (j - start_frame) / (i - start_frame)))  # type: ignore
                 start_frame = None
 
     for i in range(total_frame_no - 1, -1, -1):
