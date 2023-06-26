@@ -5,13 +5,28 @@ import { motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import ReactPlayer from "react-player";
 import Webcam from "react-webcam";
+import * as poseDetection from "@tensorflow-models/pose-detection";
+import { danceableBodyCheck } from "@ai/movenet";
 
-export default function SectionPlay({ data }: { data: IPractice }) {
+export default function SectionPlay({
+  data,
+  detactor,
+}: {
+  data: IPractice;
+  detactor: poseDetection.PoseDetector;
+}) {
   const dispatch = useAppDispatch();
 
   const webcamRef = useRef<Webcam>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
+  const [webcamDimensions, setWebcamDimensions] = useState({
+    width: 0,
+    height: 0,
+  });
+  const [videoDimensions, setVideoDimensions] = useState({
+    width: 0,
+    height: 0,
+  });
 
   const [isBody, setIsBody] = useState(false); //? 전신 인식 확인
   const [isVodReady, setIsVodReady] = useState(false); //? 스트리밍 준비 확인
@@ -34,24 +49,39 @@ export default function SectionPlay({ data }: { data: IPractice }) {
         poseMessages,
       })
     );
-    dispatch(practiceActions.finishSectionPractice())
+    dispatch(practiceActions.finishSectionPractice());
   }
 
-  // 창 크기가 변경될 때마다 캔버스 크기를 변경해주는 함수
-  const handleResize = () => {
-    const video = webcamRef.current?.video;
-    if (video) {
-      const { clientWidth, clientHeight } = video;
-      setDimensions({ width: clientWidth, height: clientHeight });
+  // 창 크기가 변경될 때마다 웹캠의 크기를 변경하는 함수
+  const handleWebcamResize = () => {
+    const webcam = webcamRef.current?.video;
+    if (webcam) {
+      const { clientWidth, clientHeight } = webcam;
+      setWebcamDimensions({ width: clientWidth, height: clientHeight });
     }
   };
 
-  // 2초 뒤와 resize 시 캔버스 크기 변경 (canvas 화질 문제 해결)
+  // videoRef의 크기를 state에 저장하는 함수
+  const handleVideoResize = () => {
+    const video = webcamRef.current?.video;
+    if (video) {
+      const { clientWidth, clientHeight } = video;
+      setVideoDimensions({width: clientWidth, height: clientHeight});
+    }
+  };
+
+  // 1.5초 뒤와 resize 시 캔버스 크기 변경 (canvas 화질 문제 해결)
   useEffect(() => {
-    const tick = setTimeout(() => { handleResize(); }, 2000);
-    window.addEventListener("resize", handleResize);
+    handleVideoResize()
+    handleWebcamResize();
+    webcamRef && danceableBodyCheck(webcamRef, detactor);
+    window.addEventListener("resize", handleWebcamResize);
+    const tick = setTimeout(() => {
+      handleVideoResize();
+      handleWebcamResize();
+    }, 3000);
     return () => {
-      window.removeEventListener("resize", handleResize);
+      window.removeEventListener("resize", handleWebcamResize);
       clearTimeout(tick);
     };
   }, []);
@@ -64,7 +94,7 @@ export default function SectionPlay({ data }: { data: IPractice }) {
     const context = canvas.getContext("2d");
     if (!context) return;
 
-    const { width, height } = dimensions;
+    const { width, height } = webcamDimensions;
     canvas.width = width;
     canvas.height = height;
 
@@ -80,59 +110,63 @@ export default function SectionPlay({ data }: { data: IPractice }) {
     };
 
     captureFrame();
-  }, [dimensions, isSkeleton]);
+  }, [webcamDimensions, isSkeleton]);
 
   return (
     <div className="row-center w-full gap-10">
-      {/* 스트리밍 영역 */}
-      {/* //! 숏폼 UI 구현 필요 */}
-      {/* //! 무한스크롤과 비슷하게 구현이 될 것으로 보임 */}
-      <motion.section
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        transition={{ duration: 0.5 }}
-        className="h-full w-[500px] overflow-hidden rounded-md"
-      >
-        <div className="relative pt-[100%]">
+      <div className="row-center h-80 w-full">
+        {/* 스트리밍 영역 */}
+        {/* //! 숏폼 UI 구현 필요 */}
+        {/* //! 무한스크롤과 비슷하게 구현이 될 것으로 보임 */}
+        <motion.section
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.5 }}
+          className={`relative h-0 rounded-md overflow-hidden`}
+          style={{
+            width: `${videoDimensions.width / 2}px`,
+            aspectRatio: `${videoDimensions.width / videoDimensions.height}`,
+            paddingBottom: `${webcamDimensions.height}px`,
+          }}
+        >
           <ReactPlayer
             url={selectedSectionUrls.map((section) => section.video)[playIndex]}
-            playing={false}
-            width="100%"
-            height="100%"
-            className="absolute left-0 top-0"
+            playing={true}
+            width={"100%"}
+            height={"100%"}
+            className="absolute left-0 top-0 h-full w-full"
           />
-        </div>
-      </motion.section>
+        </motion.section>
 
-      {/* 웹캠 영역 */}
-      <section className="relative overflow-hidden rounded-md">
-        {/* //! 웹캠 영상 */}
-        <Webcam ref={webcamRef} mirrored={true} />
+        <section className="relative overflow-hidden rounded-md">
+          {/* //! 웹캠 영상 */}
+          <Webcam ref={webcamRef} mirrored={true} />
 
-        {/* //! 스캘레톤 매핑 */}
-        <canvas
-          ref={canvasRef}
-          style={{
-            transform: `scaleX(-1)`, // 거울모드
-          }}
-          className={`absolute top-0 z-10 h-full w-full`}
-        />
+          {/* //! 스캘레톤 매핑 */}
+          <canvas
+            ref={canvasRef}
+            style={{
+              transform: `scaleX(-1)`, // 거울모드
+            }}
+            className={`absolute top-0 z-10 h-full w-full`}
+          />
 
-        {/* //! 전신 메시지 */}
-        <div>
-          {!isBody && (
-            <p className="text-xl">전신이 보이도록 뒤로 이동해주세요.</p>
-          )}
-        </div>
+          {/* //! 전신 메시지 */}
+          <div className="col-center absolute top-0 z-10 h-full w-full">
+            {!isBody && (
+              <p className="text-xl bg-background px-2 rounded-md">전신이 보이도록 뒤로 이동해주세요.</p>
+            )}
+          </div>
 
-        {/* //! 평가 UI 영역 */}
-        <div>
-          {poseMessage !== "" && (
-            <span className="text-lg font-medium">{poseMessage}</span>
-          )}
-        </div>
-      </section>
+          {/* //! 평가 UI 영역 */}
+          <div className="col-center absolute bottom-4 left-4 z-10">
+            {poseMessage !== "" && (
+              <span className="text-lg font-medium">{poseMessage}</span>
+            )}
+          </div>
+        </section>
+      </div>
     </div>
   );
 }

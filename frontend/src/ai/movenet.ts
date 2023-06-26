@@ -5,11 +5,13 @@ import { drawKeypoints, drawSkeleton } from "@ai/utilities";
 
 import { IPoseMessages, TSectionId } from "@type/practice";
 import { Pose as poseType } from "@type/moveNet";
+
 import * as poseDetection from "@tensorflow-models/pose-detection";
+import * as tf from "@tensorflow/tfjs";
 
 import { postPracticeResult } from "@api/dance/postPracticeData";
 
-export function webcamSize (webcam: HTMLVideoElement) {
+export function webcamSize(webcam: HTMLVideoElement) {
   const webcamWidth = webcam.videoWidth;
   const webcamHeight = webcam.videoHeight;
 
@@ -18,9 +20,9 @@ export function webcamSize (webcam: HTMLVideoElement) {
   webcam.height = webcamHeight;
 
   return { webcam, webcamWidth, webcamHeight };
-};
+}
 
-export function getCanvasContext (
+export function getCanvasContext(
   webcamWidth: number,
   webcamHeight: number,
   canvas: HTMLCanvasElement
@@ -29,18 +31,25 @@ export function getCanvasContext (
   canvas.width = webcamWidth;
   canvas.height = webcamHeight;
   return ctx;
-};
+}
 
 export function drawCanvas(pose: poseType[], ctx: CanvasRenderingContext2D) {
   //? (keypoints, confidence_score, context)
   drawKeypoints(pose[0]["keypoints"], 0.45, ctx);
   drawSkeleton(pose[0]["keypoints"], 0.45, ctx);
-};
+}
 
 export function clearCanvas(canvas: HTMLCanvasElement) {
   const ctx = canvas.getContext("2d");
   ctx !== null && ctx.clearRect(0, 0, canvas.width, canvas.height);
-};
+}
+
+export async function loadMoveNetDetector() {
+  await tf.ready();
+  const model = poseDetection.SupportedModels.MoveNet;
+  const detector = await poseDetection.createDetector(model); // 모델 로드
+  return detector;
+}
 
 export async function detect(
   webcam: HTMLVideoElement,
@@ -48,12 +57,13 @@ export async function detect(
 ) {
   try {
     const pose = (await movenet_model.estimatePoses(webcam)) as poseType[];
+    console.log(pose)
     if (pose.length > 0) return pose;
     else return "error";
   } catch (error) {
     return "error";
   }
-};
+}
 
 export function scoreToMessage(score: number) {
   if (score < 60) {
@@ -65,7 +75,7 @@ export function scoreToMessage(score: number) {
   } else {
     return "Excellent";
   }
-};
+}
 
 export async function danceableBodyCheck(
   webcamRef: React.RefObject<Webcam>,
@@ -75,17 +85,19 @@ export async function danceableBodyCheck(
     // 댄서블의 keypoints값 추출
     const webcamTag = webcamRef.current?.video as HTMLVideoElement;
     const danceable = await detect(webcamTag, detector);
-
     // 모든 부위의 confidence score가 0.5이상인지 확인
     if (danceable !== "error") {
       const scores = danceable[0].keypoints.map((kp) => kp.score);
+      console.log(scores)
       if (scores.every((score) => score >= 0.5)) {
         clearInterval(bodyCheckPerSec);
+        console.log("🚀 ~ file: movenet.ts:95 ~ bodyCheckPerSec ~ clearInterval:", clearInterval)
         return true;
       }
     }
+    console.log(danceable)
   }, 1000);
-};
+}
 
 export async function runMovenet(
   sectionId: TSectionId,
@@ -101,7 +113,7 @@ export async function runMovenet(
 
   //구간의 평균 유사도 점수
   let avgCosineDistance = 0;
-  let oneMinuteCosineDistance = 0; //1분동안의 유사도 점수(miss,good,great,excellent)
+  let oneSecCosineDistance = 0; // 1초동안의 유사도 점수(miss, good, great, excellent)
 
   //반복문 실행
   let indx = 1;
@@ -135,18 +147,20 @@ export async function runMovenet(
       danceableJson.push(danceable); //댄서블 실시간 keypoint 저장
 
       if (cosineDistance instanceof Error) {
-        console.log("error");
+        console.log(
+          "🚀 ~ file: movenet.ts:138 ~ cosineDistance: error",
+          cosineDistance
+        );
       } else {
-        oneMinuteCosineDistance += cosineDistance;
+        oneSecCosineDistance += cosineDistance;
 
-        //1초 지나면 avgCosineDistance에 더해주고 점수 메세지 출력한 뒤, oneMinuteCosineDistance 초기화
+        //1초 지나면 avgCosineDistance에 더해주고 점수 메세지 출력한 뒤, oneSecCosineDistance 초기화
         if (indx % 15 === 0) {
-          avgCosineDistance += oneMinuteCosineDistance;
-          // setMessage(oneMinuteCosineDistance / 15); // 1초 동안의 유사도 평균점수 출력 //! 누적 점수가 아니다 ?????????
-          const poseMessage = scoreToMessage(oneMinuteCosineDistance / 15);
-          setPoseMessage(poseMessage); //! 점수에 따른 메세지만 출력하면 되지 않나?
+          avgCosineDistance += oneSecCosineDistance;
+          const poseMessage = scoreToMessage(oneSecCosineDistance / 15);
+          setPoseMessage(poseMessage);
           postMessages[poseMessage] += 1; // 동작 평가 메시지 누적
-          oneMinuteCosineDistance = 0; // 1분동안의 유사도 점수 초기화
+          oneSecCosineDistance = 0; // 1분동안의 유사도 점수 초기화
         }
 
         indx += 1; //다음 이미지 비교
@@ -158,20 +172,19 @@ export async function runMovenet(
       clearInterval(drawPerSec);
       clearCanvas(canvas);
       avgCosineDistance /= indx - 1;
-
       updateCallback(avgCosineDistance, postMessages);
 
       // 댄서블의 keypoint와 녹화한 댄서블 영상을 POST 요청
       const practicedata = new FormData();
       practicedata.append("keypoints", JSON.stringify(danceableJson));
-      // formdata.append("video", webcamRecodeFile);
+      // practicedata.append("video", webcamRecodeFile);
 
       const data = {
         sectionId,
-        practicedata
+        practicedata,
       };
 
-      await postPracticeResult(data)
+      await postPracticeResult(data);
     }
   }, 1000 / 15); //! 15 fps
-};
+}

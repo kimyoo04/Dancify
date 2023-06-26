@@ -36,7 +36,7 @@ export default function ProgressBar() {
           </div>
 
           {/* 툴팁 삼각형 */}
-          <div className="absolute -top-2 right-0 h-0 w-0 translate-x-1/2 transform border-4 border-primary  border-l-transparent border-r-transparent border-b-transparent"></div>
+          <div className="absolute -top-2 right-0 h-0 w-0 translate-x-1/2 transform border-4 border-primary  border-b-transparent border-l-transparent border-r-transparent"></div>
         </div>
       </motion.div>
     </motion.section>

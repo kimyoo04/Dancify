@@ -3,6 +3,7 @@ import { IPractice } from "@type/practice";
 import { useEffect, useState } from "react";
 import { useAppDispatch, useAppSelector } from "@toolkit/hook";
 import { practiceActions } from "@features/practice/practiceSlice";
+import * as poseDetection from "@tensorflow-models/pose-detection";
 
 import MainWrapper from "../Wrapper/MainWarpper";
 import BottomWrapper from "../Wrapper/BottomWrapper";
@@ -14,9 +15,11 @@ import { Button } from "@components/ui/button";
 export default function Play({
   onNext,
   data,
+  detactor,
 }: {
   onNext: () => void;
   data: IPractice;
+  detactor: poseDetection.PoseDetector;
 }) {
   const router = useRouter();
   const dispatch = useAppDispatch();
@@ -46,7 +49,7 @@ export default function Play({
         {isFinished ? (
           <SectionResult data={data} />
         ) : (
-          <SectionPlay data={data} />
+          <SectionPlay data={data} detactor={detactor} />
         )}
       </MainWrapper>
 
