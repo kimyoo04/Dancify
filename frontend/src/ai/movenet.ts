@@ -44,20 +44,51 @@ export function clearCanvas(canvas: HTMLCanvasElement) {
   ctx !== null && ctx.clearRect(0, 0, canvas.width, canvas.height);
 }
 
+// export async function loadMoveNetDetector2(webcamRef) {
+//   await tf.ready();
+//   const model = poseDetection.SupportedModels.MoveNet;
+//   const detector = await poseDetection.createDetector(model); // 모델 로드
+//   const webcamTag = webcamRef.current?.video as HTMLVideoElement;
+
+//   if (!isLoading) {
+//     webcamTag && detect(webcamTag, detector);
+//   } else if (!isBody && !isDevice) {
+//     await danceableBodyCheck(webcamRef, detector);
+//   }
+
+//   if (isReady) {
+//     runMovenet(
+//       sectionId,
+//       webcamRef,
+//       canvasRef,
+//       detector,
+//       dancerJson,
+//       setPoseMessage,
+//       updateCallback,
+//     )
+//   }
+// }
+
 export async function loadMoveNetDetector() {
   await tf.ready();
   const model = poseDetection.SupportedModels.MoveNet;
   const detector = await poseDetection.createDetector(model); // 모델 로드
-  return detector;
+  return detector
 }
 
 export async function detect(
   webcam: HTMLVideoElement,
-  movenet_model: poseDetection.PoseDetector
+  detactor: poseDetection.PoseDetector
 ) {
   try {
-    const pose = (await movenet_model.estimatePoses(webcam)) as poseType[];
-    console.log(pose)
+    const videoWidth = webcam.videoWidth;
+    const videoHeight = webcam.videoHeight;
+
+    // Set video width
+    webcam.width = videoWidth;
+    webcam.height = videoHeight;
+
+    const pose = await detactor.estimatePoses(webcam) as poseType[];
     if (pose.length > 0) return pose;
     else return "error";
   } catch (error) {
@@ -79,23 +110,27 @@ export function scoreToMessage(score: number) {
 
 export async function danceableBodyCheck(
   webcamRef: React.RefObject<Webcam>,
-  detector: poseDetection.PoseDetector
+  bodyCheckCallback: () => void
 ) {
+  await tf.ready();
+  const model = poseDetection.SupportedModels.MoveNet;
+  const detector = await poseDetection.createDetector(model);
+
   const bodyCheckPerSec = setInterval(async () => {
     // 댄서블의 keypoints값 추출
-    const webcamTag = webcamRef.current?.video as HTMLVideoElement;
-    const danceable = await detect(webcamTag, detector);
+    const webcamTag = webcamRef.current?.video;
+    const danceable = webcamTag && (await detect(webcamTag, detector));
     // 모든 부위의 confidence score가 0.5이상인지 확인
     if (danceable !== "error") {
-      const scores = danceable[0].keypoints.map((kp) => kp.score);
-      console.log(scores)
-      if (scores.every((score) => score >= 0.5)) {
+      const scores = danceable && danceable[0].keypoints.map((kp) => kp.score);
+      // console.log(scores);
+      if (scores && scores.every((score) => score >= 0.5)) {
         clearInterval(bodyCheckPerSec);
-        console.log("🚀 ~ file: movenet.ts:95 ~ bodyCheckPerSec ~ clearInterval:", clearInterval)
+        console.log("🚀 전신 체크 완료");
+        bodyCheckCallback();
         return true;
       }
     }
-    console.log(danceable)
   }, 1000);
 }
 
