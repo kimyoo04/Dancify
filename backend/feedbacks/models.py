@@ -19,7 +19,6 @@ class DanceableFeedback(models.Model):
     best_score = models.URLField()
 
 
-
 class DancerFeedback(models.Model):
     feedback_id = models.UUIDField(primary_key=True,
                                    default=uuid.uuid4,
@@ -31,8 +30,8 @@ class DancerFeedback(models.Model):
 
 class TimeStamp(models.Model):
     timestamp_id = models.UUIDField(primary_key=True,
-                                   default=uuid.uuid4,
-                                   editable=False)
+                                    default=uuid.uuid4,
+                                    editable=False)
     dancer_feedback = models.ForeignKey(DancerFeedback,
                                         on_delete=models.CASCADE)
     timestamp = models.IntegerField()
