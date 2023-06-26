@@ -84,7 +84,7 @@ class DancerPostViewSet(BasePostViewSet):
         except (TokenError, KeyError):
             return Response(status=status.HTTP_401_UNAUTHORIZED)
 
-        data = request.data
+        data = request.data.copy()
 
         if data['video'] is not None:
             url_data = upload_video_with_metadata_to_s3(user_id, data['video'],
@@ -99,7 +99,31 @@ class DancerPostViewSet(BasePostViewSet):
         return Response(status=status.HTTP_201_CREATED)
 
     def partial_update(self, request, *args, **kwargs):
-        return super().partial_update(request, *args, **kwargs)
+        try:
+            user_info = get_user_info_from_token(request)
+
+            user_id = user_info['userId']
+        except (TokenError, KeyError):
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
+
+        instance = self.get_object()
+        if instance.user.user_id != user_id:
+            return Response(status=status.HTTP_403_FORBIDDEN)
+
+        data = request.data.copy()
+        video = request.FILES.get('video', None)
+
+        if video is not None:
+            url_data = upload_video_with_metadata_to_s3(user_id, video,
+                                                        'dancer', is_mosaic=False)
+            data['video'] = url_data['video_url']
+            data['thumbnail'] = url_data['thumbnail_url']
+
+        serializer = self.get_serializer(instance, data=data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+
+        return Response(status=status.HTTP_200_OK)
 
     def destroy(self, request, *args, **kwargs):
         return super().destroy(request, *args, **kwargs)
