@@ -97,8 +97,8 @@ export default function Finish() {
   ];
 
   return (
-    <div className="w-full space-y-20 px-6">
-      <div className="space-y-4">
+    <div className="w-full space-y-20 px-6 -mb-[7%]">
+      <section className="space-y-4">
         <p className="text-xl font-medium">다른 영상을 연습해보시겠어요?</p>
 
         <div className="w-full px-2">
@@ -111,9 +111,9 @@ export default function Finish() {
             <ScrollBar orientation="horizontal" />
           </ScrollArea>
         </div>
-      </div>
+      </section>
 
-      <div className="col-center gap-4">
+      <section className="col-center gap-4">
         <p className="text-xl font-medium">
           연습한 영상은 피드백 동영상에서 확인하실 수 있습니다.
         </p>
@@ -127,7 +127,7 @@ export default function Finish() {
             <Button>아니요</Button>
           </Link>
         </div>
-      </div>
+      </section>
     </div>
   );
 }
