@@ -5,44 +5,37 @@ export interface IPracticeState {
   step: TStep; // 연습의 단계
   playIndex: TPlayIndex; // 영상의 단계
   isSkeleton: boolean; // 스켈레톤 매핑 유무
+  isFinished: boolean; // 안무 연습 완료 유무
   selectedSections: number[]; // 선택한 섹션 인덱스 리스트
   sectionPracticeArr: ISectionPractice[]; // 섹션별 연습 기록 리스트
 }
 
 // 구간별 평가 및 연습 정보
-// practiceSlice.ts ~ setFirstScore
 export interface ISectionPractice {
   sectionId: TSectionId;
   firstScore: TFirstScore;
   bestScore: TBestScore;
   playCounts: TPlayCounts;
-  poseEstimation: IPoseEstimation;
+  poseMessages: IPoseMessages;
 }
 
 // 구간별 첫 state 생성
 // practiceSlice.ts ~ setFirstScore
-export interface ISetFirstScore {
+export interface IUpdateSectionPractice {
   sectionId: TSectionId;
-  initScore: TInitScore; // 첫 점수로 firstScore와 bestScore 둘 다 전달
-  playCounts: TPlayCounts;
-  poseEstimation: IPoseEstimation;
-}
-
-// bestScore가 클 때 state 갱신
-// practiceSlice.ts ~ setBestScore
-export interface ISetBestScore {
-  sectionId: TSectionId;
-  bestScore: TBestScore;
-  poseEstimation: IPoseEstimation;
+  score: TInitScore; // 첫 점수로 firstScore와 bestScore 둘 다 전달
+  poseMessages: IPoseMessages;
 }
 
 // 구간별 pose에 대한 평가 4가지 누적 값
-export interface IPoseEstimation {
+export interface IPoseMessages {
   miss: number;
   good: number;
   great: number;
   excellent: number;
 }
+
+// -----------------------------------------------------------
 
 // GET /api/video-section/<postId>
 export interface IPractice {
@@ -73,7 +66,8 @@ export interface ISection {
 // POST /api/dance/<sectionId>
 export interface IPracticeResult {
   sectionId: TSectionId;
-  formData: FormData; // { keyPoints: Pose, video: File }
+  practicedata: FormData;
+  // FormData { keyPoints: Pose, video: File }
 }
 
 export type TKeypoints = string;

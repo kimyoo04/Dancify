@@ -1,10 +1,11 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { IPracticeState, ISetBestScore, ISetFirstScore } from "@type/practice";
+import { IPracticeState, IUpdateSectionPractice } from "@type/practice";
 
 const initialState: IPracticeState = {
   step: 1, // 연습의 단계 인덱스
   playIndex: 0, // 영상의 단계 인덱스
-  isSkeleton: false,
+  isSkeleton: false, // 스켈레톤 매핑 유무
+  isFinished: false, // 안무 연습 완료 유무
   selectedSections: [],
   sectionPracticeArr: [],
 };
@@ -18,8 +19,15 @@ export const practiceSlice = createSlice({
       state.step += 1;
     },
 
+    // 구간 연습 종료
+    finishSectionPractice: (state) => {
+      state.isFinished = true;
+    },
+
+    // 영상 단계 인덱스 증가
     moveNextSection: (state) => {
       state.playIndex += 1;
+      state.isFinished = false;
     },
 
     // 스켈레톤 유무 토글
@@ -43,28 +51,36 @@ export const practiceSlice = createSlice({
     },
 
     // section의 대한 최초, 최고 점수 입력
-    setFirstScore: (state, action: PayloadAction<ISetFirstScore>) => {
-      state.sectionPracticeArr.push({
-        sectionId: action.payload.sectionId,
-        firstScore: action.payload.initScore,
-        bestScore: action.payload.initScore,
-        playCounts: 1,
-        poseEstimation: action.payload.poseEstimation,
-      });
-    },
-
-    // section의 대한 최고 점수 갱신 및 playCounts 증가
-    setBestScore: (state, action: PayloadAction<ISetBestScore>) => {
-      const { sectionId, bestScore, poseEstimation } = action.payload;
+    updateSectionPractice: (state, action: PayloadAction<IUpdateSectionPractice>) => {
+      const { sectionId, score, poseMessages } = action.payload;
       const sectionIndex = state.sectionPracticeArr.findIndex(
         (section) => section.sectionId === sectionId
       );
-      state.sectionPracticeArr[sectionIndex] = {
-        ...state.sectionPracticeArr[sectionIndex],
-        bestScore,
-        playCounts: state.sectionPracticeArr[sectionIndex].playCounts + 1,
-        poseEstimation,
-      };
+      if (sectionIndex === -1) {
+        // 없으면 sectionPracticeArr에 추가
+        state.sectionPracticeArr.push({
+          sectionId: sectionId,
+          firstScore: score,
+          bestScore: score,
+          playCounts: 1,
+          poseMessages: action.payload.poseMessages,
+        });
+      } else if (score > state.sectionPracticeArr[sectionIndex].bestScore) {
+        // bestScore와 poseMessages 갱신 및 playCounts 증가
+        state.sectionPracticeArr[sectionIndex] = {
+          sectionId: sectionId,
+          firstScore: state.sectionPracticeArr[sectionIndex].firstScore,
+          bestScore: score,
+          playCounts: state.sectionPracticeArr[sectionIndex].playCounts + 1,
+          poseMessages: poseMessages,
+        };
+      } else {
+        // playCounts만 증가
+        state.sectionPracticeArr[sectionIndex] = {
+          ...state.sectionPracticeArr[sectionIndex],
+          playCounts: state.sectionPracticeArr[sectionIndex].playCounts + 1,
+        };
+      }
     },
 
     // 연습 초기화
@@ -72,9 +88,10 @@ export const practiceSlice = createSlice({
       state.step = 1;
       state.playIndex = 0;
       state.isSkeleton = false;
+      state.isFinished = false;
       state.selectedSections = [];
       state.sectionPracticeArr = [];
-    }
+    },
   },
 });
 
