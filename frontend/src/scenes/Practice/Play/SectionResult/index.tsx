@@ -10,7 +10,9 @@ export default function SectionResult({ data }: { data: IPractice }) {
 
   return (
     <div className="h-full w-full space-y-10">
-      <h1 className="text-xl font-medium">{convertToOrdinal(playIndex)} 구간 연습 결과</h1>
+      <h1 className="text-xl font-medium">
+        {convertToOrdinal(playIndex)} 구간 연습 결과
+      </h1>
 
       <ProgressBar />
 

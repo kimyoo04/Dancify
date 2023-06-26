@@ -1,5 +1,12 @@
-import { useEffect, useState } from "react";
+import {
+  Dispatch,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useState,
+} from "react";
 import { useRouter } from "next/router";
+import * as poseDetection from "@tensorflow-models/pose-detection";
 
 import MainWrapper from "../Wrapper/MainWarpper";
 import BottomWrapper from "../Wrapper/BottomWrapper";
@@ -13,16 +20,45 @@ import { getFullScreen } from "@util/screenMode";
 import Loading from "@components/Loading";
 import Link from "next/link";
 import Logo from "@components/Logo";
+import { loadMoveNetDetector } from "@ai/movenet";
 
 export default function Prepare({
   onNext,
   data,
+  setDetector,
 }: {
   onNext: () => void;
   data: IPractice;
+  setDetector: Dispatch<SetStateAction<poseDetection.PoseDetector | null>>;
 }) {
   const router = useRouter();
-  const [loading, setLoading] = useState(false); //? true로 바꿔야함
+  const [loading, setLoading] = useState(true);
+  const [isDevice, setIsDevice] = useState(false);
+  const [isDetactor, setIsDetactor] = useState(false);
+
+  // 카메라 유무 확인
+  const handleDevices = useCallback(
+    (mediaDevices: MediaDeviceInfo[]) => {
+      setIsDevice(mediaDevices.some(({ kind }) => kind === "videoinput"));
+    },
+    [setIsDevice]
+  );
+
+  // 모든 환경이 준비되었는지 확인
+  useEffect(() => {
+    async function initPractice() {
+      // 모델 로드
+      const moveNetDetector = await loadMoveNetDetector();
+      setDetector(moveNetDetector);
+      // 모델 유무 확인
+      setIsDetactor(true);
+      // 카메라 유무 확인
+      navigator.mediaDevices.enumerateDevices().then(handleDevices);
+      // 로딩 완료
+      setLoading(false);
+    }
+    initPractice();
+  }, [handleDevices, setDetector]);
 
   // 새로고침 및 뒤로가기 방지
   useEffect(() => {
@@ -40,10 +76,8 @@ export default function Prepare({
   }, []);
 
   return (
-    <div className="h-screen w-screen">
+    <div className="min-h-[93%] w-screen">
       <MainWrapper>
-        <h1>Prepare</h1>
-
         {loading ? (
           <LoadingModal>
             <div className="col-center h-full w-full">
@@ -70,15 +104,37 @@ export default function Prepare({
             <div className="col-center h-full w-full">
               <div className="col-between h-[80%] w-full">
                 <div>
-                  {/* //? 체크리스트에 대한 데이터 넣어줘야함 */}
-                  <span>웹캠 유무 확인</span>
-                  <span>AI 모델 불러오기</span>
-                  <span>영상 스트리밍 준비</span>
+                  <div>
+                    <div>
+                      {isDevice ? (
+                        <span className="text-green-500">✓</span>
+                      ) : (
+                        <span className="text-red-500">✕</span>
+                      )}
+                      <span>웹캠 유무 확인</span>
+                    </div>
+                  </div>
+                  <div>
+                    {isDetactor ? (
+                      <span className="text-green-500">✓</span>
+                    ) : (
+                      <span className="text-red-500">✕</span>
+                    )}
+                    <span>AI 모델 불러오기</span>
+                  </div>
                 </div>
 
                 <div className="col-center">
                   {/* //? 연습과 실전 모드 변수 필요 */}
-                  <p>연습 모드 준비가 완료되었습니다.</p>
+                  {isDevice && isDetactor ? (
+                    <p className="text-mediu,">
+                      연습 모드 준비가 완료되었습니다.
+                    </p>
+                  ) : (
+                    <p className="text-medium">
+                      연습 모드 조건에 부합하지 않습니다.
+                    </p>
+                  )}
                 </div>
 
                 <div className="col-center w-full gap-3">
@@ -88,6 +144,8 @@ export default function Prepare({
                       onNext();
                     }}
                     className="row-center w-full gap-2"
+                    disabled={!isDevice || !isDetactor}
+                    variant={isDevice && isDetactor ? "default" : "destructive"}
                   >
                     <span className="text-lg">연습 시작</span>
                     <Expand />

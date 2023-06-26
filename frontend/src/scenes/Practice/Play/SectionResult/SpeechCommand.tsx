@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import {motion} from "framer-motion";
+import { motion } from "framer-motion";
 import { wordToCommand } from "@ai/speech";
 import { useRouter } from "next/router";
 import { useAppDispatch } from "@toolkit/hook";
@@ -14,8 +14,8 @@ import { Button } from "@components/ui/button";
 import ButtonWrapper from "@components/Animation/ButtonWrapper";
 
 export default function SpeechCommand() {
-  const router = useRouter()
-  const dispatch = useAppDispatch()
+  const router = useRouter();
+  const dispatch = useAppDispatch();
 
   const {
     transcript,
