@@ -57,13 +57,13 @@ export async function detect(
 
 export function scoreToMessage(score: number) {
   if (score < 60) {
-    return "miss";
+    return "Miss";
   } else if (score >= 60 && score < 80) {
-    return "good";
+    return "Good";
   } else if (score >= 80 && score < 90) {
-    return "great";
+    return "Great";
   } else {
-    return "excellent";
+    return "Excellent";
   }
 };
 
@@ -107,10 +107,10 @@ export async function runMovenet(
   let indx = 1;
 
   const postMessages: IPoseMessages = {
-    miss: 0,
-    good: 0,
-    great: 0,
-    excellent: 0,
+    Miss: 0,
+    Good: 0,
+    Great: 0,
+    Excellent: 0,
   };
 
   const drawPerSec = setInterval(async () => {

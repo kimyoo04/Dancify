@@ -29,10 +29,10 @@ export interface IUpdateSectionPractice {
 
 // 구간별 pose에 대한 평가 4가지 누적 값
 export interface IPoseMessages {
-  miss: number;
-  good: number;
-  great: number;
-  excellent: number;
+  Miss: number;
+  Good: number;
+  Great: number;
+  Excellent: number;
 }
 
 // -----------------------------------------------------------
