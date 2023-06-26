@@ -1,6 +1,6 @@
 export interface IFilterState {
   sort: TSort;
-  genre: TGenre;
+  genre: TGenreValue;
 }
 
 export interface ISort {
@@ -9,10 +9,12 @@ export interface ISort {
 }
 
 export interface IGenres {
-  genre: TGenre;
+  label: TGenreLabel;
+  value: TGenreValue;
 }
 
 export type TSortLabel = "인기순" | "조회순" | "최신순";
 export type TSort = "like" | "view" | "new";
 
-export type TGenre = "전체" | "기본동작" | "k-pop" | "키즈" | "팝핀" | "뮤지컬";
+export type TGenreLabel = "전체" | "기본동작" | "k-pop"
+export type TGenreValue = "전체" | "basic" | "kpop"

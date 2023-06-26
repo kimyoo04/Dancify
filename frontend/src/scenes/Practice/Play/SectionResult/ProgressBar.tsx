@@ -12,7 +12,7 @@ export default function ProgressBar() {
   const totalSteps = selectedSections.length;
 
   return (
-    <motion.div
+    <motion.section
       initial="hidden"
       animate="visible"
       variants={containerVariants}
@@ -23,7 +23,7 @@ export default function ProgressBar() {
         initial="initial"
         animate="animate"
         variants={barVariants(currentStep, totalSteps)}
-        className="relative h-full rounded-l-md bg-primary"
+        className="relative h-full rounded-md bg-primary"
       >
         <div>
           {/* 툴팁 상자 */}
@@ -39,6 +39,6 @@ export default function ProgressBar() {
           <div className="absolute -top-2 right-0 h-0 w-0 translate-x-1/2 transform border-4 border-primary  border-l-transparent border-r-transparent border-b-transparent"></div>
         </div>
       </motion.div>
-    </motion.div>
+    </motion.section>
   );
 }

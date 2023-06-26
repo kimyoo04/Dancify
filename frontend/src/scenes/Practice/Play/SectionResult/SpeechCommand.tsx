@@ -38,7 +38,7 @@ export default function SpeechCommand() {
   }, [transcript, dispatch, router, resetTranscript]);
 
   return (
-    <div className="h-[500px] w-full flex-shrink-0 rounded-md bg-background p-6 shadow-md lg:w-[360px] xl:w-[440px]">
+    <section className="h-[500px] w-full flex-shrink-0 rounded-md bg-background p-6 shadow-md lg:w-[360px] xl:w-[440px]">
       {browserSupportsSpeechRecognition ? (
         <div className="col-between h-full w-full">
           {/* 녹음된 음성 */}
@@ -84,6 +84,6 @@ export default function SpeechCommand() {
       ) : (
         <span>브라우저가 음성인식을 지원하지 않습니다. ㅠㅅㅠ</span>
       )}
-    </div>
+    </section>
   );
 }

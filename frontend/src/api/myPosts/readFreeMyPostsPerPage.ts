@@ -7,13 +7,13 @@ import { IMyPostQueryParams } from "@type/myPosts";
 import { IFreePostsPerPage } from "@type/freePosts";
 import { useAppSelector } from "@toolkit/hook";
 import { TSearchKeyword } from "@type/search";
-import { TGenre, TSort } from "@type/filter";
+import { TGenreValue, TSort } from "@type/filter";
 
 export const readFreeMyPostsPerPage = async (
   page: number,
   searchKeyword: TSearchKeyword,
   sort: TSort,
-  genre: TGenre,
+  genre: TGenreValue,
   id: TUserId
 ) => {
   const params: IMyPostQueryParams = { page, user: id };

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { TPostId } from "@type/posts";
 
 import Loading from "@components/Loading";
@@ -13,15 +13,22 @@ import { useReadVideoSection } from "@api/videoSection/readVideoSection";
 import Link from "next/link";
 import { Button } from "@components/ui/button";
 import Result from "./Result";
+import { practiceActions } from "@features/practice/practiceSlice";
+import { useAppDispatch } from "@toolkit/hook";
 
 export default function Practice({ postId }: { postId: TPostId }) {
+  const dispatch = useAppDispatch()
+
   // 페이지 관리 state
   const [state, setState] = useState("연습설정");
 
   // API GET 요청
   const { data, isLoading, error } = useReadVideoSection(postId);
 
-  console.log(data);
+  // 연습 초기화
+  useEffect(() => {
+    dispatch(practiceActions.resetPractice())
+  }, []);
 
   return (
     <main>

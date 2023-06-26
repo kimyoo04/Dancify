@@ -3,7 +3,7 @@ import axios from "@api/axiosInstance";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { useAppSelector } from "@toolkit/hook";
 
-import { TGenre, TSort } from "@type/filter";
+import { TGenreValue, TSort } from "@type/filter";
 import { TSearchKeyword } from "@type/search";
 import { IPostQueryParams } from "@type/posts";
 import { IVideoPostsPerPage } from "@type/videoPosts";
@@ -12,7 +12,7 @@ export const readVideoPostsPerPage = async (
   page: number,
   searchKeyword: TSearchKeyword,
   sort: TSort,
-  genre: TGenre
+  genre: TGenreValue
 ) => {
   const params: IPostQueryParams = { page };
 

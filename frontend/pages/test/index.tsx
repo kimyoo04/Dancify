@@ -1,11 +1,11 @@
 import MainLayout from "@layouts/MainLayout";
-import Test from "@scenes/Test";
+import ImageCapture from "@scenes/Test/ImageCapture";
 import React from "react";
 
 export default function SignUpPage() {
   return (
     <MainLayout>
-      <Test />
+      <ImageCapture />
     </MainLayout>
   );
 }

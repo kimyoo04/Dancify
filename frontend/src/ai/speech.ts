@@ -64,25 +64,15 @@ export function speechToText(speakButtonRef: any) {
 // 텍스트 분류 함수
 export async function wordToCommand(text:string) {
   const speechWord = text.replace(" ", "");
-  const WD: Record<string, string[]> = {
-    다음: ["다음", "다음으로", "다음순서로", "다음구간으로", "당", "담"],
-    한번더: ["한번더", "함더", "한번더해", "함덕", "한번더할게"],
-    종료: [
-      "종료",
-      "종료하다",
-      "종료해",
-      "종료해라",
-      "종료할게",
-      "종료할게요",
-      "종료합니다",
-    ],
-  };
 
-  for (const key of Object.keys(WD)) {
-    if (WD[key].includes(speechWord)) {
-      return key;
-    }
+  // 다음, 한번더, 종료가 포함되어 있으면 해당 키워드를 반환
+  if (speechWord.includes("다음")) {
+    return "다음";
+  } else if (speechWord.includes("한번더")) {
+    return "한번더";
+  } else if (speechWord.includes("종료")) {
+    return "종료";
+  } else {
+    return "기타";
   }
-
-  return "기타";
 }

@@ -1,5 +1,5 @@
 import { TUserId } from "./auth";
-import { TGenre, TSort } from "./filter";
+import { TGenreValue, TSort } from "./filter";
 import { TSearchKeyword } from "./search";
 
 export interface IMyPostQueryParams {
@@ -7,5 +7,5 @@ export interface IMyPostQueryParams {
   user: TUserId;
   q?: TSearchKeyword;
   sort?: TSort;
-  genre?: TGenre;
+  genre?: TGenreValue;
 }

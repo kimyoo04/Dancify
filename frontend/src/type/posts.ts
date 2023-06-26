@@ -1,4 +1,4 @@
-import { TGenre, TSort } from "./filter";
+import { TGenreValue, TSort } from "./filter";
 import { TSearchKeyword } from "./search";
 
 export type TPostId = string;
@@ -14,7 +14,7 @@ export interface IPostQueryParams {
   page: number;
   q?: TSearchKeyword;
   sort?: TSort;
-  genre?: TGenre;
+  genre?: TGenreValue;
 }
 
 export interface IUpdatePost {
