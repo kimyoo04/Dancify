@@ -13,6 +13,7 @@ from ai.video_to_keypoint.vtk import video_to_keypoint
 from ai.face_mosaic.face_mosaic import face_mosaic
 from s3_modules.upload import upload_video_with_metadata_to_s3
 from s3_modules.upload import upload_video_to_s3
+from s3_modules.upload import upload_splitted_video_to_s3
 
 
 # 실제 플로우에는 썸네일 이미지도 요청에 포함되어있음
@@ -70,7 +71,7 @@ class IntegratedTestView(APIView):
         user_id = user_info['userId']
 
         result = upload_video_with_metadata_to_s3(user_id, request.FILES['video'],
-                                                  'dancer', False)
+                                                  'dancer', True)
         return JsonResponse(result)
 
 
@@ -109,3 +110,13 @@ class CutVideoTestView(APIView):
                                     'dancer', 'dsifji321432jf', '.mp4')
 
         return JsonResponse({'video_url': result})
+
+
+class SplittedVideoUploadTest(APIView):
+    def post(self, request):
+        user_info = get_user_info_from_token(request)
+        user_id = user_info['userId']
+
+        result = upload_splitted_video_to_s3(request, user_id)
+
+        return JsonResponse({'result': result})
