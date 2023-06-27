@@ -96,6 +96,7 @@ class DancerPostViewSet(BasePostViewSet):
                                                         'dancer', is_mosaic=False)
             data['video'] = url_data['video_url']
             data['thumbnail'] = url_data['thumbnail_url']
+            data['keypoints'] = url_data['keypoint_url']
 
         serializer = self.get_serializer(data=data)
         serializer.is_valid(raise_exception=True)
