@@ -3,10 +3,12 @@ from django.db.models import F
 from django.core.exceptions import ValidationError
 
 from rest_framework import status
+from rest_framework.generics import ListAPIView
 from rest_framework.response import Response
 from rest_framework_simplejwt.exceptions import TokenError
 
 from ..serializers.dancer_post_serializers import (
+    DancerPostInfoSerializer,
     DancerPostGetListSerializer,
     DancerPostGetRetrieveSerializer,
     DancerPostPostPatchSerializer
@@ -150,3 +152,11 @@ class DancerPostViewSet(BasePostViewSet):
 
     def destroy(self, request, *args, **kwargs):
         return super().destroy(request, *args, **kwargs)
+
+
+class RandomRecommandationAPIView(ListAPIView):
+    serializer_class = DancerPostInfoSerializer
+
+    def get_queryset(self):
+        queryset = DancerPost.objects.order_by('?')[:5]
+        return queryset
