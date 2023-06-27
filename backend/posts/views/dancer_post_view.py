@@ -1,5 +1,6 @@
 import re
 from django.db.models import F
+from django.core.exceptions import ValidationError
 
 from rest_framework import status
 from rest_framework.response import Response
@@ -112,9 +113,10 @@ class DancerPostViewSet(BasePostViewSet):
             video_section = VideoSection(**section_data)
             video_section.dancer_post = DancerPost.objects.get(post_id=serializer.instance.post_id)
 
-            if video_section.full_clean():
+            try:
+                video_section.full_clean()
                 video_section.save()
-            else:
+            except ValidationError:
                 return Response(status=status.HTTP_400_BAD_REQUEST)
 
         return Response(status=status.HTTP_201_CREATED)
