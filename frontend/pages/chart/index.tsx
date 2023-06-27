@@ -13,8 +13,8 @@ export default function SignUpPage() {
 
   return (
     <MainLayout>
-      {/* <ScoreBoard scoreToMessage={scoreToMessage} /> */}
-      <StackedBar />
+      <ScoreBoard scoreToMessage={scoreToMessage} />
+      {/* <StackedBar /> */}
     </MainLayout>
   );
 }
