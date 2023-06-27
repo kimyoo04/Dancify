@@ -3,7 +3,9 @@ import React from "react";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
 
-const DrawLegend = ({ scoreToMessage }) => {
+import { ScoreToMessage } from "@type/chart";
+
+export function DrawLegend({ scoreToMessage }: ScoreToMessage) {
   return (
     <div style={{ position: "absolute", top: "50px", left: "350px" }}>
       {Object.keys(scoreToMessage).map((key) => (
@@ -18,7 +20,7 @@ const DrawLegend = ({ scoreToMessage }) => {
   );
 };
 
-export default function ScoreBoard({ scoreToMessage }) {
+export default function ScoreBoard({ scoreToMessage }: ScoreToMessage) {
   ChartJS.register(ArcElement, Tooltip, Legend);
   const dataValues = Object.values(scoreToMessage);
 
