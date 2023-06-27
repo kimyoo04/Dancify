@@ -8,6 +8,8 @@ from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 from rest_framework.routers import SimpleRouter
 
+from posts.views.dancer_post_view import RandomRecommandationAPIView
+
 
 router = SimpleRouter(trailing_slash=False)
 
@@ -49,5 +51,6 @@ urlpatterns = [
         path('/search-rank', include('search_history.urls')),
         path('/videos', include('videos.urls')),
         path('/video-section', include('video_section.urls')),
+        path('/dance/other', RandomRecommandationAPIView.as_view()),
     ]))
 ]
