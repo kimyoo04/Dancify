@@ -16,8 +16,8 @@ class FeedbackPost(models.Model):
 
 class DanceableFeedback(models.Model):
     feedback_section_id = models.UUIDField(primary_key=True,
-                                   default=uuid.uuid4,
-                                   editable=False)
+                                           default=uuid.uuid4,
+                                           editable=False)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     section = models.ForeignKey(VideoSection, on_delete=models.CASCADE)
     feedback_post = models.ForeignKey(FeedbackPost, on_delete=models.CASCADE)
