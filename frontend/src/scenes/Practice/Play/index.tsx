@@ -54,7 +54,7 @@ export default function Play({
         {selectedSections.length <= playIndex + 1 ? (
           <Button
             disabled={!isFinished}
-            onClick={() => dispatch(practiceActions.increaseStep())}
+            onClick={() => dispatch(practiceActions.moveNextStep())}
           >
             연습 완료
           </Button>
