@@ -1,28 +1,10 @@
 import React from "react";
-import {
-  Chart,
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-} from "chart.js";
 import { Bar } from "react-chartjs-2";
 import { useAppSelector } from "@toolkit/hook";
 
 export default function StackedBarChart() {
   const sectionPracticeArr = useAppSelector(
     (state) => state.practice.sectionPracticeArr
-  );
-
-  Chart.register(
-    CategoryScale,
-    LinearScale,
-    BarElement,
-    Title,
-    Tooltip,
-    Legend
   );
 
   const options = {
