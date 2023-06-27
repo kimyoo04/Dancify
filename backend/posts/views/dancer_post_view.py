@@ -1,6 +1,6 @@
 import re
-from django.http import JsonResponse
 from django.db.models import F
+from django.core.exceptions import ValidationError
 
 from rest_framework import status
 from rest_framework.response import Response
@@ -11,7 +11,7 @@ from ..serializers.dancer_post_serializers import (
     DancerPostGetRetrieveSerializer,
     DancerPostPostPatchSerializer
 )
-from video_section.serializers import VideoSectionPatchSerializer
+from video_section.models import VideoSection
 from .base_post_view import BasePostViewSet
 from ..models import DancerPost
 from accounts.models import User
@@ -86,6 +86,7 @@ class DancerPostViewSet(BasePostViewSet):
         except (TokenError, KeyError):
             return Response(status=status.HTTP_401_UNAUTHORIZED)
 
+        # 댄서 게시글 저장
         data = request.data
 
         if data['video'] is not None:
@@ -100,14 +101,25 @@ class DancerPostViewSet(BasePostViewSet):
 
         # videosection - 분할 영상 처리
         result = upload_splitted_video_to_s3(request, user_id)
-        for idx, part in enumerate(result):
-            part['section_number'] = idx + 1
 
-            section_serializer = VideoSectionPatchSerializer(data=part)
-            section_serializer.is_valid(raise_exception=True)
-            section_serializer.save(dancer_post=DancerPost.objects.get(post_id=serializer.instance.post_id))
+        for idx, section in enumerate(result):
+            section_data = {
+                'video': section['video_url'],
+                'thumbnail': section['thumbnail_url'],
+                'section_number': idx + 1,
+                'keypoints': section['keypoint_url']
+            }
 
-        return JsonResponse({'result': result}, status=status.HTTP_201_CREATED)
+            video_section = VideoSection(**section_data)
+            video_section.dancer_post = DancerPost.objects.get(post_id=serializer.instance.post_id)
+
+            try:
+                video_section.full_clean()
+                video_section.save()
+            except ValidationError:
+                return Response(status=status.HTTP_400_BAD_REQUEST)
+
+        return Response(status=status.HTTP_201_CREATED)
 
     def partial_update(self, request, *args, **kwargs):
         try:
