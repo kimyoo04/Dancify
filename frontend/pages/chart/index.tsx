@@ -1,24 +1,23 @@
 import MainLayout from "@layouts/MainLayout";
-// import ScoreBoard from "@scenes/Practice/Result/ScoreBoard";
+import ScoreBoard from "@scenes/Practice/Result/ScoreBoard";
 import StackedBar from "@scenes/Practice/Result/StackedBarChart";
 import React from "react";
-import { IPracticeState } from "@type/practice";
+import { IPracticeState, IPoseMessages } from "@type/practice";
 
 export default function SignUpPage() {
-  const scoreToMessage = {
+  const dummyData1 = {
     Miss: 6,
     Good: 45,
     Great: 23,
     Excellent: 4,
   };
 
-
-  const dummyData1 = {
-    step: 'Step 1',
+  const dummyData2 = {
+    step: "Step 1",
     playIndex: 1,
     sectionPracticeArr: [
       {
-        sectionId: 'Section 1',
+        sectionId: "Section 1",
         firstScore: 80,
         bestScore: 90,
         playCounts: 5,
@@ -30,7 +29,7 @@ export default function SignUpPage() {
         },
       },
       {
-        sectionId: 'Section 2',
+        sectionId: "Section 3",
         firstScore: 70,
         bestScore: 85,
         playCounts: 3,
@@ -41,15 +40,8 @@ export default function SignUpPage() {
           Excellent: 3,
         },
       },
-    ],
-  };
-
-  const dummyData2 = {
-    step: 'Step 2',
-    playIndex: 2,
-    sectionPracticeArr: [
       {
-        sectionId: 'Section 1',
+        sectionId: "Section 4",
         firstScore: 75,
         bestScore: 95,
         playCounts: 7,
@@ -61,7 +53,7 @@ export default function SignUpPage() {
         },
       },
       {
-        sectionId: 'Section 2',
+        sectionId: "Section 2",
         firstScore: 60,
         bestScore: 80,
         playCounts: 4,
@@ -75,11 +67,10 @@ export default function SignUpPage() {
     ],
   };
 
-
   return (
     <MainLayout>
-      {/* <ScoreBoard scoreToMessage={scoreToMessage} /> */}
-      <StackedBar Practice={dummyData1 as IPracticeState} />
+      <ScoreBoard scoreToMessage={dummyData1 as IPoseMessages} />
+      <StackedBar Practice={dummyData2 as IPracticeState} />
     </MainLayout>
   );
 }

@@ -1,18 +1,9 @@
-import { IPractice } from "@type/practice";
+import { IPoseMessages } from "@type/practice";
 import React from "react";
 import { Chart, ArcElement, Tooltip, Legend } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
 
-interface ScoreBoardProps {
-  scoreToMessage: {
-    Miss: number;
-    Good: number;
-    Great: number;
-    Excellent: number;
-  };
-}
-
-const DrawLegend = ({ scoreToMessage }: ScoreBoardProps) => {
+const DrawLegend = ({ scoreToMessage }: { scoreToMessage: IPoseMessages }) => {
   return (
     <div style={{ position: "absolute", top: "50px", left: "350px" }}>
       {Object.keys(scoreToMessage).map((key) => (
@@ -29,7 +20,11 @@ const DrawLegend = ({ scoreToMessage }: ScoreBoardProps) => {
   );
 };
 
-export default function ScoreBoard({ scoreToMessage }: ScoreBoardProps) {
+export default function ScoreBoard({
+  scoreToMessage,
+}: {
+  scoreToMessage: IPoseMessages;
+}) {
   Chart.register(ArcElement, Tooltip, Legend);
   const dataValues = Object.values(scoreToMessage);
 
