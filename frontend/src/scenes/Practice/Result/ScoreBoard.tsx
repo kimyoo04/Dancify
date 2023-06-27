@@ -3,18 +3,16 @@ import React from "react";
 import { Chart, ArcElement, Tooltip, Legend } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
 
-
 interface ScoreBoardProps {
   scoreToMessage: {
-    Miss:number;
-    Good:number;
-    Great:number;
-    Excellent:number;
+    Miss: number;
+    Good: number;
+    Great: number;
+    Excellent: number;
   };
 }
 
-
-const DrawLegend = ({ scoreToMessage }:ScoreBoardProps) => {
+const DrawLegend = ({ scoreToMessage }: ScoreBoardProps) => {
   return (
     <div style={{ position: "absolute", top: "50px", left: "350px" }}>
       {Object.keys(scoreToMessage).map((key) => (
@@ -22,14 +20,16 @@ const DrawLegend = ({ scoreToMessage }:ScoreBoardProps) => {
           <h2 style={{ fontSize: "large", fontWeight: "bold" }}>
             {key.toUpperCase()}
           </h2>
-          <p style={{ fontSize: "20px" }}>{scoreToMessage[key as keyof typeof scoreToMessage]}</p>
+          <p style={{ fontSize: "20px" }}>
+            {scoreToMessage[key as keyof typeof scoreToMessage]}
+          </p>
         </div>
       ))}
     </div>
   );
 };
 
-export default function ScoreBoard({ scoreToMessage }:ScoreBoardProps) {
+export default function ScoreBoard({ scoreToMessage }: ScoreBoardProps) {
   Chart.register(ArcElement, Tooltip, Legend);
   const dataValues = Object.values(scoreToMessage);
 
@@ -71,7 +71,7 @@ export default function ScoreBoard({ scoreToMessage }:ScoreBoardProps) {
   const plugs = [
     {
       id: "centertext",
-      beforeDraw: function (chart: Chart<'doughnut'>) {
+      beforeDraw: function (chart: Chart<"doughnut">) {
         if (chart.options.centerText) {
           const width = chart.chartArea.right - chart.chartArea.left;
           const height = chart.chartArea.bottom - chart.chartArea.top;
