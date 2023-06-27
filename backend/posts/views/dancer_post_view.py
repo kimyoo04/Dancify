@@ -1,5 +1,5 @@
 import re
-
+from django.http import JsonResponse
 from django.db.models import F
 
 from rest_framework import status
@@ -11,11 +11,13 @@ from ..serializers.dancer_post_serializers import (
     DancerPostGetRetrieveSerializer,
     DancerPostPostPatchSerializer
 )
+from video_section.serializers import VideoSectionPatchSerializer
 from .base_post_view import BasePostViewSet
 from ..models import DancerPost
 from accounts.models import User
 from accounts.authentication import get_user_info_from_token, is_logined
 from s3_modules.upload import upload_video_with_metadata_to_s3
+from s3_modules.upload import upload_splitted_video_to_s3
 from view_history.models import ViewHistory
 from search_history.models import SearchHistory
 
@@ -96,7 +98,16 @@ class DancerPostViewSet(BasePostViewSet):
         serializer.is_valid(raise_exception=True)
         serializer.save(user=User.objects.get(user_id=user_id))
 
-        return Response(status=status.HTTP_201_CREATED)
+        # videosection - 분할 영상 처리
+        result = upload_splitted_video_to_s3(request, user_id)
+        for idx, part in enumerate(result):
+            part['section_number'] = idx + 1
+
+            section_serializer = VideoSectionPatchSerializer(data=part)
+            section_serializer.is_valid(raise_exception=True)
+            section_serializer.save(dancer_post=DancerPost.objects.get(post_id=serializer.instance.post_id))
+
+        return JsonResponse({'result': result}, status=status.HTTP_201_CREATED)
 
     def partial_update(self, request, *args, **kwargs):
         try:
