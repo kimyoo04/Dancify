@@ -111,7 +111,11 @@ class DancerPostViewSet(BasePostViewSet):
 
             video_section = VideoSection(**section_data)
             video_section.dancer_post = DancerPost.objects.get(post_id=serializer.instance.post_id)
-            video_section.save()
+
+            if video_section.full_clean():
+                video_section.save()
+            else:
+                return Response(status=status.HTTP_400_BAD_REQUEST)
 
         return Response(status=status.HTTP_201_CREATED)
 
