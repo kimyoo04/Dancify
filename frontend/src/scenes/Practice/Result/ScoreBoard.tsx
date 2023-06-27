@@ -1,11 +1,20 @@
 import { IPractice } from "@type/practice";
 import React from "react";
-import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
+import { Chart, ChartOptions, ChartPluginsOptions , ArcElement, Tooltip, Legend } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
 
-import { ScoreToMessage } from "@type/chart";
 
-export function DrawLegend({ scoreToMessage }: ScoreToMessage) {
+interface ScoreBoardProps {
+  scoreToMessage: {
+    Miss:number;
+    Good:number;
+    Great:number;
+    Excellent:number;
+  };
+}
+
+
+const DrawLegend = ({ scoreToMessage }:ScoreBoardProps) => {
   return (
     <div style={{ position: "absolute", top: "50px", left: "350px" }}>
       {Object.keys(scoreToMessage).map((key) => (
@@ -13,15 +22,15 @@ export function DrawLegend({ scoreToMessage }: ScoreToMessage) {
           <h2 style={{ fontSize: "large", fontWeight: "bold" }}>
             {key.toUpperCase()}
           </h2>
-          <p style={{ fontSize: "20px" }}>{scoreToMessage[key]}</p>
+          <p style={{ fontSize: "20px" }}>{scoreToMessage[key as keyof typeof scoreToMessage]}</p>
         </div>
       ))}
     </div>
   );
 };
 
-export default function ScoreBoard({ scoreToMessage }: ScoreToMessage) {
-  ChartJS.register(ArcElement, Tooltip, Legend);
+export default function ScoreBoard({ scoreToMessage }:ScoreBoardProps) {
+  Chart.register(ArcElement, Tooltip, Legend);
   const dataValues = Object.values(scoreToMessage);
 
   const data = {
@@ -47,7 +56,7 @@ export default function ScoreBoard({ scoreToMessage }: ScoreToMessage) {
     ],
   };
 
-  const opt = {
+  const opt: ChartOptions<'doughnut'> = {
     centerText: "86",
     centerSubText: "Score",
     cutout: "70%",
@@ -59,10 +68,10 @@ export default function ScoreBoard({ scoreToMessage }: ScoreToMessage) {
     },
   };
 
-  const plugs = [
+  const plugs: ChartPluginsOptions<'doughnut'> = [
     {
       id: "centertext",
-      beforeDraw: function (chart) {
+      beforeDraw: function (chart: Chart<'doughnut'>) {
         if (chart.options.centerText) {
           const width = chart.chartArea.right - chart.chartArea.left;
           const height = chart.chartArea.bottom - chart.chartArea.top;
