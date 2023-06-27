@@ -142,7 +142,7 @@ export default function Prepare({
                   <Button
                     onClick={() => {
                       getFullScreen();
-                      dispatch(practiceActions.increaseStep());
+                      dispatch(practiceActions.moveNextStep());
                     }}
                     className="row-center w-full gap-2"
                     disabled={!isDevice || !isDetactor}

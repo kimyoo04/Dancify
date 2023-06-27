@@ -42,7 +42,7 @@ export default function Result({ data }: { data: IPractice }) {
       </MainWrapper>
 
       <BottomWrapper>
-        <Button onClick={() => dispatch(practiceActions.increaseStep())}>
+        <Button onClick={() => dispatch(practiceActions.moveNextStep())}>
           확인
         </Button>
       </BottomWrapper>

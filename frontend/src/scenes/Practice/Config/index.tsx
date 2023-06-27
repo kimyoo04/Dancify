@@ -106,7 +106,7 @@ export default function Config({ data }: { data: IPractice }) {
       </MainWrapper>
 
       <BottomWrapper>
-        <Button onClick={() => dispatch(practiceActions.increaseStep())}>
+        <Button onClick={() => dispatch(practiceActions.moveNextStep())}>
           다음
         </Button>
       </BottomWrapper>

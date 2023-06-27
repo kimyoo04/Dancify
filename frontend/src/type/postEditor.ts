@@ -1,12 +1,17 @@
 import { TContent, TPostId, TTitle } from "./posts";
 
 export interface IPostEditorState {
-  postId: TPostId;
-  postTitle: TContent;
-  postContent: TContent;
+  step: number;
+  isAgree: boolean;
+  genre: string;
+  postId: string;
+  postTitle: string;
+  postContent: string;
+  feedbackPrice: number;
+  timeStamps: ITimeStamp[];
 }
 
-export interface IPostInfo {
+export interface IFreePostInfo {
   postId: TPostId;
   postTitle: TContent;
   postContent: TContent;
@@ -14,4 +19,9 @@ export interface IPostInfo {
 
 export interface IPostTitleForm {
   title: TTitle;
+}
+
+export interface ITimeStamp {
+  time: number;
+  ratio: number;
 }

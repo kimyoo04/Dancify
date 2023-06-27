@@ -19,7 +19,7 @@ export const practiceSlice = createSlice({
   initialState,
   reducers: {
     // step 증가
-    increaseStep: (state) => {
+    moveNextStep: (state) => {
       state.step += 1;
     },
 
@@ -117,8 +117,8 @@ export const practiceSlice = createSlice({
       state.playIndex = 0;
       state.isSkeleton = false;
       state.isFinished = false;
-      state.isFullBody= false,
-      state.isPlaying= false,
+      state.isFullBody = false;
+      state.isPlaying = false;
       state.selectedSections = [];
       state.sectionPracticeArr = [];
     },
