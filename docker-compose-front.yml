@@ -11,6 +11,7 @@ services:
         NEXT_PUBLIC_ENV_API_DOMAIN: ${NEXT_PUBLIC_ENV_API_DOMAIN}
         NEXT_PUBLIC_ENV_API_URL: ${NEXT_PUBLIC_ENV_API_URL}
         NEXT_PUBLIC_ENV_DOMAIN: ${NEXT_PUBLIC_ENV_DOMAIN}
+        NEXT_PUBLIC_ENV_JWT_SECRET_KEY: ${NEXT_PUBLIC_ENV_JWT_SECRET_KEY}
     environment:
       TZ: "Asia/Seoul"
     networks:
@@ -43,22 +44,9 @@ services:
       TZ: "Asia/Seoul"
     depends_on:
       - nextjs
-      - springboot
-      - mysqldb
-      - fastapi
     networks:
       - server-network
 
 networks:
   server-network:
     driver: bridge
-# certbot docker container
-# docker run -it --rm --name certbot \
-#             -v "/etc/letsencrypt:/etc/letsencrypt" \
-#             -v "/var/lib/letsencrypt:/var/lib/letsencrypt" \
-#             certbot/certbot \
-#             certonly \
-#             --webroot \
-#             -w /var/lib/letsencrypt \
-#             -d www.seniorplus.site \
-#             --agree-tos
