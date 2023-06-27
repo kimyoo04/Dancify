@@ -1,6 +1,6 @@
 import MainLayout from "@layouts/MainLayout";
 import ScoreBoard from "@scenes/Practice/Result/ScoreBoard";
-import StackedBar from "@scenes/Practice/Result/StackedBarChart";
+// import StackedBar from "@scenes/Practice/Result/StackedBarChart";
 import React from "react";
 
 export default function SignUpPage() {
