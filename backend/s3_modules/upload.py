@@ -190,7 +190,7 @@ def upload_splitted_video_to_s3(request, user_id):
     video_type = 'dancer'
     is_mosaic = False
     video_file_extension = '.' + video.name.split('.')[-1]
-    time_stamps = request.data['timestamp']
+    time_stamps = request.data['timeStamp']
 
     time_stamps = list(map(int, time_stamps.split()))
     result = []
