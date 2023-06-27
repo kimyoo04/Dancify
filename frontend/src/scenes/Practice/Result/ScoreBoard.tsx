@@ -1,6 +1,6 @@
 import { IPractice } from "@type/practice";
 import React from "react";
-import { Chart, ChartOptions, ChartPluginsOptions , ArcElement, Tooltip, Legend } from "chart.js";
+import { Chart, ArcElement, Tooltip, Legend } from "chart.js";
 import { Doughnut } from "react-chartjs-2";
 
 
@@ -56,7 +56,7 @@ export default function ScoreBoard({ scoreToMessage }:ScoreBoardProps) {
     ],
   };
 
-  const opt: ChartOptions<'doughnut'> = {
+  const opt = {
     centerText: "86",
     centerSubText: "Score",
     cutout: "70%",
@@ -68,7 +68,7 @@ export default function ScoreBoard({ scoreToMessage }:ScoreBoardProps) {
     },
   };
 
-  const plugs: ChartPluginsOptions<'doughnut'> = [
+  const plugs = [
     {
       id: "centertext",
       beforeDraw: function (chart: Chart<'doughnut'>) {
