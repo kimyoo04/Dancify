@@ -20,7 +20,7 @@ export default function SpeechLoading() {
         animate="animate"
       >
         <motion.span
-          className="block h-3 w-3 rounded-full bg-black dark:bg-white"
+          className="block h-3 w-3 rounded-full bg-black dark:bg-black"
           variants={DotVariants}
           transition={{
             duration: 0.5,
@@ -30,7 +30,7 @@ export default function SpeechLoading() {
           }}
         />
         <motion.span
-          className="block h-3 w-3 rounded-full bg-black dark:bg-white"
+          className="block h-3 w-3 rounded-full bg-black dark:bg-black"
           variants={DotVariants}
           transition={{
             duration: 0.5,
@@ -40,7 +40,7 @@ export default function SpeechLoading() {
           }}
         />
         <motion.span
-          className="block h-3 w-3 rounded-full bg-black dark:bg-white"
+          className="block h-3 w-3 rounded-full bg-black dark:bg-black"
           variants={DotVariants}
           transition={{
             duration: 0.5,
@@ -50,7 +50,7 @@ export default function SpeechLoading() {
           }}
         />
         <motion.span
-          className="block h-3 w-3 rounded-full bg-black dark:bg-white"
+          className="block h-3 w-3 rounded-full bg-black dark:bg-black"
           variants={DotVariants}
           transition={{
             duration: 0.5,
@@ -60,7 +60,7 @@ export default function SpeechLoading() {
           }}
         />
         <motion.span
-          className="block h-3 w-3 rounded-full bg-black dark:bg-white"
+          className="block h-3 w-3 rounded-full bg-black dark:bg-black"
           variants={DotVariants}
           transition={{
             duration: 0.5,

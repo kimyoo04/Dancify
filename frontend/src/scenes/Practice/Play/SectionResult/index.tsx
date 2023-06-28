@@ -9,7 +9,7 @@ export default function SectionResult({ data }: { data: IPractice }) {
   const { playIndex } = useAppSelector((state) => state.practice);
 
   return (
-    <div className="h-full w-full space-y-10">
+    <div className="h-full w-full space-y-10 dark:text-black">
       <h1 className="text-xl font-medium">
         {convertToOrdinal(playIndex)} 구간 연습 결과
       </h1>

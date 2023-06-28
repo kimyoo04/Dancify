@@ -27,9 +27,9 @@ export default function SpeechCommand() {
     setTranscript(text);
 
     // 명령어 처리
-    if (text === "완료" && playIndex === selectedSections.length + 1)
-      dispatch(practiceActions.increaseStep());
-    if (text === "다음" && playIndex !== selectedSections.length + 1)
+    if (text === "완료" && playIndex === selectedSections.length - 1)
+      dispatch(practiceActions.moveNextStep());
+    if (text === "다음" && playIndex < selectedSections.length - 1)
       dispatch(practiceActions.moveNextSection());
     if (text === "한번더") dispatch(practiceActions.showSectionPlay());
     if (text === "종료") router.replace("/");
@@ -41,7 +41,7 @@ export default function SpeechCommand() {
   }, []);
 
   return (
-    <section className="h-[500px] w-full flex-shrink-0 rounded-md bg-background p-6 shadow-md lg:w-[360px] xl:w-[440px]">
+    <section className="h-[500px] w-full flex-shrink-0 rounded-md bg-background p-6 shadow-md dark:bg-white lg:w-[360px] xl:w-[440px]">
       <div className="col-between h-full w-full">
         {/* 녹음된 음성 */}
         <div className="col-center h-2/3 w-full rounded-md">

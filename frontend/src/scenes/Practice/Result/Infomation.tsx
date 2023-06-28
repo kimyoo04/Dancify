@@ -13,12 +13,12 @@ export default function Information({ data }: { data: IPractice }) {
   );
 
   return (
-    <div className="h-[500px] w-full flex-shrink-0 rounded-md bg-background p-6 shadow-md lg:w-[360px] xl:w-[440px]">
+    <div className="h-[500px] w-full flex-shrink-0 rounded-md bg-background p-6 shadow-md lg:w-[360px] xl:w-[440px] dark:bg-white">
       <div className="flex h-full flex-col justify-between">
         {/* 제목과 댄서 이름 */}
         <div className="col-end">
-          <span className="text-xl">{data.dancerPost.title}</span>
-          <span className="text-muted-foreground">
+          <span className="text-right text-xl">{data.dancerPost.title}</span>
+          <span className="text-right text-muted-foreground">
             {data.dancerPost.nickname}
           </span>
         </div>
@@ -37,7 +37,7 @@ export default function Information({ data }: { data: IPractice }) {
         <div className="col-end w-full">
           <p>고생하셨습니다!</p>
           <Separator className="my-3" />
-          <p className="text-xl">Score: {AvgBestScore}</p>
+          <p className="text-xl">최종 점수 : {AvgBestScore}</p>
         </div>
       </div>
     </div>

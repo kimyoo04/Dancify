@@ -41,7 +41,7 @@ export default function Play({
   }, []);
 
   return (
-    <div className="min-h-[93%] w-screen">
+    <div className="h-full w-screen">
       <MainWrapper>
         {isFinished ? (
           <SectionResult data={data} />
@@ -54,7 +54,7 @@ export default function Play({
         {selectedSections.length <= playIndex + 1 ? (
           <Button
             disabled={!isFinished}
-            onClick={() => dispatch(practiceActions.increaseStep())}
+            onClick={() => dispatch(practiceActions.moveNextStep())}
           >
             연습 완료
           </Button>

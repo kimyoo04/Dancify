@@ -10,17 +10,15 @@ export default function SkeletonCheckBox() {
       <Checkbox
         id="skeleton"
         onCheckedChange={() => dispatch(practiceActions.toggleSkeleton())}
+        className="w-5 h-5 dark:text-white"
       />
       <div className="grid gap-1.5 leading-none">
         <label
           htmlFor="skeleton"
-          className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+          className="font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
         >
           관절 스켈레톤 매핑 유무
         </label>
-        <p className="text-sm text-muted-foreground">
-          신체의 관절을 실시간으로 따라다니며 가이드를 표시합니다.
-        </p>
       </div>
     </div>
   );
