@@ -62,10 +62,14 @@ class VideoPostViewSet(BasePostViewSet):
             return Response(status=status.HTTP_401_UNAUTHORIZED)
 
         data = request.data
+        if data['mosaic'] == 'true':
+            is_mosaic = True
+        else:
+            is_mosaic = False
 
         if data['video'] is not None:
             url_data = upload_video_with_metadata_to_s3(user_id, data['video'],
-                                                        'dancer', data['mosaic'])
+                                                        'dancer', is_mosaic)
             data['video'] = url_data['video_url']
             data['thumbnail'] = url_data['thumbnail_url']
 

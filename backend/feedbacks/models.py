@@ -26,7 +26,7 @@ class DanceableFeedback(models.Model):
     create_date = models.DateTimeField(auto_now_add=True)
     first_score = models.URLField()
     best_score = models.URLField()
-    message = models.CharField(max_length=500, default=None)
+    message = models.CharField(max_length=500, default=None, null=True)
 
 
 class DancerFeedback(models.Model):

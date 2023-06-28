@@ -32,6 +32,7 @@ INSTALLED_APPS = [
     'videos',
     'video_section',
     'feedbacks',
+    'dance',
 ]
 
 

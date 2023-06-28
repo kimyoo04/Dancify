@@ -45,7 +45,7 @@ def upload_post_image_to_s3(user_id, image):
     return image_url
 
 
-def upload_keypoint_to_s3(user_id, json_obj, video_uuid):
+def upload_keypoints_to_s3(user_id, json_obj, video_uuid):
     bucket_name = 'dancify-bucket'
     folder_path = f'key-points/{user_id}/'
     file_key = folder_path + video_uuid + '.json'
@@ -111,8 +111,8 @@ def upload_video_with_metadata_to_s3(user_id, video, video_type, is_mosaic, vide
     # 키포인트 업로드(댄서, 댄서블인 경우)
     if video_type in ['dancer', 'danceable']:
         json_obj = video_to_keypoint(video)
-        result['keypoint_url'] = upload_keypoint_to_s3(user_id, json_obj,
-                                                       video_uuid)
+        result['keypoint_url'] = upload_keypoints_to_s3(user_id, json_obj,
+                                                        video_uuid)
     if not isinstance(video, bytes):
         # 파일 포인터를 맨 앞으로 위치시킴
         # bytes 객체는 seek()가 없음
@@ -190,7 +190,7 @@ def upload_splitted_video_to_s3(request, user_id):
     video_type = 'dancer'
     is_mosaic = False
     video_file_extension = '.' + video.name.split('.')[-1]
-    time_stamps = request.data['timeStamp']
+    time_stamps = request.data['timeStamps']
 
     time_stamps = list(map(int, time_stamps.split()))
     result = []
