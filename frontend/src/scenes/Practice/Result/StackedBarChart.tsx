@@ -101,7 +101,11 @@ export default function StackedBarChart() {
 
   return (
     <>
-      {sectionPracticeArr.length > 0 && <Bar options={options} data={data} />}
+      {sectionPracticeArr.length > 0 ? (
+        <Bar options={options} data={data} />
+      ) : (
+        <span>결과가 없습니다.</span>
+      )}
     </>
   );
 }

@@ -27,9 +27,9 @@ export default function SpeechCommand() {
     setTranscript(text);
 
     // 명령어 처리
-    if (text === "완료" && playIndex === selectedSections.length + 1)
+    if (text === "완료" && playIndex === selectedSections.length - 1)
       dispatch(practiceActions.moveNextStep());
-    if (text === "다음" && playIndex !== selectedSections.length + 1)
+    if (text === "다음" && playIndex < selectedSections.length - 1)
       dispatch(practiceActions.moveNextSection());
     if (text === "한번더") dispatch(practiceActions.showSectionPlay());
     if (text === "종료") router.replace("/");
