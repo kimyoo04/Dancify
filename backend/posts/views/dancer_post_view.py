@@ -30,6 +30,7 @@ from search_history.models import SearchHistory
 
 
 class DancerPostViewSet(BasePostViewSet):
+    lookup_field = 'post_id'
     queryset = DancerPost.objects.all()
     pagination_class = BasePostViewSet.pagination_class
 
@@ -64,7 +65,7 @@ class DancerPostViewSet(BasePostViewSet):
         return super().list(request, *args, **kwargs)
 
     def retrieve(self, request, *args, **kwargs):
-        post_id = kwargs['pk']
+        post_id = kwargs['post_id']
 
         if is_logined(request):
             try:
