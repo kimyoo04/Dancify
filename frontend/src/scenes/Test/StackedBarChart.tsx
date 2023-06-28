@@ -9,7 +9,7 @@ import {
   Legend,
 } from "chart.js";
 import { Bar } from "react-chartjs-2";
-import { dummy } from "./dummy";
+import { sectionData } from "./sectionData";
 // import { useAppSelector } from "@toolkit/hook";
 
 export default function StackedBarChart() {
@@ -17,7 +17,7 @@ export default function StackedBarChart() {
   //   (state) => state.practice.sectionPracticeArr
   // );
 
-  const sectionPracticeArr = dummy.sectionPracticeArr;
+  const sectionPracticeArr = sectionData.sectionPracticeArr;
 
   Chart.register(
     CategoryScale,

@@ -1,16 +1,16 @@
-import MainLayout from "@layouts/MainLayout";
+import PracticeLayout from "@layouts/PracticeLayout";
 import DonutChart from "@scenes/Test/DonutChart";
+import FeedbackLine from "@scenes/Test/FeedbackLine";
+import FeedbackRadar from "@scenes/Test/FeedbackRadar";
 import StackedBarChart from "@scenes/Test/StackedBarChart";
-import FeedbackLine from "@scenes/Practice/Result/FeedbackLine";
-import FeedbackRadar from "@scenes/Practice/Result/FeedbackRadar";
-        
+
 export default function ChartPage() {
   return (
-    <MainLayout>
+    <PracticeLayout>
       <DonutChart />
       <StackedBarChart />
       <FeedbackLine />
-      <FeedbackRadar />
-    </MainLayout>
+      <FeedbackRadar/>
+    </PracticeLayout>
   );
 }
