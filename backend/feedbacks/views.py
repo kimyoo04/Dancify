@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from rest_framework.generics import ListAPIView, UpdateAPIView
 from rest_framework_simplejwt.exceptions import TokenError
 
-from .models import DanceableFeedback, FeedbackPost
+from .models import DanceableFeedback
 from .serializers import (
     DancerFeedbackListSerializer,
     DanceableFeedbackListSerializer,
