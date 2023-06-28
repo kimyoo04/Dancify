@@ -81,14 +81,14 @@ class Command(BaseCommand):
         for i in range(2):
             for j in range(8):
                 seeder.add_entity(VideoPost, 1,
-                                {
-                                    "user": lambda x: choice(users),
-                                    "title": lambda x: seeder.faker.sentence(nb_words=4, variable_nb_words=True, ext_word_list=None) + choice(group_names),
-                                    "content": lambda x: seeder.faker.sentence(nb_words=10, variable_nb_words=True, ext_word_list=None),
-                                    "video": video_urls[i],
-                                    "thumbnail": thumbnail_urls[i],
-                                    "views": lambda x: randint(0, 999)
-                                })
+                                  {
+                                      "user": lambda x: choice(users),
+                                      "title": lambda x: seeder.faker.sentence(nb_words=4, variable_nb_words=True, ext_word_list=None) + choice(group_names),
+                                      "content": lambda x: seeder.faker.sentence(nb_words=10, variable_nb_words=True, ext_word_list=None),
+                                      "video": video_urls[i],
+                                      "thumbnail": thumbnail_urls[i],
+                                      "views": lambda x: randint(0, 999)
+                                  })
 
         # 댄서 게시판 더미데이터 생성
         for i in range(3):
