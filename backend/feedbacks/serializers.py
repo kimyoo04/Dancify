@@ -35,3 +35,14 @@ class DancerFeedbackListSerializer(BaseFeedbackListSerializer):
         fields = ['feedbackId', 'thumbnail', 'genre', 'title',
                   'nickname', 'status', 'createDate']
         ref_name = 'DancerFeedbackListSerializer'
+
+
+class DanceableFeedbackRequestSerializer(serializers.Serializer):
+    """
+    댄서블이 피드백을 요청하면 DB에 저장할 수 있도록 하는 시리얼라이저
+    """
+    sectionId = serializers.UUIDField(source='feedback_section_id')
+
+    class Meta:
+        model = DanceableFeedback
+        fields = ['sectionId', 'message']
