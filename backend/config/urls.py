@@ -52,5 +52,6 @@ urlpatterns = [
         path('/videos', include('videos.urls')),
         path('/video-section', include('video_section.urls')),
         path('/dance/other', RandomRecommandationAPIView.as_view()),
+        path('/feedbacks', include('feedbacks.urls')),
     ]))
 ]
