@@ -32,6 +32,6 @@ export const signIn = async (data: ISignInForm) => {
     return true;
   } catch (err) {
     console.log("🚀 signIn.tsx", err);
-    return false;
+    return err;
   }
 };
