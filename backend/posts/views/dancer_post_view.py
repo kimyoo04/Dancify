@@ -1,9 +1,11 @@
 import re
+
+from django.http import JsonResponse
 from django.db.models import F
 from django.core.exceptions import ValidationError
 
 from rest_framework import status
-from rest_framework.generics import ListAPIView
+from rest_framework.generics import ListAPIView, CreateAPIView
 from rest_framework.response import Response
 from rest_framework_simplejwt.exceptions import TokenError
 
@@ -100,29 +102,14 @@ class DancerPostViewSet(BasePostViewSet):
 
         serializer = self.get_serializer(data=data)
         serializer.is_valid(raise_exception=True)
-        serializer.save(user=User.objects.get(user_id=user_id))
+        instance = serializer.save(user=User.objects.get(user_id=user_id))
 
-        # videosection - 분할 영상 처리
-        result = upload_splitted_video_to_s3(request, user_id)
+        response_data = {
+            'postId': instance.pk,
+            'video': data['video']
+        }
 
-        for idx, section in enumerate(result):
-            section_data = {
-                'video': section['video_url'],
-                'thumbnail': section['thumbnail_url'],
-                'section_number': idx + 1,
-                'keypoints': section['keypoint_url']
-            }
-
-            video_section = VideoSection(**section_data)
-            video_section.dancer_post = DancerPost.objects.get(post_id=serializer.instance.post_id)
-
-            try:
-                video_section.full_clean()
-                video_section.save()
-            except ValidationError:
-                return Response(status=status.HTTP_400_BAD_REQUEST)
-
-        return Response(status=status.HTTP_201_CREATED)
+        return JsonResponse(response_data, status=status.HTTP_201_CREATED)
 
     def partial_update(self, request, *args, **kwargs):
         try:
@@ -161,3 +148,44 @@ class RandomRecommandationAPIView(ListAPIView):
     def get_queryset(self):
         queryset = DancerPost.objects.order_by('?')[:5]
         return queryset
+
+
+class VideoSplitView(CreateAPIView):
+    """
+    입력받은 타임스탬프대로 분할해주는 뷰
+    postId와 timeStamps를 폼 데이터로 입력받아 분할된 영상을 DB에 저장합니다.
+
+    POST  /api/posts/dancer/sections
+    {
+        "postId": 댄서 게시글 아이디,
+        "timeStamps": "2 5 7 13" (공백으로 구분)
+    }
+    """
+    def create(self, request, *args, **kwargs):
+        try:
+            user_info = get_user_info_from_token(request)
+            user_id = user_info['userId']
+        except (TokenError, KeyError):
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
+
+        post_id = request.data.get('postId', None)
+
+        # 영상 분할
+        result = upload_splitted_video_to_s3(request, user_id)
+
+        for idx, section in enumerate(result):
+            section_data = {
+                'video': section['video_url'],
+                'thumbnail': section['thumbnail_url'],
+                'section_number': idx + 1,
+                'keypoints': section['keypoint_url']
+            }
+
+            video_section = VideoSection(**section_data)
+            video_section.dancer_post = DancerPost.objects.get(post_id=post_id)
+
+            try:
+                video_section.full_clean()
+                video_section.save()
+            except ValidationError:
+                return Response(status=status.HTTP_400_BAD_REQUEST)
