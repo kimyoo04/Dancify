@@ -1,6 +1,4 @@
 import React from "react";
-import { Bar } from "react-chartjs-2";
-import { useAppSelector } from "@toolkit/hook";
 import {
   Chart,
   CategoryScale,
@@ -10,11 +8,16 @@ import {
   Tooltip,
   Legend,
 } from "chart.js";
+import { Bar } from "react-chartjs-2";
+import { dummy } from "./dummy";
+// import { useAppSelector } from "@toolkit/hook";
 
 export default function StackedBarChart() {
-  const sectionPracticeArr = useAppSelector(
-    (state) => state.practice.sectionPracticeArr
-  );
+  // const sectionPracticeArr = useAppSelector(
+  //   (state) => state.practice.sectionPracticeArr
+  // );
+
+  const sectionPracticeArr = dummy.sectionPracticeArr;
 
   Chart.register(
     CategoryScale,
@@ -101,11 +104,7 @@ export default function StackedBarChart() {
 
   return (
     <>
-      {sectionPracticeArr.length > 0 ? (
-        <Bar options={options} data={data} />
-      ) : (
-        <span>결과가 없습니다.</span>
-      )}
+      {sectionPracticeArr.length > 0 && <Bar options={options} data={data} />}
     </>
   );
 }

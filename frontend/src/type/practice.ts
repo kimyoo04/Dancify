@@ -1,4 +1,4 @@
-import { TThumbnail, TVideo } from "./posts";
+import { TThumbnail, TVideo, TViews } from "./posts";
 
 // practiceSlice.ts
 export interface IPracticeState {
@@ -56,6 +56,7 @@ export interface IDancerPost {
   video: TVideo;
   thumbnail: TThumbnail;
   keypoints: TKeypoints;
+  views: TViews;
   feedbackPrice: number;
 }
 

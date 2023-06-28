@@ -7,6 +7,7 @@ import ReactPlayer from "react-player";
 import Webcam from "react-webcam";
 import * as poseDetection from "@tensorflow-models/pose-detection";
 import { danceableBodyCheck } from "@ai/movenet";
+import { Button } from "@components/ui/button";
 
 export default function SectionPlay({
   data,
@@ -42,7 +43,7 @@ export default function SectionPlay({
 
   // 선택된 섹션만 추출
   const selectedSectionUrls = isRealMode
-    ? [{video: data.dancerPost.video}]
+    ? [{ video: data.dancerPost.video }]
     : data.sections.filter((section, index) =>
         selectedSections.includes(index)
       );
@@ -186,11 +187,14 @@ export default function SectionPlay({
           />
 
           {!isFullBody ? (
-            <div className="col-center absolute top-0 z-10 h-full w-full">
+            <div className="absolute top-0 z-10 flex h-full w-full items-end justify-end gap-2 pb-3 pr-3">
               {/* 전신 메시지 */}
               <p className="rounded-md bg-background px-2 text-xl">
                 전신이 보이도록 뒤로 이동해주세요.
               </p>
+              <Button onClick={() => dispatch(practiceActions.checkFullBody())}>
+                강제 시작
+              </Button>
             </div>
           ) : count > -1 ? (
             <div className="col-center absolute top-0 z-10 h-full w-full">
