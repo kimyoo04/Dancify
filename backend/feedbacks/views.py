@@ -44,6 +44,17 @@ class FeedbackListAPIView(ListAPIView):
 
 
 class DanceableFeedbackRequestView(UpdateAPIView):
+    """
+    댄서블이 피드백을 요청하였을 경우 DB에 메시지를 저장하는 뷰
+
+    PATCH  /api/feedbacks/danceable
+    {
+        "sections": [{
+            "sectionId": feedback_section_id,
+            "message": 댄서에게 전달하고 싶은 메시지
+        }]
+    }
+    """
     serializer_class = DanceableFeedbackRequestSerializer
 
     def update(self, request, *args, **kwargs):
