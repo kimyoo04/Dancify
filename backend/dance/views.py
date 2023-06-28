@@ -62,7 +62,7 @@ class EndPartDanceView(APIView):
         serializer.save(feedback_post=FeedbackPost.objects.get(feedback_id=data['feedbackId']),
                         section=section)
 
-        return JsonResponse(data)
+        return Response(status=status.HTTP_200_OK)
 
 
 class StartExerciseView(APIView):
