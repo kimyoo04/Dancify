@@ -19,21 +19,25 @@ class FeedbackListAPIView(ListAPIView):
     """
     피드백 동영상 목록 조회
     """
+    serializer_class = DanceableFeedbackListSerializer
+    queryset = DanceableFeedback.objects.all()
 
     def list(self, request, *args, **kwargs):
         try:
             user_info = get_user_info_from_token(request)
-            user_id = user_info['user_id']
-            user = User.objects.get(user_id=user_id)
-        except (KeyError, TokenError):
+
+            user_id = user_info['userId']
+        except (TokenError, KeyError):
             return Response(status=status.HTTP_401_UNAUTHORIZED)
-        except User.DoesNotExist:
-            return Response(status=status.HTTP_403_FORBIDDEN)
+
+        user = User.objects.get(user_id=user_id)
 
         # 로그인한 유저가 댄서인 경우
         if user.is_dancer:
+            self.queryset = DanceableFeedback.objects.filter(feedback_post__dancer_post__user=user)
             self.serializer_class = DancerFeedbackListSerializer
         else:
+            self.queryset = DanceableFeedback.objects.filter(feedback_post__user=user)
             self.serializer_class = DanceableFeedbackListSerializer
 
         return super().list(request, *args, **kwargs)
