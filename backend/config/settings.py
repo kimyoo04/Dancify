@@ -31,6 +31,7 @@ INSTALLED_APPS = [
     'search_history',
     'videos',
     'video_section',
+    'dance',
 ]
 
 
