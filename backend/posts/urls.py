@@ -11,7 +11,7 @@ router = routers.SimpleRouter(trailing_slash=False)
 
 router.register(r'/free', FreePostViewSet)
 router.register(r'/video', VideoPostViewSet)
-router.register(r'/dancer', DancerPostViewSet)
+# router.register(r'/dancer', DancerPostViewSet)
 
 
 urlpatterns = [

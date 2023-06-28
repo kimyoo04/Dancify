@@ -1,3 +1,4 @@
+from django.conf import settings
 import uuid
 import io
 import os
@@ -135,28 +136,25 @@ def upload_video_with_metadata_to_s3(user_id, video, video_type, is_mosaic, vide
     return result
 
 
-def split_video(video, start_timestamp, end_timestamp):
+def split_video(video_file_extension, start_timestamp, end_timestamp):
     """타임스탬프에 맞게 비디오를 분할합니다.
+    로컬에 임시저장된 전체 비디오를 경로를 통해 읽어옵니다.
 
     Args:
-        video (_type_): request.FILES['video']
+        video_file_extension(str): .을 뺀 동영상의 확장자명
         start_timestamp (int): 분할 영상의 시작지점(초)
         end_timestamp (int): 분할 영상의 종료지점(초)
 
     Returns:
         _type_: result_video(Bytes)
     """
-    # 영상 저장할 경로 지정
-    localpath = os.path.dirname(os.path.abspath(__file__))  # 현재 폴더
-    localpath = os.path.join(localpath, 'video')  # 현재 폴더/video/
-    os.makedirs(localpath, exist_ok=True)  # 폴더 생성
+    # 임시로 저장된 영상 불러올 경로 지정
+    localpath = settings.BASE_DIR  # 프로젝트 최상위 폴더
+    localpath = os.path.join(localpath, 'tmp_video')
 
-    local_videopath = os.path.join(localpath, 'video_original.mp4')
+    local_videopath = os.path.join(localpath, 'video_original' +
+                                   video_file_extension)
     result_path = os.path.join(localpath, 'result.mp4')
-
-    with open(local_videopath, 'wb') as destination:
-        for chunk in video.chunks():
-            destination.write(chunk)
 
     # 비디오 자르기
     video = VideoFileClip(local_videopath).subclip(start_timestamp,
@@ -170,9 +168,6 @@ def split_video(video, start_timestamp, end_timestamp):
     with open(result_path, 'rb') as file:
         result_video = file.read()  # 바이너리 파일
 
-    # 편집에 사용되었던 localpath 폴더 삭제
-    shutil.rmtree(localpath)
-
     return result_video
 
 
@@ -180,23 +175,28 @@ def upload_splitted_video_to_s3(request, user_id):
     """분할한 영상을 s3에 업로드합니다.
 
     Args:
-        video (_type_): request.FILES['video']
-        time_stamps (request(Text)): _description_
+        request: 요청 객체
+        user_id : user_id
     Returns:
         result(list): 리스트 안에 분할영상의 키포인트, 썸네일, 동영상의 주소 가
         딕셔너리 형태로 저장되어 있습니다.
     """
-    video = request.FILES['video']
     video_type = 'dancer'
     is_mosaic = False
-    video_file_extension = '.' + video.name.split('.')[-1]
+    video_file_extension = '.' + request.data['videoExtension']
     time_stamps = request.data['timeStamps']
 
     time_stamps = list(map(int, time_stamps.split()))
     result = []
     for i in range(0, len(time_stamps), 2):
-        splitted_video = split_video(video, time_stamps[i], time_stamps[i + 1])
-        result.append(upload_video_with_metadata_to_s3(user_id, splitted_video, video_type,
-                                                       is_mosaic, video_file_extension))
-
+        splitted_video = split_video(video_file_extension,
+                                     time_stamps[i], time_stamps[i + 1])
+        result.append(upload_video_with_metadata_to_s3(user_id,
+                                                       splitted_video,
+                                                       video_type,
+                                                       is_mosaic,
+                                                       video_file_extension))
+    # 편집에 사용되었던 localpath 폴더 삭제
+    localpath = settings.BASE_DIR
+    shutil.rmtree(os.path.join(localpath, 'tmp_video'))
     return result
