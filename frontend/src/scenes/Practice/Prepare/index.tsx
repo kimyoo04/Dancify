@@ -77,7 +77,7 @@ export default function Prepare({
   }, []);
 
   return (
-    <div className="min-h-[93%] w-screen">
+    <div className="h-full w-screen">
       <MainWrapper>
         {loading ? (
           <LoadingModal>
@@ -106,20 +106,20 @@ export default function Prepare({
               <div className="col-between h-[80%] w-full">
                 <div>
                   <div>
-                    <div>
+                    <div className="space-x-2">
                       {isDevice ? (
-                        <span className="text-green-500">✓</span>
+                        <span className="text-green-500 font-bold">✓</span>
                       ) : (
-                        <span className="text-red-500">✕</span>
+                        <span className="text-red-500 font-bold">✕</span>
                       )}
                       <span>웹캠 유무 확인</span>
                     </div>
                   </div>
-                  <div>
+                  <div className="space-x-2">
                     {isDetactor ? (
-                      <span className="text-green-500">✓</span>
+                      <span className="text-green-500 font-bold">✓</span>
                     ) : (
-                      <span className="text-red-500">✕</span>
+                      <span className="text-red-500 font-bold">✕</span>
                     )}
                     <span>AI 모델 불러오기</span>
                   </div>
@@ -168,8 +168,8 @@ export default function Prepare({
       </MainWrapper>
 
       <BottomWrapper>
-        <p>
-          연습을 완료하시면, AI와 댄서의 피드백 서비스를 이용할 수 있습니다.
+        <p className="md:text-lg md:font-medium">
+          연습 완료 후, AI와 댄서의 피드백 서비스를 이용 가능 합니다.
         </p>
       </BottomWrapper>
     </div>

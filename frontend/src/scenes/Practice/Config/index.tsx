@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useRouter } from "next/router";
 
 import MainWrapper from "../Wrapper/MainWarpper";
@@ -37,71 +37,76 @@ export default function Config({ data }: { data: IPractice }) {
   }, []);
 
   return (
-    <div className="h-screen w-screen">
+    <div className="h-full w-screen">
       <MainWrapper>
-        <div className="w-full">
-          {/* 댄서게시글 정보 영역 */}
-          <div className="w-full px-2">
-            {/* 게시글 해더 */}
-            <ConfigHeader data={data.dancerPost} />
-            <Separator className="my-2" />
+        <div className="col-center h-full w-full p-2">
+          <div className="bg-whtie w-full space-y-4 overflow-hidden rounded-md p-6 shadow-md dark:bg-white dark:text-black md:w-[600px]">
+            {/* 댄서게시글 정보 영역 */}
+            <div className="w-full dark:text-black">
+              {/* 게시글 해더 */}
+              <ConfigHeader data={data.dancerPost} />
+              <Separator className="my-2" />
 
-            {/* 게시글 내용 */}
-            <PostContent
-              content={data.dancerPost.content}
-              className="pb-12 pt-2"
-            />
+              {/* 게시글 내용 */}
+              <PostContent
+                content={data.dancerPost.content}
+                className="pb-4 pt-2"
+              />
+            </div>
+
+            <div>
+              {/* 연습 모드 실전 모드 토글 영역 */}
+              <div className="w-full">
+                <div className="row-center w-full overflow-hidden rounded-lg border-2 border-primary">
+                  <Button
+                    variant={!isRealMode ? "default" : "ghost"}
+                    onClick={() => dispatch(practiceActions.toggleReal())}
+                    className={`${
+                      !isRealMode ? "" : "bg-white"
+                    } w-full rounded-none`}
+                  >
+                    연습 모드
+                  </Button>
+                  <Button
+                    variant={isRealMode ? "default" : "ghost"}
+                    onClick={() => dispatch(practiceActions.toggleReal())}
+                    className={`${
+                      isRealMode ? "" : "bg-white"
+                    } w-full rounded-none`}
+                  >
+                    실전 모드
+                  </Button>
+                </div>
+              </div>
+
+              {!isRealMode ? (
+                <div className="w-full">
+                  {/* 연습 모드 설정 영역 */}
+                  <ScrollArea>
+                    <ul className="flex space-x-4 m-0 px-0 py-3 mb-2">
+                      {data.sections.map((data, index) => (
+                        <PreviewSection
+                          key={data.sectionId}
+                          data={data}
+                          index={index}
+                        />
+                      ))}
+                    </ul>
+
+                    <ScrollBar orientation="horizontal" className="bg-white" />
+                  </ScrollArea>
+                </div>
+              ) : (
+                <div className="max-w-2xl">
+                  {/* 실전 모드 설정 영역 */}
+                  <NormalPlayer url={data.dancerPost.video} />
+                </div>
+              )}
+            </div>
+
+            {/* 스켈레톤 유무 */}
+            <SkeletonCheckBox />
           </div>
-
-          {/* 연습 모드 실전 모드 토글 영역 */}
-          <div className="w-full px-2">
-            <div className="row-center w-full overflow-hidden rounded-lg border-2 border-primary">
-              <Button
-                variant={!isRealMode ? "default" : "ghost"}
-                onClick={() => dispatch(practiceActions.toggleReal())}
-                className={`${
-                  !isRealMode ? "" : "bg-muted"
-                } w-full rounded-none`}
-              >
-                연습 모드
-              </Button>
-              <Button
-                variant={isRealMode ? "default" : "ghost"}
-                onClick={() => dispatch(practiceActions.toggleReal())}
-                className={`${
-                  isRealMode ? "" : "bg-muted"
-                } w-full rounded-none`}
-              >
-                실전 모드
-              </Button>
-            </div>
-          </div>
-
-          {!isRealMode ? (
-            <div className="w-full px-2">
-              {/* 연습 모드 설정 영역 */}
-              <ScrollArea>
-                <ul className="flex space-x-4 pb-4">
-                  {data.sections.map((data, index) => (
-                    <PreviewSection
-                      key={data.sectionId}
-                      data={data}
-                      index={index}
-                    />
-                  ))}
-                </ul>
-                <ScrollBar orientation="horizontal" />
-              </ScrollArea>
-            </div>
-          ) : (
-            <div className="max-w-2xl px-2">
-              {/* 실전 모드 설정 영역 */}
-              <NormalPlayer url={data.dancerPost.video} />
-            </div>
-          )}
-
-          {/* 스켈레톤 유무 */}
-          <SkeletonCheckBox />
         </div>
       </MainWrapper>
 

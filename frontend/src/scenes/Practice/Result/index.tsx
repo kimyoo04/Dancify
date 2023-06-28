@@ -31,11 +31,11 @@ export default function Result({ data }: { data: IPractice }) {
   }, []);
 
   return (
-    <div className="min-h-[93%] w-screen">
+    <div className="h-full w-screen">
       <MainWrapper>
-        <h1>총 연습 결과</h1>
+        <h1 className="text-black text-2xl font-medium w-full mb-4 col-start">총 연습 결과</h1>
 
-        <div className="col-center w-full gap-6 sm:gap-10 lg:flex-row">
+        <div className="col-center w-full gap-6 sm:gap-10 lg:flex-row dark:text-black">
           <ScoreBoard data={data} />
           <Information data={data} />
         </div>

@@ -1,4 +1,4 @@
-export const dummy = {
+export const sectionData = {
   step: "Step 1",
   playIndex: 1,
   sectionPracticeArr: [

@@ -44,8 +44,8 @@ export default function PreviewSection({
       )}
 
       {/* //? 영상 길이와 구간 번호 표시 */}
-      <div className="space-y-1 text-sm">
-        <h3 className="font-medium leading-none">{index + 1}</h3>
+      <div className="w-full row-center">
+        <span className="text-sm font-medium leading-none">{index + 1} 구간</span>
       </div>
     </div>
   );

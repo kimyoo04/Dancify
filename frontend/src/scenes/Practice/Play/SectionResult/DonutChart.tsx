@@ -99,9 +99,9 @@ export default function DonutChart() {
 
   return (
     <>
-      {dataValues && (
+      {dataValues ? (
         <Doughnut data={data} options={options} plugins={plugins} />
-      )}
+      ): <span>데이터가 없습니다.</span>}
     </>
   );
 }

@@ -8,7 +8,7 @@ export default function ScoreBoard({ data }: { data: IPractice }) {
   );
 
   return (
-    <div className="h-[500px] w-full rounded-md bg-background p-6 shadow-md ">
+    <div className="h-[500px] w-full rounded-md bg-background p-6 shadow-md dark:bg-white">
       <div className="col-center h-full w-full md:flex-row">
         <div className="col-center h-full w-full border p-2 md:w-2/3">
           <StackedBarChart />

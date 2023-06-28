@@ -36,7 +36,7 @@ export default function Practice({ postId }: { postId: TPostId }) {
   }, []);
 
   return (
-    <main>
+    <main className="w-full h-full">
       {isLoading ? (
         <div>
           <Loading />
