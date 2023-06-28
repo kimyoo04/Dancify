@@ -152,8 +152,8 @@ def split_video(video_file_extension, start_timestamp, end_timestamp):
     localpath = settings.BASE_DIR  # 프로젝트 최상위 폴더
     localpath = os.path.join(localpath, 'tmp_video')
 
-    local_videopath = os.path.join(localpath, 'video_original' +
-                                   video_file_extension)
+    local_videopath = os.path.join(localpath,
+                                   'video_original' + video_file_extension)
     result_path = os.path.join(localpath, 'result.mp4')
 
     # 비디오 자르기
