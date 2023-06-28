@@ -21,81 +21,9 @@ export default function Finish() {
   }, []);
 
   // API GET 요청
-  // const { data, isLoading, error } = useReadOtherDancerPosts();
+  const { data, isLoading, error } = useReadOtherDancerPosts();
 
-  const data = [
-    {
-      postId: "sdasdqdqsgq",
-      title: "title",
-      nickname: "nickname",
-      content: "content",
-      createDate: "createDate",
-      thumbnail:
-        "https://dancify-bucket.s3.ap-northeast-2.amazonaws.com/thumbnail/dancer3/fd32fhj890fjwefiwefjwe-thumbnail.0000000.jpg",
-      video: "video",
-      views: 1,
-      commentsCount: 1,
-      likesCount: 1,
-      feedbackPrice: 1,
-    },
-    {
-      postId: "sdadeqdqsgq",
-      title: "title",
-      nickname: "nickname",
-      content: "content",
-      createDate: "createDate",
-      thumbnail:
-        "https://dancify-bucket.s3.ap-northeast-2.amazonaws.com/thumbnail/dancer3/fd32fhj890fjwefiwefjwe-thumbnail.0000000.jpg",
-      video: "video",
-      views: 1,
-      commentsCount: 1,
-      likesCount: 1,
-      feedbackPrice: 1,
-    },
-    {
-      postId: "ybdasdtbysgq",
-      title: "title",
-      nickname: "nickname",
-      content: "content",
-      createDate: "createDate",
-      thumbnail:
-        "https://dancify-bucket.s3.ap-northeast-2.amazonaws.com/thumbnail/dancer3/fd32fhj890fjwefiwefjwe-thumbnail.0000000.jpg",
-      video: "video",
-      views: 1,
-      commentsCount: 1,
-      likesCount: 1,
-      feedbackPrice: 1,
-    },
-    {
-      postId: "wqwnudqdqsgq",
-      title: "title",
-      nickname: "nickname",
-      content: "content",
-      createDate: "createDate",
-      thumbnail:
-        "https://dancify-bucket.s3.ap-northeast-2.amazonaws.com/thumbnail/dancer3/fd32fhj890fjwefiwefjwe-thumbnail.0000000.jpg",
-      video: "video",
-      views: 1,
-      commentsCount: 1,
-      likesCount: 1,
-      feedbackPrice: 1,
-    },
-    {
-      postId: "tsdfsdqdqsgq",
-      title: "title",
-      nickname: "nickname",
-      content: "content",
-      createDate: "createDate",
-      thumbnail:
-        "https://dancify-bucket.s3.ap-northeast-2.amazonaws.com/thumbnail/dancer3/fd32fhj890fjwefiwefjwe-thumbnail.0000000.jpg",
-      video: "video",
-      views: 1,
-      commentsCount: 1,
-      likesCount: 1,
-      feedbackPrice: 1,
-    },
-  ];
-
+  console.log(data)
   return (
     <div className="-mb-[7%] w-full space-y-20 px-6">
       <section className="space-y-4">
@@ -104,7 +32,7 @@ export default function Finish() {
         <div className="w-full px-2">
           <ScrollArea>
             <ul className="mt-0 flex gap-8 space-x-4 pb-4 pl-0">
-              {data.map((data) => (
+              {data && data.map((data) => (
                 <OtherDancerPostItem key={data.postId} data={data} />
               ))}
             </ul>

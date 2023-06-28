@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { cn } from "@lib/utils";
-import { IDancerPost } from "@type/dancerPosts";
 import Link from "next/link";
+import { IDancerPost } from "@type/practice";
 
 export default function OtherDancerPostItem({ data }: { data: IDancerPost }) {
   return (
