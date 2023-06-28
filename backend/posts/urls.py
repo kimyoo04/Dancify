@@ -11,10 +11,17 @@ router = routers.SimpleRouter(trailing_slash=False)
 
 router.register(r'/free', FreePostViewSet)
 router.register(r'/video', VideoPostViewSet)
-# router.register(r'/dancer', DancerPostViewSet)
 
+dancer_post_viewset = DancerPostViewSet.as_view({
+    'get': 'list',
+    'post': 'create',
+    'get': 'retrieve',
+    'patch': 'partial_update',
+    'delete': 'destroy'
+})
 
 urlpatterns = [
     path('', include(router.urls)),
+    path('/dancer', dancer_post_viewset),
     path('/dancer/sections', VideoSplitView.as_view()),
 ]
