@@ -1,11 +1,14 @@
 import re
+import os
 
 from django.http import JsonResponse
 from django.db.models import F
 from django.core.exceptions import ValidationError
+from django.conf import settings
 
 from rest_framework import status
-from rest_framework.generics import ListAPIView, CreateAPIView
+from rest_framework.views import APIView
+from rest_framework.generics import ListAPIView
 from rest_framework.response import Response
 from rest_framework_simplejwt.exceptions import TokenError
 
@@ -27,6 +30,7 @@ from search_history.models import SearchHistory
 
 
 class DancerPostViewSet(BasePostViewSet):
+    lookup_field = 'post_id'
     queryset = DancerPost.objects.all()
     pagination_class = BasePostViewSet.pagination_class
 
@@ -61,7 +65,7 @@ class DancerPostViewSet(BasePostViewSet):
         return super().list(request, *args, **kwargs)
 
     def retrieve(self, request, *args, **kwargs):
-        post_id = kwargs['pk']
+        post_id = kwargs['post_id']
 
         if is_logined(request):
             try:
@@ -99,6 +103,18 @@ class DancerPostViewSet(BasePostViewSet):
             data['video'] = url_data['video_url']
             data['thumbnail'] = url_data['thumbnail_url']
             data['keypoints'] = url_data['keypoint_url']
+
+            # 동영상 분할을 위한 비디오 .mp4 파일 임시 저장
+            localpath = settings.BASE_DIR  # 프로젝트 최상위 폴더
+            localpath = os.path.join(localpath, 'tmp_video')  # 현재 폴더/tmp_video/
+            os.makedirs(localpath, exist_ok=True)  # 폴더 생성
+
+            video = request.FILES['video']
+            local_videopath = os.path.join(localpath, 'video_original.' + video.name.split('.')[-1])
+
+            with open(local_videopath, 'wb') as destination:
+                for chunk in video.chunks():
+                    destination.write(chunk)
 
         serializer = self.get_serializer(data=data)
         serializer.is_valid(raise_exception=True)
@@ -150,7 +166,7 @@ class RandomRecommandationAPIView(ListAPIView):
         return queryset
 
 
-class VideoSplitView(CreateAPIView):
+class VideoSplitView(APIView):
     """
     입력받은 타임스탬프대로 분할해주는 뷰
     postId와 timeStamps를 폼 데이터로 입력받아 분할된 영상을 DB에 저장합니다.
@@ -161,7 +177,7 @@ class VideoSplitView(CreateAPIView):
         "timeStamps": "2 5 7 13" (공백으로 구분)
     }
     """
-    def create(self, request, *args, **kwargs):
+    def post(self, request, *args, **kwargs):
         try:
             user_info = get_user_info_from_token(request)
             user_id = user_info['userId']
@@ -189,3 +205,5 @@ class VideoSplitView(CreateAPIView):
                 video_section.save()
             except ValidationError:
                 return Response(status=status.HTTP_400_BAD_REQUEST)
+
+        return Response(status=status.HTTP_201_CREATED)
