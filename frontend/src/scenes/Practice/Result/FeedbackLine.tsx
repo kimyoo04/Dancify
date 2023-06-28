@@ -19,7 +19,7 @@ import {
   Leg,
 } from "@type/feedbacks";
 
-export default function FeedbackChart({
+export default function FeedbackLine({
   feedback,
 }: {
   feedback: FeedbackData;
@@ -79,7 +79,7 @@ export default function FeedbackChart({
         backgroundColor: "rgba(255, 159, 64, 0.2)",
       },
       {
-        label: "팔꿈치",
+        label: "팔",
         data: result[2],
         borderColor: "rgb(75, 192, 192)",
         backgroundColor: "rgba(75, 192, 192, 0.2)",
