@@ -11,19 +11,15 @@ import {
 } from "chart.js";
 import { Line } from "react-chartjs-2";
 import {
-  FeedbackData,
   PartData,
   Pelvis,
   Shoulder,
   Forearm,
   Leg,
 } from "@type/feedbacks";
+import { feedback1 } from "@scenes/Test/feedbackData";
 
-export default function FeedbackLine({
-  feedback,
-}: {
-  feedback: FeedbackData;
-}) {
+export default function FeedbackLine() {
   ChartJS.register(
     CategoryScale,
     LinearScale,
@@ -47,7 +43,7 @@ export default function FeedbackLine({
     },
   };
 
-  const feedbackData = feedback.data;
+  const feedbackData = feedback1.data;
 
   //[1,2,3,4]구역
   const labels: number[] = Array.from(
@@ -93,9 +89,5 @@ export default function FeedbackLine({
     ],
   };
 
-  return (
-    <div style={{ position: "relative", height: "800px", width: "800px" }}>
-      <Line options={options} data={data} />
-    </div>
-  );
+  return <Line options={options} data={data} />;
 }

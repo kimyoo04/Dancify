@@ -9,7 +9,7 @@ import {
   Legend,
 } from "chart.js";
 import { Radar } from "react-chartjs-2";
-import { FeedbackData } from "@type/feedbacks";
+import { feedback1, feedback2 } from "@scenes/Test/feedbackData";
 
 ChartJS.register(
   RadialLinearScale,
@@ -20,13 +20,8 @@ ChartJS.register(
   Legend
 );
 
-export default function FeedbackRadar({
-  feedback1,
-  feedback2,
-}: {
-  feedback1: FeedbackData;
-  feedback2: FeedbackData;
-}) {
+export default function FeedbackRadar() {
+  // feedback1=최초, feedback=최고
   const feedbackData1 = feedback1.avg_score;
   const feedbackData2 = feedback2.avg_score;
 
@@ -52,9 +47,5 @@ export default function FeedbackRadar({
       },
     ],
   };
-  return (
-    <div style={{ position: "relative", height: "500px", width: "500px" }}>
-      <Radar data={data} />
-    </div>
-  );
+  return <Radar data={data} />;
 }
