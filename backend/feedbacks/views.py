@@ -35,6 +35,7 @@ class FeedbackListAPIView(ListAPIView):
         # 로그인한 유저가 댄서인 경우
         if user.is_dancer:
             self.queryset = DanceableFeedback.objects.filter(feedback_post__dancer_post__user=user)
+            self.queryset = self.queryset.exclude(status='신청 전')
             self.serializer_class = DancerFeedbackListSerializer
         else:
             self.queryset = DanceableFeedback.objects.filter(feedback_post__user=user)
@@ -58,6 +59,13 @@ class DanceableFeedbackRequestView(UpdateAPIView):
     serializer_class = DanceableFeedbackRequestSerializer
 
     def update(self, request, *args, **kwargs):
+        try:
+            user_info = get_user_info_from_token(request)
+
+            user_id = user_info['userId']
+        except (TokenError, KeyError):
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
+
         sections = request.data.get('sections', [])
 
         for section in sections:
@@ -66,7 +74,13 @@ class DanceableFeedbackRequestView(UpdateAPIView):
 
             try:
                 feedback = DanceableFeedback.objects.get(feedback_section_id=section_id)
+
+                # 로그인한 유저와 피드백 포스트 작성자가 일치하지 않을 경우
+                if user_id != feedback.feedback_post.user.user_id:
+                    return Response(status=status.HTTP_401_UNAUTHORIZED)
+
                 feedback.message = message
+                feedback.status = '대기 중'
                 feedback.full_clean()
                 feedback.save()
             except DanceableFeedback.DoesNotExist:
