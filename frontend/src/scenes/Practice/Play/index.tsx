@@ -41,7 +41,7 @@ export default function Play({
   }, []);
 
   return (
-    <div className="min-h-[93%] w-screen">
+    <div className="h-full w-screen">
       <MainWrapper>
         {isFinished ? (
           <SectionResult data={data} />

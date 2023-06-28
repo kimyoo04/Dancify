@@ -189,7 +189,7 @@ export default function SectionPlay({
           {!isFullBody ? (
             <div className="absolute top-0 z-10 flex h-full w-full items-end justify-end gap-2 pb-3 pr-3">
               {/* 전신 메시지 */}
-              <p className="rounded-md bg-background px-2 text-xl">
+              <p className="rounded-md bg-background py-2 px-4 col-center">
                 전신이 보이도록 뒤로 이동해주세요.
               </p>
               <Button onClick={() => dispatch(practiceActions.checkFullBody())}>

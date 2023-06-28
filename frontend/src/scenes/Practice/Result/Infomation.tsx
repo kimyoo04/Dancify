@@ -13,7 +13,7 @@ export default function Information({ data }: { data: IPractice }) {
   );
 
   return (
-    <div className="h-[500px] w-full flex-shrink-0 rounded-md bg-background p-6 shadow-md lg:w-[360px] xl:w-[440px]">
+    <div className="h-[500px] w-full flex-shrink-0 rounded-md bg-background p-6 shadow-md lg:w-[360px] xl:w-[440px] dark:bg-white">
       <div className="flex h-full flex-col justify-between">
         {/* 제목과 댄서 이름 */}
         <div className="col-end">

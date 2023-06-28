@@ -22,16 +22,22 @@ export default function ProgressBar() {
       <motion.div
         initial="initial"
         animate="animate"
-        variants={barVariants(currentStep, totalSteps)}
+        variants={barVariants(currentStep, totalSteps === 0 ? 1 : totalSteps)}
         className="relative h-full rounded-md bg-primary"
       >
         <div>
           {/* 툴팁 상자 */}
           <div className="absolute -top-2 right-0 -translate-y-full translate-x-1/2 transform">
             <div className="row-center gap-1 rounded-md bg-primary px-4 py-1 text-xs text-white">
-              <span className="text-lg">{currentStep}</span>
-              <span className="text-lg">/</span>
-              <span className="text-lg">{totalSteps}</span>
+              {currentStep === totalSteps || totalSteps === 0 ? (
+                <span className="text-lg">완료</span>
+              ) : (
+                <>
+                  <span className="text-lg">{currentStep}</span>
+                  <span className="text-lg">/</span>
+                  <span className="text-lg">{totalSteps}</span>
+                </>
+              )}
             </div>
           </div>
 
