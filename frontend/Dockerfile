@@ -15,10 +15,7 @@ ENV NEXT_PUBLIC_ENV_JWT_SECRET_KEY=${NEXT_PUBLIC_ENV_JWT_SECRET_KEY}
 WORKDIR /usr/src/nextjs
 
 COPY package.json yarn.lock ./
-RUN \
-  if [ -f yarn.lock ]; then yarn --frozen-lockfile; \
-  else echo "Warning: Lockfile not found. It is recommended to commit lockfiles to version control."
-  fi
+RUN yarn --frozen-lockfile --production;
 
 COPY ./ ./
 

@@ -35,12 +35,6 @@ services:
       - ./nginx/sites.conf:/etc/nginx/conf.d/sites.conf
       - ./nginx/sites-enabled:/etc/nginx/sites-enabled
     environment:
-      NGINX_HOST: ${NGINX_HOST}
-      NGINX_PORT: ${NGINX_PORT}
-      NGINX_SERVER_NAME: ${NGINX_SERVER_NAME}
-      NGINX_SSL_CERTIFICATE: ${NGINX_SSL_CERTIFICATE}
-      NGINX_SSL_CERTIFICATE_KEY: ${NGINX_SSL_CERTIFICATE_KEY}
-      NGINX_SSL_TRUSTED_CERTIFICATE: ${NGINX_SSL_TRUSTED_CERTIFICATE}
       TZ: "Asia/Seoul"
     depends_on:
       - nextjs
