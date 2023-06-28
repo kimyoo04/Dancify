@@ -18,15 +18,6 @@ import { ThemeProvider } from "next-themes";
 import { Toaster } from "@components/ui/toaster";
 
 import verifyUser from "@api/auth/verifyUser";
-import {
-  Chart,
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-} from "chart.js";
 
 export default function App({ Component, pageProps }: AppProps) {
   const [queryClient] = useState(
@@ -40,15 +31,6 @@ export default function App({ Component, pageProps }: AppProps) {
           },
         },
       })
-  );
-
-  Chart.register(
-    CategoryScale,
-    LinearScale,
-    BarElement,
-    Title,
-    Tooltip,
-    Legend
   );
 
   //! JWT 인증 (첫 방문 혹은 새로고침 시 작동)

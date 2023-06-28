@@ -1,5 +1,12 @@
 import React from "react";
-import { Chart, ArcElement, Tooltip, Legend } from "chart.js";
+import {
+  Chart,
+  ArcElement,
+  Tooltip,
+  Legend,
+  DoughnutControllerDatasetOptions,
+  Plugin,
+} from "chart.js";
 import { Doughnut } from "react-chartjs-2";
 // import { useAppSelector } from "@toolkit/hook";
 
@@ -42,16 +49,58 @@ export default function DonutChart() {
     ],
   };
 
-  const opt = {
-    centerText: "86",
-    centerSubText: "Score",
+  const options = {
     cutout: "70%",
     plugins: {
       legend: {
-        display: false,
+        position: "right" as const,
       },
     },
   };
 
-  return <>{dataValues && <Doughnut data={data} options={opt} />}</>;
+  const plugin: Plugin<"doughnut"> = {
+    id: "centerText",
+    beforeDraw: function (chart: Chart) {
+      const { ctx } = chart;
+      ctx.save();
+
+      // scoreText 표시
+      const scoreText = "84";
+      const xCoor = chart.getDatasetMeta(0)?.data[0].x;
+      const yCoor = chart.getDatasetMeta(0)?.data[0].y;
+      const fontSize = (yCoor / 50).toFixed(2);
+      ctx.font = `bold ${fontSize}em sans-serif`;
+      ctx.fillStyle = "black";
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.fillText(scoreText, xCoor, yCoor * 0.95);
+
+      // scoreText 의 높이 추출
+      const metrics = ctx.measureText(scoreText);
+      const actualHeight =
+        metrics.actualBoundingBoxAscent + metrics.actualBoundingBoxDescent;
+
+      // scoreText 아래에 표시
+      const subText = "Score";
+      const subFontSize = (yCoor / 90).toFixed(2);
+      ctx.font = `${subFontSize}rem sans-serif`;
+      ctx.fillStyle = "black";
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.fillText(subText, xCoor, yCoor * 0.95 + actualHeight);
+    },
+  };
+
+  // 플러그인 리스트
+  const plugins: Plugin<"doughnut", DoughnutControllerDatasetOptions>[] = [
+    plugin,
+  ];
+
+  return (
+    <>
+      {dataValues && (
+        <Doughnut data={data} options={options} plugins={plugins} />
+      )}
+    </>
+  );
 }

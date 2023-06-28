@@ -15,6 +15,7 @@ export default function DonutChart() {
     (state) => state.practice
   );
 
+  const bestScore = String(sectionPracticeArr[playIndex]?.bestScore);
   const poseMessages = sectionPracticeArr[playIndex]?.poseMessages;
   // const exampleData = {
   //   Miss: 6,
@@ -53,40 +54,41 @@ export default function DonutChart() {
     cutout: "70%",
     plugins: {
       legend: {
-        display: false,
+        position: "right" as const,
       },
     },
   };
 
   const plugin: Plugin<"doughnut"> = {
-    id: "textCenter",
-    beforeInit: (chart: Chart) => {
+    id: "centerText",
+    beforeDraw: function (chart: Chart) {
       const { ctx } = chart;
-
-      const width = chart.chartArea.right - chart.chartArea.left;
-      const height = chart.chartArea.bottom - chart.chartArea.top;
-
-      ctx.restore();
-      const fontSize = (height / 80).toFixed(2);
-      ctx.font = `bold ${fontSize}em sans-serif`;
-      ctx.textBaseline = "middle";
-
-      //! text 추가
-      const text = "86";
-      const textWidth = ctx.measureText(text).width;
-      const textX = Math.round((width - textWidth) / 2);
-      const textY = height / 2;
-      ctx.fillText(text, textX, textY);
-
-      //! text 아래에 subText 텍스트 추가
-      const subText = "Score";
-      ctx.font = "1em sans-serif";
-      const subTextWidth = ctx.measureText(subText).width;
-      const subTextX = Math.round((width - subTextWidth) / 2);
-      const subTextY = textY + 30;
-      ctx.fillText(subText, subTextX, subTextY);
-
       ctx.save();
+
+      // scoreText 표시
+      const scoreText = bestScore;
+      const xCoor = chart.getDatasetMeta(0)?.data[0].x;
+      const yCoor = chart.getDatasetMeta(0)?.data[0].y;
+      const fontSize = (yCoor / 50).toFixed(2); // 동적 폰트사이즈 조절
+      ctx.font = `bold ${fontSize}em sans-serif`;
+      ctx.fillStyle = "black";
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.fillText(scoreText, xCoor, yCoor * 0.95);
+
+      // scoreText 의 높이 추출
+      const metrics = ctx.measureText(scoreText);
+      const actualHeight =
+        metrics.actualBoundingBoxAscent + metrics.actualBoundingBoxDescent;
+
+      // scoreText 아래에 표시
+      const subText = "Score";
+      const subFontSize = (yCoor / 90).toFixed(2);
+      ctx.font = `${subFontSize}rem sans-serif`;
+      ctx.fillStyle = "black";
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.fillText(subText, xCoor, yCoor * 0.95 + actualHeight);
     },
   };
 
