@@ -1,8 +1,8 @@
 from django.urls import path
-from dance.views import EndDanceView, StartExerciseView
+from dance.views import EndPartDanceView, StartExerciseView
 
 
 urlpatterns = [
-    path('', EndDanceView.as_view()),
+    path('', EndPartDanceView.as_view()),
     path('/start', StartExerciseView.as_view())
 ]

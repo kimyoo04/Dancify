@@ -1,6 +1,5 @@
 from django.http import JsonResponse
 from django.core.exceptions import ValidationError
-import io
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -20,7 +19,7 @@ from s3_modules.upload import upload_obj_to_s3
 AWS_DOMAIN = "https://dancify-bucket.s3.ap-northeast-2.amazonaws.com/"
 
 
-class EndDanceView(APIView):
+class EndPartDanceView(APIView):
     def post(self, request):
         try:
             user_info = get_user_info_from_token(request)

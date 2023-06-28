@@ -112,7 +112,7 @@ def upload_video_with_metadata_to_s3(user_id, video, video_type, is_mosaic, vide
     if video_type in ['dancer', 'danceable']:
         json_obj = video_to_keypoint(video)
         result['keypoint_url'] = upload_keypoints_to_s3(user_id, json_obj,
-                                                       video_uuid)
+                                                        video_uuid)
     if not isinstance(video, bytes):
         # 파일 포인터를 맨 앞으로 위치시킴
         # bytes 객체는 seek()가 없음
