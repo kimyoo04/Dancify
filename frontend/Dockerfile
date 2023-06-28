@@ -15,7 +15,7 @@ ENV NEXT_PUBLIC_ENV_JWT_SECRET_KEY=${NEXT_PUBLIC_ENV_JWT_SECRET_KEY}
 WORKDIR /usr/src/nextjs
 
 COPY package.json yarn.lock ./
-RUN yarn --frozen-lockfile --production;
+RUN yarn install --frozen-lockfile --non-interactive --production=false
 
 COPY ./ ./
 
