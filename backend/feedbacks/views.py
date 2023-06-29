@@ -35,11 +35,11 @@ class FeedbackListAPIView(ListAPIView):
 
         # 로그인한 유저가 댄서인 경우
         if user.is_dancer:
-            self.queryset = DanceableFeedback.objects.filter(feedback_post__dancer_post__user=user)
+            self.queryset = FeedbackPost.objects.filter(dancer_post__user=user)
             self.queryset = self.queryset.exclude(status='신청 전')
             self.serializer_class = DancerFeedbackListSerializer
         else:
-            self.queryset = DanceableFeedback.objects.filter(feedback_post__user=user)
+            self.queryset = FeedbackPost.objects.filter(user=user)
             self.serializer_class = DanceableFeedbackListSerializer
 
         return super().list(request, *args, **kwargs)
