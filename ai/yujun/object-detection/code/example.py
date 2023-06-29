@@ -5,4 +5,4 @@ sys.path.append(
 
 # 사용 예시
 shortform_generator.generate_video(
-    video_path="../code/audio_video/omg.mp4", output_path="../code/result/", keyword="omg")
+    video_path="../code/audio_video/omg.mp4", output_path="../code/result/")
