@@ -20,7 +20,7 @@
     - mediapipe
         - 소요시간: 17sec
         - detect 값을 리스트로 바로 받을 수 있음
-- `left_hip(11)`과 `right_hip(12)`만 구해서 그 가운데를 `x_center`로 놓음
+- `left_shoulder(11)`과 `right_shoulder(12)`만 구해서 그 가운데를 `x_center`로 놓음
 - `x_center`를 구해서 30 프레임의 이동평균을 구해 Smoothing하여 사용
 
 ## 최종 로직
