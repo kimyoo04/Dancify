@@ -36,7 +36,7 @@ export default function Practice({ postId }: { postId: TPostId }) {
   }, []);
 
   return (
-    <main className="w-full h-full">
+    <main className="h-full w-full">
       {isLoading ? (
         <div>
           <Loading />
@@ -56,7 +56,7 @@ export default function Practice({ postId }: { postId: TPostId }) {
 
           {detector && (
             <Step isActive={step === 3}>
-              <Play data={data} detactor={detector} />
+              <Play data={data} detector={detector} />
             </Step>
           )}
 

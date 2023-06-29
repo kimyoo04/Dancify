@@ -78,7 +78,7 @@ export async function loadMoveNetDetector() {
 
 export async function detect(
   webcam: HTMLVideoElement,
-  detactor: poseDetection.PoseDetector
+  detector: poseDetection.PoseDetector
 ) {
   try {
     const videoWidth = webcam.videoWidth;
@@ -87,8 +87,8 @@ export async function detect(
     // Set video width
     webcam.width = videoWidth;
     webcam.height = videoHeight;
-
-    const pose = (await detactor.estimatePoses(webcam)) as poseType[];
+    const pose = (await detector.estimatePoses(webcam)) as poseType[];
+    // console.log(pose);
     if (pose.length > 0) return pose;
     else return "error";
   } catch (error) {
