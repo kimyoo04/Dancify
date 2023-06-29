@@ -14,6 +14,8 @@ export const feedbackSlice = createSlice({
     // sections data 받기
     getSections: (state, actions: PayloadAction<ISection[]>) => {
       state.sections = actions.payload;
+      const dancerMessages = actions.payload.map(section => section.dancerMessage);
+      state.dancerMessage = dancerMessages.flat();
     },
 
     // 구간 선택
