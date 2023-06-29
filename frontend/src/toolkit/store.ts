@@ -8,6 +8,7 @@ import postReducer from "@features/post/postSlice";
 import commentReducer from "@features/comment/commentSlice";
 import sideBarReducer from "@features/sideBar/sideBarSlice";
 import practiceReducer from "@features/practice/practiceSlice";
+import feedbackReducer from "@features/feedback/feedbackSlice";
 
 export const store = configureStore({
   reducer: {
@@ -19,6 +20,7 @@ export const store = configureStore({
     comment: commentReducer,
     sideBar: sideBarReducer,
     practice: practiceReducer,
+    feedback: feedbackReducer,
   },
   // middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger),
 });

@@ -7,7 +7,7 @@ import {
   TContent,
   TPostImage,
   TViews,
-  TcreateDate,
+  TCreateDate,
 } from "./posts";
 
 //! 자유게시판의 1개 게시글 (확정)
@@ -16,7 +16,7 @@ export interface IFreePost {
   title: TTitle;
   nickname: TNickname;
   content: TContent;
-  createDate: TcreateDate;
+  createDate: TCreateDate;
   postImage: TPostImage;
   views: TViews;
   commentsCount: TCommentCount;
@@ -39,7 +39,7 @@ export interface IFreePostDetail {
   userLike: boolean; // 미완
   nickname: TNickname;
   content: TContent;
-  createDate: TcreateDate;
+  createDate: TCreateDate;
   postImage: TPostImage;
   views: TViews;
   likesCount: TLikesCount;

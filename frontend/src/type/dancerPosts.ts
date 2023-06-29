@@ -8,7 +8,7 @@ import {
   TTitle,
   TVideo,
   TViews,
-  TcreateDate,
+  TCreateDate,
 } from "./posts";
 
 //! 댄서게시판의 1개 게시글 (확정)
@@ -17,7 +17,7 @@ export interface IDancerPost {
   title: TTitle;
   nickname: TNickname;
   content: TContent;
-  createDate: TcreateDate;
+  createDate: TCreateDate;
   thumbnail: TThumbnail;
   video: TVideo;
   views: TViews;
@@ -41,7 +41,7 @@ export interface IDancerPostDetail {
   userLike: boolean;
   nickname: TNickname;
   content: TContent;
-  createDate: TcreateDate;
+  createDate: TCreateDate;
   thumbnail: TThumbnail;
   video: TVideo;
   views: TViews;

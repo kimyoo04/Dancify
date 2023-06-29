@@ -11,12 +11,12 @@ import {
 } from "chart.js";
 import { Line } from "react-chartjs-2";
 import {
-  PartData,
-  Pelvis,
-  Shoulder,
-  Forearm,
-  Leg,
-} from "@type/feedbacks";
+  IPelvis,
+  IShoulder,
+  IForearm,
+  ILeg,
+  IEvalPerFrame,
+} from "@type/feedbackJson"
 import { feedback1 } from "@scenes/Test/feedbackData";
 
 export default function FeedbackLine() {
@@ -50,11 +50,16 @@ export default function FeedbackLine() {
     (_, i) => i + 1
   );
 
-  const parts: (keyof PartData)[] = ["pelvis", "shoulder", "forearm", "leg"];
+  const parts: (keyof IEvalPerFrame)[] = [
+    "pelvis",
+    "shoulder",
+    "forearm",
+    "leg",
+  ];
   const result: number[][] = parts.map((part) =>
     feedbackData.flatMap(
-      (dataIdx: PartData) =>
-        (dataIdx[part] as Pelvis | Shoulder | Forearm | Leg).score
+      (dataIdx: IEvalPerFrame) =>
+        (dataIdx[part] as IPelvis | IShoulder | IForearm | ILeg).score
     )
   );
 
