@@ -15,6 +15,7 @@ export interface ISection {
   danceablevideo: TVideo;
   danceablemessage: TMessage;
   dancerVideo: TVideo;
+  dancerMessage: IDancerMessage[]; // 기본 값으로 인해 따로 분리
 }
 
 // 피드백 게시글 목록
@@ -84,3 +85,8 @@ export type TAngle = number;
 export type TSec = number;
 export type TErrorTime = string;
 export type TContent = string;
+export type TError =
+  | "pelvis_error_time"
+  | "shoulder_error_time"
+  | "forearm_error_time"
+  | "leg_error_time";
