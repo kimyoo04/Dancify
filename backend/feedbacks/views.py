@@ -244,7 +244,7 @@ class FeedbackDetailView(RetrieveAPIView):
             # 만약 댄서가 피드백한 적이 없으면 dancer_feedback을 None으로 저장하고
             # 댄서 피드백 관련 로직은 처리하지 않음
             try:
-                dancer_feedback = DancerFeedback.objects.get(danceable_feedback=danceable_feedback)
+                dancer_feedback = DancerFeedback.objects.get(danceable_feedback__feedback_post__feedback_id=feedback_id)
             except DancerFeedback.DoesNotExist:
                 dancer_feedback = None
 
@@ -260,7 +260,7 @@ class FeedbackDetailView(RetrieveAPIView):
             if feedback_status == '대기 중':
                 sections_data['danceableMessage'] = danceable_feedback.message
 
-            elif dancer_feedback is not None and feedback_status == '완료':
+            elif feedback_status == '완료':
                 timestamps = TimeStamp.objects.filter(dancer_feedback=dancer_feedback)
                 dancer_messages = []
                 for timestamp in timestamps:
@@ -271,7 +271,7 @@ class FeedbackDetailView(RetrieveAPIView):
                     dancer_messages.append(dancer_message)
 
                 sections_data['danceableMessage'] = danceable_feedback.message
-                sections_data['dancerVideo'] = dancer_feedback.video
+                sections_data['dancerVideo'] = dancer_feedback.video if dancer_feedback is not None else None
                 sections_data['dancerMessage'] = dancer_messages
 
             sections.append(sections_data)
