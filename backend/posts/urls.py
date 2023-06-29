@@ -26,6 +26,6 @@ dancer_post_detail_viewset = DancerPostViewSet.as_view({
 urlpatterns = [
     path('', include(router.urls)),
     path('/dancer', dancer_post_viewset),
-    path('/dancer/<str:post_id>', dancer_post_detail_viewset),
     path('/dancer/sections', VideoSplitView.as_view(), name='video-split'),
+    path('/dancer/<str:post_id>', dancer_post_detail_viewset),
 ]

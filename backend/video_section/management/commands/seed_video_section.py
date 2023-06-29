@@ -21,11 +21,11 @@ class Command(BaseCommand):
         ]
 
         video_urls = [
-            'http://dyago72jbsqcn.cloudfront.net/vod/danceable/danceable1/dasd22141sdd12e21a.m3u8',
-            'http://dyago72jbsqcn.cloudfront.net/vod/danceable/danceable2/daslidj2189dhjq8wdjh.m3u8',
-            'http://dyago72jbsqcn.cloudfront.net/vod/danceable/user2/fdad21421098qwdd.m3u8',
-            'http://dyago72jbsqcn.cloudfront.net/vod/dancer/dancer2/32e1209ujqwi0dj01289jd12.m3u8',
-            'http://dyago72jbsqcn.cloudfront.net/vod/dancer/dancer3/fd32fhj890fjwefiwefjwe.m3u8',
+            'https://d2w69iexuycwsi.cloudfront.net/vod/danceable/danceable1/dasd22141sdd12e21a.m3u8',
+            'https://d2w69iexuycwsi.cloudfront.net/vod/danceable/danceable2/daslidj2189dhjq8wdjh.m3u8',
+            'https://d2w69iexuycwsi.cloudfront.net/vod/danceable/user2/fdad21421098qwdd.m3u8',
+            'https://d2w69iexuycwsi.cloudfront.net/vod/dancer/dancer2/32e1209ujqwi0dj01289jd12.m3u8',
+            'https://d2w69iexuycwsi.cloudfront.net/vod/dancer/dancer3/fd32fhj890fjwefiwefjwe.m3u8',
         ]
 
         keypoints_urls = [

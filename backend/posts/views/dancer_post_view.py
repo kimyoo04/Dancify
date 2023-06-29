@@ -106,7 +106,7 @@ class DancerPostViewSet(BasePostViewSet):
 
             # 동영상 분할을 위한 비디오 .mp4 파일 임시 저장
             localpath = settings.BASE_DIR  # 프로젝트 최상위 폴더
-            localpath = os.path.join(localpath, 'tmp_video')  # 현재 폴더/tmp_video/
+            localpath = os.path.join(localpath, user_id)  # 현재 폴더/user_id/
             os.makedirs(localpath, exist_ok=True)  # 폴더 생성
 
             video = request.FILES['video']
@@ -140,13 +140,6 @@ class DancerPostViewSet(BasePostViewSet):
             return Response(status=status.HTTP_403_FORBIDDEN)
 
         data = request.data
-        video = request.FILES.get('video', None)
-
-        if video is not None:
-            url_data = upload_video_with_metadata_to_s3(user_id, video,
-                                                        'dancer', is_mosaic=False)
-            data['video'] = url_data['video_url']
-            data['thumbnail'] = url_data['thumbnail_url']
 
         serializer = self.get_serializer(instance, data=data, partial=True)
         serializer.is_valid(raise_exception=True)

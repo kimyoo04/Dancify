@@ -10,7 +10,8 @@ from ai.face_mosaic.face_mosaic import face_mosaic
 from moviepy.editor import VideoFileClip, AudioFileClip
 
 AWS_DOMAIN = "https://dancify-bucket.s3.ap-northeast-2.amazonaws.com/"
-CLOUDFRONT_DOMAIN = "http://dyago72jbsqcn.cloudfront.net"
+# CLOUDFRONT_DOMAIN = "http://dyago72jbsqcn.cloudfront.net"
+CLOUDFRONT_DOMAIN = "https://d2w69iexuycwsi.cloudfront.net"
 
 
 def upload_obj_to_s3(bucket_name, folder_path, file_key, object):
@@ -136,7 +137,7 @@ def upload_video_with_metadata_to_s3(user_id, video, video_type, is_mosaic, vide
     return result
 
 
-def split_video(video_file_extension, start_timestamp, end_timestamp):
+def split_video(user_id, video_file_extension, start_timestamp, end_timestamp):
     """타임스탬프에 맞게 비디오를 분할합니다.
     로컬에 임시저장된 전체 비디오를 경로를 통해 읽어옵니다.
 
@@ -150,7 +151,7 @@ def split_video(video_file_extension, start_timestamp, end_timestamp):
     """
     # 임시로 저장된 영상 불러올 경로 지정
     localpath = settings.BASE_DIR  # 프로젝트 최상위 폴더
-    localpath = os.path.join(localpath, 'tmp_video')
+    localpath = os.path.join(localpath, user_id)
 
     local_videopath = os.path.join(localpath,
                                    'video_original' + video_file_extension)
@@ -189,7 +190,7 @@ def upload_splitted_video_to_s3(request, user_id):
     time_stamps = list(map(int, time_stamps.split()))
     result = []
     for i in range(0, len(time_stamps), 2):
-        splitted_video = split_video(video_file_extension,
+        splitted_video = split_video(user_id, video_file_extension,
                                      time_stamps[i], time_stamps[i + 1])
         result.append(upload_video_with_metadata_to_s3(user_id,
                                                        splitted_video,
@@ -198,5 +199,5 @@ def upload_splitted_video_to_s3(request, user_id):
                                                        video_file_extension))
     # 편집에 사용되었던 localpath 폴더 삭제
     localpath = settings.BASE_DIR
-    shutil.rmtree(os.path.join(localpath, 'tmp_video'))
+    shutil.rmtree(os.path.join(localpath, user_id))
     return result
