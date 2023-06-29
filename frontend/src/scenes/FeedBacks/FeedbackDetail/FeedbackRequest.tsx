@@ -25,7 +25,7 @@ export default function FeedbackRequest({ data }: { data: IFeedbackDetail }) {
                 <Accordion type="single" collapsible className="w-full">
                   <AccordionItem value="item-1">
                     <AccordionTrigger className="text-xl">
-                      - 댄서블 영상
+                      · 나의 영상
                     </AccordionTrigger>
                     <AccordionContent className="overflow-hidden rounded-md">
                       <ReactPlayer
@@ -38,7 +38,7 @@ export default function FeedbackRequest({ data }: { data: IFeedbackDetail }) {
                   </AccordionItem>
                   <AccordionItem value="item-2">
                     <AccordionTrigger className="text-xl">
-                      - 하고 싶은 말/피드백 받고 싶은 부분 작성
+                      · 하고 싶은 말 / 피드백 건의사항 작성
                     </AccordionTrigger>
                     <AccordionContent className="px-2">
                       <Tiptap isUpdate={true} />

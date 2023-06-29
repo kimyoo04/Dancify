@@ -48,7 +48,7 @@ export default function FeedbackWaiting({
                 <Accordion type="single" collapsible className="w-full">
                   <AccordionItem value="item-1">
                     <AccordionTrigger className="text-xl">
-                      - 피드백 요청 정보
+                      · 피드백 요청 사항
                     </AccordionTrigger>
                     <AccordionContent>
                       {section.danceablemessage && (
@@ -61,7 +61,7 @@ export default function FeedbackWaiting({
                   </AccordionItem>
                   <AccordionItem value="item-2">
                     <AccordionTrigger className="text-xl">
-                      {data.isDancer ? "- 피드백 요청 영상" : "- 댄서블 영상"}
+                      {data.isDancer ? "· 댄서블 영상" : "· 나의 영상"}
                     </AccordionTrigger>
                     <AccordionContent className="overflow-hidden rounded-md">
                       <ReactPlayer
@@ -103,7 +103,7 @@ export default function FeedbackWaiting({
                     <>
                       <AccordionItem value="item-4">
                         <AccordionTrigger className="text-xl">
-                          - 피드백 영상 업로드
+                          · 피드백 영상 업로드
                         </AccordionTrigger>
                         <AccordionContent className="p-2">
                           {/* 영상 드롭 영역 */}

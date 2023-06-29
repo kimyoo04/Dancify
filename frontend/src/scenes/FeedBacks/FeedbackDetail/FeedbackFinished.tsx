@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import ReactPlayer from "react-player";
 
 import { useAppSelector } from "@toolkit/hook";
@@ -16,8 +16,7 @@ import PostContent from "@scenes/Posts/PostItem/PostContent";
 
 export default function FeedbackFinished({ data }: { data: IFeedbackDetail }) {
   const playerRef = useRef<ReactPlayer>(null);
-  const { sectionIndex, sections } = useAppSelector((state) => state.feedback);
-  const [timeStamp, setTimeStamp] = useState<number>(0);
+  const { sectionIndex } = useAppSelector((state) => state.feedback);
 
   return (
     <div>
@@ -29,7 +28,7 @@ export default function FeedbackFinished({ data }: { data: IFeedbackDetail }) {
                 <Accordion type="single" collapsible className="w-full">
                   <AccordionItem value="item-1">
                     <AccordionTrigger className="text-xl">
-                      - 피드백 요청 내용
+                      · 피드백 요청 사항
                     </AccordionTrigger>
                     <AccordionContent>
                       {section.danceablemessage && (
@@ -43,7 +42,7 @@ export default function FeedbackFinished({ data }: { data: IFeedbackDetail }) {
 
                   <AccordionItem value="item-2">
                     <AccordionTrigger className="text-xl">
-                      - 댄서블 영상 및 피드백 내용
+                      · 댄서블 영상 및 피드백 내용
                     </AccordionTrigger>
                     <AccordionContent className="overflow-hidden rounded-md">
                       <ReactPlayer
@@ -52,9 +51,6 @@ export default function FeedbackFinished({ data }: { data: IFeedbackDetail }) {
                         controls
                         width={"100%"}
                         height={"100%"}
-                        onProgress={(state) => {
-                          setTimeStamp(state.playedSeconds);
-                        }}
                       />
 
                       <Separator className="my-4" />
@@ -66,17 +62,14 @@ export default function FeedbackFinished({ data }: { data: IFeedbackDetail }) {
                           section.dancerMessage.map((msg) => (
                             <li key={msg.timeStamp} className="space-y-1">
                               <div className="flex items-center">
-                                <div className="mr-2 h-2 w-2 rounded-full bg-secondary" />
                                 <span
                                   onClick={() => {
-                                    if (playerRef.current) {
-                                      setTimeStamp(msg.timeStamp);
+                                    if (playerRef.current)
                                       playerRef.current.seekTo(msg.timeStamp);
-                                    }
                                   }}
                                   className="cursor-pointer text-lg font-medium text-secondary hover:underline"
                                 >
-                                  {msg.timeStamp} 초
+                                  · {msg.timeStamp} 초
                                 </span>
                               </div>
 
@@ -94,7 +87,7 @@ export default function FeedbackFinished({ data }: { data: IFeedbackDetail }) {
                   {"dancerVideo" in section && (
                     <AccordionItem value="item-3">
                       <AccordionTrigger className="text-xl">
-                        - 댄서 피드백 영상
+                        · 댄서 피드백 영상
                       </AccordionTrigger>
                       <AccordionContent className="overflow-hidden rounded-md">
                         <ReactPlayer
