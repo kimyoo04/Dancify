@@ -1,9 +1,10 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { IDancerMessage, ISection, IFeedbackState } from "@type/feedbacks";
+import { ISection, IFeedbackState, IDancerMessage } from "@type/feedbacks";
 
 const initialState: IFeedbackState = {
   sectionIndex: 0,
-  sections: []
+  sections: [],
+  dancerMessage: []
 };
 
 export const feedbackSlice = createSlice({
@@ -21,19 +22,42 @@ export const feedbackSlice = createSlice({
     },
 
     // section.danceablemessage 작성
-    writingDanceablemessage: (state, actions: PayloadAction<string>) => {
+    writingDanceableMessage: (state, actions: PayloadAction<string>) => {
       state.sections[state.sectionIndex].danceablemessage = actions.payload;
     },
 
+    writingDancerMessage: (state, actions: PayloadAction<IDancerMessage>) => {
+      // timeStamp로 dancerMessage 찾기
+      const index = state.dancerMessage.findIndex(
+        (message) => message.timeStamp === actions.payload.timeStamp
+      );
+      state.dancerMessage[index].message = actions.payload.message;
+    },
+
     // sections.dancerMessage 추가
-    addDancermessage: (state, actions: PayloadAction<IDancerMessage>) => {
-      state.sections[state.sectionIndex].dancerMessage?.push(actions.payload);
+    addDancerMessage: (state, actions: PayloadAction<number>) => {
+      const timeStamp = actions.payload;
+      const isExist = state.dancerMessage.some(
+        (message) => message.timeStamp === timeStamp
+      );
+      if (isExist) return; // timeStamp 중복 제거
+      state.dancerMessage.push({
+        timeStamp,
+        message: "",
+      });
     },
 
     // section.dancerMessage 제거
-    removeDancermessage: (state, actions: PayloadAction<number>) => {
-      state.sections[state.sectionIndex].dancerMessage?.splice(actions.payload, 1);
-    }
+    removeDancerMessage: (
+      state,
+      actions: PayloadAction<{ timeStamp: number }>
+    ) => {
+      // timeStamp로 dancerMessage 찾기
+      const index = state.dancerMessage.findIndex(
+        (message) => message.timeStamp === actions.payload.timeStamp
+      );
+      state.dancerMessage.splice(index, 1);
+    },
   },
 });
 

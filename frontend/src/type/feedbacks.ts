@@ -7,6 +7,7 @@ import { TSectionId } from "./practice";
 export interface IFeedbackState {
   sectionIndex: TSectionIndex;
   sections: ISection[];
+  dancerMessage: IDancerMessage[]; // 기본 값으로 인해 따로 분리
 }
 
 export interface ISection {
@@ -14,7 +15,6 @@ export interface ISection {
   danceablevideo: TVideo;
   danceablemessage: TMessage;
   dancerVideo: TVideo;
-  dancerMessage: IDancerMessage[]; // 타임스탬프와 메시지
 }
 
 // 피드백 게시글 목록
