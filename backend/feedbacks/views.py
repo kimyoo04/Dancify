@@ -130,30 +130,32 @@ class DancerFeedbackResponseView(RetrieveAPIView):
         else:
             serializer_data['nickname'] = feedback.dancer_post.user.nickname
 
-        # danceable_feedbacks = DanceableFeedback.objects.get(feedback_post__feedback_id=feedback_id)
+        danceable_feedbacks = DanceableFeedback.objects.filter(feedback_post__feedback_id=feedback_id)
 
-        # sections = []
-        # for danceable_feedback in danceable_feedbacks:
-        #     dancer_feedback = DancerFeedback.objects.get(danceable_feedback=danceable_feedback)
-        #     timestamps = TimeStamp.objects.filter(dancer_feedback=dancer_feedback)
+        sections = []
+        for danceable_feedback in danceable_feedbacks:
+            # dancer_feedback = DancerFeedback.objects.get(danceable_feedback=danceable_feedback)
+            # timestamps = TimeStamp.objects.filter(dancer_feedback=dancer_feedback)
 
-        #     dancer_messages = []
-        #     for timestamp in timestamps:
-        #         dancer_message = {
-        #             'timeStamp': timestamp.timestamp,
-        #             'message': timestamp.message
-        #         }
-        #         dancer_messages.append(dancer_message)
+            # dancer_messages = []
+            # for timestamp in timestamps:
+            #     dancer_message = {
+            #         'timeStamp': timestamp.timestamp,
+            #         'message': timestamp.message
+            #     }
+            #     dancer_messages.append(dancer_message)
 
-        #     sections_data = {
-        #         'sectionId': danceable_feedback.section.section_id,
-        #         'danceableVideo': danceable_feedback.video,
-        #         'danceableMessage': danceable_feedback.message,
-        #         'dancerVideo': dancer_feedback.video,
-        #         'dancerMessage': dancer_messages
-        #     }
-        #     sections.append(sections_data)
+            sections_data = {
+                'sectionId': danceable_feedback.section.section_id,
+                'danceableVideo': danceable_feedback.video,
+                'firstAiFeedback': danceable_feedback.first_score,
+                'bestAiFeedback': danceable_feedback.best_score,
+                'danceableMessage': danceable_feedback.message,
+                # 'dancerVideo': dancer_feedback.video,
+                # 'dancerMessage': dancer_messages
+            }
+            sections.append(sections_data)
 
-        # serializer_data['sections'] = sections
+        serializer_data['sections'] = sections
 
         return Response(serializer_data)
