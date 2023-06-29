@@ -1,8 +1,9 @@
 from django.core.exceptions import ValidationError
 
 from rest_framework import status
+from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.generics import ListAPIView, UpdateAPIView, RetrieveAPIView
+from rest_framework.generics import ListAPIView, CreateAPIView, UpdateAPIView, RetrieveAPIView
 from rest_framework_simplejwt.exceptions import TokenError
 
 from .models import DanceableFeedback, DancerFeedback, FeedbackPost, TimeStamp
@@ -14,6 +15,7 @@ from .serializers import (
 )
 from accounts.models import User
 from accounts.authentication import get_user_info_from_token
+from s3_modules.upload import upload_video_with_metadata_to_s3
 
 
 class FeedbackListAPIView(ListAPIView):
@@ -91,6 +93,101 @@ class DanceableFeedbackRequestView(UpdateAPIView):
                 danceable_feedback.feedback_post.save()
             except DanceableFeedback.DoesNotExist:
                 return Response(status=status.HTTP_404_NOT_FOUND)
+            except ValidationError:
+                return Response(status=status.HTTP_400_BAD_REQUEST)
+
+        return Response(status=status.HTTP_200_OK)
+
+
+class DancerFeedbackResponseView(APIView):
+    """
+    댄서가 피드백에 응답하였을 경우 DB에 메시지를 저장하는 뷰
+
+    POST  /api/feedbacks/dancer/<feedback_id>
+    폼 데이터, `을 구분자로 사용
+    "sectionId1": string
+    "timeStamp1": int`int
+    "feedbacks1": string`string
+    "video1": 동영상
+    "sectionId2": string
+    "timeStamp2": int`int
+    "feedbacks2": string`string
+    "video2": 동영상
+    ...
+    """
+    def post(self, request, feedback_id, *args, **kwargs):
+        try:
+            user_info = get_user_info_from_token(request)
+            user_id = user_info['userId']
+            is_dancer = user_info['isDancer']
+        except (TokenError, KeyError):
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
+
+        # 댄서가 아닌 경우 접근 불가
+        if not is_dancer:
+            return Response(status=status.HTTP_403_FORBIDDEN)
+
+        # 폼 데이터에서 데이터를 꺼내 리스트에 저장
+        danceable_feedback_section_ids, timestamps, feedbacks, videos = [], [], [], []
+        for i in range(1, 6):
+            danceable_feedback_section_id = request.data.get('danceableSectionId{}'.format(i), None)
+            if danceable_feedback_section_id is not None:
+                danceable_feedback_section_ids.append(danceable_feedback_section_id)
+
+            timestamp = request.data.get('timeStamps{}'.format(i), None)
+            if timestamp is not None:
+                timestamps.append(timestamp)
+
+            feedback = request.data.get('feedbacks{}'.format(i), None)
+            if feedback is not None:
+                feedbacks.append(feedback)
+
+            video = request.data.get('video{}'.format(i), None)
+            if video is not None:
+                videos.append(video)
+
+        for i in range(len(danceable_feedback_section_ids)):
+            # 타임스탬프 값과 피드백 값이 구분자로 한꺼번에 전달되므로
+            # `를 기준으로 split함
+            splitted_timestamps = timestamps[i].split('`')
+            splitted_feedbacks = feedbacks[i].split('`')
+
+            if len(splitted_timestamps) != len(splitted_feedbacks):
+                return Response(status=status.HTTP_422_UNPROCESSABLE_ENTITY)
+
+            # 입력받은 값으로 DancerFeedback 생성
+            dancer_feedback = DancerFeedback(
+                danceable_feedback = DanceableFeedback.objects.get(feedback_section_id=danceable_feedback_section_ids[i]),
+                video = upload_video_with_metadata_to_s3(user_id, videos[i],
+                                                        'feedback', False)['video_url']
+            )
+
+            try:
+                dancer_feedback.full_clean()
+                dancer_feedback.save()
+            except ValidationError:
+                return Response(status=status.HTTP_400_BAD_REQUEST)
+
+            # `를 기준으로 분할한 타임스탬프와 메시지로 데이터 생성
+            for j in range(len(splitted_timestamps)):
+                timestamp_data = TimeStamp(
+                    dancer_feedback = dancer_feedback,
+                    timestamp = splitted_timestamps[j],
+                    message = splitted_feedbacks[j]
+                )
+
+                try:
+                    timestamp_data.full_clean()
+                    timestamp_data.save()
+                except ValidationError:
+                    return Response(status=status.HTTP_400_BAD_REQUEST)
+
+            feedback_post = FeedbackPost.objects.get(feedback_id=feedback_id)
+            feedback_post.status = '완료'
+
+            try:
+                feedback_post.full_clean()
+                feedback_post.save()
             except ValidationError:
                 return Response(status=status.HTTP_400_BAD_REQUEST)
 
