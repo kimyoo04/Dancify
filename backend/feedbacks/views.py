@@ -113,7 +113,6 @@ class DancerFeedbackResponseView(RetrieveAPIView):
         try:
             user_info = get_user_info_from_token(request)
 
-            user_id = user_info['userId']
             is_dancer = user_info['isDancer']
         except (TokenError, KeyError):
             return Response(status=status.HTTP_401_UNAUTHORIZED)
@@ -121,8 +120,8 @@ class DancerFeedbackResponseView(RetrieveAPIView):
         # 엔드포인트에서 입력받은 feedback_id를 가지고 댄서블 피드백 상세페이지 조회
         # title, createDate, userId, nickname, status, isDancer,
         feedback = FeedbackPost.objects.get(feedback_id=feedback_id)
-        status = feedback.status
-        
+        # feedback_status = feedback.status
+
         serializer = self.get_serializer(feedback)
         serializer_data = serializer.data
 
@@ -150,7 +149,6 @@ class DancerFeedbackResponseView(RetrieveAPIView):
                         'message': timestamp.message
                     }
                     dancer_messages.append(dancer_message)
-
 
             sections_data = {
                 'sectionId': danceable_feedback.section.section_id,
