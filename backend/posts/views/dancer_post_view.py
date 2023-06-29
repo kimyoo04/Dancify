@@ -140,13 +140,6 @@ class DancerPostViewSet(BasePostViewSet):
             return Response(status=status.HTTP_403_FORBIDDEN)
 
         data = request.data
-        video = request.FILES.get('video', None)
-
-        if video is not None:
-            url_data = upload_video_with_metadata_to_s3(user_id, video,
-                                                        'dancer', is_mosaic=False)
-            data['video'] = url_data['video_url']
-            data['thumbnail'] = url_data['thumbnail_url']
 
         serializer = self.get_serializer(instance, data=data, partial=True)
         serializer.is_valid(raise_exception=True)

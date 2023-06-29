@@ -160,6 +160,5 @@ class DancerPostPostPatchSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = DancerPost
-        fields = ['genre', 'title', 'content', 'video',
-                  'thumbnail', 'feedbackPrice', 'keypoints']
+        fields = ['genre', 'title', 'content', 'feedbackPrice']
         ref_name = 'DancerPostPostPatchSerializer'
