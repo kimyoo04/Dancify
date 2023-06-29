@@ -97,7 +97,7 @@ class DanceableFeedbackRequestView(UpdateAPIView):
         return Response(status=status.HTTP_200_OK)
 
 
-class DancerFeedbackResponseView(RetrieveAPIView):
+class FeedbackDetailView(RetrieveAPIView):
     """
     피드백 요청 상세페이지를 반환하는 뷰
 
