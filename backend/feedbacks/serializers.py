@@ -8,8 +8,8 @@ class BaseFeedbackListSerializer(serializers.Serializer):
     thumbnail = serializers.URLField(source='feedback_post.dancer_post.thumbnail')
     genre = serializers.CharField(source='feedback_post.dancer_post.genre')
     title = serializers.CharField(source='feedback_post.dancer_post.title')
-    createDate = serializers.DateTimeField(source='create_date')
-    status = serializers.CharField()
+    createDate = serializers.DateTimeField(source='feedback_post.create_date')
+    status = serializers.CharField(source='feedback_post.status')
 
 
 class DanceableFeedbackListSerializer(BaseFeedbackListSerializer):
@@ -64,13 +64,11 @@ class FeedbackDetailSerializer(serializers.Serializer):
     - sections: 섹션 정보 담고 있는 리스트
     isDancer, nickname, sections는 뷰에서 넣어줌
     """
-    title = serializers.CharField(source='feedback_post.dancer_post.title')
+    title = serializers.CharField(source='dancer_post.title')
     createDate = serializers.CharField(source='create_date')
-    userId = serializers.CharField(source='feedback_post.user.user_id')
+    userId = serializers.CharField(source='user.user_id')
     status = serializers.CharField()
 
     class Meta:
         model = DanceableFeedback
-        fields = ['title', 'createDate', 'nickname', 'userId',
-                  'status', 'isDancer',
-                  'firstAiFeedback', 'bestAiFeedback']
+        fields = ['title', 'createDate', 'nickname', 'userId', 'status']

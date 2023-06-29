@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from rest_framework.generics import ListAPIView, UpdateAPIView, RetrieveAPIView
 from rest_framework_simplejwt.exceptions import TokenError
 
-from .models import DanceableFeedback, DancerFeedback, TimeStamp
+from .models import DanceableFeedback, DancerFeedback, FeedbackPost, TimeStamp
 from .serializers import (
     DancerFeedbackListSerializer,
     DanceableFeedbackListSerializer,
@@ -81,7 +81,7 @@ class DanceableFeedbackRequestView(UpdateAPIView):
                     return Response(status=status.HTTP_401_UNAUTHORIZED)
 
                 feedback.message = message
-                feedback.status = '대기 중'
+                feedback.feedback_post.status = '대기 중'
                 feedback.full_clean()
                 feedback.save()
             except DanceableFeedback.DoesNotExist:
@@ -120,17 +120,17 @@ class DancerFeedbackResponseView(RetrieveAPIView):
 
         # 엔드포인트에서 입력받은 feedback_id를 가지고 댄서블 피드백 상세페이지 조회
         # title, createDate, userId, nickname, status, isDancer,
-        feedback = DanceableFeedback.objects.get(feedback_post__feedback_id=feedback_id)
+        feedback = FeedbackPost.objects.get(feedback_id=feedback_id)
 
         serializer = self.get_serializer(feedback)
         serializer_data = serializer.data
 
         if is_dancer:
-            serializer_data['nickname'] = feedback.feedback_post.user.nickname
+            serializer_data['nickname'] = feedback.user.nickname
         else:
-            serializer_data['nickname'] = feedback.feedback_post.dancer_post.user.nickname
+            serializer_data['nickname'] = feedback.dancer_post.user.nickname
 
-        # danceable_feedbacks = DanceableFeedback.objects.filter(feedback_post__feedback_id=feedback_id)
+        # danceable_feedbacks = DanceableFeedback.objects.get(feedback_post__feedback_id=feedback_id)
 
         # sections = []
         # for danceable_feedback in danceable_feedbacks:

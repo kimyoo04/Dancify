@@ -13,6 +13,8 @@ class FeedbackPost(models.Model):
                                    editable=False)
     dancer_post = models.ForeignKey(DancerPost, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    status = models.CharField(max_length=20, default='신청 전')
+    create_date = models.DateTimeField(auto_now_add=True)
 
 
 class DanceableFeedback(models.Model):
@@ -22,8 +24,6 @@ class DanceableFeedback(models.Model):
     section = models.ForeignKey(VideoSection, on_delete=models.CASCADE)
     feedback_post = models.ForeignKey(FeedbackPost, on_delete=models.CASCADE)
     video = models.URLField()
-    status = models.CharField(max_length=20, default='신청 전')
-    create_date = models.DateTimeField(auto_now_add=True)
     first_score = models.URLField()
     best_score = models.URLField()
     message = models.CharField(max_length=500, default=None, null=True)
