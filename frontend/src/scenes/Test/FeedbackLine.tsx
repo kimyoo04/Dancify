@@ -16,7 +16,7 @@ import {
   Shoulder,
   Forearm,
   Leg,
-} from "@type/feedbacks";
+} from "@type/feedbackJson";
 import { feedback1 } from "@scenes/Test/feedbackData";
 
 export default function FeedbackLine() {
