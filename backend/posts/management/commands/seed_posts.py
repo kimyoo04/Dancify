@@ -38,14 +38,14 @@ class Command(BaseCommand):
         ]
 
         video_urls = [
-            'http://dyago72jbsqcn.cloudfront.net/vod/danceable/danceable1/dasd22141sdd12e21a.m3u8',
-            'http://dyago72jbsqcn.cloudfront.net/vod/danceable/danceable2/daslidj2189dhjq8wdjh.m3u8',
-            'http://dyago72jbsqcn.cloudfront.net/vod/danceable/user2/fdad21421098qwdd.m3u8',
-            'http://dyago72jbsqcn.cloudfront.net/vod/dancer/dancer2/32e1209ujqwi0dj01289jd12.m3u8',
-            'http://dyago72jbsqcn.cloudfront.net/vod/dancer/dancer3/fd32fhj890fjwefiwefjwe.m3u8',
-            'http://dyago72jbsqcn.cloudfront.net/vod/boast/user1/398ry238fh23ofj9280fjef.m3u8',
-            'http://dyago72jbsqcn.cloudfront.net/vod/boast/user2/32098du239dj2l3kd.m3u8',
-            'http://dyago72jbsqcn.cloudfront.net/vod/feedback/dancer1/d2390dj23dj2309f2f32.m3u8',
+            'https://d2w69iexuycwsi.cloudfront.net/vod/danceable/danceable1/dasd22141sdd12e21a.m3u8',
+            'https://d2w69iexuycwsi.cloudfront.net/vod/danceable/danceable2/daslidj2189dhjq8wdjh.m3u8',
+            'https://d2w69iexuycwsi.cloudfront.net/vod/danceable/user2/fdad21421098qwdd.m3u8',
+            'https://d2w69iexuycwsi.cloudfront.net/vod/dancer/dancer2/32e1209ujqwi0dj01289jd12.m3u8',
+            'https://d2w69iexuycwsi.cloudfront.net/vod/dancer/dancer3/fd32fhj890fjwefiwefjwe.m3u8',
+            'https://d2w69iexuycwsi.cloudfront.net/vod/boast/user1/398ry238fh23ofj9280fjef.m3u8',
+            'https://d2w69iexuycwsi.cloudfront.net/vod/boast/user2/32098du239dj2l3kd.m3u8',
+            'https://d2w69iexuycwsi.cloudfront.net/vod/feedback/dancer1/d2390dj23dj2309f2f32.m3u8',
         ]
 
         keypoints_urls = [
