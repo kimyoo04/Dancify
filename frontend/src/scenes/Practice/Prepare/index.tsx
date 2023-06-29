@@ -4,6 +4,7 @@ import {
   useCallback,
   useEffect,
   useState,
+  useRef,
 } from "react";
 import { useRouter } from "next/router";
 import * as poseDetection from "@tensorflow-models/pose-detection";
@@ -20,9 +21,10 @@ import { getFullScreen } from "@util/screenMode";
 import Loading from "@components/Loading";
 import Link from "next/link";
 import Logo from "@components/Logo";
-import { loadMoveNetDetector } from "@ai/movenet";
+import { loadMoveNetDetector, detect } from "@ai/movenet";
 import { practiceActions } from "@features/practice/practiceSlice";
 import { useAppDispatch } from "@toolkit/hook";
+import Webcam from "react-webcam";
 
 export default function Prepare({
   data,
@@ -35,7 +37,8 @@ export default function Prepare({
   const dispatch = useAppDispatch();
   const [loading, setLoading] = useState(true);
   const [isDevice, setIsDevice] = useState(false);
-  const [isDetactor, setIsDetactor] = useState(false);
+  const [isDetector, setIsDetector] = useState(false);
+  const webcamRef = useRef<Webcam>(null);
 
   // 카메라 유무 확인
   const handleDevices = useCallback(
@@ -51,12 +54,30 @@ export default function Prepare({
       // 모델 로드 확인
       const moveNetDetector = await loadMoveNetDetector();
       setDetector(moveNetDetector);
-      // 모델 유무 확인
-      setIsDetactor(true);
+
       // 카메라 유무 확인
       navigator.mediaDevices.enumerateDevices().then(handleDevices);
-      // 로딩 완료
-      setLoading(false);
+      // 1초마다 체크해서 모델 준비됐는지 확인
+      const webcamTag = webcamRef.current?.video as HTMLVideoElement;
+
+      let elapsedTime = 0;
+      const modelPlayCheck = setInterval(async () => {
+        if ((await detect(webcamTag, moveNetDetector)) !== "error") {
+          clearInterval(modelPlayCheck);
+          // 모델 로드 성공
+          setIsDetector(true);
+          setLoading(false);
+        } else {
+          // 30초가 지난 경우 로딩 실패 처리
+          elapsedTime += 1;
+          if (elapsedTime >= 30) {
+            clearInterval(modelPlayCheck);
+            //모델 로드 실패
+            setIsDetector(false);
+            setLoading(false);
+          }
+        }
+      }, 1000);
     }
     initPractice();
   }, [handleDevices, setDetector]);
@@ -78,6 +99,10 @@ export default function Prepare({
 
   return (
     <div className="h-full w-screen">
+      <Webcam
+        ref={webcamRef}
+        style={{ opacity: 0, width: "0%", height: "0%" }}
+      />
       <MainWrapper>
         {loading ? (
           <LoadingModal>
@@ -108,18 +133,18 @@ export default function Prepare({
                   <div>
                     <div className="space-x-2">
                       {isDevice ? (
-                        <span className="text-green-500 font-bold">✓</span>
+                        <span className="font-bold text-green-500">✓</span>
                       ) : (
-                        <span className="text-red-500 font-bold">✕</span>
+                        <span className="font-bold text-red-500">✕</span>
                       )}
                       <span>웹캠 유무 확인</span>
                     </div>
                   </div>
                   <div className="space-x-2">
-                    {isDetactor ? (
-                      <span className="text-green-500 font-bold">✓</span>
+                    {isDetector ? (
+                      <span className="font-bold text-green-500">✓</span>
                     ) : (
-                      <span className="text-red-500 font-bold">✕</span>
+                      <span className="font-bold text-red-500">✕</span>
                     )}
                     <span>AI 모델 불러오기</span>
                   </div>
@@ -127,7 +152,7 @@ export default function Prepare({
 
                 <div className="col-center">
                   {/* //? 연습과 실전 모드 변수 필요 */}
-                  {isDevice && isDetactor ? (
+                  {isDevice && isDetector ? (
                     <p className="text-mediu,">
                       연습 모드 준비가 완료되었습니다.
                     </p>
@@ -145,8 +170,8 @@ export default function Prepare({
                       dispatch(practiceActions.moveNextStep());
                     }}
                     className="row-center w-full gap-2"
-                    disabled={!isDevice || !isDetactor}
-                    variant={isDevice && isDetactor ? "default" : "destructive"}
+                    disabled={!isDevice || !isDetector}
+                    variant={isDevice && isDetector ? "default" : "destructive"}
                   >
                     <span className="text-lg">연습 시작</span>
                     <Expand />
