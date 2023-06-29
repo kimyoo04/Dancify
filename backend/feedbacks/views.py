@@ -121,7 +121,8 @@ class DancerFeedbackResponseView(RetrieveAPIView):
         # 엔드포인트에서 입력받은 feedback_id를 가지고 댄서블 피드백 상세페이지 조회
         # title, createDate, userId, nickname, status, isDancer,
         feedback = FeedbackPost.objects.get(feedback_id=feedback_id)
-
+        status = feedback.status
+        
         serializer = self.get_serializer(feedback)
         serializer_data = serializer.data
 
@@ -134,16 +135,22 @@ class DancerFeedbackResponseView(RetrieveAPIView):
 
         sections = []
         for danceable_feedback in danceable_feedbacks:
-            # dancer_feedback = DancerFeedback.objects.get(danceable_feedback=danceable_feedback)
-            # timestamps = TimeStamp.objects.filter(dancer_feedback=dancer_feedback)
+            try:
+                dancer_feedback = DancerFeedback.objects.get(danceable_feedback=danceable_feedback)
+            except DancerFeedback.DoesNotExist:
+                dancer_feedback = None
 
-            # dancer_messages = []
-            # for timestamp in timestamps:
-            #     dancer_message = {
-            #         'timeStamp': timestamp.timestamp,
-            #         'message': timestamp.message
-            #     }
-            #     dancer_messages.append(dancer_message)
+            if dancer_feedback is not None:
+                timestamps = TimeStamp.objects.filter(dancer_feedback=dancer_feedback)
+
+                dancer_messages = []
+                for timestamp in timestamps:
+                    dancer_message = {
+                        'timeStamp': timestamp.timestamp,
+                        'message': timestamp.message
+                    }
+                    dancer_messages.append(dancer_message)
+
 
             sections_data = {
                 'sectionId': danceable_feedback.section.section_id,
