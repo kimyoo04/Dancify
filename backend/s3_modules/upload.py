@@ -10,7 +10,8 @@ from ai.face_mosaic.face_mosaic import face_mosaic
 from moviepy.editor import VideoFileClip, AudioFileClip
 
 AWS_DOMAIN = "https://dancify-bucket.s3.ap-northeast-2.amazonaws.com/"
-CLOUDFRONT_DOMAIN = "http://dyago72jbsqcn.cloudfront.net"
+# CLOUDFRONT_DOMAIN = "http://dyago72jbsqcn.cloudfront.net"
+CLOUDFRONT_DOMAIN = "https://d2w69iexuycwsi.cloudfront.net"
 
 
 def upload_obj_to_s3(bucket_name, folder_path, file_key, object):
@@ -198,5 +199,5 @@ def upload_splitted_video_to_s3(request, user_id):
                                                        video_file_extension))
     # 편집에 사용되었던 localpath 폴더 삭제
     localpath = settings.BASE_DIR
-    shutil.rmtree(os.path.join(localpath, 'tmp_video'))
+    shutil.rmtree(os.path.join(localpath, user_id))
     return result
