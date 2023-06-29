@@ -9,6 +9,7 @@ class BaseFeedbackListSerializer(serializers.Serializer):
     genre = serializers.CharField(source='feedback_post.dancer_post.genre')
     title = serializers.CharField(source='feedback_post.dancer_post.title')
     createDate = serializers.DateTimeField(source='create_date')
+    status = serializers.CharField()
 
 
 class DanceableFeedbackListSerializer(BaseFeedbackListSerializer):
@@ -16,7 +17,6 @@ class DanceableFeedbackListSerializer(BaseFeedbackListSerializer):
     댄서블 입장에서의 피드백 목록 (댄서의 닉네임이 보여야 함)
     """
     nickname = serializers.CharField(source='feedback_post.dancer_post.user.nickname')
-    status = serializers.CharField()
 
     class Meta:
         model = DanceableFeedback
@@ -30,7 +30,6 @@ class DancerFeedbackListSerializer(BaseFeedbackListSerializer):
     댄서 입장에서의 피드백 목록 (댄서블의 닉네임이 보여야 함)
     """
     nickname = serializers.CharField(source='feedback_post.user.nickname')
-    status = serializers.CharField()
 
     class Meta:
         model = DanceableFeedback
@@ -48,3 +47,30 @@ class DanceableFeedbackRequestSerializer(serializers.Serializer):
     class Meta:
         model = DanceableFeedback
         fields = ['sectionId', 'message']
+
+
+class FeedbackDetailSerializer(serializers.Serializer):
+    """
+    상세 페이지 조회 시 반환하는 시리얼라이저\n
+    isDancer, nickname, sections는 뷰에서 넣어줌\n
+    ___\n
+    - title: 댄서 게시글 제목
+    - createDate: 댄서블 피드백 생성 날짜
+    - nickname: 댄서/댄서블 피드백 닉네임 (서로 반대되게)
+    - userId: 댄서블 아이디
+    - status: 댄서블 피드백 상태 (신청 전/대기 중/완료)
+    - firstAiFeedback: 최초 AI 피드백 결과
+    - bestAiFeedback: 최고 AI 피드백 결과
+    - sections: 섹션 정보 담고 있는 리스트
+    isDancer, nickname, sections는 뷰에서 넣어줌
+    """
+    title = serializers.CharField(source='feedback_post.dancer_post.title')
+    createDate = serializers.CharField(source='create_date')
+    userId = serializers.CharField(source='feedback_post.user.user_id')
+    status = serializers.CharField()
+
+    class Meta:
+        model = DanceableFeedback
+        fields = ['title', 'createDate', 'nickname', 'userId',
+                  'status', 'isDancer',
+                  'firstAiFeedback', 'bestAiFeedback']
