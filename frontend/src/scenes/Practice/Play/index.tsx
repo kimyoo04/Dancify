@@ -14,10 +14,10 @@ import { Button } from "@components/ui/button";
 
 export default function Play({
   data,
-  detactor,
+  detector,
 }: {
   data: IPractice;
-  detactor: poseDetection.PoseDetector;
+  detector: poseDetection.PoseDetector;
 }) {
   const router = useRouter();
   const dispatch = useAppDispatch();
@@ -46,7 +46,7 @@ export default function Play({
         {isFinished ? (
           <SectionResult data={data} />
         ) : (
-          <SectionPlay data={data} detactor={detactor} />
+          <SectionPlay data={data} detector={detector} />
         )}
       </MainWrapper>
 

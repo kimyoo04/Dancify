@@ -11,10 +11,10 @@ import { Button } from "@components/ui/button";
 
 export default function SectionPlay({
   data,
-  detactor,
+  detector,
 }: {
   data: IPractice;
-  detactor: poseDetection.PoseDetector;
+  detector: poseDetection.PoseDetector;
 }) {
   const dispatch = useAppDispatch();
 

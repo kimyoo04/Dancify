@@ -45,7 +45,6 @@ export default function FeedbackLine() {
 
   const feedbackData = feedback1.data;
 
-  //[1,2,3,4]구역
   const labels: number[] = Array.from(
     { length: feedbackData.length },
     (_, i) => i + 1
