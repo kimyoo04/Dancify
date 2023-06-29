@@ -1,70 +1,86 @@
+import { TIsDancer, TNickname, TUserId } from "./auth";
+import { TGenreValue } from "./filter";
+import { TThumbnail, TTitle, TCreateDate, TVideo } from "./posts";
+import { TSectionId } from "./practice";
+
+// feedbackSlice 에 사용
+export interface IFeedbackState {
+  sectionIndex: TSectionIndex;
+  sections: ISection[];
+}
+
+export interface ISection {
+  sectionId: TSectionId;
+  danceablevideo: TVideo;
+  danceablemessage: TMessage;
+  dancerVideo: TVideo;
+  dancerMessage: IDancerMessage[]; // 타임스탬프와 메시지
+}
+
+// 피드백 게시글 목록
 export interface IFeedback {
-  id: number;
-  thumbnail: string;
-  genre: string;
-  title: string;
-  nickname: string;
-  status: string;
-  createDate: string;
+  feedbackId: TFeedbackId;
+  thumbnail: TThumbnail;
+  genre: TGenreValue;
+  title: TTitle;
+  nickname: TNickname;
+  status: TStatus;
+  createDate: TCreateDate;
 }
 
-export interface Pelvis {
-  score: number;
-  dancer_left_pelvic_angle: number;
-  dancer_right_pelvic_angle: number;
-  danceable_left_pelvic_angle: number;
-  danceable_right_pelvic_angle: number;
+// 피드백 상세 게시글
+export interface IFeedbackDetail {
+  feedbackId: TFeedbackId;
+  title: TTitle;
+  createDate: TCreateDate;
+  nickname: TNickname; // 댄서 닉네임
+  userId: TUserId; // 댄서블 아이디
+  status: TStatus;
+  isDancer: TIsDancer;
+  firstAiFeedback: string;
+  bestAiFeedback: string;
+  sections: IFeedbackSection[]; // 구간별 피드백 질문과 답변
 }
 
-export interface Shoulder {
-  score: number;
-  dancer_left_shoulder_angle: number;
-  dancer_right_shoulder_angle: number;
-  danceable_left_shoulder_angle: number;
-  danceable_right_shoulder_angle: number;
+export interface IFeedbackSection {
+  sectionId: TSectionId;
+  danceablevideo: TVideo;
+  danceablemessage?: TMessage;
+  dancerVideo?: TVideo;
+  dancerMessage?: IDancerMessage[]; // 타임스탬프와 메시지
 }
 
-export interface Forearm {
-  score: number;
-  dancer_left_elbow_angle: number;
-  dancer_right_elbow_angle: number;
-  danceable_left_elbow_angle: number;
-  danceable_right_elbow_angle: number;
+export interface IDancerMessage {
+  timeStamp: number;
+  message: TMessage;
 }
 
-export interface Leg {
-  score: number;
-  dancer_left_knee_angle: number;
-  dancer_right_knee_angle: number;
-  danceable_left_knee_angle: number;
-  danceable_right_knee_angle: number;
+// 댄서블이 댄서에게 피드백 요청 데이터
+export interface IFeedbackRequest {
+  sections: IFeedbackRequestSection[];
 }
 
-export interface ErrorData {
-  pelvis_error_time: string[];
-  shoulder_error_time: string[];
-  forearm_error_time: string[];
-  leg_error_time: string[];
+export interface IFeedbackRequestSection {
+    sectionId: TSectionId
+    message: TMessage
 }
 
-export interface AverageScore {
-  pelvis_score: number;
-  shoulder_score: number;
-  forearm_score: number;
-  leg_score: number;
-}
+// 댄서가 댄서블에게 피드백하는 데이터
+// "sectionId1": string,
+// "timeStamp1": int`int
+// "feedbacks1": string`string
+// "video1": 동영상
+// "sectionId2": string,
+// "timeStamp2": int`int
+// "feedbacks2": string`string
+// "video2": 동영상
 
-export interface PartData{
-  sec: number;
-  pelvis: Pelvis;
-  shoulder: Shoulder;
-  forearm: Forearm;
-  leg: Leg;
-}
-
-export interface FeedbackData {
-  data: PartData[];
-  error: ErrorData;
-  avg_score: AverageScore;
-  message: string[];
-}
+export type TSectionIndex = number;
+export type TFeedbackId = string;
+export type TStatus = "신청 전" | "대기 중" | "완료";
+export type TScore = number;
+export type TMessage = string;
+export type TAngle = number;
+export type TSec = number;
+export type TErrorTime = string;
+export type TContent = string;
