@@ -261,7 +261,7 @@ class FeedbackDetailView(RetrieveAPIView):
                 sections_data['danceableMessage'] = danceable_feedback.message
 
             elif feedback_status == '완료':
-                timestamps = TimeStamp.objects.filter(dancer_feedback=dancer_feedback)
+                timestamps = TimeStamp.objects.filter(dancer_feedback=dancer_feedback).order_by('timestamp')
                 dancer_messages = []
                 for timestamp in timestamps:
                     dancer_message = {
