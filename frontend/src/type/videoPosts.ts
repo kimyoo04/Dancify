@@ -8,7 +8,7 @@ import {
   TTitle,
   TVideo,
   TViews,
-  TcreateDate,
+  TCreateDate,
 } from "./posts";
 
 //! 자랑게시판의 1개 게시글 (확정)
@@ -17,7 +17,7 @@ export interface IVideoPost {
   title: TTitle;
   nickname: TNickname;
   content: TContent;
-  createDate: TcreateDate;
+  createDate: TCreateDate;
   thumbnail: TThumbnail;
   video: TVideo;
   views: TViews;
@@ -41,7 +41,7 @@ export interface IVideoPostDetail {
   userLike: boolean; // 미완
   nickname: TNickname;
   content: TContent;
-  createDate: TcreateDate;
+  createDate: TCreateDate;
   thumbnail: TThumbnail;
   video: TVideo;
   views: TViews;
