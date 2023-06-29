@@ -3,15 +3,20 @@ import NavTab from "./FeedbackDetailItem/NavTab";
 import { Tabs } from "@components/ui/tabs";
 
 import AiFeedback from "./AiFeedback";
-import DancerFeedback from "./DancerFeedback";
 import FeedbackRequest from "./FeedbackRequest";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { feedbackActions } from "@features/feedback/feedbackSlice";
 import { feedbackDetailData } from "../data/feedbackDetailData";
 import { useAppDispatch } from "@toolkit/hook";
+import FeedbackFinished from "./FeedbackFinished";
+import FeedbackWaiting from "./FeedbackWaiting";
+import Sectiontab from "./FeedbackDetailItem/SectionTab";
 
 export default function FeedbackDetail({ id }: { id: string }) {
   const dispatch = useAppDispatch();
+  const [videoFile, setVideoFile] = useState<{
+    [key: string]: { file: File; filename: string };
+  }>({});
 
   // api 요청
   const data = feedbackDetailData;
@@ -38,16 +43,24 @@ export default function FeedbackDetail({ id }: { id: string }) {
 
       dispatch(feedbackActions.getSections(sections));
     }
-  }, [data]);
+  }, [data, dispatch]);
 
   return (
-    <Tabs defaultValue="aiFeedback" className="h-full space-y-6">
+    <Tabs defaultValue="aiFeedback" className="h-full w-full space-y-6">
       <Header data={data} />
       <NavTab status={data.status} />
+      <Sectiontab data={data} />
 
-      <AiFeedback data={data}/>
-      <DancerFeedback data={data} />
-      <FeedbackRequest data={data} />
+      <AiFeedback data={data} />
+      {data.status === "신청 전" && <FeedbackRequest data={data} />}
+      {data.status === "대기 중" && (
+        <FeedbackWaiting
+          data={data}
+          videoFile={videoFile}
+          setVideoFile={setVideoFile}
+        />
+      )}
+      {data.status === "완료" && <FeedbackFinished data={data} />}
     </Tabs>
   );
 }

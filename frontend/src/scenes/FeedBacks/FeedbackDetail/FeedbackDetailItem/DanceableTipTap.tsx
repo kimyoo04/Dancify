@@ -11,7 +11,7 @@ import { FontSize } from "@components/tiptap/FontSizeExtension";
 import { useAppDispatch, useAppSelector } from "@toolkit/hook";
 import { feedbackActions } from "@features/feedback/feedbackSlice";
 
-const Tiptap = ({isUpdate}: {isUpdate:boolean}) => {
+const DanceableTipTap = ({isUpdate}: {isUpdate:boolean}) => {
   const dispatch = useAppDispatch();
   const {sectionIndex, sections} = useAppSelector(state => state.feedback)
 
@@ -35,21 +35,12 @@ const Tiptap = ({isUpdate}: {isUpdate:boolean}) => {
     content: isUpdate ? sections[sectionIndex].danceablemessage : "",
     onUpdate: ({ editor }) => {
       // 문서 내용을 수정했을 때 실시간으로 dispatch 해서 저장
-      dispatch(feedbackActions.writingDanceablemessage(editor.getHTML()));
+      dispatch(feedbackActions.writingDanceableMessage(editor.getHTML()));
     },
   });
 
   return (
     <div>
-      <div className="mb-2">
-        <label
-          htmlFor="postContent"
-          className="text-sm font-medium"
-          onClick={() => editor?.chain().focus()}
-        >
-          내용
-        </label>
-      </div>
       <MenuBar editor={editor} />
       <div onClick={() => editor?.chain().focus()}>
         <EditorContent editor={editor} />
@@ -58,4 +49,4 @@ const Tiptap = ({isUpdate}: {isUpdate:boolean}) => {
   );
 };
 
-export default Tiptap;
+export default DanceableTipTap;

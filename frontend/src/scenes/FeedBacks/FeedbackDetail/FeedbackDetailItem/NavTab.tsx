@@ -12,8 +12,10 @@ export default function NavTab({ status }: { status: string }) {
         >
           댄서 피드백 요청
         </TabsTrigger>
+      ) : status === "대기 중" ? (
+        <TabsTrigger value="feedbackWaiting">댄서 피드백 대기</TabsTrigger>
       ) : (
-        <TabsTrigger value="dancerFeedback">댄서 피드백</TabsTrigger>
+        <TabsTrigger value="feedbackFinished">댄서 피드백</TabsTrigger>
       )}
     </TabsList>
   );
