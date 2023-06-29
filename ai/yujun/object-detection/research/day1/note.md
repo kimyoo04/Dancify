@@ -12,8 +12,6 @@
         - 바운딩 박스를 수동으로 그리기 때문에 직접 적용하기 위해서는 박스 관련해서 코드를 고쳐야 할 것 같음
 - 빵형의 개발도상국 🏫 [link](https://www.youtube.com/watch?v=T0DO1C8uYP8&t=612s)
     - Roboflow를 통해 새롭게 데이터셋을 만든 것을 적용하는 방법
-- Iarsien의 YOLOv5로 사람만 찾아보자 🏫 [link](https://velog.io/@larsien/YoloV5-%EC%82%AC%EB%9E%8C%EB%A7%8C-%EC%B0%BE%EC%95%84%EB%B3%B4%EC%9E%90)
-    - 현재 진행중
 
 ---
 ## TF Hub 🏫 [link](https://www.tensorflow.org/hub/tutorials/object_detection?hl=ko)
