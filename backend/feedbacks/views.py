@@ -3,7 +3,7 @@ from django.core.exceptions import ValidationError
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.generics import ListAPIView, CreateAPIView, UpdateAPIView, RetrieveAPIView
+from rest_framework.generics import ListAPIView, UpdateAPIView, RetrieveAPIView
 from rest_framework_simplejwt.exceptions import TokenError
 
 from .models import DanceableFeedback, DancerFeedback, FeedbackPost, TimeStamp
@@ -157,9 +157,9 @@ class DancerFeedbackResponseView(APIView):
 
             # 입력받은 값으로 DancerFeedback 생성
             dancer_feedback = DancerFeedback(
-                danceable_feedback = DanceableFeedback.objects.get(feedback_section_id=danceable_feedback_section_ids[i]),
-                video = upload_video_with_metadata_to_s3(user_id, videos[i],
-                                                        'feedback', False)['video_url']
+                danceable_feedback=DanceableFeedback.objects.get(feedback_section_id=danceable_feedback_section_ids[i]),
+                video=upload_video_with_metadata_to_s3(user_id, videos[i],
+                                                       'feedback', False)['video_url']
             )
 
             try:
@@ -171,9 +171,9 @@ class DancerFeedbackResponseView(APIView):
             # `를 기준으로 분할한 타임스탬프와 메시지로 데이터 생성
             for j in range(len(splitted_timestamps)):
                 timestamp_data = TimeStamp(
-                    dancer_feedback = dancer_feedback,
-                    timestamp = splitted_timestamps[j],
-                    message = splitted_feedbacks[j]
+                    dancer_feedback=dancer_feedback,
+                    timestamp=splitted_timestamps[j],
+                    message=splitted_feedbacks[j]
                 )
 
                 try:
