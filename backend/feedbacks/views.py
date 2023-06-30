@@ -240,8 +240,10 @@ class FeedbackDetailRetrieveDestoryView(RetrieveDestroyAPIView):
         # 댄서블의 경우에는 댄서의 닉네임이 뜬다. (서로 반대되게)
         if is_dancer:
             serializer_data['nickname'] = feedback.user.nickname
+            serializer_data['profileImage'] = feedback.user.profile_image
         else:
             serializer_data['nickname'] = feedback.dancer_post.user.nickname
+            serializer_data['profileImage'] = feedback.dancer_post.user.profile_image
 
         # 엔드포인트에서 입력받은 feedback_id를 가지고 댄서블 피드백들을 조회한다.
         danceable_feedbacks = DanceableFeedback.objects.filter(feedback_post__feedback_id=feedback_id)
