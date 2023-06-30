@@ -4,7 +4,7 @@ import { IFreePostDetail } from "@type/freePosts";
 import { timeYmd } from "@util/dateTime";
 
 import PostDesktopLikeIcon from "@scenes/Posts/PostItem/PostDesktopLikeIcon";
-import UpDelButton from "@scenes/Posts/PostItem/UpDelButton";
+import UpDelButton from "./UpDelButton";
 
 interface IHeaderProps {
   data: IFreePostDetail;
