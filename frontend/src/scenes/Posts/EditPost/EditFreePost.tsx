@@ -1,5 +1,5 @@
-import { useState } from "react";
-import {useAppSelector } from "@toolkit/hook";
+import { useEffect, useState } from "react";
+import { useAppSelector } from "@toolkit/hook";
 
 import Tiptap from "@components/tiptap";
 import TitleForm from "@components/tiptap/TitleForm";
@@ -9,12 +9,22 @@ import UploadImage from "@components/UploadImage";
 
 import { useUpdateFreePost } from "@api/posts/updateFreePost";
 import PreviewImageUrl from "../PostItem/PreviewImageUrl";
-import PreviewImageFile from "../PostItem/PreviewImageFile";
 
 export default function EditFreePost({ id }: { id: string }) {
   const [fileName, setFileName] = useState<string>("");
   const [imageFile, setImageFile] = useState<File>();
-  const { postTitle, postContent, postImage } = useAppSelector((state) => state.post);
+  const { postTitle, postContent, postImage } = useAppSelector(
+    (state) => state.post
+  );
+
+  const imagePreview = imageFile ? URL.createObjectURL(imageFile) : undefined;
+
+  // 이미지 메모리 누수 처리
+  useEffect(() => {
+    return () => {
+      if (imagePreview) URL.revokeObjectURL(imagePreview);
+    };
+  }, [imagePreview]);
 
   const { mutateAsync } = useUpdateFreePost();
 
@@ -32,7 +42,7 @@ export default function EditFreePost({ id }: { id: string }) {
     formData.append("content", postContent);
 
     // POST 요청
-    mutateAsync({postId:id, formData});
+    mutateAsync({ postId: id, formData });
     await new Promise((resolve) => setTimeout(resolve, 500));
 
     return;
@@ -54,8 +64,10 @@ export default function EditFreePost({ id }: { id: string }) {
       />
 
       {/* 이미지 미리보기 */}
-      {imageFile && <PreviewImageFile imageFile={imageFile} />}
-      {!imageFile && postImage !== "" && <PreviewImageUrl imageUrl={postImage} />}
+      {imagePreview && <PreviewImageUrl imageUrl={imagePreview} />}
+      {!imageFile && postImage !== "" && (
+        <PreviewImageUrl imageUrl={postImage} />
+      )}
 
       <Button className="w-full" onClick={onSubmit}>
         수정 완료

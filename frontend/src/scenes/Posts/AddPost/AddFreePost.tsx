@@ -6,13 +6,22 @@ import { useEffect, useState } from "react";
 import { Button } from "@components/ui/button";
 import UploadImage from "@components/UploadImage";
 import { postActions } from "@features/post/postSlice";
-import PreviewImageFile from "../PostItem/PreviewImageFile";
+import PreviewImageUrl from "../PostItem/PreviewImageUrl";
 
 export default function AddFreePost() {
   const dispatch = useAppDispatch()
   const [fileName, setFileName] = useState<string>("");
   const [imageFile, setImageFile] = useState<File>();
   const { postTitle, postContent } = useAppSelector((state) => state.post);
+
+  const imagePreview = imageFile ? URL.createObjectURL(imageFile) : undefined;
+
+  // 이미지 메모리 누수 처리
+  useEffect(() => {
+    return () => {
+      if (imagePreview) URL.revokeObjectURL(imagePreview);
+    };
+  }, [imagePreview]);
 
   const { mutateAsync } = useCreateFreePostMutation();
 
@@ -58,7 +67,7 @@ export default function AddFreePost() {
       />
 
       {/* 이미지 미리보기 */}
-      {imageFile && <PreviewImageFile imageFile={imageFile} />}
+      {imagePreview && <PreviewImageUrl imageUrl={imagePreview} />}
 
       {/* 왼료 버튼 */}
       <Button className="w-full" onClick={onSubmit}>
