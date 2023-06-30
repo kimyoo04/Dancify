@@ -1,7 +1,7 @@
 import { Fragment, useEffect } from "react";
 import { useInView } from "react-intersection-observer";
 
-import { IUseInfniteDancerPosts } from "@type/useInfiniteQueries";
+import { IUseInfniteHistories } from "@type/useInfiniteQueries";
 
 import PostMore from "@scenes/Posts/PostItem/PostMore";
 import PostNotFound from "@scenes/Posts/PostItem/PostNotFound";
@@ -12,7 +12,7 @@ import DancerPostItem from "@scenes/DancerPosts/DancerItem/DancerPostItem";
 export default function DancerPostList({
   post,
 }: {
-  post: IUseInfniteDancerPosts;
+  post: IUseInfniteHistories;
 }) {
   const {
     data,
@@ -43,9 +43,9 @@ export default function DancerPostList({
               <Fragment key={indx + "page"}>
                 {group.data.map((data, indx) => (
                   <DancerPostItem
-                    key={indx + data.postId}
-                    data={data}
-                    href={`/histories/${data.postId}`}
+                    key={indx + data.videoHistoryId}
+                    data={data.dancerPost}
+                    href={`/histories/${data}`}
                   />
                 ))}
               </Fragment>

@@ -6,7 +6,7 @@ import { useAppSelector } from "@toolkit/hook";
 import { TGenreValue, TSort } from "@type/filter";
 import { TSearchKeyword } from "@type/search";
 import { IPostQueryParams } from "@type/posts";
-import { IDancerPostsPerPage } from "@type/dancerPosts";
+import { IHistoriesPerPage } from "@type/dancerPosts";
 
 export const readViewHistoriesPerPage = async (
   page: number,
@@ -34,7 +34,7 @@ export const useReadViewHistoriesPerPage = () => {
   const searchKeyword = useAppSelector((state) => state.search.searchKeyword);
   const { sort, genre } = useAppSelector((state) => state.filter);
 
-  return useInfiniteQuery<IDancerPostsPerPage, AxiosError>({
+  return useInfiniteQuery<IHistoriesPerPage, AxiosError>({
     queryKey: [
       `/view-history`,
       "searchKeyword",
