@@ -16,7 +16,7 @@ import { TabsContent } from "@components/ui/tabs";
 import { Separator } from "@components/ui/separator";
 import UploadVideo from "./FeedbackDetailItem/UploadVideo";
 import TimeStampForm from "./FeedbackDetailItem/TimeStampForm";
-import PostContent from "@scenes/Posts/PostItem/PostContent";
+import FeedbackContent from "./FeedbackDetailItem/FeedbackContent";
 
 export default function FeedbackWaiting({
   data,
@@ -34,7 +34,7 @@ export default function FeedbackWaiting({
   >;
 }) {
   const dispatch = useAppDispatch();
-  const { sectionIndex, sections } = useAppSelector((state) => state.feedback);
+  const { sectionIndex } = useAppSelector((state) => state.feedback);
   const videoRef = useRef<HTMLVideoElement>(null);
   const [timeStamp, setTimeStamp] = useState<number>(0);
 
@@ -52,7 +52,7 @@ export default function FeedbackWaiting({
                     </AccordionTrigger>
                     <AccordionContent>
                       {section.danceablemessage && (
-                        <PostContent
+                        <FeedbackContent
                           content={section.danceablemessage}
                           textClassName="w-fit text-sm text-muted-foreground"
                         />

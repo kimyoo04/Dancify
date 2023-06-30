@@ -10,23 +10,21 @@ interface IContentProps {
   textClassName?: string;
 }
 
-export default function MessageEdtior({
-  content,
-  className = "",
-}: IContentProps) {
-  const editor = useEditor({
-      editorProps: {
-    },
-    extensions: [
-      StarterKit,
-      TextAlign.configure({
-        types: ["paragraph"],
-      }),
-      FontSize,
-    ],
-    content: content,
-    editable: false,
-  });
+export default function FeedbackContent({ content, className = "" }: IContentProps) {
+  const editor = useEditor(
+    {
+      editorProps: {},
+      extensions: [
+        StarterKit,
+        TextAlign.configure({
+          types: ["paragraph"],
+        }),
+        FontSize,
+      ],
+      content: content,
+      editable: false,
+    }
+  );
 
   return (
     <div className={`${className}`}>
