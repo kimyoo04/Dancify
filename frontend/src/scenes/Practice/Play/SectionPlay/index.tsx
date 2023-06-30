@@ -1,13 +1,18 @@
 import { practiceActions } from "@features/practice/practiceSlice";
 import { useAppDispatch, useAppSelector } from "@toolkit/hook";
 import { IPoseMessages, IPractice } from "@type/practice";
+import { Pose } from "@type/moveNet";
+import { TVideo } from "@type/posts";
+
 import { motion } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import ReactPlayer from "react-player";
 import Webcam from "react-webcam";
 import * as poseDetection from "@tensorflow-models/pose-detection";
-import { danceableBodyCheck } from "@ai/movenet";
+import { danceableBodyCheck, runMovenet } from "@ai/movenet";
 import { Button } from "@components/ui/button";
+
+import { dancer_json } from "@ai/dancer_json_list";
 
 export default function SectionPlay({
   data,
@@ -41,6 +46,7 @@ export default function SectionPlay({
     selectedSections,
   } = useAppSelector((state) => state.practice); // 선택된 섹션 인덱스 배열 가져오기
 
+  const sectionId = data.sections[playIndex].sectionId;
   // 선택된 섹션만 추출
   const selectedSectionUrls = isRealMode
     ? [{ video: data.dancerPost.video }]
@@ -51,17 +57,6 @@ export default function SectionPlay({
   function bodyCheckCallback() {
     console.log("bodyCheckCallback");
     dispatch(practiceActions.checkFullBody());
-  }
-
-  function resultCallback(avgScore: number, poseMessages: IPoseMessages) {
-    dispatch(
-      practiceActions.updateSectionPractice({
-        sectionId: data.sections[playIndex].sectionId,
-        score: avgScore,
-        poseMessages,
-      })
-    );
-    dispatch(practiceActions.finishSectionPlay());
   }
 
   // 창 크기가 변경될 때마다 웹캠의 크기를 변경하는 함수
@@ -146,6 +141,41 @@ export default function SectionPlay({
     }
   }, [isFullBody, dispatch]);
 
+  useEffect(() => {
+    // 구간 끝났을 때 업데이트하고 구간 종료 상태를 설정
+    function resultCallback(video: TVideo, avgScore: number, poseMessages: IPoseMessages, keypointJson:Pose[][]) {
+      dispatch(
+        practiceActions.updateSectionPractice({
+          video,
+          sectionId: data.sections[playIndex].sectionId,
+          score: avgScore,
+          keypointJson,
+          poseMessages,
+        })
+      );
+      dispatch(practiceActions.finishSectionPlay());
+    }
+
+    if (isFullBody) {
+      const timer = setTimeout(() => {
+        dispatch(practiceActions.playVideo());
+        runMovenet(
+          playIndex,
+          data.sections,
+          sectionId,
+          webcamRef,
+          canvasRef,
+          detector,
+          dancer_json,
+          setPoseMessage,
+          resultCallback
+        );
+      }, 5000);
+
+      return () => clearTimeout(timer);
+    }
+  }, [isFullBody, detector, sectionId, dispatch, data.sections, playIndex]);
+
   return (
     <div className="row-center w-full gap-10">
       <div className="row-center h-80 w-full">
@@ -169,7 +199,7 @@ export default function SectionPlay({
             width={"100%"}
             height={"100%"}
             className="absolute left-0 top-0 h-full w-full"
-            onEnded={() => dispatch(practiceActions.finishSectionPlay())}
+            // onEnded={() => dispatch(practiceActions.finishSectionPlay())}
           />
         </motion.section>
 
@@ -189,7 +219,7 @@ export default function SectionPlay({
           {!isFullBody ? (
             <div className="absolute top-0 z-10 flex h-full w-full items-end justify-end gap-2 pb-3 pr-3">
               {/* 전신 메시지 */}
-              <p className="rounded-md bg-background py-2 px-4 col-center">
+              <p className="col-center rounded-md bg-background px-4 py-2">
                 전신이 보이도록 뒤로 이동해주세요.
               </p>
               <Button onClick={() => dispatch(practiceActions.checkFullBody())}>

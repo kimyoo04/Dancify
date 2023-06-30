@@ -3,13 +3,17 @@ import Webcam from "react-webcam";
 import { poseSimilarity } from "@ai/utils/posesim";
 import { drawKeypoints, drawSkeleton } from "@ai/utilities";
 
-import { IPoseMessages, TSectionId } from "@type/practice";
+import {
+  IPoseMessages,
+  ISection,
+  TPlayIndex,
+  TSectionId,
+} from "@type/practice";
 import { Pose as poseType } from "@type/moveNet";
+import { TVideo } from "@type/posts";
 
 import * as poseDetection from "@tensorflow-models/pose-detection";
 import * as tf from "@tensorflow/tfjs";
-
-import { postPracticeResult } from "@api/dance/postPracticeData";
 
 export function webcamSize(webcam: HTMLVideoElement) {
   const webcamWidth = webcam.videoWidth;
@@ -87,8 +91,8 @@ export async function detect(
     // Set video width
     webcam.width = videoWidth;
     webcam.height = videoHeight;
+
     const pose = (await detector.estimatePoses(webcam)) as poseType[];
-    // console.log(pose);
     if (pose.length > 0) return pose;
     else return "error";
   } catch (error) {
@@ -135,16 +139,28 @@ export async function danceableBodyCheck(
 }
 
 export async function runMovenet(
+  playIndex: TPlayIndex,
+  sections: ISection[],
   sectionId: TSectionId,
   webcamRef: React.RefObject<Webcam>,
   canvasRef: React.RefObject<HTMLCanvasElement>,
   detector: poseDetection.PoseDetector,
   dancerJson: poseType[][],
   setPoseMessage: React.Dispatch<React.SetStateAction<string>>,
-  updateCallback: (avgScore: number, poseMessages: IPoseMessages) => void
+  updateCallback: (
+    video: TVideo,
+    avgScore: number,
+    poseMessages: IPoseMessages,
+    keypointJson: poseType[][]
+  ) => void
 ) {
   //구간의 실시간 댄서블 keypoint 점수
   const danceableJson: poseType[][] = [];
+
+  // sectionId에 해당하는 sections의 인덱스 추출
+  const sectionIndex = sections.findIndex(
+    (section) => section.sectionId === sectionId
+  );
 
   //구간의 평균 유사도 점수
   let avgCosineDistance = 0;
@@ -159,6 +175,8 @@ export async function runMovenet(
     Great: 0,
     Excellent: 0,
   };
+
+  const webcamRecodeFile = '수정 예정';
 
   const drawPerSec = setInterval(async () => {
     //webcam의 video tag로 width, height 추출
@@ -202,24 +220,19 @@ export async function runMovenet(
       }
     }
 
-    //강사 영상 끝나면 setInterval 멈춤
-    if (indx === dancerJson.length) {
+    //강제 종료
+    if (playIndex !== sectionIndex) {
+      console.log('🚫 구간 중지')
       clearInterval(drawPerSec);
       clearCanvas(canvas);
-      avgCosineDistance /= indx - 1;
-      updateCallback(avgCosineDistance, postMessages);
-
-      // 댄서블의 keypoint와 녹화한 댄서블 영상을 POST 요청
-      const practicedata = new FormData();
-      practicedata.append("keypoints", JSON.stringify(danceableJson));
-      // practicedata.append("video", webcamRecodeFile);
-
-      const data = {
-        sectionId,
-        practicedata,
-      };
-
-      await postPracticeResult(data);
+      //정상적으로 끝나면 setInterval 멈춤
+    } else if (indx === dancerJson.length) {
+      console.log('🚀 구간 연습 완료')
+      clearInterval(drawPerSec);
+      clearCanvas(canvas);
+      avgCosineDistance =
+        Math.round((avgCosineDistance / indx - 1) * 100) / 100;
+      updateCallback(webcamRecodeFile, avgCosineDistance, postMessages, danceableJson);
     }
   }, 1000 / 15); //! 15 fps
 }
