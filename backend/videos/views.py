@@ -1,4 +1,5 @@
 from django.http import JsonResponse
+from django.conf import settings
 import uuid
 import io
 import os
@@ -9,11 +10,11 @@ from moviepy.editor import VideoFileClip, AudioFileClip
 
 from accounts.authentication import get_user_info_from_token
 from s3_modules.authentication import get_s3_client
-from ai.video_to_keypoint.vtk import video_to_keypoint
-from ai.face_mosaic.face_mosaic import face_mosaic
 from s3_modules.upload import upload_video_with_metadata_to_s3
 from s3_modules.upload import upload_video_to_s3
-from s3_modules.upload import upload_splitted_video_to_s3
+from s3_modules.upload import upload_splitted_video_to_s3, save_tmp_video
+from ai.tmp_modules_for_async.vtk import video_to_keypoint
+from ai.tmp_modules_for_async.face_mosaic import face_mosaic
 
 
 # 실제 플로우에는 썸네일 이미지도 요청에 포함되어있음
@@ -28,10 +29,11 @@ class UploadTestView(APIView):
         user_id = user_info['userId']
         video_uuid = str(uuid.uuid4()).replace('-', '')
 
-        # s3 = get_s3_client()
+        s3 = get_s3_client()
 
         # json 파일 업로드 - 댄서블 & 댄서 영상에만..
-        json_obj = video_to_keypoint.delay(video)
+        videopath = save_tmp_video(video, user_id)
+        json_obj = video_to_keypoint.delay(videopath)
         # bucket_name = 'dancify-bucket'
         # folder_path = f'key-points/{user_id}/'
         # file_key = folder_path + video_uuid + '.json'
@@ -49,18 +51,25 @@ class UploadTestView(APIView):
 
         # 영상 업로드
         # 파일 포인터를 맨 앞으로 위치시킴
-        video.seek(0)
-        # bucket_name = 'dancify-input'
-        # folder_path = f'vod/danceable/{user_id}/'
-        # file_key = folder_path + video_uuid + video_file_extension
+        # video.seek(0)
+        bucket_name = 'dancify-input'
+        folder_path = f'vod/danceable/{user_id}/'
+        file_key = folder_path + video_uuid + video_file_extension
 
-        video = face_mosaic.delay(video)
+        result = face_mosaic.delay(videopath)
+        result.wait()
+        task_result = result.get()
 
-        # s3.put_object(Bucket=bucket_name, Key=folder_path)
-        # s3.upload_fileobj(io.BytesIO(video), bucket_name, file_key)
+        s3.put_object(Bucket=bucket_name, Key=folder_path)
+        s3.upload_fileobj(io.BytesIO(task_result), bucket_name, file_key)
 
         # 클라이언트 해제
-        # s3.close()
+        s3.close()
+
+        localpath = settings.BASE_DIR  # 프로젝트 최상위 폴더
+        localpath = os.path.join(localpath, 'tmp_video')  # 현재 폴더/tmp_video/
+        localpath = os.path.join(localpath, user_id)
+        shutil.rmtree(localpath)
 
         return JsonResponse({"message": "success!"})
 
