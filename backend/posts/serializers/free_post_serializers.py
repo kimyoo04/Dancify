@@ -16,6 +16,7 @@ class FreePostGetListSerializer(serializers.ModelSerializer):
     - postId: 아이디
     - title: 게시글 제목
     - nickname: 작성자 닉네임
+    - profileImage: 프로필 이미지
     - content: 게시글 내용
     - createDate: 작성 일자
     - postImage: 사진 URL
@@ -25,6 +26,7 @@ class FreePostGetListSerializer(serializers.ModelSerializer):
     """
     postId = serializers.UUIDField(source='post_id')
     nickname = serializers.CharField(source='user.nickname')
+    profileImage = serializers.URLField(source='user.profile_image')
     createDate = serializers.DateTimeField(source='create_date')
     postImage = serializers.URLField(source='post_image')
     commentsCount = serializers.SerializerMethodField()
@@ -38,8 +40,8 @@ class FreePostGetListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = FreePost
-        fields = ['postId', 'title', 'nickname', 'content',
-                  'createDate', 'postImage', 'views',
+        fields = ['postId', 'title', 'nickname', 'profileImage',
+                  'content', 'createDate', 'postImage', 'views',
                   'commentsCount', 'likesCount']
         ref_name = 'FreePostGetListSerializer'
 
@@ -54,6 +56,7 @@ class FreePostGetRetrieveSerializer(serializers.ModelSerializer):
     - title: 게시글 제목
     - userId: 작성자 아이디
     - nickname: 작성자 닉네임
+    - profileImage: 프로필 이미지
     - content: 게시글 내용
     - createDate: 작성 일자
     - postImage: 사진 URL

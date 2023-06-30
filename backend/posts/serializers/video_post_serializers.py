@@ -16,6 +16,7 @@ class VideoPostGetListSerializer(serializers.ModelSerializer):
     - postId: 아이디
     - title: 게시글 제목
     - nickname: 작성자 닉네임
+    - profileImage: 프로필 이미지
     - content: 게시글 내용
     - createDate: 작성 일자
     - video: 영상 URL
@@ -26,6 +27,7 @@ class VideoPostGetListSerializer(serializers.ModelSerializer):
     """
     postId = serializers.UUIDField(source='post_id')
     nickname = serializers.CharField(source='user.nickname')
+    profileImage = serializers.URLField(source='user.profile_image')
     createDate = serializers.DateTimeField(source='create_date')
     commentsCount = serializers.SerializerMethodField()
     likesCount = serializers.SerializerMethodField()
@@ -38,7 +40,7 @@ class VideoPostGetListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = VideoPost
-        fields = ['postId', 'title', 'nickname', 'content',
+        fields = ['postId', 'title', 'nickname', 'profileImage', 'content',
                   'createDate', 'video', 'thumbnail', 'views',
                   'commentsCount', 'likesCount']
         ref_name = 'VideoPostGetListSerializer'
@@ -54,6 +56,7 @@ class VideoPostGetRetrieveSerializer(serializers.ModelSerializer):
     - title: 게시글 제목
     - userId: 작성자 아이디
     - nickname: 작성자 닉네임
+    - profileImage: 프로필 이미지
     - content: 게시글 내용
     - createDate: 작성 일자
     - video: 영상 URL

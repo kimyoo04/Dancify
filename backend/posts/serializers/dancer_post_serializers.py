@@ -17,6 +17,7 @@ class DancerPostInfoSerializer(serializers.ModelSerializer):
     - title: 게시글 제목
     - userId: 작성자 아이디
     - nickname: 작성자 닉네임
+    - profileImage: 프로필 이미지
     - content: 게시글 내용
     - createDate: 작성 일자
     - video: 영상 URL
@@ -28,13 +29,14 @@ class DancerPostInfoSerializer(serializers.ModelSerializer):
     postId = serializers.UUIDField(source='post_id')
     userId = serializers.CharField(source='user.user_id')
     nickname = serializers.CharField(source='user.nickname')
+    profileImage = serializers.URLField(source='user.profile_image')
     createDate = serializers.DateTimeField(source='create_date')
     feedbackPrice = serializers.IntegerField(source='feedback_price')
 
     class Meta:
         model = DancerPost
         ref_name = 'DancerPostInfoSerializer'
-        fields = ['postId', 'genre', 'title', 'userId', 'nickname',
+        fields = ['postId', 'genre', 'title', 'userId', 'nickname', 'profileImage'
                   'content', 'createDate', 'video', 'thumbnail',
                   'views', 'feedbackPrice']
 
@@ -50,6 +52,7 @@ class DancerPostGetListSerializer(DancerPostInfoSerializer):
     - title: 게시글 제목
     - userId: 작성자 아이디
     - nickname: 작성자 닉네임
+    - profileImage: 프로필 이미지
     - content: 게시글 내용
     - createDate: 작성 일자
     - video: 영상 URL
@@ -71,8 +74,8 @@ class DancerPostGetListSerializer(DancerPostInfoSerializer):
 
     class Meta:
         model = DancerPost
-        fields = ['postId', 'genre', 'title', 'nickname', 'content',
-                  'createDate', 'video', 'thumbnail', 'views',
+        fields = ['postId', 'genre', 'title', 'userId', 'nickname', 'profileImage',
+                  'content', 'createDate', 'video', 'thumbnail', 'views',
                   'commentsCount', 'likesCount', 'feedbackPrice']
         ref_name = 'DancerPostGetListSerializer'
 
@@ -88,6 +91,7 @@ class DancerPostGetRetrieveSerializer(DancerPostInfoSerializer):
     - title: 게시글 제목
     - userId: 작성자 아이디
     - nickname: 작성자 닉네임
+    - profileImage: 프로필 이미지
     - content: 게시글 내용
     - createDate: 작성 일자
     - video: 영상 URL
