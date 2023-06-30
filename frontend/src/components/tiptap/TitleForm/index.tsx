@@ -23,7 +23,7 @@ const TitleForm = ({isUpdate}: {isUpdate:boolean}) => {
 
   const onUpdate = useCallback(
     debounce((content) => {
-      dispatch(postActions.writingContent(content));
+      dispatch(postActions.writingTitle(content));
     }, 500),
     []
   );
