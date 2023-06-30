@@ -25,11 +25,11 @@ export default function UploadVideo({
   }, []);
 
   const { getRootProps, getInputProps } = useDropzone({
-    accept: { "video/mp4": [] },
+    accept: { "video/*": [] },
     noKeyboard: true,
     multiple: false,
     maxFiles: 1,
-    maxSize: 100 * 1024 * 1024, // 100mb
+    maxSize: 100 * 1024 * 1024 * 2, // 200mb
     onDrop,
   });
 
@@ -50,10 +50,10 @@ export default function UploadVideo({
         <video ref={videoRef} controls style={{ display: "none" }} />
         <div className="row-center gap-2">
           <i className="ri-video-upload-line text-xl text-muted-foreground"></i>
-          <span className="w-full text-muted-foreground">동영상-MP4 선택</span>
+          <span className="w-full text-muted-foreground">동영상 선택</span>
         </div>
         <p className="text-xs text-muted-foreground">
-          또는 여기로 파일을 끌어오세요.
+          또는 여기로 파일을 끌어오세요. (200MB 이하)
         </p>
       </div>
 
