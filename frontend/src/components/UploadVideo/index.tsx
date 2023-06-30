@@ -1,16 +1,14 @@
-import { RefObject, useCallback } from "react";
+import { useCallback } from "react";
 import { useDropzone } from "react-dropzone";
 import { Button } from "@components/ui/button";
 
 interface IUploadVideoProps {
-  videoRef: RefObject<HTMLVideoElement>;
   fileName: string;
   setFileName: React.Dispatch<React.SetStateAction<string>>;
   setVideoFile: React.Dispatch<React.SetStateAction<File | undefined>>;
 }
 
 export default function UploadVideo({
-  videoRef,
   fileName,
   setFileName,
   setVideoFile,
@@ -47,7 +45,6 @@ export default function UploadVideo({
         {...getRootProps()}
       >
         <input {...getInputProps()} />
-        <video ref={videoRef} controls style={{ display: "none" }} />
         <div className="row-center gap-2">
           <i className="ri-video-upload-line text-xl text-muted-foreground"></i>
           <span className="w-full text-muted-foreground">동영상 선택</span>

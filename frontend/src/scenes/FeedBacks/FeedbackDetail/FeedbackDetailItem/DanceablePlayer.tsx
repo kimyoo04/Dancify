@@ -49,13 +49,15 @@ export default function DanceablePlayer({ data }: { data: IFeedbackDetail }) {
 
   return (
     <div className="space-y-4">
-      <ReactPlayer
-        ref={playerRef}
-        url={data.sections[sectionIndex].danceablevideo}
-        controls
-        width={"100%"}
-        height={"100%"}
-      />
+      <div className="rounded-md overflow-hidden">
+        <ReactPlayer
+          ref={playerRef}
+          url={data.sections[sectionIndex].danceablevideo}
+          controls
+          width={"100%"}
+          height={"100%"}
+        />
+      </div>
 
       <div className="w-full space-y-1 rounded-md bg-white p-4 text-black">
         <div>

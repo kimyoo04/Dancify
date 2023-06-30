@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useAppSelector } from "@toolkit/hook";
 
 import Tiptap from "@components/tiptap";
@@ -8,18 +8,26 @@ import { Button } from "@components/ui/button";
 import UploadVideo from "@components/UploadVideo";
 
 import { useCreateVideoPostMutation } from "@api/posts/createVideoPost";
+import PreviewVideoUrl from "../PostItem/PreviewVideoUrl";
 
 export default function AddVideoPost() {
-  // 추출썸네일
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-
   // 동영상
   const [videoFileName, setVideoFileName] = useState<string>("");
   const [videoFile, setVideoFile] = useState<File>();
 
   // 제목과 내용
   const { postTitle, postContent } = useAppSelector((state) => state.post);
+
+  // 동영상 미리보기 URL
+  const videoPreview = videoFile ? URL.createObjectURL(videoFile) : undefined;
+
+  // 이미지 메모리 누수 처리
+  useEffect(() => {
+    return () => {
+      if (videoPreview) URL.revokeObjectURL(videoPreview);
+    };
+  }, [videoPreview]);
+
   const { mutateAsync } = useCreateVideoPostMutation();
 
   const onSubmit = async () => {
@@ -44,19 +52,27 @@ export default function AddVideoPost() {
 
   return (
     <div className="mx-auto max-w-2xl space-y-4">
-      <TitleForm isUpdate={false}/>
-      <Tiptap isUpdate={false}/>
+      {/* 제목 텍스트 필드 */}
+      <TitleForm isUpdate={false} />
+
+      {/* 내용 작성 에디터 */}
+      <Tiptap isUpdate={false} />
+
+      {/* 동영상 드레그 앤 드롭 영역 */}
       <UploadVideo
-        videoRef={videoRef}
         fileName={videoFileName}
         setFileName={setVideoFileName}
         setVideoFile={setVideoFile}
       />
+
+      {/* 동영상 미리보기 */}
+      {videoPreview && <PreviewVideoUrl url={videoPreview} />}
+
+      {/* 얼굴 모자이크 유무 */}
+
       <Button className="w-full" onClick={onSubmit}>
         작성 완료
       </Button>
-
-      <canvas ref={canvasRef} style={{ display: "none" }} />
     </div>
   );
 }
