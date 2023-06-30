@@ -21,10 +21,10 @@ from ai.tmp_modules_for_async.face_mosaic import face_mosaic
 class UploadTestView(APIView):
     def post(self, request):
         video = request.FILES['video']
-        thumbnail = request.FILES['thumbnail']
+        # thumbnail = request.FILES['thumbnail']
 
         video_file_extension = '.' + video.name.split('.')[-1]
-        thumbnail_file_extension = '.' + thumbnail.name.split('.')[-1]
+        # thumbnail_file_extension = '.' + thumbnail.name.split('.')[-1]
         user_info = get_user_info_from_token(request)
         user_id = user_info['userId']
         video_uuid = str(uuid.uuid4()).replace('-', '')
@@ -33,7 +33,8 @@ class UploadTestView(APIView):
 
         # json 파일 업로드 - 댄서블 & 댄서 영상에만..
         videopath = save_tmp_video(video, user_id)
-        json_obj = video_to_keypoint.delay(videopath)
+        video_to_keypoint.delay(videopath)
+
         # bucket_name = 'dancify-bucket'
         # folder_path = f'key-points/{user_id}/'
         # file_key = folder_path + video_uuid + '.json'

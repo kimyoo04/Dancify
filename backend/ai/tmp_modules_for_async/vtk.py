@@ -12,8 +12,6 @@ import cv2
 import os
 import tensorflow as tf
 import json
-import random
-import string
 
 from celery import shared_task
 

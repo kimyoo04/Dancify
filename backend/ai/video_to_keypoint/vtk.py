@@ -15,10 +15,7 @@ import json
 import random
 import string
 
-from celery import shared_task
 
-
-@shared_task
 def video_to_keypoint(videoname):
     '''
     ---------------함수 설명---------------
