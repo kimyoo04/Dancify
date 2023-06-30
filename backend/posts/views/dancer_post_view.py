@@ -2,6 +2,7 @@ import re
 import os
 
 from django.http import JsonResponse
+from django.db import transaction
 from django.db.models import F
 from django.core.exceptions import ValidationError
 from django.conf import settings
@@ -127,6 +128,7 @@ class DancerPostViewSet(BasePostViewSet):
 
         return JsonResponse(response_data, status=status.HTTP_201_CREATED)
 
+    @transaction.atomic
     def partial_update(self, request, *args, **kwargs):
         try:
             user_info = get_user_info_from_token(request)
