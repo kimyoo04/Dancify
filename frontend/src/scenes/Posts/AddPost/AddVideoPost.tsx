@@ -10,8 +10,11 @@ import UploadVideo from "@components/UploadVideo";
 import { useCreateVideoPostMutation } from "@api/posts/createVideoPost";
 import PreviewVideoUrl from "../PostItem/PreviewVideoUrl";
 import MosaicCheckBox from "@components/MosaicCheckBox.tsx";
+import { ReloadIcon } from "@radix-ui/react-icons";
 
 export default function AddVideoPost() {
+  const [isWait, setIsWait] = useState(false)
+
   // 동영상
   const [videoFileName, setVideoFileName] = useState<string>("");
   const [videoFile, setVideoFile] = useState<File>();
@@ -31,7 +34,7 @@ export default function AddVideoPost() {
     };
   }, [videoPreview]);
 
-  const { mutateAsync } = useCreateVideoPostMutation();
+  const { mutateAsync, isLoading } = useCreateVideoPostMutation();
 
   const onSubmit = async () => {
     // title, content, video 필수
@@ -47,13 +50,11 @@ export default function AddVideoPost() {
     if (videoFile) formData.append("video", videoFile);
 
     // 얼굴 모자이크 유무 넣기
-    console.log(`${isMosaic}`);
-    formData.append("isMosaic", `${isMosaic}`); // "true" "false"
+    formData.append("mosaic", `${isMosaic}`); // "true" "false"
 
-    // POST 요청
-    mutateAsync(formData);
-    await new Promise((resolve) => setTimeout(resolve, 500));
-
+    //! POST 요청 및 썸네일 생성을 위한 5초 대기
+    setIsWait(true);
+    await mutateAsync(formData);
     return;
   };
 
@@ -77,10 +78,16 @@ export default function AddVideoPost() {
 
       {/* 얼굴 모자이크 유무 */}
       <MosaicCheckBox />
-
-      <Button className="w-full" onClick={onSubmit}>
-        작성 완료
-      </Button>
+      {isLoading || isWait ? (
+        <Button disabled className="w-full">
+          <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
+          잠시만 기다려주세요.
+        </Button>
+      ) : (
+        <Button className="w-full" onClick={onSubmit}>
+          작성 완료
+        </Button>
+      )}
     </div>
   );
 }
