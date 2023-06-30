@@ -24,8 +24,12 @@ class EndPartDanceView(APIView):
         try:
             user_info = get_user_info_from_token(request)
             user_id = user_info['userId']
+            is_dancer = user_info['isDancer']
         except (TokenError, KeyError):
             return Response(status=status.HTTP_401_UNAUTHORIZED)
+
+        if is_dancer:
+            return Response(status=status.HTTP_403_FORBIDDEN)
 
         data = request.data
 
@@ -70,8 +74,12 @@ class StartPracticeView(APIView):
         try:
             user_info = get_user_info_from_token(request)
             user_id = user_info['userId']
+            is_dancer = user_info['isDancer']
         except (TokenError, KeyError):
             return Response(status=status.HTTP_401_UNAUTHORIZED)
+
+        if is_dancer:
+            return Response(status=status.HTTP_403_FORBIDDEN)
 
         post_id = request.data['postId']
         try:
