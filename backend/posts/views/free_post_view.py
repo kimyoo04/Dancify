@@ -72,7 +72,7 @@ class FreePostViewSet(BasePostViewSet):
 
         return Response(status=status.HTTP_201_CREATED)
 
-    def update(self, request, *args, **kwargs):
+    def partial_update(self, request, *args, **kwargs):
         try:
             user_info = get_user_info_from_token(request)
 
