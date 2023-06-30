@@ -95,6 +95,7 @@ class FreePostGetRetrieveSerializer(serializers.ModelSerializer):
                 'commentId': comment.comment_id,
                 'userId': comment.user.user_id,
                 'nickname': comment.user.nickname,
+                'profileImage': comment.user.profile_image,
                 'content': comment.content,
                 'createDate': comment.create_date
             }
