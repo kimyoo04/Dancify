@@ -1,6 +1,5 @@
 import Webcam from "react-webcam";
 import React from "react";
-import { useAppSelector } from "@toolkit/hook";
 import { poseSimilarity } from "@ai/utils/posesim";
 import { drawKeypoints, drawSkeleton } from "@ai/utilities";
 
@@ -146,7 +145,8 @@ export async function runMovenet(
     avgScore: number,
     poseMessages: IPoseMessages,
     keypointJson: poseType[][]
-  ) => void
+  ) => void,
+  forceCallback: () => void
 ) {
   //구간의 실시간 댄서블 keypoint 점수
   const danceableJson: poseType[][] = [];
@@ -166,6 +166,7 @@ export async function runMovenet(
   };
 
   const webcamRecodeFile = "수정 예정";
+  console.log("새 구간 실행");
 
   const drawPerSec = setInterval(async () => {
     //webcam의 video tag로 width, height 추출
@@ -206,6 +207,7 @@ export async function runMovenet(
         }
 
         indx += 1; //다음 이미지 비교
+        console.log("current", indx);
       }
     }
 
@@ -215,6 +217,7 @@ export async function runMovenet(
       console.log(indx);
       clearInterval(drawPerSec);
       clearCanvas(canvas);
+      forceCallback();
       isForceEnd.current = false;
       //정상적으로 끝나면 setInterval 멈춤
     } else if (indx === dancerJson.length) {

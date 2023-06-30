@@ -58,7 +58,6 @@ export default function Play({
 
   const sectionForceEnd = async () => {
     isForceEnd.current = true;
-    dispatch(practiceActions.moveNextSection());
   };
 
   return (

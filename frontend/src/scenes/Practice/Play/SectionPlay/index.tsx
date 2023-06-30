@@ -21,7 +21,7 @@ export default function SectionPlay({
 }: {
   data: IPractice;
   detector: poseDetection.PoseDetector;
-  isForceEnd: React.MutableRefObject<boolean>,
+  isForceEnd: React.MutableRefObject<boolean>;
 }) {
   const dispatch = useAppDispatch();
 
@@ -145,7 +145,12 @@ export default function SectionPlay({
 
   useEffect(() => {
     // 구간 끝났을 때 업데이트하고 구간 종료 상태를 설정
-    function resultCallback(video: TVideo, avgScore: number, poseMessages: IPoseMessages, keypointJson:Pose[][]) {
+    function resultCallback(
+      video: TVideo,
+      avgScore: number,
+      poseMessages: IPoseMessages,
+      keypointJson: Pose[][]
+    ) {
       dispatch(
         practiceActions.updateSectionPractice({
           video,
@@ -156,6 +161,16 @@ export default function SectionPlay({
         })
       );
       dispatch(practiceActions.finishSectionPlay());
+    }
+
+    function forceCallback() {
+      dispatch(practiceActions.finishSectionPlay());
+      const timer = setTimeout(() => {
+        dispatch(practiceActions.moveNextSection());
+      }, 100);
+      return () => {
+        clearTimeout(timer);
+      };
     }
 
     if (isFullBody) {
@@ -170,12 +185,16 @@ export default function SectionPlay({
           dancer_json,
           setPoseMessage,
           resultCallback,
+          forceCallback
         );
       }, 5000);
 
-      return () => clearTimeout(timer);
+      return () => {
+        clearTimeout(timer);
+        console.log("unmount");
+      };
     }
-  }, [isFullBody, detector, sectionId, dispatch]);
+  }, [isFullBody, detector, sectionId, dispatch, isForceEnd]);
 
   return (
     <div className="row-center w-full gap-10">
