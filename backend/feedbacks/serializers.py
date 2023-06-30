@@ -17,11 +17,12 @@ class DanceableFeedbackListSerializer(BaseFeedbackListSerializer):
     댄서블 입장에서의 피드백 목록 (댄서의 닉네임이 보여야 함)
     """
     nickname = serializers.CharField(source='dancer_post.user.nickname')
+    profileImage = serializers.URLField(source='dancer_post.user.profile_image')
 
     class Meta:
         model = FeedbackPost
         fields = ['feedbackId', 'thumbnail', 'genre', 'title',
-                  'nickname', 'status', 'createDate']
+                  'nickname', 'profileImage', 'status', 'createDate']
         ref_name = 'DanceableFeedbackPostListSerializer'
 
 
@@ -30,11 +31,12 @@ class DancerFeedbackListSerializer(BaseFeedbackListSerializer):
     댄서 입장에서의 피드백 목록 (댄서블의 닉네임이 보여야 함)
     """
     nickname = serializers.CharField(source='user.nickname')
+    profileImage = serializers.URLField(source='user.profile_image')
 
     class Meta:
         model = FeedbackPost
         fields = ['feedbackId', 'thumbnail', 'genre', 'title',
-                  'nickname', 'status', 'createDate']
+                  'nickname', 'profileImage', 'status', 'createDate']
         ref_name = 'DancerFeedbackListSerializer'
 
 

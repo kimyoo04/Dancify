@@ -1,9 +1,9 @@
 from django.urls import path
 
-from . import comment_views
+from . import views
 
 
 urlpatterns = [
-    path('', comment_views.comment_create),
-    path('/<str:comment_id>', comment_views.comment_patch_delete),
+    path('', views.comment_create),
+    path('/<str:comment_id>', views.comment_patch_delete),
 ]
