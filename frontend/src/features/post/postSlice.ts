@@ -2,7 +2,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 // types
-import { IPostEditorState, IFreePostInfo, ITimeStamp } from "@type/postEditor";
+import { IPostEditorState, IFreePostInfo, ITimeStamp, IVideoPostInfo } from "@type/postEditor";
 import { TContent, TTitle } from "@type/posts";
 
 const initialState: IPostEditorState = {
@@ -12,6 +12,8 @@ const initialState: IPostEditorState = {
   postId: "",
   postTitle: "",
   postContent: "",
+  postImage: "",
+  postVideo: "",
   feedbackPrice: 0,
   timeStamps: [],
 };
@@ -21,10 +23,19 @@ const postSlice = createSlice({
   initialState,
   reducers: {
     // 자유 게시판만 고려
-    getPostInfo: (state, actions: PayloadAction<IFreePostInfo>) => {
+    getFreePostInfo: (state, actions: PayloadAction<IFreePostInfo>) => {
       state.postId = actions.payload.postId;
       state.postTitle = actions.payload.postTitle;
       state.postContent = actions.payload.postContent;
+      state.postImage = actions.payload.postImage;
+    },
+
+    // 자유 게시판만 고려
+    getVideoPostInfo: (state, actions: PayloadAction<IVideoPostInfo>) => {
+      state.postId = actions.payload.postId;
+      state.postTitle = actions.payload.postTitle;
+      state.postContent = actions.payload.postContent;
+      state.postVideo = actions.payload.postVideo;
     },
 
     // 댄서, 자랑, 자유 게시판 가능

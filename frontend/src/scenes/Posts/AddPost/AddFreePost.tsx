@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { Button } from "@components/ui/button";
 import UploadImage from "@components/UploadImage";
 import { postActions } from "@features/post/postSlice";
+import PreviewImageFile from "../PostItem/PreviewImageFile";
 
 export default function AddFreePost() {
   const dispatch = useAppDispatch()
@@ -43,13 +44,23 @@ export default function AddFreePost() {
 
   return (
     <div className="mx-auto max-w-2xl space-y-4">
-      <TitleForm isUpdate={false}/>
-      <Tiptap isUpdate={false}/>
+      {/* 제목 텍스트 필드 */}
+      <TitleForm isUpdate={false} />
+
+      {/* 내용 작성 에디터 */}
+      <Tiptap isUpdate={false} />
+
+      {/* 이미지 드레그 앤 드롭 영역 */}
       <UploadImage
         fileName={fileName}
         setFileName={setFileName}
         setImageFile={setImageFile}
       />
+
+      {/* 이미지 미리보기 */}
+      {imageFile && <PreviewImageFile imageFile={imageFile} />}
+
+      {/* 왼료 버튼 */}
       <Button className="w-full" onClick={onSubmit}>
         작성 완료
       </Button>

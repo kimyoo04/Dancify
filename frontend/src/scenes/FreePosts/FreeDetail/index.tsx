@@ -23,10 +23,11 @@ export default function FreePostDetail({ id }: { id: string }) {
     if (data) {
       dispatch(likeActions.getUserLike(data.userLike));
       dispatch(
-        postActions.getPostInfo({
+        postActions.getFreePostInfo({
           postId: id,
           postTitle: data.title,
           postContent: data.content,
+          postImage: data.postImage || "",
         })
       );
     }

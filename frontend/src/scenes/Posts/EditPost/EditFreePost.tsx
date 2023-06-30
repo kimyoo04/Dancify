@@ -1,4 +1,4 @@
-import {  useState } from "react";
+import { useState } from "react";
 import {useAppSelector } from "@toolkit/hook";
 
 import Tiptap from "@components/tiptap";
@@ -8,11 +8,13 @@ import { Button } from "@components/ui/button";
 import UploadImage from "@components/UploadImage";
 
 import { useUpdateFreePost } from "@api/posts/updateFreePost";
+import PreviewImageUrl from "../PostItem/PreviewImageUrl";
+import PreviewImageFile from "../PostItem/PreviewImageFile";
 
 export default function EditFreePost({ id }: { id: string }) {
   const [fileName, setFileName] = useState<string>("");
   const [imageFile, setImageFile] = useState<File>();
-  const { postTitle, postContent } = useAppSelector((state) => state.post);
+  const { postTitle, postContent, postImage } = useAppSelector((state) => state.post);
 
   const { mutateAsync } = useUpdateFreePost();
 
@@ -38,13 +40,23 @@ export default function EditFreePost({ id }: { id: string }) {
 
   return (
     <div className="mx-auto max-w-2xl space-y-4">
-      <TitleForm isUpdate={true}/>
-      <Tiptap isUpdate={true}/>
+      {/* 제목 텍스트 필드 */}
+      <TitleForm isUpdate={true} />
+
+      {/* 내용 작성 에디터 */}
+      <Tiptap isUpdate={true} />
+
+      {/* 이미지 드레그 앤 드롭 영역 */}
       <UploadImage
         fileName={fileName}
         setFileName={setFileName}
         setImageFile={setImageFile}
       />
+
+      {/* 이미지 미리보기 */}
+      {imageFile && <PreviewImageFile imageFile={imageFile} />}
+      {!imageFile && postImage !== "" && <PreviewImageUrl imageUrl={postImage} />}
+
       <Button className="w-full" onClick={onSubmit}>
         수정 완료
       </Button>
