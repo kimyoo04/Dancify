@@ -8,6 +8,8 @@ import { FontSize } from "@components/tiptap/FontSizeExtension";
 
 import { useAppDispatch, useAppSelector } from "@toolkit/hook";
 import { feedbackActions } from "@features/feedback/feedbackSlice";
+import { useCallback } from "react";
+import debounce from "@util/debounce";
 
 const DancerTipTap = ({ timeStamp }: { timeStamp: number }) => {
   const dispatch = useAppDispatch();
@@ -16,6 +18,14 @@ const DancerTipTap = ({ timeStamp }: { timeStamp: number }) => {
   const index = dancerMessage.findIndex(
     (msg) => msg.timeStamp === timeStamp
   );
+
+  const onUpdate = useCallback(
+    debounce(({timeStamp, message}) => {
+      dispatch(feedbackActions.writingDancerMessage({timeStamp, message }));
+    }, 500),
+    []
+  );
+
 
   const editor = useEditor({
     editorProps: {
@@ -35,21 +45,21 @@ const DancerTipTap = ({ timeStamp }: { timeStamp: number }) => {
       }),
     ],
     content: dancerMessage[index].message && "",
-    onUpdate: ({ editor }) => {
-      // 문서 내용을 수정했을 때 실시간으로 dispatch 해서 저장
-      dispatch(
-        feedbackActions.writingDancerMessage({
-          timeStamp,
-          message: editor.getHTML(),
-        })
-      );
-    },
+    onUpdate: ({ editor }) =>
+      onUpdate({
+        timeStamp,
+        message: editor.getHTML(),
+      }),
   });
 
   return (
-    <div onClick={() => editor?.chain().focus()}>
-      <EditorContent editor={editor} />
-    </div>
+    <>
+      {editor && (
+        <div onClick={() => editor?.chain().focus()}>
+          <EditorContent editor={editor} />
+        </div>
+      )}
+    </>
   );
 };
 

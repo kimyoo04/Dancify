@@ -11,14 +11,22 @@ import {
   FormMessage,
 } from "@components/ui/form";
 import { Input } from "@components/ui/input";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { postActions } from "@features/post/postSlice";
 import { useAppDispatch, useAppSelector } from "@toolkit/hook";
+import debounce from "@util/debounce";
 
 const TitleForm = ({isUpdate}: {isUpdate:boolean}) => {
   const dispatch = useAppDispatch();
   const [isLoading] = useState<boolean>(false);
   const postTitle = useAppSelector((state) => state.post.postTitle); // 수정 데이터
+
+  const onUpdate = useCallback(
+    debounce((content) => {
+      dispatch(postActions.writingContent(content));
+    }, 500),
+    []
+  );
 
   const form = useForm<IPostTitleForm>();
   const onSubmit = async (data: IPostTitleForm) => {
@@ -62,12 +70,12 @@ const TitleForm = ({isUpdate}: {isUpdate:boolean}) => {
                       autoCapitalize="none"
                       autoComplete="false"
                       autoCorrect="off"
-                      defaultValue={postTitle !== "" && isUpdate ? postTitle : ""}
+                      defaultValue={
+                        postTitle !== "" && isUpdate ? postTitle : ""
+                      }
                       disabled={isLoading}
                       {...field}
-                      onChange={(data) => {
-                        dispatch(postActions.writingTitle(data.target.value));
-                      }}
+                      onChange={(data) => onUpdate(data.target.value)}
                     />
                   </FormControl>
                   <FormMessage className="text-xs" />
