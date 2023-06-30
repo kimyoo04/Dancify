@@ -1,14 +1,10 @@
 import Webcam from "react-webcam";
-
+import React from "react";
+import { useAppSelector } from "@toolkit/hook";
 import { poseSimilarity } from "@ai/utils/posesim";
 import { drawKeypoints, drawSkeleton } from "@ai/utilities";
 
-import {
-  IPoseMessages,
-  ISection,
-  TPlayIndex,
-  TSectionId,
-} from "@type/practice";
+import { IPoseMessages } from "@type/practice";
 import { Pose as poseType } from "@type/moveNet";
 import { TVideo } from "@type/posts";
 
@@ -139,9 +135,7 @@ export async function danceableBodyCheck(
 }
 
 export async function runMovenet(
-  playIndex: TPlayIndex,
-  sections: ISection[],
-  sectionId: TSectionId,
+  isForceEnd: React.MutableRefObject<boolean>,
   webcamRef: React.RefObject<Webcam>,
   canvasRef: React.RefObject<HTMLCanvasElement>,
   detector: poseDetection.PoseDetector,
@@ -157,11 +151,6 @@ export async function runMovenet(
   //구간의 실시간 댄서블 keypoint 점수
   const danceableJson: poseType[][] = [];
 
-  // sectionId에 해당하는 sections의 인덱스 추출
-  const sectionIndex = sections.findIndex(
-    (section) => section.sectionId === sectionId
-  );
-
   //구간의 평균 유사도 점수
   let avgCosineDistance = 0;
   let oneSecCosineDistance = 0; // 1초동안의 유사도 점수(miss, good, great, excellent)
@@ -176,7 +165,7 @@ export async function runMovenet(
     Excellent: 0,
   };
 
-  const webcamRecodeFile = '수정 예정';
+  const webcamRecodeFile = "수정 예정";
 
   const drawPerSec = setInterval(async () => {
     //webcam의 video tag로 width, height 추출
@@ -221,18 +210,26 @@ export async function runMovenet(
     }
 
     //강제 종료
-    if (playIndex !== sectionIndex) {
-      console.log('🚫 구간 중지')
+    if (isForceEnd.current) {
+      console.log("🚫 구간 연습 중지");
+      console.log(indx);
       clearInterval(drawPerSec);
       clearCanvas(canvas);
+      isForceEnd.current = false;
       //정상적으로 끝나면 setInterval 멈춤
     } else if (indx === dancerJson.length) {
-      console.log('🚀 구간 연습 완료')
+      console.log("🚀 구간 연습 완료");
+      console.log(indx);
       clearInterval(drawPerSec);
       clearCanvas(canvas);
       avgCosineDistance =
         Math.round((avgCosineDistance / indx - 1) * 100) / 100;
-      updateCallback(webcamRecodeFile, avgCosineDistance, postMessages, danceableJson);
+      updateCallback(
+        webcamRecodeFile,
+        avgCosineDistance,
+        postMessages,
+        danceableJson
+      );
     }
   }, 1000 / 15); //! 15 fps
 }

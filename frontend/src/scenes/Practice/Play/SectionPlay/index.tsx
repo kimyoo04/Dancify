@@ -17,9 +17,11 @@ import { dancer_json } from "@ai/dancer_json_list";
 export default function SectionPlay({
   data,
   detector,
+  isForceEnd,
 }: {
   data: IPractice;
   detector: poseDetection.PoseDetector;
+  isForceEnd: React.MutableRefObject<boolean>,
 }) {
   const dispatch = useAppDispatch();
 
@@ -147,7 +149,7 @@ export default function SectionPlay({
       dispatch(
         practiceActions.updateSectionPractice({
           video,
-          sectionId: data.sections[playIndex].sectionId,
+          sectionId,
           score: avgScore,
           keypointJson,
           poseMessages,
@@ -159,22 +161,21 @@ export default function SectionPlay({
     if (isFullBody) {
       const timer = setTimeout(() => {
         dispatch(practiceActions.playVideo());
+
         runMovenet(
-          playIndex,
-          data.sections,
-          sectionId,
+          isForceEnd,
           webcamRef,
           canvasRef,
           detector,
           dancer_json,
           setPoseMessage,
-          resultCallback
+          resultCallback,
         );
       }, 5000);
 
       return () => clearTimeout(timer);
     }
-  }, [isFullBody, detector, sectionId, dispatch, data.sections, playIndex]);
+  }, [isFullBody, detector, sectionId, dispatch]);
 
   return (
     <div className="row-center w-full gap-10">

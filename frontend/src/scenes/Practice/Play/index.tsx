@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import { IPractice } from "@type/practice";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { useAppDispatch, useAppSelector } from "@toolkit/hook";
 import { practiceActions } from "@features/practice/practiceSlice";
 import * as poseDetection from "@tensorflow-models/pose-detection";
@@ -22,8 +22,14 @@ export default function Play({
 }) {
   const router = useRouter();
   const dispatch = useAppDispatch();
-  const { isFinished, playIndex, feedbackId, selectedSections, sectionPracticeArr } =
-    useAppSelector((state) => state.practice);
+  const {
+    isFinished,
+    playIndex,
+    feedbackId,
+    selectedSections,
+    sectionPracticeArr,
+  } = useAppSelector((state) => state.practice);
+  const isForceEnd = useRef(false);
 
   // 새로고침 및 뒤로가기 방지
   useEffect(() => {
@@ -50,13 +56,18 @@ export default function Play({
     dispatch(practiceActions.moveNextSection());
   };
 
+  const sectionForceEnd = async () => {
+    isForceEnd.current = true;
+    dispatch(practiceActions.moveNextSection());
+  };
+
   return (
     <div className="h-full w-screen">
       <MainWrapper>
         {isFinished ? (
           <SectionResult data={data} />
         ) : (
-          <SectionPlay data={data} detector={detector} />
+          <SectionPlay data={data} detector={detector} isForceEnd={isForceEnd}/>
         )}
       </MainWrapper>
 
@@ -70,9 +81,7 @@ export default function Play({
           <Button onClick={sectionEnd}>다음 구간</Button>
         ) : (
           //강제 이동
-          <Button onClick={() => dispatch(practiceActions.moveNextSection())}>
-            다음 구간
-          </Button>
+          <Button onClick={sectionForceEnd}>다음 구간</Button>
         )}
       </BottomWrapper>
     </div>
