@@ -6,8 +6,12 @@ import { IUpdatePost } from "@type/posts";
 import { useRouter } from "next/router";
 
 // 자유게시글 Update
-export const updateFreePost = async ({postId, formData}: IUpdatePost) => {
-  const response = await axios.patch(`/posts/free/${postId}`, formData);
+export const updateFreePost = async ({ postId, formData }: IUpdatePost) => {
+  const response = await axios.patch(`/posts/free/${postId}`, formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
   return response;
 };
 
@@ -24,6 +28,9 @@ export const useUpdateFreePost = () => {
   return useMutation({
     mutationFn: updateFreePost,
     onSuccess: async (_, variables) => {
+      await queryClient.invalidateQueries({
+        queryKey: [`/postDetail/${variables.postId}`],
+      });
       await queryClient.invalidateQueries({
         queryKey: [
           `/posts/free`,
