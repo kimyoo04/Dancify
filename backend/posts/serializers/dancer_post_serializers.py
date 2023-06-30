@@ -29,14 +29,13 @@ class DancerPostInfoSerializer(serializers.ModelSerializer):
     postId = serializers.UUIDField(source='post_id')
     userId = serializers.CharField(source='user.user_id')
     nickname = serializers.CharField(source='user.nickname')
-    profileImage = serializers.URLField(source='user.profile_image')
     createDate = serializers.DateTimeField(source='create_date')
     feedbackPrice = serializers.IntegerField(source='feedback_price')
 
     class Meta:
         model = DancerPost
         ref_name = 'DancerPostInfoSerializer'
-        fields = ['postId', 'genre', 'title', 'userId', 'nickname', 'profileImage'
+        fields = ['postId', 'genre', 'title', 'userId', 'nickname',
                   'content', 'createDate', 'video', 'thumbnail',
                   'views', 'feedbackPrice']
 
@@ -63,6 +62,7 @@ class DancerPostGetListSerializer(DancerPostInfoSerializer):
     - !totalVideoLength: 전체 영상 길이
     - feedbackPrice: 피드백 가격
     """
+    profileImage = serializers.URLField(source='user.profile_image')
     commentsCount = serializers.SerializerMethodField()
     likesCount = serializers.SerializerMethodField()
 
@@ -103,6 +103,7 @@ class DancerPostGetRetrieveSerializer(DancerPostInfoSerializer):
     - feedbackPrice: 피드백 가격
     - comments: 댓글 정보 리스트
     """
+    profileImage = serializers.URLField(source='user.profile_image')
     likesCount = serializers.SerializerMethodField()
     userLike = serializers.SerializerMethodField()
     comments = serializers.SerializerMethodField()
@@ -138,7 +139,7 @@ class DancerPostGetRetrieveSerializer(DancerPostInfoSerializer):
 
     class Meta:
         model = DancerPost
-        fields = ['postId', 'genre', 'title', 'userId', 'nickname',
+        fields = ['postId', 'genre', 'title', 'userId', 'nickname', 'profileImage',
                   'content', 'createDate', 'video', 'thumbnail',
                   'views', 'likesCount', 'userLike', 'feedbackPrice', 'comments']
         ref_name = 'DancerPostGetRetrieveSerializer'
