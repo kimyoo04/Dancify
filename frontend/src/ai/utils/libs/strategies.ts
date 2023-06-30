@@ -23,8 +23,9 @@ export function cosineDistanceMatching(
   vectorPose2XY: number[]
 ): number {
   const cosSimilarity = cosineSimilarity(vectorPose1XY, vectorPose2XY);
-
-  return Math.sqrt(2 * (1 - cosSimilarity));
+  const score = Math.sqrt(2 * (1 - cosSimilarity));
+  const scaledScore = 100 - (Math.round((score / Math.sqrt(2)) * 10000) / 100);
+  return scaledScore;
 }
 
 export function weightedDistanceMatching(
