@@ -13,13 +13,13 @@ import MosaicCheckBox from "@components/MosaicCheckBox.tsx";
 import { ReloadIcon } from "@radix-ui/react-icons";
 
 export default function AddVideoPost() {
-  const [isWait, setIsWait] = useState(false)
+  const [isWait, setIsWait] = useState(false);
 
   // 동영상
   const [videoFileName, setVideoFileName] = useState<string>("");
   const [videoFile, setVideoFile] = useState<File>();
 
-  // 제목과 내용
+  // 제목, 내용, 모자이크 유무
   const { postTitle, postContent, isMosaic } = useAppSelector(
     (state) => state.post
   );
@@ -34,6 +34,7 @@ export default function AddVideoPost() {
     };
   }, [videoPreview]);
 
+  // 요청 함수
   const { mutateAsync, isLoading } = useCreateVideoPostMutation();
 
   const onSubmit = async () => {
@@ -78,6 +79,8 @@ export default function AddVideoPost() {
 
       {/* 얼굴 모자이크 유무 */}
       <MosaicCheckBox />
+
+      {/* 작성 완료 버튼 */}
       {isLoading || isWait ? (
         <Button disabled className="w-full">
           <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />

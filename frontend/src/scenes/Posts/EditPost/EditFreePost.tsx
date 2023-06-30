@@ -9,8 +9,11 @@ import UploadImage from "@components/UploadImage";
 
 import { useUpdateFreePost } from "@api/posts/updateFreePost";
 import PreviewImageUrl from "../PostItem/PreviewImageUrl";
+import { ReloadIcon } from "@radix-ui/react-icons";
 
 export default function EditFreePost({ id }: { id: string }) {
+  const [isWait, setIsWait] = useState(false);
+
   const [fileName, setFileName] = useState<string>("");
   const [imageFile, setImageFile] = useState<File>();
   const { postTitle, postContent, postImage } = useAppSelector(
@@ -26,7 +29,7 @@ export default function EditFreePost({ id }: { id: string }) {
     };
   }, [imagePreview]);
 
-  const { mutateAsync } = useUpdateFreePost();
+  const { mutateAsync, isLoading } = useUpdateFreePost();
 
   const onSubmit = async () => {
     // title, content 필수
@@ -41,7 +44,8 @@ export default function EditFreePost({ id }: { id: string }) {
     formData.append("title", postTitle);
     formData.append("content", postContent);
 
-    // POST 요청
+    //! PATCH 요청
+    setIsWait(true);
     mutateAsync({ postId: id, formData });
     await new Promise((resolve) => setTimeout(resolve, 500));
 
@@ -63,15 +67,23 @@ export default function EditFreePost({ id }: { id: string }) {
         setImageFile={setImageFile}
       />
 
-      {/* 이미지 미리보기 */}
+      {/* 기존 이미지 or 새로운 이미지 미리보기 */}
       {imagePreview && <PreviewImageUrl imageUrl={imagePreview} />}
       {!imageFile && postImage !== "" && (
         <PreviewImageUrl imageUrl={postImage} />
       )}
 
-      <Button className="w-full" onClick={onSubmit}>
-        수정 완료
-      </Button>
+      {/* 작성 완료 버튼 */}
+      {isLoading || isWait ? (
+        <Button disabled className="w-full">
+          <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
+          잠시만 기다려주세요.
+        </Button>
+      ) : (
+        <Button className="w-full" onClick={onSubmit}>
+          수정 완료
+        </Button>
+      )}
     </div>
   );
 }
