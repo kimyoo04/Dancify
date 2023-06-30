@@ -28,39 +28,39 @@ class UploadTestView(APIView):
         user_id = user_info['userId']
         video_uuid = str(uuid.uuid4()).replace('-', '')
 
-        s3 = get_s3_client()
+        # s3 = get_s3_client()
 
         # json 파일 업로드 - 댄서블 & 댄서 영상에만..
-        json_obj = video_to_keypoint(video)
-        bucket_name = 'dancify-bucket'
-        folder_path = f'key-points/{user_id}/'
-        file_key = folder_path + video_uuid + '.json'
+        json_obj = video_to_keypoint.delay(video)
+        # bucket_name = 'dancify-bucket'
+        # folder_path = f'key-points/{user_id}/'
+        # file_key = folder_path + video_uuid + '.json'
 
-        s3.put_object(Bucket=bucket_name, Key=folder_path)
-        s3.upload_fileobj(io.BytesIO(json_obj.encode()), bucket_name, file_key)
+        # s3.put_object(Bucket=bucket_name, Key=folder_path)
+        # s3.upload_fileobj(io.BytesIO(json_obj.encode()), bucket_name, file_key)
 
         # 썸네일 업로드
-        bucket_name = 'dancify-bucket'
-        folder_path = f'thumbnail/{user_id}/'
-        file_key = folder_path + video_uuid + thumbnail_file_extension
+        # bucket_name = 'dancify-bucket'
+        # folder_path = f'thumbnail/{user_id}/'
+        # file_key = folder_path + video_uuid + thumbnail_file_extension
 
-        s3.put_object(Bucket=bucket_name, Key=folder_path)
-        s3.upload_fileobj(io.BytesIO(thumbnail.read()), bucket_name, file_key)
+        # s3.put_object(Bucket=bucket_name, Key=folder_path)
+        # s3.upload_fileobj(io.BytesIO(thumbnail.read()), bucket_name, file_key)
 
         # 영상 업로드
         # 파일 포인터를 맨 앞으로 위치시킴
         video.seek(0)
-        bucket_name = 'dancify-input'
-        folder_path = f'vod/danceable/{user_id}/'
-        file_key = folder_path + video_uuid + video_file_extension
+        # bucket_name = 'dancify-input'
+        # folder_path = f'vod/danceable/{user_id}/'
+        # file_key = folder_path + video_uuid + video_file_extension
 
-        video = face_mosaic(video)
+        video = face_mosaic.delay(video)
 
-        s3.put_object(Bucket=bucket_name, Key=folder_path)
-        s3.upload_fileobj(io.BytesIO(video), bucket_name, file_key)
+        # s3.put_object(Bucket=bucket_name, Key=folder_path)
+        # s3.upload_fileobj(io.BytesIO(video), bucket_name, file_key)
 
         # 클라이언트 해제
-        s3.close()
+        # s3.close()
 
         return JsonResponse({"message": "success!"})
 
