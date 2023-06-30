@@ -15,7 +15,7 @@ export const createDancerPost = async (postData: FormData) => {
     });
     return true;
   } catch (err) {
-    console.log("🚀 createDancePost:", err);
+    console.error("🚀 createDancePost:", err);
     return false;
   }
 };
@@ -47,7 +47,7 @@ export const useCreateDancerPostMutation = () => {
       router.push("/");
     },
     onError: (err) => {
-      console.log("🚀 useCreateDancerPostMutation:", err);
+      console.error("🚀 useCreateDancerPostMutation:", err);
     },
   });
 };

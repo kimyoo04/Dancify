@@ -17,5 +17,8 @@ export const useReadFeedbacks = () => {
     queryKey: [`/feedbacks`],
     queryFn: readFeedbacks,
     staleTime: 1000 * 60 * 15, // 15분
+    onError: (err) => {
+      console.error("🚀 useReadFeedbacks.ts", err);
+    },
   });
 };

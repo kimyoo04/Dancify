@@ -17,5 +17,8 @@ export const useReadProfile = () => {
     queryKey: [`/profile`],
     queryFn: readProfile,
     refetchOnMount: "always",
+    onError: (err) => {
+      console.error("🚀 useReadProfile:", err);
+    },
   });
 };

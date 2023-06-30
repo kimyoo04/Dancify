@@ -15,7 +15,7 @@ export const createFreePost = async (postData: FormData) => {
     });
     return true;
   } catch (err) {
-    console.log("🚀 createFreePost:", err);
+    console.error("🚀 createFreePost:", err);
     return false;
   }
 };
@@ -47,7 +47,7 @@ export const useCreateFreePostMutation = () => {
       router.push("/free");
     },
     onError: (err) => {
-      console.log("🚀 useCreateFreePostMutation:", err);
+      console.error("🚀 useCreateFreePostMutation:", err);
     },
   });
 };

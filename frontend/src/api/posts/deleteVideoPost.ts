@@ -25,7 +25,6 @@ export const useDeleteVideoPost = () => {
   const searchKeyword = useAppSelector((state) => state.search.searchKeyword);
   const { sort, genre } = useAppSelector((state) => state.filter);
 
-
   return useMutation({
     mutationFn: deleteVideoPost,
     onSuccess: async (_, postId) => {
@@ -48,8 +47,11 @@ export const useDeleteVideoPost = () => {
       toast({ title: "Success", description: "게시글이 삭제되었습니다." });
     },
     onError: (err) => {
-      console.error(err);
-      toast({ title: "Fail", description: "게시글을 삭제하지 못했습니다." });
+      console.error("🚀 useDeleteVideoPost.ts", err);
+      toast({
+        title: "Fail",
+        description: "게시글을 삭제하지 못했습니다.",
+      });
     },
   });
 };

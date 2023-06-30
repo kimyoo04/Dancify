@@ -11,7 +11,7 @@ export const postPracticeResult = async (data: IPracticeResult) => {
     });
     return true;
   } catch (err) {
-    console.log("🚀 postPracticeResult:", err);
+    console.error("🚀 postPracticeResult:", err);
     return false;
   }
 };
