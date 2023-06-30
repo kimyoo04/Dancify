@@ -2,7 +2,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 // types
-import { IPostEditorState, IFreePostInfo, ITimeStamp, IVideoPostInfo } from "@type/postEditor";
+import { IPostEditorState, IFreePostInfo, ITimeStamp, IVideoPostInfo, IDancerPostInfo } from "@type/postEditor";
 import { TContent, TTitle } from "@type/posts";
 
 const initialState: IPostEditorState = {
@@ -22,20 +22,37 @@ const postSlice = createSlice({
   name: "post",
   initialState,
   reducers: {
-    // 자유 게시판만 고려
+    // 자유 게시판데이터 적용
     getFreePostInfo: (state, actions: PayloadAction<IFreePostInfo>) => {
       state.postId = actions.payload.postId;
+      state.genre = "";
       state.postTitle = actions.payload.postTitle;
       state.postContent = actions.payload.postContent;
       state.postImage = actions.payload.postImage;
+      state.postVideo = "";
+      state.feedbackPrice = 0;
+    },
+
+    // 자랑 게시판만 고려
+    getVideoPostInfo: (state, actions: PayloadAction<IVideoPostInfo>) => {
+      state.postId = actions.payload.postId;
+      state.genre = "";
+      state.postTitle = actions.payload.postTitle;
+      state.postContent = actions.payload.postContent;
+      state.postImage = "";
+      state.postVideo = actions.payload.postVideo;
+      state.feedbackPrice = 0;
     },
 
     // 자유 게시판만 고려
-    getVideoPostInfo: (state, actions: PayloadAction<IVideoPostInfo>) => {
+    getPostDancerInfo: (state, actions: PayloadAction<IDancerPostInfo>) => {
       state.postId = actions.payload.postId;
+      state.genre = actions.payload.genre;
       state.postTitle = actions.payload.postTitle;
       state.postContent = actions.payload.postContent;
+      state.postImage = "";
       state.postVideo = actions.payload.postVideo;
+      state.feedbackPrice = actions.payload.feedbackPrice;
     },
 
     // 댄서, 자랑, 자유 게시판 가능

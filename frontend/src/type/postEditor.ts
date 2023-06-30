@@ -27,6 +27,15 @@ export interface IVideoPostInfo {
   postVideo: string;
 }
 
+export interface IDancerPostInfo {
+  postId: TPostId;
+  genre: string;
+  postTitle: TContent;
+  postContent: TContent;
+  postVideo: string;
+  feedbackPrice: number;
+}
+
 export interface IPostTitleForm {
   title: TTitle;
 }

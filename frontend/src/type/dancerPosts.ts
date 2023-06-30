@@ -1,5 +1,6 @@
 import { TNickname } from "./auth";
 import { TCommentCount, IComment } from "./comments";
+import { TGenreValue } from "./filter";
 import { TLikesCount } from "./like";
 import {
   TContent,
@@ -11,9 +12,10 @@ import {
   TCreateDate,
 } from "./posts";
 
-//! 댄서게시판의 1개 게시글 (확정)
+// 댄서게시판의 1개 게시글
 export interface IDancerPost {
   postId: TPostId;
+  genre: TGenreValue;
   title: TTitle;
   nickname: TNickname;
   content: TContent;
@@ -25,7 +27,7 @@ export interface IDancerPost {
   likesCount: TLikesCount;
   feedbackPrice: TFeedbackPrice;
 }
-//! 댄서게시판의 무한스크롤 데이터 (확정)
+// 댄서게시판의 무한스크롤 데이터
 export interface IDancerPostsPerPage {
   data: IDancerPost[];
   totalPages: number;
@@ -33,9 +35,10 @@ export interface IDancerPostsPerPage {
   totalCount: number;
 }
 
-//! 댄서게시글 상세 페이지 데이터 (확정)
+// 댄서게시글 상세 페이지 데이터
 export interface IDancerPostDetail {
   postId: TPostId;
+  genre: TGenreValue;
   title: TTitle;
   userId: string;
   userLike: boolean;
