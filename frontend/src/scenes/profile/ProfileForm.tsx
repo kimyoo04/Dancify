@@ -26,24 +26,14 @@ import { updateProfile } from "@api/auth/updateProfile";
 import { useAppSelector } from "@toolkit/hook";
 import encodeFileToBase64 from "@util/encodeFileToBase64";
 
-async function getFileFromUrl(url: string) {
-  const res = await fetch(url);
-  const blob = await res.blob();
-  return new File([blob], "image", { type: blob.type });
-}
-
 export default function ProfileForm() {
   const [isLoading] = useState<boolean>(false);
+  const [imageUrl, setImageUrl] = useState<string | undefined>("");
+  const [imageFile, setImageFile] = useState<File | undefined>();
   const { toast } = useToast();
   const userId = useAppSelector((state) => state.auth.userId);
 
-  const form = useForm<ProfileFormValues>({
-    resolver: zodResolver(profileFormSchema),
-  });
-
-  // 선택한 이미지 파일 미리보기 로직
-  const image = form.watch("profileImage");
-  const imagePreview = image ? URL.createObjectURL(image) : undefined;
+  const imagePreview = imageFile ? URL.createObjectURL(imageFile) : undefined;
 
   // 이미지 메모리 누수 처리
   useEffect(() => {
@@ -52,14 +42,16 @@ export default function ProfileForm() {
     };
   }, [imagePreview]);
 
+  const form = useForm<ProfileFormValues>({
+    resolver: zodResolver(profileFormSchema),
+  });
+
   useEffect(() => {
     async function getPofileInfo() {
       const data = await readProfile();
       if (data) {
-        const profileImage = data.profileImage
-          ? await getFileFromUrl(data.profileImage)
-          : undefined;
-        if (profileImage) form.setValue("profileImage", profileImage);
+        const profileImage = data.profileImage ? data.profileImage : undefined;
+        setImageUrl(profileImage)
         const { nickname, email, description } = data;
         form.setValue("nickname", nickname);
         form.setValue("email", email);
@@ -101,8 +93,8 @@ export default function ProfileForm() {
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
         {/* 프로필 이미지 미리보기 */}
         <div className="relative h-20 w-20 overflow-hidden rounded-full">
-          {imagePreview ? (
-            <Image src={imagePreview} alt="preview" width={80} height={80} />
+          {!imagePreview && imageUrl ? (
+            <Image src={imageUrl} alt="preview" width={80} height={80} />
           ) : (
             <Image
               src={"/images/avatar.jpg"}
@@ -111,6 +103,10 @@ export default function ProfileForm() {
               height={80}
               priority
             />
+          )}
+
+          {imagePreview && (
+            <Image src={imagePreview} alt="preview" width={80} height={80} />
           )}
         </div>
 
@@ -127,7 +123,10 @@ export default function ProfileForm() {
                     ref={ref}
                     name={name}
                     onBlur={onBlur}
-                    onChange={(e) => onChange(e.target.files?.[0])}
+                    onChange={(e) => {
+                      setImageFile(e.target.files?.[0]);
+                      onChange(e.target.files?.[0]);
+                    }}
                   />
                 </FormControl>
                 <FormMessage />
