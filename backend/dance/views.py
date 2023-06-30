@@ -10,8 +10,8 @@ from accounts.models import User
 from accounts.authentication import get_user_info_from_token
 from posts.models import DancerPost
 from feedbacks.models import FeedbackPost
-from feedbacks.dance_serializers import DanceableSectionSerializer
 from video_section.models import VideoSection
+from .serializers import DanceableSectionSerializer
 
 from s3_modules.upload import upload_video_with_metadata_to_s3
 from s3_modules.upload import upload_obj_to_s3
@@ -65,7 +65,7 @@ class EndPartDanceView(APIView):
         return Response(status=status.HTTP_200_OK)
 
 
-class StartExerciseView(APIView):
+class StartPracticeView(APIView):
     def post(self, request):
         try:
             user_info = get_user_info_from_token(request)
@@ -74,8 +74,11 @@ class StartExerciseView(APIView):
             return Response(status=status.HTTP_401_UNAUTHORIZED)
 
         post_id = request.data['postId']
-        feedback_post = FeedbackPost(user=User.objects.get(user_id=user_id))
-        feedback_post.dancer_post = DancerPost.objects.get(post_id=post_id)
+        try:
+            feedback_post = FeedbackPost(user=User.objects.get(user_id=user_id))
+            feedback_post.dancer_post = DancerPost.objects.get(post_id=post_id)
+        except (FeedbackPost.DoesNotExist, DancerPost.DoesNotExist):
+            return Response(status=status.HTTP_404_NOT_FOUND)
 
         try:
             feedback_post.full_clean()
