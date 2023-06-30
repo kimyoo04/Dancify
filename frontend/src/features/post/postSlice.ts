@@ -8,6 +8,7 @@ import { TContent, TTitle } from "@type/posts";
 const initialState: IPostEditorState = {
   step: 1,
   isAgree: false,
+  isMosaic: false,
   genre: "",
   postId: "",
   postTitle: "",
@@ -78,6 +79,10 @@ const postSlice = createSlice({
 
     toggleAgree: (state) => {
       state.isAgree = !state.isAgree;
+    },
+
+    toggleMosaic: (state) => {
+      state.isMosaic = !state.isMosaic;
     },
 
     movePrevStep: (state) => {

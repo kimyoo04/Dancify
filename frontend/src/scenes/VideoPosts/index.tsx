@@ -1,4 +1,3 @@
-import GenreButtons from "@components/GenreButtons";
 import VideoPostHeader from "./VideoItem/VideoPostHeader";
 import VideoPostList from "@scenes/VideoPosts/VideoItem/VideoPostList";
 import CreateButton from "@scenes/Posts/PostItem/CreateButton";
@@ -18,8 +17,6 @@ export default function VideoPosts() {
   return (
     <>
       <div className="bg-background">
-        <GenreButtons />
-
         <VideoPostHeader />
 
         {/* 자유게시판 fetch 결과 출력 */}

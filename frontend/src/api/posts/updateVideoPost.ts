@@ -7,12 +7,17 @@ import { useRouter } from "next/router";
 
 // 자랑게시글 Update
 export const updateVideoPost = async ({ postId, formData }: IUpdatePost) => {
-  const response = await axios.patch(`/posts/video/${postId}`, formData, {
-    headers: {
-      "Content-Type": "multipart/form-data",
-    },
-  });
-  return response;
+  try {
+    await axios.patch(`/posts/video/${postId}`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    return true;
+  } catch (err) {
+    console.error(err)
+    return false;
+  }
 };
 
 // useUpdateVideoPost

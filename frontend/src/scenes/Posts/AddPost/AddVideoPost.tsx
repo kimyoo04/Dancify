@@ -9,6 +9,7 @@ import UploadVideo from "@components/UploadVideo";
 
 import { useCreateVideoPostMutation } from "@api/posts/createVideoPost";
 import PreviewVideoUrl from "../PostItem/PreviewVideoUrl";
+import MosaicCheckBox from "@components/MosaicCheckBox.tsx";
 
 export default function AddVideoPost() {
   // 동영상
@@ -16,7 +17,9 @@ export default function AddVideoPost() {
   const [videoFile, setVideoFile] = useState<File>();
 
   // 제목과 내용
-  const { postTitle, postContent } = useAppSelector((state) => state.post);
+  const { postTitle, postContent, isMosaic } = useAppSelector(
+    (state) => state.post
+  );
 
   // 동영상 미리보기 URL
   const videoPreview = videoFile ? URL.createObjectURL(videoFile) : undefined;
@@ -36,12 +39,16 @@ export default function AddVideoPost() {
 
     const formData = new FormData();
 
-    // 비디오파일 넣기
-    if (videoFile) formData.append("video", videoFile);
-
     // 제목과 내용 넣기
     formData.append("title", postTitle);
     formData.append("content", postContent);
+
+    // 비디오파일 넣기
+    if (videoFile) formData.append("video", videoFile);
+
+    // 얼굴 모자이크 유무 넣기
+    console.log(`${isMosaic}`);
+    formData.append("isMosaic", `${isMosaic}`); // "true" "false"
 
     // POST 요청
     mutateAsync(formData);
@@ -69,6 +76,7 @@ export default function AddVideoPost() {
       {videoPreview && <PreviewVideoUrl url={videoPreview} />}
 
       {/* 얼굴 모자이크 유무 */}
+      <MosaicCheckBox />
 
       <Button className="w-full" onClick={onSubmit}>
         작성 완료
