@@ -145,9 +145,35 @@ class DancerPostGetRetrieveSerializer(DancerPostInfoSerializer):
         ref_name = 'DancerPostGetRetrieveSerializer'
 
 
-class DancerPostPostPatchSerializer(serializers.HyperlinkedModelSerializer):
+class DancerPostPostSerializer(serializers.HyperlinkedModelSerializer):
     """
-    POST, PATCH 요청이 들어오면 다음 Json을 받아 요청을 처리하는 Serializer
+    POST 요청이 들어오면 다음 Json을 받아 요청을 처리하는 Serializer
+
+    ___
+    - genre: 장르
+    - title: 게시글 제목
+    - content: 게시글 내용
+    - video: 사진 URL
+    """
+    feedbackPrice = serializers.IntegerField(source='feedback_price')
+
+    def validate(self, attrs):
+        GENRES = ['basic', 'kpop']
+        genre = attrs.get('genre')
+        if genre and genre not in GENRES:
+            raise serializers.ValidationError('올바른 장르를 선택해야 합니다.', code='invalid')
+        return super().validate(attrs)
+
+    class Meta:
+        model = DancerPost
+        fields = ['genre', 'title', 'content', 'video',
+                  'thumbnail', 'feedbackPrice', 'keypoints']
+        ref_name = 'DancerPostPostSerializer'
+
+
+class DancerPostPatchSerializer(serializers.HyperlinkedModelSerializer):
+    """
+    PATCH 요청이 들어오면 다음 Json을 받아 요청을 처리하는 Serializer
 
     ___
     - genre: 장르
@@ -167,4 +193,4 @@ class DancerPostPostPatchSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = DancerPost
         fields = ['genre', 'title', 'content', 'feedbackPrice']
-        ref_name = 'DancerPostPostPatchSerializer'
+        ref_name = 'DancerPostPatchSerializer'
