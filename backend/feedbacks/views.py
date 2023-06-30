@@ -1,9 +1,11 @@
+from django.db import transaction
+from django.db.models import Q
 from django.core.exceptions import ValidationError
 
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.generics import ListAPIView, UpdateAPIView, RetrieveAPIView
+from rest_framework.generics import ListAPIView, UpdateAPIView, RetrieveDestroyAPIView
 from rest_framework_simplejwt.exceptions import TokenError
 
 from .models import DanceableFeedback, DancerFeedback, FeedbackPost, TimeStamp
@@ -61,6 +63,7 @@ class DanceableFeedbackRequestView(UpdateAPIView):
     """
     serializer_class = DanceableFeedbackRequestSerializer
 
+    @transaction.atomic
     def update(self, request, *args, **kwargs):
         try:
             user_info = get_user_info_from_token(request)
@@ -99,6 +102,7 @@ class DanceableFeedbackRequestView(UpdateAPIView):
         return Response(status=status.HTTP_200_OK)
 
 
+
 class DancerFeedbackResponseView(APIView):
     """
     댄서가 피드백에 응답하였을 경우 DB에 메시지를 저장하는 뷰
@@ -115,6 +119,7 @@ class DancerFeedbackResponseView(APIView):
     "video2": 동영상
     ...
     """
+    @transaction.atomic
     def post(self, request, feedback_id, *args, **kwargs):
         try:
             user_info = get_user_info_from_token(request)
@@ -194,9 +199,10 @@ class DancerFeedbackResponseView(APIView):
         return Response(status=status.HTTP_200_OK)
 
 
-class FeedbackDetailView(RetrieveAPIView):
+
+class FeedbackDetailRetrieveDestoryView(RetrieveDestroyAPIView):
     """
-    피드백 요청 상세페이지를 반환하는 뷰
+    피드백 요청 상세페이지를 반환하거나 피드백 아이디에 해당하는 행을 삭제하는 뷰
 
     <종류>
     - 댄서블(신청 전)
@@ -207,6 +213,7 @@ class FeedbackDetailView(RetrieveAPIView):
     총 5가지 종류의 페이지가 있음
 
     GET  /api/feedbacks/<feedback_id>
+    POST /api/feedbacks/<feedback_id>
     """
     serializer_class = FeedbackDetailSerializer
     lookup_field = 'feedback_id'
@@ -220,7 +227,10 @@ class FeedbackDetailView(RetrieveAPIView):
             return Response(status=status.HTTP_401_UNAUTHORIZED)
 
         # 엔드포인트에서 입력받은 feedback_id를 가지고 댄서블 피드백 상세페이지 조회
-        feedback = FeedbackPost.objects.get(feedback_id=feedback_id)
+        try:
+            feedback = FeedbackPost.objects.get(feedback_id=feedback_id)
+        except FeedbackPost.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
 
         # 피드백 상태 (신청 전/대기 중/완료)
         feedback_status = feedback.status
@@ -279,3 +289,23 @@ class FeedbackDetailView(RetrieveAPIView):
         serializer_data['sections'] = sections
 
         return Response(serializer_data)
+
+    def destroy(self, request, feedback_id, *args, **kwargs):
+        feedback_post = FeedbackPost.objects.get(feedback_id=feedback_id)
+
+        # 관련된 객체들을 삭제합니다.
+        danceable_feedbacks = DanceableFeedback.objects.filter(feedback_post=feedback_post)
+        dancer_feedbacks = DancerFeedback.objects.filter(danceable_feedback__in=danceable_feedbacks)
+        timestamps = TimeStamp.objects.filter(dancer_feedback__in=dancer_feedbacks)
+
+        # 삭제를 위해 queryset을 조합합니다.
+        queryset = Q()
+        queryset |= Q(pk=feedback_post.pk)
+        queryset |= Q(pk__in=danceable_feedbacks.values('pk'))
+        queryset |= Q(pk__in=dancer_feedbacks.values('pk'))
+        queryset |= Q(pk__in=timestamps.values('pk'))
+
+        # 객체들을 삭제합니다.
+        FeedbackPost.objects.filter(queryset).delete()
+
+        return Response(status=status.HTTP_204_NO_CONTENT)
