@@ -17,8 +17,8 @@ export const signInFormSchema = z.object({
     .min(2, {
       message: "아이디는 최소 2글자 이상입니다.",
     })
-    .max(30, {
-      message: "아이디는 최대 30글자 이하입니다.",
+    .max(20, {
+      message: "아이디는 최대 20글자 이하입니다.",
     }),
   password: z
     .string({

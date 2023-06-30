@@ -36,6 +36,10 @@ export default function UserSignInForm({
 
   const form = useForm<SignInFormValues>({
     resolver: zodResolver(signInFormSchema),
+    defaultValues: {
+      userId: "",
+      password: "",
+    }
   });
 
   async function onSubmit(data: SignInFormValues) {
@@ -71,9 +75,7 @@ export default function UserSignInForm({
                 name="userId"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="sr-only" htmlFor="UserId">
-                      UserId
-                    </FormLabel>
+                    <FormLabel className="sr-only" htmlFor="UserId">아이디</FormLabel>
                     <FormControl>
                       <Input
                         id="userId"
@@ -96,9 +98,7 @@ export default function UserSignInForm({
                 name="password"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="sr-only" htmlFor="Password">
-                      Password
-                    </FormLabel>
+                    <FormLabel className="sr-only" htmlFor="Password">비밀번호</FormLabel>
                     <FormControl>
                       <Input
                         id="password"
@@ -140,7 +140,7 @@ export default function UserSignInForm({
         </div>
       </div>
 
-      {/* OAuth */}
+      {/* 회원 가입 */}
       <Link href="/signup" className="group w-full">
         <Button
           variant="outline"

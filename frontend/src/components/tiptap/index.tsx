@@ -11,10 +11,19 @@ import { FontSize } from "./FontSizeExtension";
 // state
 import { useAppDispatch, useAppSelector } from "@toolkit/hook";
 import { postActions } from "@features/post/postSlice";
+import { useCallback } from "react";
+import debounce from "@util/debounce";
 
-const Tiptap = ({isUpdate}: {isUpdate:boolean}) => {
+const Tiptap = ({ isUpdate }: { isUpdate: boolean }) => {
   const dispatch = useAppDispatch();
-  const postContent  = useAppSelector((state) => state.post.postContent);
+  const postContent = useAppSelector((state) => state.post.postContent);
+
+  const onUpdate = useCallback(
+    debounce((content) => {
+      dispatch(postActions.writingContent(content));
+    }, 500),
+    []
+  );
 
   const editor = useEditor({
     editorProps: {
@@ -33,28 +42,29 @@ const Tiptap = ({isUpdate}: {isUpdate:boolean}) => {
         placeholder: "내용을 입력해주세요.",
       }),
     ],
-    content: isUpdate ? postContent: "",
-    onUpdate: ({ editor }) => {
-      // 문서 내용을 수정했을 때 실시간으로 dispatch 해서 저장
-      dispatch(postActions.writingContent(editor.getHTML()));
-    },
+    content: isUpdate ? postContent : "",
+    onUpdate: ({ editor }) => onUpdate(editor.getHTML()),
   });
 
   return (
     <div>
-      <div className="mb-2">
-        <label
-          htmlFor="postContent"
-          className="text-sm font-medium"
-          onClick={() => editor?.chain().focus()}
-        >
-          내용
-        </label>
-      </div>
-      <MenuBar editor={editor} />
-      <div onClick={() => editor?.chain().focus()}>
-        <EditorContent editor={editor} />
-      </div>
+      {editor && (
+        <>
+          <div className="mb-2">
+            <label
+              htmlFor="postContent"
+              className="text-sm font-medium"
+              onClick={() => editor?.chain().focus()}
+            >
+              내용
+            </label>
+          </div>
+          <MenuBar editor={editor} />
+          <div onClick={() => editor?.chain().focus()}>
+            <EditorContent editor={editor} />
+          </div>
+        </>
+      )}
     </div>
   );
 };

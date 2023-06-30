@@ -23,10 +23,11 @@ export default function VideoPostDetail({ id }: { id: string }) {
     if (data) {
       dispatch(likeActions.getUserLike(data.userLike));
       dispatch(
-        postActions.getPostInfo({
+        postActions.getVideoPostInfo({
           postId: id,
           postTitle: data.title,
           postContent: data.content,
+          postVideo: data.video,
         })
       );
     }

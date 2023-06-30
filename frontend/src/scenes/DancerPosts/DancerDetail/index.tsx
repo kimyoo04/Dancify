@@ -27,10 +27,13 @@ export default function DancerPostDetail({ id }: { id: TPostId }) {
     if (data) {
       dispatch(likeActions.getUserLike(data.userLike));
       dispatch(
-        postActions.getPostInfo({
+        postActions.getPostDancerInfo({
           postId: id,
+          genre: data.genre,
           postTitle: data.title,
           postContent: data.content,
+          postVideo: data.video,
+          feedbackPrice: data.feedbackPrice,
         })
       );
     }
