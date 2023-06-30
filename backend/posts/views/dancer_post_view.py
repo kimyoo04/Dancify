@@ -17,7 +17,8 @@ from ..serializers.dancer_post_serializers import (
     DancerPostInfoSerializer,
     DancerPostGetListSerializer,
     DancerPostGetRetrieveSerializer,
-    DancerPostPostPatchSerializer
+    DancerPostPostSerializer,
+    DancerPostPatchSerializer,
 )
 from video_section.models import VideoSection
 from .base_post_view import BasePostViewSet
@@ -42,8 +43,11 @@ class DancerPostViewSet(BasePostViewSet):
         if self.action in ('retrieve'):
             return DancerPostGetRetrieveSerializer
 
-        if self.action in ('create', 'update', 'partial_update'):
-            return DancerPostPostPatchSerializer
+        if self.action in ('create'):
+            return DancerPostPostSerializer
+
+        if self.action in ('update', 'partial_update'):
+            return DancerPostPatchSerializer
 
     def list(self, request, *args, **kwargs):
         q = self.request.GET.get('q', None)
@@ -97,33 +101,39 @@ class DancerPostViewSet(BasePostViewSet):
 
         # 댄서 게시글 저장
         data = request.data
+        video = request.FILES.get('video', None)
 
-        if data['video'] is not None:
-            url_data = upload_video_with_metadata_to_s3(user_id, data['video'],
-                                                        'dancer', is_mosaic=False)
-            data['video'] = url_data['video_url']
-            data['thumbnail'] = url_data['thumbnail_url']
-            data['keypoints'] = url_data['keypoint_url']
+        if video is None:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
 
-            # 동영상 분할을 위한 비디오 .mp4 파일 임시 저장
-            localpath = settings.BASE_DIR  # 프로젝트 최상위 폴더
-            localpath = os.path.join(localpath, user_id)  # 현재 폴더/user_id/
-            os.makedirs(localpath, exist_ok=True)  # 폴더 생성
+        url_data = upload_video_with_metadata_to_s3(user_id, video,
+                                                    'dancer', is_mosaic=False)
+        data['video'] = url_data['video_url']
+        data['thumbnail'] = url_data['thumbnail_url']
+        data['keypoints'] = url_data['keypoint_url']
 
-            video = request.FILES['video']
-            local_videopath = os.path.join(localpath, 'video_original.' + video.name.split('.')[-1])
+        # 동영상 분할을 위한 비디오 .mp4 파일 임시 저장
+        localpath = settings.BASE_DIR  # 프로젝트 최상위 폴더
+        localpath = os.path.join(localpath, user_id)  # 현재 폴더/user_id/
+        os.makedirs(localpath, exist_ok=True)  # 폴더 생성
 
-            with open(local_videopath, 'wb') as destination:
-                for chunk in video.chunks():
-                    destination.write(chunk)
+        video = request.FILES['video']
+        local_videopath = os.path.join(localpath, 'video_original.' + video.name.split('.')[-1])
 
-        serializer = self.get_serializer(data=data)
-        serializer.is_valid(raise_exception=True)
-        instance = serializer.save(user=User.objects.get(user_id=user_id))
+        with open(local_videopath, 'wb') as destination:
+            for chunk in video.chunks():
+                destination.write(chunk)
+
+        try:
+            serializer = self.get_serializer(data=data)
+            serializer.is_valid(raise_exception=True)
+            instance = serializer.save(user=User.objects.get(user_id=user_id))
+        except ValidationError:
+            return Response(status=status.HTTP_422_UNPROCESSABLE_ENTITY)
 
         response_data = {
             'postId': instance.pk,
-            'video': data['video']
+            'video': instance.video
         }
 
         return JsonResponse(response_data, status=status.HTTP_201_CREATED)
