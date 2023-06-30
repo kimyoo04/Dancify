@@ -3,7 +3,7 @@ from rest_framework.response import Response
 
 from accounts.authentication import decode_access_token
 from .models import Comment
-from .comment_serializers import CommentGetSerializer, CommentPostSerializer, CommentPatchDeleteSerializer
+from .serializers import CommentGetSerializer, CommentPostSerializer, CommentPatchDeleteSerializer
 from accounts.models import User
 
 
