@@ -102,7 +102,6 @@ class DanceableFeedbackRequestView(UpdateAPIView):
         return Response(status=status.HTTP_200_OK)
 
 
-
 class DancerFeedbackResponseView(APIView):
     """
     댄서가 피드백에 응답하였을 경우 DB에 메시지를 저장하는 뷰
@@ -197,7 +196,6 @@ class DancerFeedbackResponseView(APIView):
                 return Response(status=status.HTTP_400_BAD_REQUEST)
 
         return Response(status=status.HTTP_200_OK)
-
 
 
 class FeedbackDetailRetrieveDestoryView(RetrieveDestroyAPIView):
