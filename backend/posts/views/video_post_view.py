@@ -1,5 +1,6 @@
 import re
 
+from django.db import transaction
 from django.db.models import F
 
 from rest_framework import status
@@ -79,6 +80,7 @@ class VideoPostViewSet(BasePostViewSet):
 
         return Response(status=status.HTTP_201_CREATED)
 
+    @transaction.atomic
     def partial_update(self, request, *args, **kwargs):
         try:
             user_info = get_user_info_from_token(request)

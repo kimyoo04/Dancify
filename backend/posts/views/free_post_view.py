@@ -61,10 +61,10 @@ class FreePostViewSet(BasePostViewSet):
             return Response(status=status.HTTP_401_UNAUTHORIZED)
 
         data = request.data
-        data['postImage'] = request.FILES.get('postImage', None)
+        post_image = request.FILES.get('postImage', None)
 
-        if data['postImage'] is not None:
-            data['postImage'] = upload_post_image_to_s3(user_id, data['postImage'])
+        if post_image is not None:
+            data['postImage'] = upload_post_image_to_s3(user_id, post_image)
 
         serializer = self.get_serializer(data=data)
         serializer.is_valid(raise_exception=True)
