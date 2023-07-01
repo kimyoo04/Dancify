@@ -18,8 +18,7 @@ class VideoSectionListSerializer(serializers.Serializer):
             'content': dancer_post.content,
             'createDate': dancer_post.create_date,
             'views': dancer_post.views,
-            'feedbackPrice': dancer_post.feedback_price,
-            'keypoints': dancer_post.keypoints
+            'feedbackPrice': dancer_post.feedback_price
         }
         return post
 
