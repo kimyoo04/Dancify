@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import Link from "next/link";
 
 import { Button } from "@components/ui/button";
@@ -8,18 +7,6 @@ import { ScrollArea, ScrollBar } from "@components/ui/scroll-area";
 import { useReadOtherDancerPosts } from "@api/posts/readOtherDancerPosts";
 
 export default function Finish() {
-  // 새로고침 방지
-  useEffect(() => {
-    if (window) {
-      window.onbeforeunload = () => {
-        return true;
-      };
-      return () => {
-        window.onbeforeunload = null;
-      };
-    }
-  }, []);
-
   // API GET 요청
   const { data, isLoading, error } = useReadOtherDancerPosts();
 

@@ -1,6 +1,3 @@
-import { useEffect } from "react";
-import { useRouter } from "next/router";
-
 import MainWrapper from "../Wrapper/MainWarpper";
 import BottomWrapper from "../Wrapper/BottomWrapper";
 
@@ -12,23 +9,7 @@ import { practiceActions } from "@features/practice/practiceSlice";
 import { useAppDispatch } from "@toolkit/hook";
 
 export default function Result({ data }: { data: IPractice }) {
-  const router = useRouter();
   const dispatch = useAppDispatch();
-
-  // 새로고침 및 뒤로가기 방지
-  useEffect(() => {
-    if (window) {
-      if (router.asPath !== window.location.pathname) {
-        window.history.pushState("", "", router.asPath);
-      }
-      window.onbeforeunload = () => {
-        return true;
-      };
-      return () => {
-        window.onbeforeunload = null;
-      };
-    }
-  }, []);
 
   return (
     <div className="h-full w-screen">

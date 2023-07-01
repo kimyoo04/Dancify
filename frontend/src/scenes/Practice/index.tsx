@@ -16,8 +16,10 @@ import Result from "./Result";
 import { practiceActions } from "@features/practice/practiceSlice";
 import { useAppDispatch, useAppSelector } from "@toolkit/hook";
 import * as poseDetection from "@tensorflow-models/pose-detection";
+import { useRouter } from "next/router";
 
 export default function Practice({ postId }: { postId: TPostId }) {
+  const router = useRouter();
   const dispatch = useAppDispatch();
   const step = useAppSelector((state) => state.practice.step);
 
@@ -33,6 +35,21 @@ export default function Practice({ postId }: { postId: TPostId }) {
   // 연습 초기화
   useEffect(() => {
     dispatch(practiceActions.resetPractice());
+  }, []);
+
+  // 새로고침 및 뒤로가기 방지
+  useEffect(() => {
+    if (window) {
+      if (router.asPath !== window.location.pathname) {
+        window.history.pushState("", "", router.asPath);
+      }
+      window.onbeforeunload = () => {
+        return true;
+      };
+      return () => {
+        window.onbeforeunload = null;
+      };
+    }
   }, []);
 
   return (

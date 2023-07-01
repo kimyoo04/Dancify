@@ -1,6 +1,4 @@
-import { useRouter } from "next/router";
 import { IPractice } from "@type/practice";
-import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "@toolkit/hook";
 import { practiceActions } from "@features/practice/practiceSlice";
 import * as poseDetection from "@tensorflow-models/pose-detection";
@@ -19,26 +17,10 @@ export default function Play({
   data: IPractice;
   detector: poseDetection.PoseDetector;
 }) {
-  const router = useRouter();
   const dispatch = useAppDispatch();
   const { isFinished, playIndex, selectedSections } = useAppSelector(
     (state) => state.practice
   );
-
-  // 새로고침 및 뒤로가기 방지
-  useEffect(() => {
-    if (window) {
-      if (router.asPath !== window.location.pathname) {
-        window.history.pushState("", "", router.asPath);
-      }
-      window.onbeforeunload = () => {
-        return true;
-      };
-      return () => {
-        window.onbeforeunload = null;
-      };
-    }
-  }, []);
 
   return (
     <div className="h-full w-screen">
