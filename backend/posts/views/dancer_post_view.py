@@ -91,13 +91,19 @@ class DancerPostViewSet(BasePostViewSet):
 
         return super().retrieve(request, *args, **kwargs)
 
+    @transaction.atomic
     def create(self, request, *args, **kwargs):
         try:
             user_info = get_user_info_from_token(request)
 
             user_id = user_info['userId']
+            is_dancer = user_info['isDancer']
         except (TokenError, KeyError):
             return Response(status=status.HTTP_401_UNAUTHORIZED)
+
+        # 댄서 게시판 글 생성은 댄서만 가능
+        if not is_dancer:
+            return Response(status=status.HTTP_403_FORBIDDEN)
 
         # 댄서 게시글 저장
         data = request.data
@@ -131,6 +137,23 @@ class DancerPostViewSet(BasePostViewSet):
         except ValidationError:
             return Response(status=status.HTTP_422_UNPROCESSABLE_ENTITY)
 
+        # 실전모드를 위해 section_number 0번에 전체 동영상 링크 저장
+        section_data = {
+            'video': url_data['video_url'],
+            'thumbnail': url_data['thumbnail_url'],
+            'section_number': 0,
+            'keypoints': url_data['keypoint_url']
+        }
+
+        video_section = VideoSection(**section_data)
+        video_section.dancer_post = DancerPost.objects.get(post_id=instance.pk)
+
+        try:
+            video_section.full_clean()
+            video_section.save()
+        except ValidationError:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+
         response_data = {
             'postId': instance.pk,
             'video': instance.video
@@ -138,7 +161,6 @@ class DancerPostViewSet(BasePostViewSet):
 
         return JsonResponse(response_data, status=status.HTTP_201_CREATED)
 
-    @transaction.atomic
     def partial_update(self, request, *args, **kwargs):
         try:
             user_info = get_user_info_from_token(request)
