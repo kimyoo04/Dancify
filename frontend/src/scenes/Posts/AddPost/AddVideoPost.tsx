@@ -1,18 +1,21 @@
 import { useEffect, useState } from "react";
-import { useAppSelector } from "@toolkit/hook";
+
+import { useAppDispatch, useAppSelector } from "@toolkit/hook";
+import { postActions } from "@features/post/postSlice";
 
 import Tiptap from "@components/tiptap";
 import TitleForm from "@components/tiptap/TitleForm";
-
 import { Button } from "@components/ui/button";
 import UploadVideo from "@components/UploadVideo";
+import MosaicCheckBox from "@components/MosaicCheckBox";
 
 import { useCreateVideoPostMutation } from "@api/posts/createVideoPost";
 import PreviewVideoUrl from "../PostItem/PreviewVideoUrl";
-import MosaicCheckBox from "@components/MosaicCheckBox.tsx";
 import { ReloadIcon } from "@radix-ui/react-icons";
 
+
 export default function AddVideoPost() {
+  const dispatch = useAppDispatch();
   const [isWait, setIsWait] = useState(false);
 
   // 동영상
@@ -33,6 +36,11 @@ export default function AddVideoPost() {
       if (videoPreview) URL.revokeObjectURL(videoPreview);
     };
   }, [videoPreview]);
+
+  // 연습 초기화
+  useEffect(() => {
+    dispatch(postActions.resetPostInfo());
+  }, []);
 
   // 요청 함수
   const { mutateAsync, isLoading } = useCreateVideoPostMutation();

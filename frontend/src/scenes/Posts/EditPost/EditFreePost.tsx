@@ -10,8 +10,10 @@ import UploadImage from "@components/UploadImage";
 import { useUpdateFreePost } from "@api/posts/updateFreePost";
 import PreviewImageUrl from "../PostItem/PreviewImageUrl";
 import { ReloadIcon } from "@radix-ui/react-icons";
+import { useRouter } from "next/router";
 
 export default function EditFreePost({ id }: { id: string }) {
+  const router = useRouter();
   const [isWait, setIsWait] = useState(false);
 
   const [fileName, setFileName] = useState<string>("");
@@ -29,6 +31,22 @@ export default function EditFreePost({ id }: { id: string }) {
     };
   }, [imagePreview]);
 
+  // 새로고침 및 뒤로가기 방지
+  useEffect(() => {
+    if (window) {
+      if (router.asPath !== window.location.pathname) {
+        window.history.pushState("", "", router.asPath);
+      }
+      window.onbeforeunload = () => {
+        return true;
+      };
+      return () => {
+        window.onbeforeunload = null;
+      };
+    }
+  }, []);
+
+  // 요청 함수
   const { mutateAsync, isLoading } = useUpdateFreePost();
 
   const onSubmit = async () => {

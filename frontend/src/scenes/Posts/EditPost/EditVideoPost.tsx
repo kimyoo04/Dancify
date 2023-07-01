@@ -8,11 +8,13 @@ import { Button } from "@components/ui/button";
 
 import UploadVideo from "@components/UploadVideo";
 import { useUpdateVideoPost } from "@api/posts/updateVideoPost";
-import MosaicCheckBox from "@components/MosaicCheckBox.tsx";
+import MosaicCheckBox from "@components/MosaicCheckBox";
 import { ReloadIcon } from "@radix-ui/react-icons";
 import PreviewVideoUrl from "../PostItem/PreviewVideoUrl";
+import { useRouter } from "next/router";
 
 export default function EditFreePost({ id }: { id: string }) {
+  const router = useRouter();
   const [isWait, setIsWait] = useState(false);
 
   // 동영상
@@ -33,6 +35,21 @@ export default function EditFreePost({ id }: { id: string }) {
       if (videoPreview) URL.revokeObjectURL(videoPreview);
     };
   }, [videoPreview]);
+
+  // 새로고침 및 뒤로가기 방지
+  useEffect(() => {
+    if (window) {
+      if (router.asPath !== window.location.pathname) {
+        window.history.pushState("", "", router.asPath);
+      }
+      window.onbeforeunload = () => {
+        return true;
+      };
+      return () => {
+        window.onbeforeunload = null;
+      };
+    }
+  }, []);
 
   // 요청 함수
   const { mutateAsync, isLoading } = useUpdateVideoPost();

@@ -8,9 +8,11 @@ import UploadImage from "@components/UploadImage";
 import { postActions } from "@features/post/postSlice";
 import PreviewImageUrl from "../PostItem/PreviewImageUrl";
 import { ReloadIcon } from "@radix-ui/react-icons";
+import { useRouter } from "next/router";
 
 export default function AddFreePost() {
-  const dispatch = useAppDispatch()
+  const router = useRouter();
+  const dispatch = useAppDispatch();
   const [fileName, setFileName] = useState<string>("");
   const [imageFile, setImageFile] = useState<File>();
   const { postTitle, postContent } = useAppSelector((state) => state.post);
@@ -41,15 +43,29 @@ export default function AddFreePost() {
     formData.append("content", postContent);
 
     // POST 요청
-    setIsWait(true)
+    setIsWait(true);
     await mutateAsync(formData);
     return;
   };
 
+  // 연습 초기화
   useEffect(() => {
-    return () => {
-      dispatch(postActions.resetPostInfo());
-    };
+    dispatch(postActions.resetPostInfo());
+  }, []);
+
+  // 새로고침 및 뒤로가기 방지
+  useEffect(() => {
+    if (window) {
+      if (router.asPath !== window.location.pathname) {
+        window.history.pushState("", "", router.asPath);
+      }
+      window.onbeforeunload = () => {
+        return true;
+      };
+      return () => {
+        window.onbeforeunload = null;
+      };
+    }
   }, []);
 
   return (
