@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import { useAppDispatch, useAppSelector } from "@toolkit/hook";
 import { practiceActions } from "@features/practice/practiceSlice";
 import * as poseDetection from "@tensorflow-models/pose-detection";
@@ -28,21 +28,6 @@ export default function Play({
     sectionPracticeArr,
   } = useAppSelector((state) => state.practice);
   const isForceEnd = useRef(false);
-
-  // 새로고침 및 뒤로가기 방지
-  useEffect(() => {
-    if (window) {
-      if (router.asPath !== window.location.pathname) {
-        window.history.pushState("", "", router.asPath);
-      }
-      window.onbeforeunload = () => {
-        return true;
-      };
-      return () => {
-        window.onbeforeunload = null;
-      };
-    }
-  }, []);
 
   const practiceEnd = async () => {
     await postsPracticeData(feedbackId, playIndex, sectionPracticeArr);
