@@ -5,9 +5,8 @@ import os
 import shutil
 
 from s3_modules.authentication import get_s3_client
-from ai.modules_for_async.vtk import video_to_keypoint
-from ai.modules_for_async.face_mosaic import face_mosaic
-from ai.modules_for_async.shortform_generator import generate_video
+from ai.video_to_keypoint.vtk import video_to_keypoint
+from ai.face_mosaic.face_mosaic import face_mosaic
 from moviepy.editor import VideoFileClip, AudioFileClip
 
 AWS_DOMAIN = "https://dancify-bucket.s3.ap-northeast-2.amazonaws.com/"
@@ -111,19 +110,23 @@ def upload_video_with_metadata_to_s3(user_id, video, video_type, is_mosaic, vide
 
     result = {}
 
-    local_video_path = save_tmp_video(video, user_id)
-
-    # 영상 크롭
-    generate_video(local_video_path, local_video_path)
+    # 키포인트 업로드(댄서, 댄서블인 경우)
+    if video_type in ['dancer', 'danceable']:
+        json_obj = video_to_keypoint(video)
+        result['keypoint_url'] = upload_keypoints_to_s3(user_id, json_obj,
+                                                        video_uuid)
+    if not isinstance(video, bytes):
+        # 파일 포인터를 맨 앞으로 위치시킴
+        # bytes 객체는 seek()가 없음
+        video.seek(0)
 
     # 모자이크 여부에 따른 처리
     if is_mosaic:
-        mosaic_task = face_mosaic.delay(local_video_path)
-        video = mosaic_task.get()
+        video = face_mosaic(video)
 
     # upload_fileobj 사용을 위해 모자이크 함수를 거치지 않으면 파일객체를 읽어서 bytes객체 반환
     # bytes 객체는 read() 없음
-    else:
+    elif not isinstance(video, bytes):
         video = video.read()
 
     # 영상 업로드 & 썸네일 이미지 생성, 업로드
@@ -131,16 +134,6 @@ def upload_video_with_metadata_to_s3(user_id, video, video_type, is_mosaic, vide
                                              video_uuid, video_file_extension)
     # 썸네일 URL
     result['thumbnail_url'] = get_thumbnailURL_from_s3(user_id, video_uuid)
-
-    # 키포인트 업로드(댄서, 댄서블인 경우)
-    if video_type in ['dancer', 'danceable']:
-        keypoint_task = video_to_keypoint.delay(local_video_path)
-        json_obj = keypoint_task.get()
-        result['keypoint_url'] = upload_keypoints_to_s3(user_id, json_obj,
-                                                        video_uuid)
-    # 임시 동영상 삭제
-    delete_tmp_video(local_video_path)
-
     return result
 
 
@@ -223,65 +216,3 @@ def save_tmp_video(video, user_id):
             destination.write(chunk)
 
     return local_videopath
-
-
-def delete_tmp_video(video_path):
-    local_path = video_path.split('.')[:-1]
-    shutil.rmtree(local_path)
-
-
-def async_upload_video_with_metadata_to_s3(user_id, video, video_type, is_mosaic, video_file_extension=''):
-    """
-    비동기 처리(크롭, 모자이크, 키포인트 추출)
-    Args:
-        user_id: user_id(토큰 에서 받아온 정보)\n
-        video: request.FILES['video']\n
-        video_type: 'dancer', 'danceable', 'boast', 'feedback'\n
-        is_mosaic: 모자이크 여부(boolean)
-
-    Returns:
-        dict = {
-            "video_url" = "s3에 저장된 동영상 URL"\n
-            "thumbnail_url" = "s3에 저장된 썸네일 이미지 URL\n
-            "keypoint_url" = "s3에 저장된 키포인트 URL" - 존재하는 경우에만\n
-            }
-
-    """
-    video_uuid = str(uuid.uuid4()).replace('-', '')
-
-    if video_file_extension == '':
-        video_file_extension = '.' + video.name.split('.')[-1]
-
-    result = {}
-
-    local_video_path = save_tmp_video(video, user_id)
-
-    # 영상 크롭
-    generate_video.delay(local_video_path, local_video_path)
-
-    # 모자이크 여부에 따른 처리
-    if is_mosaic:
-        mosaic_task = face_mosaic.delay(local_video_path)
-        video = mosaic_task.get()
-
-    # upload_fileobj 사용을 위해 모자이크 함수를 거치지 않으면 파일객체를 읽어서 bytes객체 반환
-    # bytes 객체는 read() 없음
-    else:
-        video = video.read()
-
-    # 영상 업로드 & 썸네일 이미지 생성, 업로드
-    result['video_url'] = upload_video_to_s3(user_id, video, video_type,
-                                             video_uuid, video_file_extension)
-    # 썸네일 URL
-    result['thumbnail_url'] = get_thumbnailURL_from_s3(user_id, video_uuid)
-
-    # 키포인트 업로드(댄서, 댄서블인 경우)
-    if video_type in ['dancer', 'danceable']:
-        keypoint_task = video_to_keypoint.delay(local_video_path)
-        json_obj = keypoint_task.get()
-        result['keypoint_url'] = upload_keypoints_to_s3(user_id, json_obj,
-                                                        video_uuid)
-    # 임시 동영상 삭제
-    delete_tmp_video(local_video_path)
-
-    return result
