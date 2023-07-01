@@ -5,11 +5,19 @@ import ReactPlayer from "react-player";
 import { useAppDispatch, useAppSelector } from "@toolkit/hook";
 import { Button } from "@components/ui/button";
 import { postActions } from "@features/post/postSlice";
-import { useCreateDancerPostMutation } from "@api/posts/createDancerPost";
+import { useCreateDancerVideoSectionsMutation } from "@api/posts/createDancerPost";
+import { ReloadIcon } from "@radix-ui/react-icons";
 
-export default function MakeSections({ videoFile }: { videoFile: File }) {
+export default function MakeSections({
+  videoFileName,
+}: {
+  videoFileName: string;
+}) {
   const dispatch = useAppDispatch();
   const [hasWindow, setHasWindow] = useState(false);
+  const [isWait, setIsWait] = useState(false);
+
+
   useEffect(() => {
     if (typeof window !== "undefined") setHasWindow(true);
   }, []);
@@ -17,33 +25,40 @@ export default function MakeSections({ videoFile }: { videoFile: File }) {
   const playerRef = useRef<ReactPlayer | null>(null);
   const [progress, setProgress] = useState<number>(0);
 
+  const videoExtension = videoFileName.split(".").pop();
+
   // 제목과 내용
-  const { postTitle, postContent, timeStamps } = useAppSelector(
+  const { postId, postVideo, timeStamps } = useAppSelector(
     (state) => state.post
   );
-  const { mutateAsync } = useCreateDancerPostMutation();
+  const { mutateAsync, isLoading } = useCreateDancerVideoSectionsMutation();
 
-  const handleSubmit = async () => {
-    // title, content, video 필수
-    if (postTitle.length < 3 || postContent.length < 3 || !videoFile) return;
+  const onSubmit = async () => {
+    // postId, videoExtension timeStamps 필수
+    if (
+      postId === "" ||
+      !videoExtension ||
+      !timeStamps ||
+      timeStamps.length % 2 === 0
+    )
+      return;
 
     const formData = new FormData();
-
-    // 비디오파일 넣기
-    if (videoFile) formData.append("video", videoFile);
-
-    // 제목과 내용 넣기
-    formData.append("title", postTitle);
-    formData.append("content", postContent);
+    // "postId": string
+    // "videoExtension": 확장자명
+    // "timeStamps': "2 5 7 13"
+    formData.append("postId", postId);
+    // 확장자명 . 이후 맨뒤 추출
+    formData.append("videoExtension", videoExtension);
+    formData.append("timeStamps", timeStamps.join(" "));
 
     // POST 요청
-    mutateAsync(formData);
+    setIsWait(true)
+    await mutateAsync(formData);
     await new Promise((resolve) => setTimeout(resolve, 500));
 
     return;
   };
-
-  const videoUrl = URL.createObjectURL(videoFile);
 
   return (
     <div className="w-full space-y-5">
@@ -54,7 +69,7 @@ export default function MakeSections({ videoFile }: { videoFile: File }) {
             <ReactPlayer
               ref={playerRef}
               controls
-              url={videoUrl}
+              url={postVideo}
               onProgress={(state) => {
                 setProgress(state.played);
               }}
@@ -81,12 +96,16 @@ export default function MakeSections({ videoFile }: { videoFile: File }) {
           이전
         </Button>
 
-        <Button
-          disabled={!(timeStamps.length > 1 && timeStamps.length % 2 === 0)}
-          onClick={handleSubmit}
-        >
-          작성 완료
-        </Button>
+        {isLoading || isWait ? (
+          <Button disabled className="w-full">
+            <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
+            잠시만 기다려주세요.
+          </Button>
+        ) : (
+          <Button className="w-full" onClick={onSubmit}>
+            작성 완료
+          </Button>
+        )}
       </div>
     </div>
   );

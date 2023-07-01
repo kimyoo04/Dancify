@@ -79,8 +79,10 @@ export default function EditFreePost({ id }: { id: string }) {
       />
 
       {/* 기존 동영상 or 새로운 동영상 미리보기 */}
-      {videoPreview && <PreviewVideoUrl url={videoPreview} />}
-      {!videoPreview && postVideo !== "" && <PreviewVideoUrl url={postVideo} />}
+      {videoPreview && <PreviewVideoUrl videoUrl={videoPreview} />}
+      {!videoPreview && postVideo !== "" && (
+        <PreviewVideoUrl videoUrl={postVideo} />
+      )}
 
       {/* 얼굴 모자이크 유무 */}
       {videoPreview && <MosaicCheckBox />}

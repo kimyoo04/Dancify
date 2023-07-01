@@ -23,7 +23,9 @@ export default function AddDancerPost() {
           setVideoFileName={setVideoFileName}
         />
       )}
-      {step === 3 && videoFile && <MakeSections videoFile={videoFile} />}
+      {step === 3 && videoFile && (
+        <MakeSections videoFileName={videoFileName} />
+      )}
     </StepFormWrapper>
   );
 }

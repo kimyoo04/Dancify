@@ -75,7 +75,7 @@ export default function AddVideoPost() {
       />
 
       {/* 동영상 미리보기 */}
-      {videoPreview && <PreviewVideoUrl url={videoPreview} />}
+      {videoPreview && <PreviewVideoUrl videoUrl={videoPreview} />}
 
       {/* 얼굴 모자이크 유무 */}
       <MosaicCheckBox />

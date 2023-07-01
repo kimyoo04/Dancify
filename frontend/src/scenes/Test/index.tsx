@@ -23,7 +23,7 @@ export default function Test({ videoFile }: { videoFile: File }) {
   );
   const { mutateAsync } = useCreateDancerPostMutation();
 
-  const handleSubmit = async () => {
+  const onSubmit = async () => {
     // title, content, video 필수
     if (postTitle.length < 3 || postContent.length < 3 || !videoFile) return;
 

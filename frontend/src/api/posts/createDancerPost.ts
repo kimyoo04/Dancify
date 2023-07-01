@@ -8,7 +8,27 @@ import { useRouter } from "next/router";
 // 자유게시글 Create
 export const createDancerPost = async (postData: FormData) => {
   try {
-    await axios.post("/posts/dancer", postData, {
+    // "genre": string,
+    // "title":string,
+    // "content":string,
+    // "video": File,
+    // "feedbackPrice": number,
+
+    const response = await axios.post("/posts/dancer", postData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    return response.data;
+  } catch (err) {
+    console.error("🚀 createDancePost:", err);
+    return false;
+  }
+};
+
+export const createDancerVideoSections = async (videoData: FormData) => {
+  try {
+    await axios.post("/posts/dancer", videoData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
@@ -21,7 +41,7 @@ export const createDancerPost = async (postData: FormData) => {
 };
 
 // useMutation
-export const useCreateDancerPostMutation = () => {
+export const useCreateDancerVideoSectionsMutation = () => {
   const router = useRouter();
   const queryClient = useQueryClient();
 
@@ -30,7 +50,7 @@ export const useCreateDancerPostMutation = () => {
   const { sort, genre } = useAppSelector((state) => state.filter);
 
   return useMutation({
-    mutationFn: createDancerPost,
+    mutationFn: createDancerVideoSections,
     onSuccess: async () => {
       await queryClient.invalidateQueries({
         queryKey: [
