@@ -1,5 +1,4 @@
 import re
-import os
 
 from django.http import JsonResponse
 from django.db import transaction
