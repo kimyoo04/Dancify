@@ -5,8 +5,8 @@ import os
 import shutil
 
 from s3_modules.authentication import get_s3_client
-from ai.video_to_keypoint.vtk import video_to_keypoint
-from ai.face_mosaic.face_mosaic import face_mosaic
+from ai.modules_for_async.vtk import video_to_keypoint
+from ai.modules_for_async.face_mosaic import face_mosaic
 from moviepy.editor import VideoFileClip, AudioFileClip
 
 AWS_DOMAIN = "https://dancify-bucket.s3.ap-northeast-2.amazonaws.com/"
@@ -110,23 +110,16 @@ def upload_video_with_metadata_to_s3(user_id, video, video_type, is_mosaic, vide
 
     result = {}
 
-    # 키포인트 업로드(댄서, 댄서블인 경우)
-    if video_type in ['dancer', 'danceable']:
-        json_obj = video_to_keypoint(video)
-        result['keypoint_url'] = upload_keypoints_to_s3(user_id, json_obj,
-                                                        video_uuid)
-    if not isinstance(video, bytes):
-        # 파일 포인터를 맨 앞으로 위치시킴
-        # bytes 객체는 seek()가 없음
-        video.seek(0)
+    local_video_path = save_tmp_video(video, user_id)
 
     # 모자이크 여부에 따른 처리
     if is_mosaic:
-        video = face_mosaic(video)
+        mosaic_task = face_mosaic.delay(local_video_path)
+        video = mosaic_task.get()
 
     # upload_fileobj 사용을 위해 모자이크 함수를 거치지 않으면 파일객체를 읽어서 bytes객체 반환
     # bytes 객체는 read() 없음
-    elif not isinstance(video, bytes):
+    else:
         video = video.read()
 
     # 영상 업로드 & 썸네일 이미지 생성, 업로드
@@ -134,6 +127,16 @@ def upload_video_with_metadata_to_s3(user_id, video, video_type, is_mosaic, vide
                                              video_uuid, video_file_extension)
     # 썸네일 URL
     result['thumbnail_url'] = get_thumbnailURL_from_s3(user_id, video_uuid)
+
+    # 키포인트 업로드(댄서, 댄서블인 경우)
+    if video_type in ['dancer', 'danceable']:
+        keypoint_task = video_to_keypoint.delay(local_video_path)
+        json_obj = keypoint_task.get()
+        result['keypoint_url'] = upload_keypoints_to_s3(user_id, json_obj,
+                                                        video_uuid)
+    # 임시 동영상 삭제
+    delete_tmp_video(local_video_path)
+
     return result
 
 
@@ -216,3 +219,7 @@ def save_tmp_video(video, user_id):
             destination.write(chunk)
 
     return local_videopath
+
+def delete_tmp_video(video_path):
+    local_path = video_path.split('.')[:-1]
+    shutil.rmtree(local_path)
