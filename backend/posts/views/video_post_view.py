@@ -5,6 +5,7 @@ from django.db.models import F
 
 from rest_framework import status
 from rest_framework.response import Response
+from rest_framework.generics import get_object_or_404
 from rest_framework_simplejwt.exceptions import TokenError
 
 from ..serializers.video_post_serializers import (
@@ -24,6 +25,7 @@ from search_history.models import SearchHistory
 class VideoPostViewSet(BasePostViewSet):
     queryset = VideoPost.objects.all()
     pagination_class = BasePostViewSet.pagination_class
+    lookup_field = 'post_id'
 
     def get_serializer_class(self):
         if self.action in ('list'):
@@ -52,6 +54,8 @@ class VideoPostViewSet(BasePostViewSet):
         return super().list(request, *args, **kwargs)
 
     def retrieve(self, request, *args, **kwargs):
+        get_object_or_404(VideoPost, post_id=kwargs['post_id'])
+
         return super().retrieve(request, *args, **kwargs)
 
     def create(self, request, *args, **kwargs):

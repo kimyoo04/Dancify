@@ -67,6 +67,7 @@ class FreePostGetRetrieveSerializer(serializers.ModelSerializer):
     postId = serializers.UUIDField(source='post_id')
     userId = serializers.CharField(source='user.user_id')
     nickname = serializers.CharField(source='user.nickname')
+    profileImage = serializers.URLField(source='user.profile_image')
     createDate = serializers.DateTimeField(source='create_date')
     postImage = serializers.URLField(source='post_image')
     likesCount = serializers.SerializerMethodField()
@@ -104,7 +105,7 @@ class FreePostGetRetrieveSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = FreePost
-        fields = ['postId', 'title', 'userId', 'nickname',
+        fields = ['postId', 'title', 'userId', 'nickname', 'profileImage',
                   'content', 'createDate', 'postImage',
                   'views', 'likesCount', 'userLike', 'comments']
         ref_name = 'FreePostGetRetrieveSerializer'

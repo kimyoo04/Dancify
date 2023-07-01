@@ -4,6 +4,7 @@ from django.db.models import F
 
 from rest_framework import status
 from rest_framework.response import Response
+from rest_framework.generics import get_object_or_404
 from rest_framework_simplejwt.exceptions import TokenError
 
 from s3_modules.upload import upload_post_image_to_s3
@@ -22,6 +23,7 @@ from search_history.models import SearchHistory
 class FreePostViewSet(BasePostViewSet):
     queryset = FreePost.objects.all()
     pagination_class = BasePostViewSet.pagination_class
+    lookup_field = 'post_id'
 
     def get_serializer_class(self):
         if self.action in ('list'):
@@ -50,6 +52,8 @@ class FreePostViewSet(BasePostViewSet):
         return super().list(request, *args, **kwargs)
 
     def retrieve(self, request, *args, **kwargs):
+        get_object_or_404(FreePost, post_id=kwargs['post_id'])
+
         return super().retrieve(request, *args, **kwargs)
 
     def create(self, request, *args, **kwargs):

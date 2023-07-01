@@ -1,5 +1,4 @@
 import re
-import os
 
 from django.http import JsonResponse
 from django.db import transaction
@@ -85,6 +84,8 @@ class DancerPostViewSet(BasePostViewSet):
                 return super().retrieve(request, *args, **kwargs)
             except (User.DoesNotExist):
                 return Response(status=status.HTTP_401_UNAUTHORIZED)
+            except (DancerPost.DoesNotExist):
+                return Response(status=status.HTTP_404_NOT_FOUND)
             except (TokenError, KeyError):
                 return super().retrieve(request, *args, **kwargs)
 

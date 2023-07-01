@@ -29,13 +29,14 @@ class DancerPostInfoSerializer(serializers.ModelSerializer):
     postId = serializers.UUIDField(source='post_id')
     userId = serializers.CharField(source='user.user_id')
     nickname = serializers.CharField(source='user.nickname')
+    profileImage = serializers.URLField(source='user.profile_image')
     createDate = serializers.DateTimeField(source='create_date')
     feedbackPrice = serializers.IntegerField(source='feedback_price')
 
     class Meta:
         model = DancerPost
         ref_name = 'DancerPostInfoSerializer'
-        fields = ['postId', 'genre', 'title', 'userId', 'nickname',
+        fields = ['postId', 'genre', 'title', 'userId', 'nickname', 'profileImage',
                   'content', 'createDate', 'video', 'thumbnail',
                   'views', 'feedbackPrice']
 
