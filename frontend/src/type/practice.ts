@@ -1,4 +1,6 @@
 import { TThumbnail, TVideo, TViews } from "./posts";
+import { Pose } from "./moveNet";
+import { IFeedback, TFeedbackId } from "./feedbacks";
 
 // practiceSlice.ts
 export interface IPracticeState {
@@ -9,15 +11,20 @@ export interface IPracticeState {
   isFullBody: boolean; // 전신 유무
   isPlaying: boolean; // SectionResult 컴포넌트 랜더링 유무
   isFinished: boolean; // 안무 연습 완료 유무 or 영상 재생 유무
+  
+  feedbackId: TFeedbackId;
   selectedSections: number[]; // 선택한 섹션 인덱스 리스트
   sectionPracticeArr: ISectionPractice[]; // 섹션별 연습 기록 리스트
 }
 
 // 구간별 평가 및 연습 정보
 export interface ISectionPractice {
+  video: TVideo;
   sectionId: TSectionId;
   firstScore: TFirstScore;
   bestScore: TBestScore;
+  firstJson: Pose[][];
+  bestJson: Pose[][];
   playCounts: TPlayCounts;
   poseMessages: IPoseMessages;
 }
@@ -25,9 +32,11 @@ export interface ISectionPractice {
 // 구간별 첫 state 생성
 // practiceSlice.ts ~ setFirstScore
 export interface IUpdateSectionPractice {
+  video: TVideo
   sectionId: TSectionId;
   score: TInitScore; // 첫 점수로 firstScore와 bestScore 둘 다 전달
   poseMessages: IPoseMessages;
+  keypointJson: Pose[][];
 }
 
 // 구간별 pose에 대한 평가 4가지 누적 값
@@ -65,13 +74,6 @@ export interface ISection {
   video: TVideo;
   thumbnail: TThumbnail;
   keypoints: TKeypoints;
-}
-
-// POST /api/dance/<sectionId>
-export interface IPracticeResult {
-  sectionId: TSectionId;
-  practicedata: FormData;
-  // FormData { keyPoints: Pose, video: File }
 }
 
 export type TKeypoints = string;

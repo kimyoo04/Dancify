@@ -25,6 +25,7 @@ import { loadMoveNetDetector, detect } from "@ai/movenet";
 import { practiceActions } from "@features/practice/practiceSlice";
 import { useAppDispatch } from "@toolkit/hook";
 import Webcam from "react-webcam";
+import { postPracticeStart } from "@api/dance/postPracticeStart";
 
 export default function Prepare({
   data,
@@ -101,7 +102,13 @@ export default function Prepare({
     <div className="h-full w-screen">
       <Webcam
         ref={webcamRef}
-        style={{ opacity: 0, width: "0%", height: "0%" }}
+        style={{
+          position: "absolute",
+          top: "50%",
+          opacity: 0,
+          width: "0%",
+          height: "0%",
+        }}
       />
       <MainWrapper>
         {loading ? (
@@ -165,9 +172,14 @@ export default function Prepare({
 
                 <div className="col-center w-full gap-3">
                   <Button
-                    onClick={() => {
+                    onClick={async () => {
+                      const feedbackId = await postPracticeStart(
+                        data.dancerPost.postId
+                      );
+                      dispatch(practiceActions.setFeedbackId(feedbackId)); // feedbackId 저장
                       getFullScreen();
                       dispatch(practiceActions.moveNextStep());
+                      // POST 요청
                     }}
                     className="row-center w-full gap-2"
                     disabled={!isDevice || !isDetector}
