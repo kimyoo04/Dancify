@@ -1,4 +1,4 @@
-import { TIsDancer, TNickname, TUserId } from "./auth";
+import { TIsDancer, TNickname, TProfileImg, TUserId } from "./auth";
 import { TGenreValue } from "./filter";
 import { TThumbnail, TTitle, TCreateDate, TVideo } from "./posts";
 import { TSectionId } from "./practice";
@@ -24,6 +24,7 @@ export interface IFeedback {
   thumbnail: TThumbnail;
   genre: TGenreValue;
   title: TTitle;
+  profileImage: TProfileImg;
   nickname: TNickname;
   status: TStatus;
   createDate: TCreateDate;
@@ -34,6 +35,7 @@ export interface IFeedbackDetail {
   feedbackId: TFeedbackId;
   title: TTitle;
   createDate: TCreateDate;
+  profileImage: TProfileImg;
   nickname: TNickname; // 댄서 닉네임
   userId: TUserId; // 댄서블 아이디
   status: TStatus;
