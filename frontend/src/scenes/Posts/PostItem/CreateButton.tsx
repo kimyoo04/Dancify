@@ -8,13 +8,14 @@ export default function CreateButton({ category }: { category: string }) {
   const paddingleft = isOpen ? "md:pl-[200px]" : "md:pl-[72px]";
 
   return (
-    <Link
-      href={`/${category}/new`}
+    <div
       className={`row-center fixed bottom-20 left-0 right-0 z-10 mx-auto md:bottom-6 ${paddingleft}`}
     >
-      <Button className="shadow-md hover:scale-110">
-        <Pencil className="text-white" />
-      </Button>
-    </Link>
+      <Link href={`/${category}/new`}>
+        <Button className="shadow-md hover:scale-110">
+          <Pencil className="text-white" />
+        </Button>
+      </Link>
+    </div>
   );
 }

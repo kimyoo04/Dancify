@@ -7,8 +7,7 @@ import { useReadVideoLikesPerPage } from "@api/likes/readVideoLikesPerPage";
 import { useReadFreeLikesPerPage } from "@api/likes/readFreeLikesPerPage";
 
 // 콘텐츠 로더
-import DancerPostLoader from "@scenes/Posts/PostItem/DancerPostLoader";
-import VideoPostLoader from "@scenes/Posts/PostItem/VideoPostLoader";
+import PreviewPostLoader from "@scenes/Posts/PostItem/PreviewPostLoader";
 import FreePostLoader from "@scenes/Posts/PostItem/FreePostLoader";
 
 // 미리보기 목록
@@ -17,6 +16,7 @@ import PreviewVideoPosts from "@scenes/Posts/PostItem/PreviewVideoPosts";
 import FreePostItem from "@scenes/FreePosts/FreeItem/FreePostItem";
 
 import ViewMore from "@scenes/Posts/PostItem/ViewMore";
+import PreviewListWrapper from "@scenes/Posts/PostItem/PreviewListWrapper";
 
 export default function Likes() {
   const {
@@ -64,12 +64,12 @@ export default function Likes() {
         <div className="relative">
           <ScrollArea>
             {dancerStatus === "loading" ? (
-              <DancerPostLoader />
+              <PreviewPostLoader />
             ) : dancerStatus === "error" ? (
               <>{dancerError && <p>Error: {dancerError.message}</p>}</>
             ) : (
               dancerData && (
-                <ul className="flex space-x-4 pb-4">
+                <PreviewListWrapper>
                   {dancerData?.pages[0].data.slice(0, 10).map((dancerData) => (
                     <PreviewDancerPosts
                       key={dancerData.postId}
@@ -77,7 +77,7 @@ export default function Likes() {
                       href={`/likes/dancer/${dancerData.postId}`}
                     />
                   ))}
-                </ul>
+                </PreviewListWrapper>
               )
             )}
             <ScrollBar orientation="horizontal" />
@@ -105,12 +105,12 @@ export default function Likes() {
         <div className="relative">
           <ScrollArea>
             {videoStatus === "loading" ? (
-              <VideoPostLoader />
+              <PreviewPostLoader />
             ) : videoStatus === "error" ? (
               <>{videoError && <p>Error: {videoError.message}</p>}</>
             ) : (
               videoData && (
-                <ul className="flex space-x-4 pb-4">
+                <PreviewListWrapper>
                   {videoData?.pages[0].data.slice(0, 10).map((videoData) => (
                     <PreviewVideoPosts
                       key={videoData.postId}
@@ -118,7 +118,7 @@ export default function Likes() {
                       href={`/likes/video/${videoData.postId}`}
                     />
                   ))}
-                </ul>
+                </PreviewListWrapper>
               )
             )}
             <ScrollBar orientation="horizontal" />
@@ -152,7 +152,7 @@ export default function Likes() {
               <>{freeError && <p>Error: {freeError.message}</p>}</>
             ) : (
               freeData && (
-                <ul className="col-center w-full gap-4 pb-4">
+                <ul className="col-center w-full gap-4 px-0 pb-4">
                   {freeData?.pages[0].data.slice(0, 10).map((freeData) => (
                     <FreePostItem
                       key={freeData.postId}
