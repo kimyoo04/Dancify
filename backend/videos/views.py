@@ -13,8 +13,8 @@ from s3_modules.authentication import get_s3_client
 from s3_modules.upload import upload_video_with_metadata_to_s3
 from s3_modules.upload import upload_video_to_s3
 from s3_modules.upload import upload_splitted_video_to_s3, save_tmp_video
-from ai.tmp_modules_for_async.vtk import video_to_keypoint
-from ai.tmp_modules_for_async.face_mosaic import face_mosaic
+from ai.modules_for_async.vtk import video_to_keypoint
+from ai.modules_for_async.face_mosaic import face_mosaic
 
 
 # 실제 플로우에는 썸네일 이미지도 요청에 포함되어있음

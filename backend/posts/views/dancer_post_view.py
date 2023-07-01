@@ -5,7 +5,6 @@ from django.http import JsonResponse
 from django.db import transaction
 from django.db.models import F
 from django.core.exceptions import ValidationError
-from django.conf import settings
 
 from rest_framework import status
 from rest_framework.views import APIView
