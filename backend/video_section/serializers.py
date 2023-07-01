@@ -17,8 +17,6 @@ class VideoSectionListSerializer(serializers.Serializer):
             'nickname': dancer_post.user.nickname,
             'content': dancer_post.content,
             'createDate': dancer_post.create_date,
-            'video': dancer_post.video,
-            'thumbnail': dancer_post.thumbnail,
             'views': dancer_post.views,
             'feedbackPrice': dancer_post.feedback_price,
             'keypoints': dancer_post.keypoints
