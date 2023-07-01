@@ -1,15 +1,14 @@
 import Webcam from "react-webcam";
-
+import React from "react";
 import { poseSimilarity } from "@ai/utils/posesim";
 import { drawKeypoints, drawSkeleton } from "@ai/utilities";
 
-import { IPoseMessages, TSectionId } from "@type/practice";
+import { IPoseMessages } from "@type/practice";
 import { Pose as poseType } from "@type/moveNet";
+import { TVideo } from "@type/posts";
 
 import * as poseDetection from "@tensorflow-models/pose-detection";
 import * as tf from "@tensorflow/tfjs";
-
-import { postPracticeResult } from "@api/dance/postPracticeData";
 
 export function webcamSize(webcam: HTMLVideoElement) {
   const webcamWidth = webcam.videoWidth;
@@ -87,8 +86,8 @@ export async function detect(
     // Set video width
     webcam.width = videoWidth;
     webcam.height = videoHeight;
+
     const pose = (await detector.estimatePoses(webcam)) as poseType[];
-    // console.log(pose);
     if (pose.length > 0) return pose;
     else return "error";
   } catch (error) {
@@ -135,13 +134,19 @@ export async function danceableBodyCheck(
 }
 
 export async function runMovenet(
-  sectionId: TSectionId,
+  isForceEnd: React.MutableRefObject<boolean>,
   webcamRef: React.RefObject<Webcam>,
   canvasRef: React.RefObject<HTMLCanvasElement>,
   detector: poseDetection.PoseDetector,
   dancerJson: poseType[][],
   setPoseMessage: React.Dispatch<React.SetStateAction<string>>,
-  updateCallback: (avgScore: number, poseMessages: IPoseMessages) => void
+  updateCallback: (
+    video: TVideo,
+    avgScore: number,
+    poseMessages: IPoseMessages,
+    keypointJson: poseType[][]
+  ) => void,
+  forceCallback: () => void
 ) {
   //구간의 실시간 댄서블 keypoint 점수
   const danceableJson: poseType[][] = [];
@@ -159,6 +164,9 @@ export async function runMovenet(
     Great: 0,
     Excellent: 0,
   };
+
+  const webcamRecodeFile = "수정 예정";
+  console.log("새 구간 실행");
 
   const drawPerSec = setInterval(async () => {
     //webcam의 video tag로 width, height 추출
@@ -199,27 +207,32 @@ export async function runMovenet(
         }
 
         indx += 1; //다음 이미지 비교
+        console.log("current", indx);
       }
     }
 
-    //강사 영상 끝나면 setInterval 멈춤
-    if (indx === dancerJson.length) {
+    //강제 종료
+    if (isForceEnd.current) {
+      console.log("🚫 구간 연습 중지");
+      console.log(indx);
       clearInterval(drawPerSec);
       clearCanvas(canvas);
-      avgCosineDistance /= indx - 1;
-      updateCallback(avgCosineDistance, postMessages);
-
-      // 댄서블의 keypoint와 녹화한 댄서블 영상을 POST 요청
-      const practicedata = new FormData();
-      practicedata.append("keypoints", JSON.stringify(danceableJson));
-      // practicedata.append("video", webcamRecodeFile);
-
-      const data = {
-        sectionId,
-        practicedata,
-      };
-
-      await postPracticeResult(data);
+      forceCallback();
+      isForceEnd.current = false;
+      //정상적으로 끝나면 setInterval 멈춤
+    } else if (indx === dancerJson.length) {
+      console.log("🚀 구간 연습 완료");
+      console.log(indx);
+      clearInterval(drawPerSec);
+      clearCanvas(canvas);
+      avgCosineDistance =
+        Math.round((avgCosineDistance / indx - 1) * 100) / 100;
+      updateCallback(
+        webcamRecodeFile,
+        avgCosineDistance,
+        postMessages,
+        danceableJson
+      );
     }
   }, 1000 / 15); //! 15 fps
 }

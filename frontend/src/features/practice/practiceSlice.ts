@@ -1,4 +1,5 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { TFeedbackId } from "@type/feedbacks";
 import { IPracticeState, IUpdateSectionPractice } from "@type/practice";
 
 const initialState: IPracticeState = {
@@ -9,7 +10,7 @@ const initialState: IPracticeState = {
   isFullBody: false, // 전신 유무
   isFinished: false, // SectionResult 컴포넌트 랜더링 유무
   isPlaying: false, // react-player 재생 유무
-
+  feedbackId: "",
   selectedSections: [],
   sectionPracticeArr: [],
 };
@@ -18,6 +19,11 @@ export const practiceSlice = createSlice({
   name: "practice",
   initialState,
   reducers: {
+    // 피드백 아이디 설정
+    setFeedbackId: (state, action: PayloadAction<TFeedbackId>) => {
+      state.feedbackId = action.payload;
+    },
+
     // step 증가
     moveNextStep: (state) => {
       state.step += 1;
@@ -80,25 +86,29 @@ export const practiceSlice = createSlice({
       state,
       action: PayloadAction<IUpdateSectionPractice>
     ) => {
-      const { sectionId, score, poseMessages } = action.payload;
+      const { video, sectionId, score, poseMessages, keypointJson } = action.payload;
       const sectionIndex = state.sectionPracticeArr.findIndex(
         (section) => section.sectionId === sectionId
       );
       if (sectionIndex === -1) {
         // 없으면 sectionPracticeArr에 추가
         state.sectionPracticeArr.push({
-          sectionId: sectionId,
+          video,
+          sectionId,
           firstScore: score,
           bestScore: score,
+          firstJson: keypointJson,
+          bestJson: keypointJson,
           playCounts: 1,
           poseMessages: action.payload.poseMessages,
         });
       } else if (score > state.sectionPracticeArr[sectionIndex].bestScore) {
         // bestScore와 poseMessages 갱신 및 playCounts 증가
         state.sectionPracticeArr[sectionIndex] = {
-          sectionId: sectionId,
-          firstScore: state.sectionPracticeArr[sectionIndex].firstScore,
+          ...state.sectionPracticeArr[sectionIndex],
           bestScore: score,
+          // video: 비디오최고점수,
+          bestJson: keypointJson,
           playCounts: state.sectionPracticeArr[sectionIndex].playCounts + 1,
           poseMessages: poseMessages,
         };
