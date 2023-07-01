@@ -118,18 +118,6 @@ class DancerPostViewSet(BasePostViewSet):
         data['thumbnail'] = url_data['thumbnail_url']
         data['keypoints'] = url_data['keypoint_url']
 
-        # 동영상 분할을 위한 비디오 .mp4 파일 임시 저장
-        localpath = settings.BASE_DIR  # 프로젝트 최상위 폴더
-        localpath = os.path.join(localpath, user_id)  # 현재 폴더/user_id/
-        os.makedirs(localpath, exist_ok=True)  # 폴더 생성
-
-        video = request.FILES['video']
-        local_videopath = os.path.join(localpath, 'video_original.' + video.name.split('.')[-1])
-
-        with open(local_videopath, 'wb') as destination:
-            for chunk in video.chunks():
-                destination.write(chunk)
-
         try:
             serializer = self.get_serializer(data=data)
             serializer.is_valid(raise_exception=True)
