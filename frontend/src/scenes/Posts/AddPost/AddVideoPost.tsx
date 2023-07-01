@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import { useAppDispatch, useAppSelector } from "@toolkit/hook";
 import { postActions } from "@features/post/postSlice";
@@ -28,7 +28,9 @@ export default function AddVideoPost() {
   );
 
   // 동영상 미리보기 URL
-  const videoPreview = videoFile ? URL.createObjectURL(videoFile) : undefined;
+  const videoPreview = useMemo(() => {
+    return videoFile ? URL.createObjectURL(videoFile) : undefined;
+  }, [videoFile]);
 
   // 이미지 메모리 누수 처리
   useEffect(() => {

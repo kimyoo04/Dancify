@@ -1,4 +1,4 @@
-import {  useEffect, useState } from "react";
+import {  useEffect, useMemo, useState } from "react";
 import {useAppSelector } from "@toolkit/hook";
 
 import Tiptap from "@components/tiptap";
@@ -27,7 +27,9 @@ export default function EditFreePost({ id }: { id: string }) {
   );
 
   // 동영상 미리보기 URL
-  const videoPreview = videoFile ? URL.createObjectURL(videoFile) : undefined;
+  const videoPreview = useMemo(() => {
+    return videoFile ? URL.createObjectURL(videoFile) : undefined;
+  }, [videoFile]);
 
   // 이미지 메모리 누수 처리
   useEffect(() => {
@@ -55,8 +57,6 @@ export default function EditFreePost({ id }: { id: string }) {
   const { mutateAsync, isLoading } = useUpdateVideoPost();
 
   const onSubmit = async () => {
-
-
     // title, content, video 필수
     if (postTitle.length < 3 || postContent.length < 3) return;
 
