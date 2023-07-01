@@ -69,24 +69,25 @@ export const practiceSlice = createSlice({
     // section 복수 선택 토글
     toggleSelectedSections: (state, action: PayloadAction<number>) => {
       const sectionIndex = action.payload;
-      // 선택된 section이 있는지 확인
-      const isSection = state.selectedSections.findIndex(
-        (section) => section === sectionIndex
-      );
-      // 선택된 section이 없으면 추가, 있으면 제거
-      if (isSection === -1) {
-        state.selectedSections.push(sectionIndex);
+      const isSection = state.selectedSections.includes(sectionIndex);
+
+      if (isSection) {
+        // 선택된 section이 이미 있으면 제거
+        state.selectedSections = state.selectedSections.filter(
+          (section) => section !== sectionIndex
+        );
       } else {
-        state.selectedSections.splice(sectionIndex, 1);
+        // 선택된 section이 없으면 추가
+        state.selectedSections.push(sectionIndex);
       }
     },
-
     // section의 대한 최초, 최고 점수 입력
     updateSectionPractice: (
       state,
       action: PayloadAction<IUpdateSectionPractice>
     ) => {
-      const { video, sectionId, score, poseMessages, keypointJson } = action.payload;
+      const { video, sectionId, score, poseMessages, keypointJson } =
+        action.payload;
       const sectionIndex = state.sectionPracticeArr.findIndex(
         (section) => section.sectionId === sectionId
       );

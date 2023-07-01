@@ -88,6 +88,7 @@ export async function detect(
     webcam.height = videoHeight;
 
     const pose = (await detector.estimatePoses(webcam)) as poseType[];
+    // console.log(pose);
     if (pose.length > 0) return pose;
     else return "error";
   } catch (error) {
@@ -158,6 +159,9 @@ export async function runMovenet(
   //반복문 실행
   let indx = 1;
 
+  //강제 구간 종료 시 canvas error 방지
+  let breakDrawing = false;
+
   const postMessages: IPoseMessages = {
     Miss: 0,
     Good: 0,
@@ -166,7 +170,6 @@ export async function runMovenet(
   };
 
   const webcamRecodeFile = "수정 예정";
-  console.log("새 구간 실행");
 
   const drawPerSec = setInterval(async () => {
     //webcam의 video tag로 width, height 추출
@@ -176,63 +179,66 @@ export async function runMovenet(
     // 댄서블의 keypoint 추출
     const danceable = await detect(webcam, detector);
     const dancer = dancerJson[indx];
+    if (breakDrawing) {
+      console.log("🚫 breakDrawing");
+    } else {
+      // canvas에 댄서블의 스켈레톤 그리기
+      const canvas = canvasRef.current as HTMLCanvasElement;
+      const ctx = getCanvasContext(webcamWidth, webcamHeight, canvas);
+      if (danceable !== "error" && ctx !== null) drawCanvas(danceable, ctx);
 
-    // canvas에 댄서블의 스켈레톤 그리기
-    const canvas = canvasRef.current as HTMLCanvasElement;
-    const ctx = getCanvasContext(webcamWidth, webcamHeight, canvas);
-    if (danceable !== "error" && ctx !== null) drawCanvas(danceable, ctx);
+      //에러 안 나면 x,y의 좌표와 유사도 출력
+      if (danceable !== "error" && dancer !== undefined) {
+        const cosineDistance = poseSimilarity(danceable[0], dancer[0], {
+          strategy: "cosineDistance",
+        });
+        danceableJson.push(danceable); //댄서블 실시간 keypoint 저장
 
-    //에러 안 나면 x,y의 좌표와 유사도 출력
-    if (danceable !== "error" && dancer !== undefined) {
-      const cosineDistance = poseSimilarity(danceable[0], dancer[0], {
-        strategy: "cosineDistance",
-      });
-      danceableJson.push(danceable); //댄서블 실시간 keypoint 저장
+        if (cosineDistance instanceof Error) {
+          console.log(
+            "🚀 ~ file: movenet.ts:138 ~ cosineDistance: error",
+            cosineDistance
+          );
+        } else {
+          oneSecCosineDistance += cosineDistance;
 
-      if (cosineDistance instanceof Error) {
-        console.log(
-          "🚀 ~ file: movenet.ts:138 ~ cosineDistance: error",
-          cosineDistance
-        );
-      } else {
-        oneSecCosineDistance += cosineDistance;
+          //1초 지나면 avgCosineDistance에 더해주고 점수 메세지 출력한 뒤, oneSecCosineDistance 초기화
+          if (indx % 15 === 0) {
+            avgCosineDistance += oneSecCosineDistance;
+            const poseMessage = scoreToMessage(oneSecCosineDistance / 15);
+            setPoseMessage(poseMessage);
+            postMessages[poseMessage] += 1; // 동작 평가 메시지 누적
+            oneSecCosineDistance = 0; // 1분동안의 유사도 점수 초기화
+          }
 
-        //1초 지나면 avgCosineDistance에 더해주고 점수 메세지 출력한 뒤, oneSecCosineDistance 초기화
-        if (indx % 15 === 0) {
-          avgCosineDistance += oneSecCosineDistance;
-          const poseMessage = scoreToMessage(oneSecCosineDistance / 15);
-          setPoseMessage(poseMessage);
-          postMessages[poseMessage] += 1; // 동작 평가 메시지 누적
-          oneSecCosineDistance = 0; // 1분동안의 유사도 점수 초기화
+          indx += 1; //다음 이미지 비교
         }
-
-        indx += 1; //다음 이미지 비교
-        console.log("current", indx);
       }
-    }
 
-    //강제 종료
-    if (isForceEnd.current) {
-      console.log("🚫 구간 연습 중지");
-      console.log(indx);
-      clearInterval(drawPerSec);
-      clearCanvas(canvas);
-      forceCallback();
-      isForceEnd.current = false;
-      //정상적으로 끝나면 setInterval 멈춤
-    } else if (indx === dancerJson.length) {
-      console.log("🚀 구간 연습 완료");
-      console.log(indx);
-      clearInterval(drawPerSec);
-      clearCanvas(canvas);
-      avgCosineDistance =
-        Math.round((avgCosineDistance / indx - 1) * 100) / 100;
-      updateCallback(
-        webcamRecodeFile,
-        avgCosineDistance,
-        postMessages,
-        danceableJson
-      );
+      //강제 종료
+      if (isForceEnd.current) {
+        console.log("🚫 구간 연습 중지");
+        // console.log(indx);
+        breakDrawing = true;
+        clearInterval(drawPerSec);
+        clearCanvas(canvas);
+        forceCallback();
+        isForceEnd.current = false;
+        //정상적으로 끝나면 setInterval 멈춤
+      } else if (indx === dancerJson.length) {
+        console.log("🚀 구간 연습 완료");
+        // console.log(indx);
+        clearInterval(drawPerSec);
+        clearCanvas(canvas);
+        avgCosineDistance =
+          Math.round((avgCosineDistance / indx - 1) * 100) / 100;
+        updateCallback(
+          webcamRecodeFile,
+          avgCosineDistance,
+          postMessages,
+          danceableJson
+        );
+      }
     }
   }, 1000 / 15); //! 15 fps
 }
