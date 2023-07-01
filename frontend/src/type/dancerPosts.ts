@@ -86,8 +86,10 @@ export interface IDancerPostDataArr {
   data: IDancerPost[];
 }
 
-export interface ICreateDancerPostData {
-  formData: FormData; // { title: string, content: string, video: File, feedbackPrice: number, startTime: string, endTime: string }
+export interface ICreateDancerPostSectionData {
+  postId: TPostId;
+  videoExtension: string;
+  timeStamps: string;
 }
 
 export interface IUpdateDancerPostData {

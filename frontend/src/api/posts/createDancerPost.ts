@@ -3,10 +3,11 @@ import { postActions } from "@features/post/postSlice";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useAppSelector } from "@toolkit/hook";
 import { store } from "@toolkit/store";
+import { ICreateDancerPostSectionData } from "@type/dancerPosts";
 import { useRouter } from "next/router";
 
 // 자유게시글 Create
-export const createDancerPost = async (postData: FormData) => {
+export const createDancerPost = async (formdata: FormData) => {
   try {
     // "genre": string,
     // "title":string,
@@ -14,11 +15,13 @@ export const createDancerPost = async (postData: FormData) => {
     // "video": File,
     // "feedbackPrice": number,
 
-    const response = await axios.post("/posts/dancer", postData, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
+    const response: { data: { postId: string; video: string } } =
+      await axios.post("/posts/dancer", formdata, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
     return response.data;
   } catch (err) {
     console.error("🚀 createDancePost:", err);
@@ -26,9 +29,11 @@ export const createDancerPost = async (postData: FormData) => {
   }
 };
 
-export const createDancerVideoSections = async (videoData: FormData) => {
+export const createDancerVideoSections = async (
+  data: ICreateDancerPostSectionData
+) => {
   try {
-    await axios.post("/posts/dancer", videoData, {
+    await axios.post("/posts/dancer/sections", data, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
@@ -63,7 +68,10 @@ export const useCreateDancerVideoSectionsMutation = () => {
           genre,
         ],
       });
+
+      await new Promise((resolve) => setTimeout(resolve, 500));
       store.dispatch(postActions.resetPostInfo());
+
       router.push("/");
     },
     onError: (err) => {
