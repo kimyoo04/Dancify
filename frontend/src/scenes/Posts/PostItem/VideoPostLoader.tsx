@@ -1,48 +1,36 @@
-import ContentLoader from "react-content-loader";
+import VideoListWrapper from "./VideoListWrapper";
+import { cn } from "@lib/utils";
+import { Skeleton } from "@components/ui/Skeleton";
 
 export default function VideoPostLoader() {
-  const contentLoaderArr = Array.from(Array(15).keys());
+  const contentLoaderArr = Array.from(Array(20).keys());
 
   return (
-    <ul className="grid w-full grid-cols-1 gap-4">
-      {contentLoaderArr.map((_, index) => (
-        <li
-          key={index + "dummy" + "posts"}
-          className="flex w-full flex-col gap-4 rounded-2xl bg-white p-4 shadow-md"
+    <VideoListWrapper>
+      {/* //! 댄서게시판 검색결과 무한 스크롤 영역 */}
+      {contentLoaderArr.map((data, indx) => (
+        <div
+          key={indx + "dummy" + "posts"}
+          className="group -space-y-2 transition-all hover:-translate-y-3"
         >
-          {/* 작성자명과 작성일자 */}
-          <div className="flex items-center justify-between">
-            <ContentLoader uniqueKey="post-nickname" width={100} height={26}>
-              <rect x="0" y="0" rx="5" ry="5" width="100%" height="100%" />
-            </ContentLoader>
+          <div className="relative overflow-hidden rounded-md">
+            <Skeleton
+              className={cn(
+                "aspect-[9/16] w-full rounded-md bg-gray-200 object-cover transition-all"
+              )}
+            />
           </div>
 
-          {/* 제목과 내용 */}
-          <div className="col-start gap-2">
-            <ContentLoader uniqueKey="post-title" width={200} height={34}>
-              <rect x="0" y="0" rx="5" ry="5" width="100%" height="100%" />
-            </ContentLoader>
-            <ContentLoader uniqueKey="post-content" width={450} height={26}>
-              <rect x="0" y="0" rx="5" ry="5" width="100%" height="100%" />
-            </ContentLoader>
-          </div>
+          <div className="flex items-start justify-start gap-3 rounded-b-md bg-gray-100 px-3 pb-3 pt-5">
+            <Skeleton className="h-8 w-8 rounded-full bg-gray-300" />
 
-          {/* 조회와 댓글 */}
-          <div className="mt-4 flex justify-between">
-            <div className="row-center gap-2">
-              <ContentLoader uniqueKey="post-hits" width={60} height={26}>
-                <rect x="0" y="0" rx="5" ry="5" width="100%" height="100%" />
-              </ContentLoader>
-              <ContentLoader uniqueKey="post-comments" width={60} height={26}>
-                <rect x="0" y="0" rx="5" ry="5" width="100%" height="100%" />
-              </ContentLoader>
+            <div className="space-y-1 text-sm">
+              <Skeleton className="h-4 w-32 bg-gray-300 font-medium leading-none" />
+              <Skeleton className="h-3 w-12 bg-gray-300 text-xs text-muted-foreground" />
             </div>
-            <ContentLoader uniqueKey="post-date" width={60} height={26}>
-              <rect x="0" y="0" rx="5" ry="5" width="100%" height="100%" />
-            </ContentLoader>
           </div>
-        </li>
+        </div>
       ))}
-    </ul>
+    </VideoListWrapper>
   );
 }
