@@ -1,4 +1,4 @@
-import { TNickname } from "./auth";
+import { TNickname, TUserId } from "./auth";
 import { TCommentCount, IComment } from "./comments";
 import { TGenreValue } from "./filter";
 import { TLikesCount } from "./like";
@@ -27,6 +27,7 @@ export interface IDancerPost {
   likesCount: TLikesCount;
   feedbackPrice: TFeedbackPrice;
 }
+
 // 댄서게시판의 무한스크롤 데이터
 export interface IDancerPostsPerPage {
   data: IDancerPost[];
@@ -53,12 +54,42 @@ export interface IDancerPostDetail {
   comments: IComment[];
 }
 
+// 댄서게시판의 1개 게시글
+export interface IHistory {
+  videoHistoryId: string;
+  viewDate: string;
+  dancerPost: IDancerHistoryPost
+}
+
+export interface IDancerHistoryPost {
+  postId: TPostId;
+  title: TTitle;
+  userId: TUserId;
+  nickname: TNickname;
+  content: TContent;
+  createDate: TCreateDate;
+  thumbnail: TThumbnail;
+  video: TVideo;
+  views: TViews;
+  feedbackPrice: TFeedbackPrice;
+};
+
+// 댄서게시판의 무한스크롤 데이터
+export interface IHistoriesPerPage {
+  data: IHistory[];
+  totalPages: number;
+  currentPage: number;
+  totalCount: number;
+}
+
 export interface IDancerPostDataArr {
   data: IDancerPost[];
 }
 
-export interface ICreateDancerPostData {
-  formData: FormData; // { title: string, content: string, video: File, feedbackPrice: number, startTime: string, endTime: string }
+export interface ICreateDancerPostSectionData {
+  postId: TPostId;
+  videoExtension: string;
+  timeStamps: string;
 }
 
 export interface IUpdateDancerPostData {

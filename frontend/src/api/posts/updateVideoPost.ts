@@ -6,9 +6,18 @@ import { IUpdatePost } from "@type/posts";
 import { useRouter } from "next/router";
 
 // 자랑게시글 Update
-export const updateVideoPost = async ({postId, formData}: IUpdatePost) => {
-  const response = await axios.patch(`/posts/video/${postId}`, formData);
-  return response;
+export const updateVideoPost = async ({ postId, formData }: IUpdatePost) => {
+  try {
+    await axios.patch(`/posts/video/${postId}`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+    return true;
+  } catch (err) {
+    console.error(err)
+    return false;
+  }
 };
 
 // useUpdateVideoPost
@@ -24,6 +33,9 @@ export const useUpdateVideoPost = () => {
   return useMutation({
     mutationFn: updateVideoPost,
     onSuccess: async (_, variables) => {
+      await queryClient.invalidateQueries({
+        queryKey: [`/postDetail/${variables.postId}`],
+      });
       await queryClient.invalidateQueries({
         queryKey: [
           `/posts/video`,

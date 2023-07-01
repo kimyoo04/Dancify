@@ -8,7 +8,7 @@ export const feedbackResponse = async (formData: FormData) => {
     await axios.post(`/feedbacks/danceable`, formData);
     return true;
   } catch (err) {
-    return err;
+    return false;
   }
 };
 
@@ -24,7 +24,7 @@ export const useFeedbackResponse = (feedbackId: TFeedbackId) => {
       });
     },
     onError: (err) => {
-      console.log("🚀 useFeedbackResponse err:", err);
+      console.error("🚀 useFeedbackResponse err:", err);
     },
   });
 };

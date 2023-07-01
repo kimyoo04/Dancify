@@ -16,5 +16,10 @@ export const useReadSearchRank = () => {
   return useQuery<ISearchRank>({
     queryKey: [`/search-rank`],
     queryFn: readSearchRank,
+    cacheTime: 600000, // 10분
+    staleTime: 600000, // 10분
+    onError: (err) => {
+      console.error("🚀 useReadSearchRank.ts", err);
+    }
   });
 };

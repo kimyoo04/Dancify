@@ -24,7 +24,7 @@ export const useFeedbackRequest = (feedbackId: TFeedbackId) => {
       });
     },
     onError: (err) => {
-      console.log("🚀 useFeedbackRequest err:", err);
+      console.error("🚀 useFeedbackRequest err:", err);
     },
   });
 };

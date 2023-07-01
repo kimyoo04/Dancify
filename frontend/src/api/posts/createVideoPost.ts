@@ -15,7 +15,7 @@ export const createVideoPost = async (postData: FormData) => {
     });
     return true;
   } catch (err) {
-    console.log("🚀 createVideoPost:", err);
+    console.error("🚀 createVideoPost:", err);
     return false;
   }
 };
@@ -43,11 +43,14 @@ export const useCreateVideoPostMutation = () => {
           genre,
         ],
       });
-      store.dispatch(postActions.resetPostInfo());
+      store.dispatch(postActions.resetPostInfo())
+      await new Promise((resolve) => setTimeout(resolve, 5000));
+
+      // 목록 페이지로 이동
       router.push("/video");
     },
     onError: (err) => {
-      console.log("🚀 useCreateVideoPostMutation:", err);
+      console.error("🚀 useCreateVideoPostMutation:", err);
     },
   });
 };

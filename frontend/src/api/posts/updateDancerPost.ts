@@ -7,8 +7,15 @@ import { useRouter } from "next/router";
 
 // 댄서게시글 Update
 export const updateDancerPost = async ({postId, formData}: IUpdatePost) => {
-  const response = await axios.patch(`/posts/dancer/${postId}`, formData);
-  return response;
+  try {await axios.patch(`/posts/dancer/${postId}`, formData, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+  return true;  } catch(err) {
+    console.error(err)
+    return false
+  }
 };
 
 // useUpdateDancerPost
@@ -24,6 +31,9 @@ export const useUpdateDancerPost = () => {
   return useMutation({
     mutationFn: updateDancerPost,
     onSuccess: async (_, variables) => {
+      await queryClient.invalidateQueries({
+        queryKey: [`/postDetail/${variables.postId}`],
+      });
       await queryClient.invalidateQueries({
         queryKey: [
           `/posts/dancer`,

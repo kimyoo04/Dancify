@@ -15,6 +15,8 @@ export default function Histories() {
     status,
   } = useReadViewHistoriesPerPage();
 
+  console.log(data);
+
   return (
     <>
       <div className="bg-background">

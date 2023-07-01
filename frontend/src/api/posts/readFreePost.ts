@@ -18,5 +18,8 @@ export const useReadFreePost = (postId: TPostId) => {
     queryKey: [`/postDetail/${postId}`],
     queryFn: () => readFreePost(postId),
     refetchOnMount: "always", // 유저폼 활성화를 위해 설정
+    onError: (err) => {
+      console.error("🚀 useReadFreePost.ts", err);
+    },
   });
 };

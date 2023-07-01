@@ -17,5 +17,8 @@ export const useReadVideoPost = (id: string) => {
     queryKey: [`/postDetail/${id}`],
     queryFn: () => readVideoPost(id),
     refetchOnMount: "always", // 유저폼 활성화를 위해 설정
+    onError: (err) => {
+      console.error("🚀 useReadVideoPost.ts", err);
+    },
   });
 };

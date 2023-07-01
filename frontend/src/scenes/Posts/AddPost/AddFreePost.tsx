@@ -6,15 +6,28 @@ import { useEffect, useState } from "react";
 import { Button } from "@components/ui/button";
 import UploadImage from "@components/UploadImage";
 import { postActions } from "@features/post/postSlice";
-import PreviewImageFile from "../PostItem/PreviewImageFile";
+import PreviewImageUrl from "../PostItem/PreviewImageUrl";
+import { ReloadIcon } from "@radix-ui/react-icons";
+import { useRouter } from "next/router";
 
 export default function AddFreePost() {
-  const dispatch = useAppDispatch()
+  const router = useRouter();
+  const dispatch = useAppDispatch();
   const [fileName, setFileName] = useState<string>("");
   const [imageFile, setImageFile] = useState<File>();
   const { postTitle, postContent } = useAppSelector((state) => state.post);
+  const [isWait, setIsWait] = useState(false);
 
-  const { mutateAsync } = useCreateFreePostMutation();
+  const imagePreview = imageFile ? URL.createObjectURL(imageFile) : undefined;
+
+  // 이미지 메모리 누수 처리
+  useEffect(() => {
+    return () => {
+      if (imagePreview) URL.revokeObjectURL(imagePreview);
+    };
+  }, [imagePreview]);
+
+  const { mutateAsync, isLoading } = useCreateFreePostMutation();
 
   const onSubmit = async () => {
     // title, content 필수
@@ -30,16 +43,29 @@ export default function AddFreePost() {
     formData.append("content", postContent);
 
     // POST 요청
-    mutateAsync(formData);
-    await new Promise((resolve) => setTimeout(resolve, 500));
-
+    setIsWait(true);
+    await mutateAsync(formData);
     return;
   };
 
+  // 연습 초기화
   useEffect(() => {
-    return () => {
-      dispatch(postActions.resetPostInfo());
-    };
+    dispatch(postActions.resetPostInfo());
+  }, []);
+
+  // 새로고침 및 뒤로가기 방지
+  useEffect(() => {
+    if (window) {
+      if (router.asPath !== window.location.pathname) {
+        window.history.pushState("", "", router.asPath);
+      }
+      window.onbeforeunload = () => {
+        return true;
+      };
+      return () => {
+        window.onbeforeunload = null;
+      };
+    }
   }, []);
 
   return (
@@ -58,12 +84,19 @@ export default function AddFreePost() {
       />
 
       {/* 이미지 미리보기 */}
-      {imageFile && <PreviewImageFile imageFile={imageFile} />}
+      {imagePreview && <PreviewImageUrl imageUrl={imagePreview} />}
 
       {/* 왼료 버튼 */}
-      <Button className="w-full" onClick={onSubmit}>
-        작성 완료
-      </Button>
+      {isLoading || isWait ? (
+        <Button disabled className="w-full">
+          <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
+          잠시만 기다려주세요.
+        </Button>
+      ) : (
+        <Button className="w-full" onClick={onSubmit}>
+          작성 완료
+        </Button>
+      )}
     </div>
   );
 }

@@ -24,7 +24,7 @@ export default function VideoPostDetail({ id }: { id: string }) {
       dispatch(likeActions.getUserLike(data.userLike));
       dispatch(
         postActions.getVideoPostInfo({
-          postId: id,
+          postId: data.postId,
           postTitle: data.title,
           postContent: data.content,
           postVideo: data.video,

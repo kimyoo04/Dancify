@@ -9,7 +9,7 @@ export const deleteFeedback = async (feedbackId: TFeedbackId) => {
     await axios.delete(`/feedbacks/${feedbackId}`);
     return true;
   } catch (err) {
-    console.log("🚀 deleteFeedback.tsx", err);
+    console.error("🚀 deleteFeedback.tsx", err);
     return false;
   }
 };
@@ -36,7 +36,7 @@ export const useDeleteFeedback = () => {
       toast({ title: "Success", description: "피드백 게시글이 삭제되었습니다." });
     },
     onError: (err) => {
-      console.error(err);
+      console.error("🚀 useDeleteFeedback.ts", err);
       toast({ title: "Fail", description: "피드백 게시글을 삭제하지 못했습니다." });
     },
   });

@@ -2,12 +2,19 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 // types
-import { IPostEditorState, IFreePostInfo, ITimeStamp, IVideoPostInfo, IDancerPostInfo } from "@type/postEditor";
-import { TContent, TTitle } from "@type/posts";
+import {
+  IPostEditorState,
+  IFreePostInfo,
+  ITimeStamp,
+  IVideoPostInfo,
+  IDancerPostInfo,
+} from "@type/postEditor";
+import { TContent, TPostId, TTitle, TVideo } from "@type/posts";
 
 const initialState: IPostEditorState = {
   step: 1,
   isAgree: false,
+  isMosaic: false,
   genre: "",
   postId: "",
   postTitle: "",
@@ -78,6 +85,26 @@ const postSlice = createSlice({
 
     toggleAgree: (state) => {
       state.isAgree = !state.isAgree;
+    },
+
+    toggleMosaic: (state) => {
+      state.isMosaic = !state.isMosaic;
+    },
+
+    selectGenre: (state, action: PayloadAction<string>) => {
+      state.genre = action.payload;
+    },
+
+    setFeedbackPrice: (state, action: PayloadAction<number>) => {
+      state.feedbackPrice = action.payload;
+    },
+
+    uploadDancerPost: (
+      state,
+      action: PayloadAction<{ postId: TPostId; video: TVideo }>
+    ) => {
+      state.postId = action.payload.postId;
+      state.postVideo = action.payload.video;
     },
 
     movePrevStep: (state) => {

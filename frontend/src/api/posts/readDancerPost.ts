@@ -17,5 +17,8 @@ export const useReadDancerPost = (id: string) => {
     queryKey: [`/postDetail/${id}`],
     queryFn: () => readDancerPost(id),
     refetchOnMount: "always", // 유저폼 활성화를 위해 설정
+    onError: (err) => {
+      console.error("🚀 useReadDancerPost.ts", err);
+    },
   });
 };

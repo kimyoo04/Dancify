@@ -1,9 +1,8 @@
-import { useRouter } from "next/router";
-import { IPractice } from "@type/practice";
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import { useAppDispatch, useAppSelector } from "@toolkit/hook";
 import { practiceActions } from "@features/practice/practiceSlice";
 import * as poseDetection from "@tensorflow-models/pose-detection";
+import { IPractice } from "@type/practice";
 
 import MainWrapper from "../Wrapper/MainWarpper";
 import BottomWrapper from "../Wrapper/BottomWrapper";
@@ -20,7 +19,6 @@ export default function Play({
   data: IPractice;
   detector: poseDetection.PoseDetector;
 }) {
-  const router = useRouter();
   const dispatch = useAppDispatch();
   const {
     isFinished,
@@ -30,21 +28,6 @@ export default function Play({
     sectionPracticeArr,
   } = useAppSelector((state) => state.practice);
   const isForceEnd = useRef(false);
-
-  // 새로고침 및 뒤로가기 방지
-  useEffect(() => {
-    if (window) {
-      if (router.asPath !== window.location.pathname) {
-        window.history.pushState("", "", router.asPath);
-      }
-      window.onbeforeunload = () => {
-        return true;
-      };
-      return () => {
-        window.onbeforeunload = null;
-      };
-    }
-  }, []);
 
   const practiceEnd = async () => {
     await postsPracticeData(feedbackId, playIndex, sectionPracticeArr);

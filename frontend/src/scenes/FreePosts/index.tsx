@@ -1,4 +1,3 @@
-import GenreButtons from "@components/GenreButtons";
 import FreePostHeader from "./FreeItem/FreePostHeader";
 import FreePostList from "@scenes/FreePosts/FreeItem/FreePostList";
 import CreateButton from "@scenes/Posts/PostItem/CreateButton";
@@ -18,8 +17,6 @@ export default function FreePosts() {
   return (
     <>
       <div className="bg-background">
-        <GenreButtons />
-
         <FreePostHeader />
 
         {/* 자유게시판 fetch 결과 출력 */}

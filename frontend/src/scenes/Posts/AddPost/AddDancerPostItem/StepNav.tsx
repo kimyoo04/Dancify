@@ -13,7 +13,7 @@ export default function StepNav({ className, items, ...props }: StepNavProps) {
   const step = useAppSelector((state) => state.post.step);
 
   return (
-    <nav className={cn("flex space-x-2", className)} {...props}>
+    <nav className={cn("flex md:space-x-2", className)} {...props}>
       {items.map((item) => (
         <button
           key={item.step}

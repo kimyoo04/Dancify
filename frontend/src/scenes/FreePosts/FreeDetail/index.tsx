@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useAppDispatch } from "@toolkit/hook";
 import { likeActions } from "@features/like/likeSlice";
 import { postActions } from "@features/post/postSlice";
@@ -20,18 +20,20 @@ export default function FreePostDetail({ id }: { id: string }) {
 
   // 좋아요와 게시글 정보 상태 업데이트
   useEffect(() => {
-    if (data) {
-      dispatch(likeActions.getUserLike(data.userLike));
-      dispatch(
-        postActions.getFreePostInfo({
-          postId: id,
-          postTitle: data.title,
-          postContent: data.content,
-          postImage: data.postImage || "",
-        })
-      );
-    }
-  }, [data, id, dispatch]);
+    setTimeout(() => {
+      if (data) {
+        dispatch(likeActions.getUserLike(data.userLike));
+        dispatch(
+          postActions.getFreePostInfo({
+            postId: data.postId,
+            postTitle: data.title,
+            postContent: data.content,
+            postImage: data.postImage || "",
+          })
+        );
+      }
+    }, 2000);
+  }, [data, dispatch]);
 
   return (
     <>

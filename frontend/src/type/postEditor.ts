@@ -3,6 +3,7 @@ import { TContent, TPostId, TTitle } from "./posts";
 export interface IPostEditorState {
   step: number;
   isAgree: boolean;
+  isMosaic: boolean;
   genre: string;
   postId: string;
   postTitle: string;

@@ -52,7 +52,7 @@ export const postsPracticeData = async (
     });
     return true;
   } catch (err) {
-    console.log("🚀 postsPracticeData:", err);
+    console.error("🚀 postPracticeResult:", err);
     return false;
   }
 };

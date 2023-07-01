@@ -37,6 +37,7 @@ export default function StackedBarChart() {
       legend: {
         display: true,
         position: "bottom" as const,
+        reverse: true, // 범례 항목을 뒤집기
       },
     },
     scales: {
@@ -73,16 +74,10 @@ export default function StackedBarChart() {
     labels,
     datasets: [
       {
-        label: "Excellent",
-        data: excellentCount,
-        borderColor: "rgb(54, 162, 235)",
-        backgroundColor: "rgba(54, 162, 235, 0.2)",
-      },
-      {
-        label: "Great",
-        data: greatCount,
-        borderColor: "rgb(75, 192, 192)",
-        backgroundColor: "rgba(75, 192, 192, 0.2)",
+        label: "Miss",
+        data: missCount,
+        borderColor: "rgb(255, 99, 132)",
+        backgroundColor: "rgba(255, 99, 132, 0.2)",
       },
       {
         label: "Good",
@@ -91,10 +86,16 @@ export default function StackedBarChart() {
         backgroundColor: "rgba(255, 159, 64, 0.2)",
       },
       {
-        label: "Miss",
-        data: missCount,
-        borderColor: "rgb(255, 99, 132)",
-        backgroundColor: "rgba(255, 99, 132, 0.2)",
+        label: "Great",
+        data: greatCount,
+        borderColor: "rgb(75, 192, 192)",
+        backgroundColor: "rgba(75, 192, 192, 0.2)",
+      },
+      {
+        label: "Excellent",
+        data: excellentCount,
+        borderColor: "rgb(54, 162, 235)",
+        backgroundColor: "rgba(54, 162, 235, 0.2)",
       },
     ],
   };

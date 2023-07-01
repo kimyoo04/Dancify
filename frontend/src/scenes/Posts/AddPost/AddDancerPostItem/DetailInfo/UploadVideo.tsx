@@ -32,7 +32,7 @@ export default function UploadVideo({
     onDrop,
   });
 
-  // 이미지 초기화 버튼
+  // 동영상 초기화 버튼
   const onReset = () => {
     setVideoFile(undefined);
     setVideoFileName("");
@@ -40,7 +40,7 @@ export default function UploadVideo({
 
   return (
     <div className="space-y-2">
-      {/* 이미지 드레그엔드롭 영역 */}
+      {/* 동영상 드레그엔드롭 영역 */}
       <div
         className="col-center flex min-h-[120px] w-full rounded-md border border-dashed border-gray_3 border-input bg-transparent px-3 py-10 text-sm ring-offset-background placeholder:text-muted-foreground hover:ring-2 hover:ring-ring hover:ring-offset-2 focus-visible:outline-none"
         {...getRootProps()}
@@ -56,7 +56,7 @@ export default function UploadVideo({
         </p>
       </div>
 
-      {/* 이미지 미리보기 영역 */}
+      {/* 동영상 미리보기 영역 */}
       <div className="row-center w-full gap-2 rounded-xl">
         <div className="col-end h-10 w-full overflow-hidden rounded-md border border-muted-foreground bg-muted">
           <span className="mr-3">{videoFileName}</span>

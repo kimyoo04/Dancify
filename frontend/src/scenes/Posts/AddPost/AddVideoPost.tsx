@@ -1,55 +1,51 @@
-import { useRef, useState } from "react";
-import { useAppSelector } from "@toolkit/hook";
+import { useEffect, useMemo, useState } from "react";
+
+import { useAppDispatch, useAppSelector } from "@toolkit/hook";
+import { postActions } from "@features/post/postSlice";
 
 import Tiptap from "@components/tiptap";
 import TitleForm from "@components/tiptap/TitleForm";
-
 import { Button } from "@components/ui/button";
 import UploadVideo from "@components/UploadVideo";
-import UploadImage from "@components/UploadImage";
+import MosaicCheckBox from "@components/MosaicCheckBox";
 
 import { useCreateVideoPostMutation } from "@api/posts/createVideoPost";
+import PreviewVideoUrl from "../PostItem/PreviewVideoUrl";
+import { ReloadIcon } from "@radix-ui/react-icons";
+
 
 export default function AddVideoPost() {
-  // 추출썸네일
-  const videoRef = useRef<HTMLVideoElement>(null);
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [thumbnail, setThumbnail] = useState<string | null>(null);
-
-  // 이미지
-  const [imageFileName, setImageFileName] = useState<string>("");
-  const [imageFile, setImageFile] = useState<File>();
+  const dispatch = useAppDispatch();
+  const [isWait, setIsWait] = useState(false);
 
   // 동영상
   const [videoFileName, setVideoFileName] = useState<string>("");
   const [videoFile, setVideoFile] = useState<File>();
 
-  // 제목과 내용
-  const { postTitle, postContent } = useAppSelector((state) => state.post);
-  const { mutateAsync } = useCreateVideoPostMutation();
+  // 제목, 내용, 모자이크 유무
+  const { postTitle, postContent, isMosaic } = useAppSelector(
+    (state) => state.post
+  );
 
-  // 동영상에서 썸네일 이미지 추출
-  const extractThumbnail = async () => {
-    const video = videoRef.current;
-    const canvas = canvasRef.current;
+  // 동영상 미리보기 URL
+  const videoPreview = useMemo(() => {
+    return videoFile ? URL.createObjectURL(videoFile) : undefined;
+  }, [videoFile]);
 
-    if (video && canvas) {
-      // 비디오의 0초로 이동
-      video.currentTime = 0;
+  // 이미지 메모리 누수 처리
+  useEffect(() => {
+    return () => {
+      if (videoPreview) URL.revokeObjectURL(videoPreview);
+    };
+  }, [videoPreview]);
 
-      // 비디오가 준비될 때까지 기다린 후 캡쳐
-      video.onloadeddata = () => {
-        canvas.width = video.videoWidth;
-        canvas.height = video.videoHeight;
-        const ctx = canvas.getContext("2d");
-        if (ctx) {
-          ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-          const thumbnailDataUrl = canvas.toDataURL(); // 이미지를 데이터 URL로 변환
-          setThumbnail(thumbnailDataUrl);
-        }
-      };
-    }
-  };
+  // 연습 초기화
+  useEffect(() => {
+    dispatch(postActions.resetPostInfo());
+  }, []);
+
+  // 요청 함수
+  const { mutateAsync, isLoading } = useCreateVideoPostMutation();
 
   const onSubmit = async () => {
     // title, content, video 필수
@@ -57,50 +53,54 @@ export default function AddVideoPost() {
 
     const formData = new FormData();
 
-    // 비디오파일 넣기
-    if (videoFile) formData.append("video", videoFile);
-
-    // 이미지파일 넣기 혹은 썸네일이미지 생성
-    if (imageFile) formData.append("thumbnail", imageFile);
-    else await extractThumbnail();
-
-    // 썸네일이미지 넣기
-    if (thumbnail) {
-      const thumbnailBlob = await fetch(thumbnail).then((res) => res.blob());
-      formData.append("thumbnail", thumbnailBlob);
-    }
-
     // 제목과 내용 넣기
     formData.append("title", postTitle);
     formData.append("content", postContent);
 
-    // POST 요청
-    mutateAsync(formData);
-    await new Promise((resolve) => setTimeout(resolve, 500));
+    // 비디오파일 넣기
+    if (videoFile) formData.append("video", videoFile);
 
+    // 얼굴 모자이크 유무 넣기
+    formData.append("mosaic", `${isMosaic}`); // "true" "false"
+
+    //! POST 요청 및 썸네일 생성을 위한 5초 대기
+    setIsWait(true);
+    await mutateAsync(formData);
     return;
   };
 
   return (
     <div className="mx-auto max-w-2xl space-y-4">
-      <TitleForm isUpdate={false}/>
-      <Tiptap isUpdate={false}/>
+      {/* 제목 텍스트 필드 */}
+      <TitleForm isUpdate={false} />
+
+      {/* 내용 작성 에디터 */}
+      <Tiptap isUpdate={false} />
+
+      {/* 동영상 드레그 앤 드롭 영역 */}
       <UploadVideo
-        videoRef={videoRef}
         fileName={videoFileName}
         setFileName={setVideoFileName}
         setVideoFile={setVideoFile}
       />
-      <UploadImage
-        fileName={imageFileName}
-        setFileName={setImageFileName}
-        setImageFile={setImageFile}
-      />
-      <Button className="w-full" onClick={onSubmit}>
-        작성 완료
-      </Button>
 
-      <canvas ref={canvasRef} style={{ display: "none" }} />
+      {/* 동영상 미리보기 */}
+      {videoPreview && <PreviewVideoUrl videoUrl={videoPreview} />}
+
+      {/* 얼굴 모자이크 유무 */}
+      <MosaicCheckBox />
+
+      {/* 작성 완료 버튼 */}
+      {isLoading || isWait ? (
+        <Button disabled className="w-full">
+          <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
+          잠시만 기다려주세요.
+        </Button>
+      ) : (
+        <Button className="w-full" onClick={onSubmit}>
+          작성 완료
+        </Button>
+      )}
     </div>
   );
 }

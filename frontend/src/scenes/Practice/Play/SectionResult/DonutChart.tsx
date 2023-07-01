@@ -28,24 +28,24 @@ export default function DonutChart() {
   const dataValues = poseMessages && Object.values(poseMessages);
 
   const data = {
-    labels: ["Miss", "Good", "Great", "Excellent"],
+    labels: ["Excellent", "Great", "Good", "Miss"],
     datasets: [
       {
-        labels: ["Miss", "Good", "Great", "Excellent"],
+        labels: ["Excellent", "Great", "Good", "Miss"],
         data: dataValues,
         backgroundColor: [
-          "rgba(255, 99, 132, 0.2)",
-          "rgba(255, 159, 64, 0.2)",
-          "rgba(75, 192, 192, 0.2)",
           "rgba(54, 162, 235, 0.2)",
+          "rgba(75, 192, 192, 0.2)",
+          "rgba(255, 159, 64, 0.2)",
+          "rgba(255, 99, 132, 0.2)",
         ],
         borderColor: [
-          "rgba(255, 99, 132, 1)",
-          "rgba(255, 159, 64, 1)",
-          "rgba(75, 192, 192, 1)",
           "rgba(54, 162, 235, 1)",
+          "rgba(75, 192, 192, 1)",
+          "rgba(255, 159, 64, 1)",
+          "rgba(255, 99, 132, 1)",
         ],
-        borderWidth: 1,
+        borderWidth: 2,
       },
     ],
   };

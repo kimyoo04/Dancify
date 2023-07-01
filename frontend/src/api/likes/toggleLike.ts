@@ -9,7 +9,7 @@ export const toggleLike = async (data: ILikeToggle) => {
     });
     return true;
   } catch (err) {
-    console.log("🚀 toggleLike.tsx", err);
+    console.error("🚀 toggleLike.tsx", err);
     return false;
   }
 };
@@ -22,7 +22,7 @@ export const useToggleLike = () => {
       // invalidateQueries를 안한 이유: 조회수가 같이 올라감.
     },
     onError: (err) => {
-      console.log("🚀 usetoggleLike:", err);
+      console.error("🚀 usetoggleLike:", err);
     },
   });
 };

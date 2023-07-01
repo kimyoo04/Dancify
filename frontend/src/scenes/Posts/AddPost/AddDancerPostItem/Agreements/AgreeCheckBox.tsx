@@ -17,7 +17,9 @@ export default function AgreeCheckBox() {
       <div className="grid gap-1.5 leading-none">
         <label
           htmlFor="skeleton"
-          className="font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+          className={`font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 ${
+            isAgree ? "font-medium" : "text-muted-foreground"
+          }`}
         >
           개인정보 수집 및 이용에 동의합니다.
         </label>
