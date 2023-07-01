@@ -3,6 +3,7 @@ import mediapipe as mp
 import os
 import numpy as np
 import uuid
+import shutil
 from numpy import ndarray
 from moviepy.editor import VideoFileClip, AudioFileClip
 from typing import Optional
@@ -115,10 +116,10 @@ def calculate_keypoints(video_path: str) -> tuple:
                 if results.pose_landmarks:
                     keypoints = results.pose_landmarks.landmark
                     keypoints_dict[frame_num] = [
-                        (int(keypoints[11].x * width),
-                         int(keypoints[11].y * height)),
-                        (int(keypoints[12].x * width),
-                         int(keypoints[12].y * height))]
+                        (int(keypoints[23].x * width),
+                         int(keypoints[23].y * height)),
+                        (int(keypoints[24].x * width),
+                         int(keypoints[24].y * height))]
                     last_valid_keypoints = keypoints_dict[frame_num]
                 else:
                     keypoints_dict[frame_num] = last_valid_keypoints
@@ -224,9 +225,12 @@ def crop_video(video_path: str, x_centers: ndarray, output_path: str) -> None:
         cap = cv2.VideoCapture(video_path)
         x_centers = np.array(x_centers)
 
+        height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
+        fps = cap.get(cv2.CAP_PROP_FPS)
+
         fourcc = cv2.VideoWriter_fourcc(*"avc1")
-        out = cv2.VideoWriter(output_path, fourcc, 30.0,
-                              (int(1080 * (9 / 16)), 1080))
+        out = cv2.VideoWriter(output_path, fourcc, fps,
+                              (int(height * (9 / 16)), height))
 
         frame_no = 0
         while (cap.isOpened()):
@@ -234,13 +238,13 @@ def crop_video(video_path: str, x_centers: ndarray, output_path: str) -> None:
             if ret is True:
                 H, W = frame.shape[:2]
                 x_center = x_centers[frame_no]
-                start_x = max(0, int(x_center - (1080 * (9 / 16)) // 2))
-                end_x = min(W, int(x_center + (1080 * (9 / 16)) // 2))
+                start_x = max(0, int(x_center - (height * (9 / 16)) // 2))
+                end_x = min(W, int(x_center + (height * (9 / 16)) // 2))
                 start_y = 0
                 end_y = H
                 cropped_frame = frame[start_y:end_y, start_x:end_x]
                 resized_frame = cv2.resize(
-                    cropped_frame, (int(1080 * (9 / 16)), 1080))
+                    cropped_frame, (int(height * (9 / 16)), int(height)))
                 out.write(resized_frame)
                 frame_no += 1
             else:
@@ -253,7 +257,6 @@ def crop_video(video_path: str, x_centers: ndarray, output_path: str) -> None:
         print(f"영상 생성 중 오류 발생: {str(e)}")
 
 
-# 결과 영상 생성
 # 결과 영상 생성
 def generate_video(video_path: str, output_path: str) -> None:
     """
@@ -284,6 +287,20 @@ def generate_video(video_path: str, output_path: str) -> None:
         temp_path = os.path.join(temp_folder_path, f"{keyword}.mp4")
         final_output_path = os.path.join(output_path, f"{filename}.mp4")
 
+        # 0. 영상 비율 확인: 영상이 세로 형식이라면 그대로 저장하고 함수 종료
+        cap = cv2.VideoCapture(video_path)
+        if not cap.isOpened():
+            print("영상 파일을 읽을 수 없습니다.")
+            return
+
+        width = cap.get(cv2.CAP_PROP_FRAME_WIDTH)
+        height = cap.get(cv2.CAP_PROP_FRAME_HEIGHT)
+
+        if width / height < 1:
+            shutil.copy(video_path, final_output_path)
+            print("세로 형식의 영상이므로 그대로 저장했습니다.")
+            return
+
         # 1. 음성 추출 및 저장
         if extract_audio(video_path, audio_path):
             print("음성 추출이 성공적으로 완료되었습니다.")
@@ -312,7 +329,7 @@ def generate_video(video_path: str, output_path: str) -> None:
 
         x_centers_movavg = calculate_moving_average(x_centers, 30)
         if x_centers_movavg is None:
-            print("이동 평균 계산에 실패하였습니다.")
+            print("이동평균 계산에 실패하였습니다.")
             return
 
         x_centers_movavg = np.array(x_centers_movavg)  # list를 ndarray로 변환
@@ -326,11 +343,14 @@ def generate_video(video_path: str, output_path: str) -> None:
             print("음성 합성에 실패하였습니다.")
             return
 
-        # 4. 임시 파일 삭제
-        os.remove(audio_path)
-        os.remove(temp_path)
-
-        print("Processing of video is complete.")
-
     except Exception as e:
         print(f"영상 생성 중 오류 발생: {str(e)}")
+
+    finally:
+        # 4. 임시 파일 삭제
+        if os.path.exists(audio_path):
+            os.remove(audio_path)
+        if os.path.exists(temp_path):
+            os.remove(temp_path)
+
+    print("Processing of video is done.")
