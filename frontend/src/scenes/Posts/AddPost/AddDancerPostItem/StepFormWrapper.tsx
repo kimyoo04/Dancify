@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 
 const sidebarNavItems = [
   {
-    title: "1. 주의사항 및 이용약관 동의",
+    title: "1. 이용약관 동의",
     step: 1,
   },
   {

@@ -95,6 +95,10 @@ const postSlice = createSlice({
       state.genre = action.payload;
     },
 
+    setFeedbackPrice: (state, action: PayloadAction<number>) => {
+      state.feedbackPrice = action.payload;
+    },
+
     uploadDancerPost: (
       state,
       action: PayloadAction<{ postId: TPostId; video: TVideo }>

@@ -39,23 +39,14 @@ export default function MakeSections({
       postId === "" ||
       !videoExtension ||
       !timeStamps ||
-      timeStamps.length % 2 === 0
+      timeStamps.length % 2 !== 0
     )
       return;
-
-    const formData = new FormData();
-    // "postId": string
-    // "videoExtension": 확장자명
-    // "timeStamps': "2 5 7 13"
-    formData.append("postId", postId);
-    // 확장자명 . 이후 맨뒤 추출
-    formData.append("videoExtension", videoExtension);
-    formData.append("timeStamps", timeStamps.join(" "));
-
-    // POST 요청
-    setIsWait(true)
-    await mutateAsync(formData);
-    await new Promise((resolve) => setTimeout(resolve, 500));
+    // 로딩 버튼 활성화
+    setIsWait(true);
+    const timeStampsArr = timeStamps.map((item) => item.time).join(" ");
+    const data = { postId, videoExtension, timeStamps: timeStampsArr };
+    await mutateAsync(data);
 
     return;
   };
@@ -97,13 +88,13 @@ export default function MakeSections({
         </Button>
 
         {isLoading || isWait ? (
-          <Button disabled className="w-full">
+          <Button disabled >
             <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
             잠시만 기다려주세요.
           </Button>
         ) : (
-          <Button className="w-full" onClick={onSubmit}>
-            작성 완료
+          <Button onClick={onSubmit}>
+            영상 구간 설정 완료
           </Button>
         )}
       </div>

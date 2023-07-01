@@ -28,7 +28,9 @@ const TitleForm = ({isUpdate}: {isUpdate:boolean}) => {
     []
   );
 
-  const form = useForm<IPostTitleForm>();
+  const form = useForm<IPostTitleForm>({defaultValues: {
+    title: postTitle
+    }});
   const onSubmit = async (data: IPostTitleForm) => {
     if (data.title === "") {
       const errMsg: { [key: string]: string } = {};
