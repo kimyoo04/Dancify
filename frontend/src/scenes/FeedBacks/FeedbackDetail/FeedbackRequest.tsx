@@ -20,7 +20,7 @@ export default function FeedbackRequest({ data }: { data: IFeedbackDetail }) {
       <TabsContent value="feedbackRequest">
         {data.sections.length > 0 &&
           data.sections.map((section, index) => (
-            <div key={section.sectionId}>
+            <div key={section.feedbackSectionId}>
               {sectionIndex === index && (
                 <Accordion type="single" collapsible className="w-full">
                   <AccordionItem value="item-1">
