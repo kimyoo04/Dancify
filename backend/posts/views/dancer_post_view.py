@@ -28,7 +28,6 @@ from accounts.authentication import get_user_info_from_token, is_logined
 from s3_modules.upload import (
     upload_video_with_metadata_to_s3,
     upload_splitted_video_to_s3,
-    save_tmp_video,
 )
 from view_history.models import ViewHistory
 from search_history.models import SearchHistory
