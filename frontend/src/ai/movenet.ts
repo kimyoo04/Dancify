@@ -136,6 +136,7 @@ export async function danceableBodyCheck(
 
 export async function runMovenet(
   isForceEnd: React.MutableRefObject<boolean>,
+  isSkeleton: boolean,
   webcamRef: React.RefObject<Webcam>,
   canvasRef: React.RefObject<HTMLCanvasElement>,
   detector: poseDetection.PoseDetector,
@@ -184,9 +185,10 @@ export async function runMovenet(
     } else {
       // canvas에 댄서블의 스켈레톤 그리기
       const canvas = canvasRef.current as HTMLCanvasElement;
-      const ctx = getCanvasContext(webcamWidth, webcamHeight, canvas);
-      if (danceable !== "error" && ctx !== null) drawCanvas(danceable, ctx);
-
+      if (isSkeleton) {
+        const ctx = getCanvasContext(webcamWidth, webcamHeight, canvas);
+        if (danceable !== "error" && ctx !== null) drawCanvas(danceable, ctx);
+      }
       //에러 안 나면 x,y의 좌표와 유사도 출력
       if (danceable !== "error" && dancer !== undefined) {
         const cosineDistance = poseSimilarity(danceable[0], dancer[0], {
@@ -228,6 +230,7 @@ export async function runMovenet(
       } else if (indx === dancerJson.length) {
         console.log("🚀 구간 연습 완료");
         // console.log(indx);
+        breakDrawing = true;
         clearInterval(drawPerSec);
         clearCanvas(canvas);
         avgCosineDistance =

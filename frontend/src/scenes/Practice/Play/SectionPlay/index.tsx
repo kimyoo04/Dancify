@@ -96,30 +96,30 @@ export default function SectionPlay({
   }, []);
 
   // 캔버스 영역에 그려주는 함수
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
+  // useEffect(() => {
+  //   const canvas = canvasRef.current;
+  //   if (!canvas) return;
 
-    const context = canvas.getContext("2d");
-    if (!context) return;
+  //   const context = canvas.getContext("2d");
+  //   if (!context) return;
 
-    const { width, height } = webcamDimensions;
-    canvas.width = width;
-    canvas.height = height;
+  //   const { width, height } = webcamDimensions;
+  //   canvas.width = width;
+  //   canvas.height = height;
 
-    // 캔버스 크기를 비디오 크기와 동일하게 설정
-    const captureFrame = () => {
-      const video = webcamRef.current?.video;
-      if (video) {
-        if (isSkeleton) {
-          //* 스캘레톤 매핑을 수행하는 로직
-        }
-      }
-      requestAnimationFrame(captureFrame);
-    };
+  //   // 캔버스 크기를 비디오 크기와 동일하게 설정
+  //   const captureFrame = () => {
+  //     const video = webcamRef.current?.video;
+  //     if (video) {
+  //       if (isSkeleton) {
+  //         //* 스캘레톤 매핑을 수행하는 로직
+  //       }
+  //     }
+  //     requestAnimationFrame(captureFrame);
+  //   };
 
-    captureFrame();
-  }, [webcamDimensions, isSkeleton]);
+  //   captureFrame();
+  // }, [webcamDimensions, isSkeleton]);
 
   //! 카운트 다운 (수정 필요)
   useEffect(() => {
@@ -162,8 +162,10 @@ export default function SectionPlay({
       );
       dispatch(practiceActions.finishSectionPlay());
     }
-
+    // 다음 구간으로 강제 이동 시
     function forceCallback() {
+      // 첫 시도에 다음 구간으로 강제 이동했을 경우
+      dispatch(practiceActions.updateSectionForce(sectionId));
       dispatch(practiceActions.finishSectionPlay());
       const timer = setTimeout(() => {
         dispatch(practiceActions.moveNextSection());
@@ -176,9 +178,9 @@ export default function SectionPlay({
     if (isFullBody) {
       const timer = setTimeout(() => {
         dispatch(practiceActions.playVideo());
-
         runMovenet(
           isForceEnd,
+          isSkeleton,
           webcamRef,
           canvasRef,
           detector,
@@ -194,7 +196,7 @@ export default function SectionPlay({
         console.log("unmount");
       };
     }
-  }, [isFullBody, detector, sectionId, dispatch, isForceEnd]);
+  }, [isFullBody, isSkeleton, detector, sectionId, dispatch, isForceEnd]);
 
   return (
     <div className="row-center w-full gap-10">
