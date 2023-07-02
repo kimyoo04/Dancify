@@ -136,7 +136,6 @@ def upload_video_with_metadata_to_s3(user_id, video, video_type, is_mosaic, vide
     with open(local_video_path, 'rb') as video_file:
         video = video_file.read()
 
-
     # 영상 업로드 & 썸네일 이미지 생성, 업로드
     result['video_url'] = upload_video_to_s3(user_id, video, video_type,
                                              video_uuid, video_file_extension)
