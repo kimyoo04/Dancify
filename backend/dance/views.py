@@ -4,7 +4,6 @@ import json
 from django.conf import settings
 from django.http import JsonResponse
 from django.core.exceptions import ValidationError
-from django.core.files.storage import FileSystemStorage
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -64,8 +63,8 @@ class EndPartDanceView(APIView):
 
         # 댄서 json 로컬에 저장
         dancer_json_path = download_json_from_s3(aws_bucket=bucket_name,
-                                            url=section.dancer_post.keypoints,
-                                            local_path=path)
+                                                 url=section.dancer_post.keypoints,
+                                                 local_path=path)
         if dancer_json_path is None:
             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
@@ -87,7 +86,6 @@ class EndPartDanceView(APIView):
             # 파일을 로컬에 저장
             with open(best_score_file_path, 'wb') as local_file:
                 local_file.write(file_data)
-
 
         # AI 피드백 결과 반환
         first_score = json.dumps(create_json(str(dancer_json_path), str(first_score_file_path))).encode('utf-8')

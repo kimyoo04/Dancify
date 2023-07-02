@@ -1,4 +1,4 @@
-import os, boto3
+import os
 from botocore.exceptions import NoCredentialsError
 
 from rest_framework import status
@@ -28,6 +28,7 @@ def extract_file_key_from_url(url):
         return url[len(AWS_DOMAIN):]
     else:
         raise ValueError("Invalid S3 URL")
+
 
 def download_json_from_s3(aws_bucket, url, local_path):
     """
