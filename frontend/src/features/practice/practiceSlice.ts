@@ -35,8 +35,14 @@ export const practiceSlice = createSlice({
 
     // 구간 연습 종료
     finishSectionPlay: (state) => {
-      state.isFinished = true;
+      // state.isFinished = true;
       state.isPlaying = false;
+    },
+
+    //카메라 녹화 완료를 나타내는 리듀서
+    finishWebcamRecording: (state) => {
+      //state.isPlaying = true;
+      state.isFinished = true;
     },
 
     // SectionPlay 컴포넌트 랜더링
@@ -103,14 +109,15 @@ export const practiceSlice = createSlice({
           Excellent: 0,
         },
       };
-      if (sectionIndex === -1) state.sectionPracticeArr.push(defaultPracticeArr);
+      if (sectionIndex === -1)
+        state.sectionPracticeArr.push(defaultPracticeArr);
     },
     // section의 대한 최초, 최고 점수 입력
     updateSectionPractice: (
       state,
       action: PayloadAction<IUpdateSectionPractice>
     ) => {
-      const { video, sectionId, score, poseMessages, keypointJson } =
+      const { sectionId, score, poseMessages, keypointJson } =
         action.payload;
       const sectionIndex = state.sectionPracticeArr.findIndex(
         (section) => section.sectionId === sectionId
@@ -118,7 +125,6 @@ export const practiceSlice = createSlice({
       if (sectionIndex === -1) {
         // 없으면 sectionPracticeArr에 추가
         state.sectionPracticeArr.push({
-          video,
           sectionId,
           firstScore: score,
           bestScore: score,
@@ -132,7 +138,6 @@ export const practiceSlice = createSlice({
         state.sectionPracticeArr[sectionIndex] = {
           ...state.sectionPracticeArr[sectionIndex],
           bestScore: score,
-          // video: 비디오최고점수,
           bestJson: keypointJson,
           playCounts: state.sectionPracticeArr[sectionIndex].playCounts + 1,
           poseMessages: poseMessages,

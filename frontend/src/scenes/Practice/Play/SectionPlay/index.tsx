@@ -2,10 +2,9 @@ import { practiceActions } from "@features/practice/practiceSlice";
 import { useAppDispatch, useAppSelector } from "@toolkit/hook";
 import { IPoseMessages, IPractice } from "@type/practice";
 import { Pose } from "@type/moveNet";
-import { TVideo } from "@type/posts";
 
 import { motion } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, MutableRefObject } from "react";
 import ReactPlayer from "react-player";
 import Webcam from "react-webcam";
 import * as poseDetection from "@tensorflow-models/pose-detection";
@@ -18,10 +17,12 @@ export default function SectionPlay({
   data,
   detector,
   isForceEnd,
+  webcamRecord,
 }: {
   data: IPractice;
   detector: poseDetection.PoseDetector;
   isForceEnd: React.MutableRefObject<boolean>;
+  webcamRecord: MutableRefObject<Blob[]>;
 }) {
   const dispatch = useAppDispatch();
 
@@ -45,6 +46,7 @@ export default function SectionPlay({
     isSkeleton,
     isFullBody,
     isPlaying,
+    isFinished,
     selectedSections,
   } = useAppSelector((state) => state.practice); // 선택된 섹션 인덱스 배열 가져오기
 
@@ -70,7 +72,7 @@ export default function SectionPlay({
     }
   };
 
-  // videoRef의 크기를 state에 저장하는 함수
+  // webcamRef의 크기를 state에 저장하는 함수
   const handleVideoResize = () => {
     const video = webcamRef.current?.video;
     if (video) {
@@ -78,6 +80,63 @@ export default function SectionPlay({
       setVideoDimensions({ width: clientWidth, height: clientHeight });
     }
   };
+
+  //-----------------------------------녹화-----------------------------------------------
+
+  const mediaRecorder = useRef<MediaRecorder | null>(null);
+
+  const startRecording = () => {
+    const constraints = { video: true, audio: false };
+
+    navigator.mediaDevices
+      .getUserMedia(constraints)
+      .then((stream) => {
+        const mediaRecorderInstance = new MediaRecorder(stream);
+        const chunks: Blob[] = [];
+
+        mediaRecorderInstance.addEventListener("dataavailable", (event) => {
+          if (event.data && event.data.size > 0) {
+            chunks.push(event.data);
+          }
+        });
+
+        mediaRecorderInstance.addEventListener("stop", () => {
+          const recordedBlob = new Blob(chunks, { type: "video/webm" });
+          webcamRecord.current.push(recordedBlob);
+        });
+
+        mediaRecorderInstance.start();
+        mediaRecorder.current = mediaRecorderInstance;
+      })
+      .catch((error) => {
+        console.error("Error accessing webcam:", error);
+      });
+  };
+
+  const stopRecording = async () => {
+    if (mediaRecorder.current && mediaRecorder.current.state !== "inactive") {
+      mediaRecorder.current.stop();
+    }
+  };
+
+  useEffect(() => {
+    if (isPlaying) {
+      startRecording();
+      console.log("💛 recording started");
+    }
+  }, [isPlaying]);
+
+  useEffect(() => {
+    const handleFinishRecording = async () => {
+      if (isFinished) {
+        console.log("💛 recording ended");
+        await stopRecording();
+      }
+    };
+    handleFinishRecording();
+  }, [isFinished]);
+
+  //----------------------------------------------------------------------------------
 
   // 1.5초 뒤와 resize 시 캔버스 크기 변경 및 전신 체크 함수 실행
   useEffect(() => {
@@ -146,49 +205,63 @@ export default function SectionPlay({
   useEffect(() => {
     // 구간 끝났을 때 업데이트하고 구간 종료 상태를 설정
     function resultCallback(
-      video: TVideo,
       avgScore: number,
       poseMessages: IPoseMessages,
       keypointJson: Pose[][]
     ) {
-      dispatch(
-        practiceActions.updateSectionPractice({
-          video,
-          sectionId,
-          score: avgScore,
-          keypointJson,
-          poseMessages,
-        })
-      );
-      dispatch(practiceActions.finishSectionPlay());
-    }
-    // 다음 구간으로 강제 이동 시
-    function forceCallback() {
-      // 첫 시도에 다음 구간으로 강제 이동했을 경우
-      dispatch(practiceActions.updateSectionForce(sectionId));
-      dispatch(practiceActions.finishSectionPlay());
       const timer = setTimeout(() => {
-        dispatch(practiceActions.moveNextSection());
+        dispatch(practiceActions.finishSectionPlay());
+        if (webcamRecord.current) {
+          dispatch(
+            practiceActions.updateSectionPractice({
+              sectionId,
+              score: avgScore,
+              keypointJson,
+              poseMessages,
+            })
+          );
+        } else {
+          console.log("🚫 데이터 저장 시 에러 발생");
+        }
       }, 100);
       return () => {
         clearTimeout(timer);
       };
     }
 
+    // 다음 구간으로 강제 이동 시
+    function forceCallback() {
+      // 첫 시도에 다음 구간으로 강제 이동했을 경우
+      dispatch(practiceActions.updateSectionForce(sectionId));
+      setTimeout(() => {
+        dispatch(practiceActions.finishSectionPlay());
+      }, 100);
+      setTimeout(() => {
+        dispatch(practiceActions.moveNextSection());
+      }, 150);
+    }
+
     if (isFullBody) {
-      const timer = setTimeout(() => {
+      const timer = setTimeout(async () => {
         dispatch(practiceActions.playVideo());
-        runMovenet(
+        const runMovenetData = await runMovenet(
           isForceEnd,
           isSkeleton,
           webcamRef,
           canvasRef,
           detector,
           dancer_json,
-          setPoseMessage,
-          resultCallback,
-          forceCallback
+          setPoseMessage
         );
+        dispatch(practiceActions.finishWebcamRecording());
+
+        if (typeof runMovenetData !== "string") {
+          console.log("🚀 구간 연습 완료");
+          resultCallback(...runMovenetData);
+        } else {
+          console.log("🚫 구간 연습 중지");
+          forceCallback();
+        }
       }, 5000);
 
       return () => {

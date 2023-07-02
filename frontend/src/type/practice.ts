@@ -19,7 +19,6 @@ export interface IPracticeState {
 
 // 구간별 평가 및 연습 정보
 export interface ISectionPractice {
-  video?: TVideo;
   sectionId: TSectionId;
   firstScore: TFirstScore;
   bestScore: TBestScore;
@@ -32,7 +31,6 @@ export interface ISectionPractice {
 // 구간별 첫 state 생성
 // practiceSlice.ts ~ setFirstScore
 export interface IUpdateSectionPractice {
-  video: TVideo;
   sectionId: TSectionId;
   score: TInitScore; // 첫 점수로 firstScore와 bestScore 둘 다 전달
   poseMessages: IPoseMessages;

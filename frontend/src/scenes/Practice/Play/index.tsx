@@ -21,6 +21,7 @@ export default function Play({
 }) {
   const dispatch = useAppDispatch();
   const {
+    isPlaying,
     isFinished,
     playIndex,
     feedbackId,
@@ -28,14 +29,15 @@ export default function Play({
     sectionPracticeArr,
   } = useAppSelector((state) => state.practice);
   const isForceEnd = useRef(false);
+  const webcamRecord = useRef<Blob[]>([]);
 
   const practiceEnd = async () => {
-    await postsPracticeData(feedbackId, playIndex, sectionPracticeArr);
+    // await postsPracticeData(feedbackId, playIndex, sectionPracticeArr, webcamRecord);
     dispatch(practiceActions.moveNextStep());
   };
 
   const sectionEnd = async () => {
-    await postsPracticeData(feedbackId, playIndex, sectionPracticeArr);
+    // await postsPracticeData(feedbackId, playIndex, sectionPracticeArr, webcamRecord);
     dispatch(practiceActions.moveNextSection());
   };
 
@@ -46,10 +48,10 @@ export default function Play({
   return (
     <div className="h-full w-screen">
       <MainWrapper>
-        {isFinished ? (
+        {!isPlaying && isFinished ? (
           <SectionResult data={data} />
         ) : (
-          <SectionPlay data={data} detector={detector} isForceEnd={isForceEnd}/>
+          <SectionPlay data={data} detector={detector} isForceEnd={isForceEnd} webcamRecord={webcamRecord}/>
         )}
       </MainWrapper>
 

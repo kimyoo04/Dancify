@@ -5,7 +5,6 @@ import { drawKeypoints, drawSkeleton } from "@ai/utilities";
 
 import { IPoseMessages } from "@type/practice";
 import { Pose as poseType } from "@type/moveNet";
-import { TVideo } from "@type/posts";
 
 import * as poseDetection from "@tensorflow-models/pose-detection";
 import * as tf from "@tensorflow/tfjs";
@@ -134,6 +133,7 @@ export async function danceableBodyCheck(
   }, 1000);
 }
 
+
 export async function runMovenet(
   isForceEnd: React.MutableRefObject<boolean>,
   isSkeleton: boolean,
@@ -141,15 +141,11 @@ export async function runMovenet(
   canvasRef: React.RefObject<HTMLCanvasElement>,
   detector: poseDetection.PoseDetector,
   dancerJson: poseType[][],
-  setPoseMessage: React.Dispatch<React.SetStateAction<string>>,
-  updateCallback: (
-    video: TVideo,
-    avgScore: number,
-    poseMessages: IPoseMessages,
-    keypointJson: poseType[][]
-  ) => void,
-  forceCallback: () => void
-) {
+  setPoseMessage: React.Dispatch<React.SetStateAction<string>>
+): Promise<
+  | string
+  | [avgScore: number, poseMessages: IPoseMessages, keypointJson: poseType[][]]
+> {
   //구간의 실시간 댄서블 keypoint 점수
   const danceableJson: poseType[][] = [];
 
@@ -170,78 +166,71 @@ export async function runMovenet(
     Excellent: 0,
   };
 
-  const webcamRecodeFile = "수정 예정";
+  return new Promise((resolve) => {
+    const drawPerSec = setInterval(async () => {
+      //webcam의 video tag로 width, height 추출
+      const webcamTag = webcamRef.current?.video as HTMLVideoElement;
+      const { webcam, webcamWidth, webcamHeight } = webcamSize(webcamTag);
 
-  const drawPerSec = setInterval(async () => {
-    //webcam의 video tag로 width, height 추출
-    const webcamTag = webcamRef.current?.video as HTMLVideoElement;
-    const { webcam, webcamWidth, webcamHeight } = webcamSize(webcamTag);
+      // 댄서블의 keypoint 추출
+      const danceable = await detect(webcam, detector);
+      const dancer = dancerJson[indx];
+      if (breakDrawing) {
+        console.log("🚫 breakDrawing");
+      } else {
+        // canvas에 댄서블의 스켈레톤 그리기
+        const canvas = canvasRef.current as HTMLCanvasElement;
+        if (isSkeleton) {
+          const ctx = getCanvasContext(webcamWidth, webcamHeight, canvas);
+          if (danceable !== "error" && ctx !== null) drawCanvas(danceable, ctx);
+        }
+        //에러 안 나면 x,y의 좌표와 유사도 출력
+        if (danceable !== "error" && dancer !== undefined) {
+          const cosineDistance = poseSimilarity(danceable[0], dancer[0], {
+            strategy: "cosineDistance",
+          });
+          danceableJson.push(danceable); //댄서블 실시간 keypoint 저장
 
-    // 댄서블의 keypoint 추출
-    const danceable = await detect(webcam, detector);
-    const dancer = dancerJson[indx];
-    if (breakDrawing) {
-      console.log("🚫 breakDrawing");
-    } else {
-      // canvas에 댄서블의 스켈레톤 그리기
-      const canvas = canvasRef.current as HTMLCanvasElement;
-      if (isSkeleton) {
-        const ctx = getCanvasContext(webcamWidth, webcamHeight, canvas);
-        if (danceable !== "error" && ctx !== null) drawCanvas(danceable, ctx);
-      }
-      //에러 안 나면 x,y의 좌표와 유사도 출력
-      if (danceable !== "error" && dancer !== undefined) {
-        const cosineDistance = poseSimilarity(danceable[0], dancer[0], {
-          strategy: "cosineDistance",
-        });
-        danceableJson.push(danceable); //댄서블 실시간 keypoint 저장
+          if (cosineDistance instanceof Error) {
+            console.log(
+              "🚀 ~ file: movenet.ts:138 ~ cosineDistance: error",
+              cosineDistance
+            );
+          } else {
+            oneSecCosineDistance += cosineDistance;
 
-        if (cosineDistance instanceof Error) {
-          console.log(
-            "🚀 ~ file: movenet.ts:138 ~ cosineDistance: error",
-            cosineDistance
-          );
-        } else {
-          oneSecCosineDistance += cosineDistance;
-
-          //1초 지나면 avgCosineDistance에 더해주고 점수 메세지 출력한 뒤, oneSecCosineDistance 초기화
-          if (indx % 15 === 0) {
-            avgCosineDistance += oneSecCosineDistance;
-            const poseMessage = scoreToMessage(oneSecCosineDistance / 15);
-            setPoseMessage(poseMessage);
-            postMessages[poseMessage] += 1; // 동작 평가 메시지 누적
-            oneSecCosineDistance = 0; // 1분동안의 유사도 점수 초기화
+            //1초 지나면 avgCosineDistance에 더해주고 점수 메세지 출력한 뒤, oneSecCosineDistance 초기화
+            if (indx % 15 === 0) {
+              avgCosineDistance += oneSecCosineDistance;
+              const poseMessage = scoreToMessage(oneSecCosineDistance / 15);
+              setPoseMessage(poseMessage);
+              postMessages[poseMessage] += 1; // 동작 평가 메시지 누적
+              oneSecCosineDistance = 0; // 1분동안의 유사도 점수 초기화
+            }
+            // console.log('current',indx);
+            indx += 1; //다음 이미지 비교
           }
+        }
 
-          indx += 1; //다음 이미지 비교
+        //강제 종료
+        if (isForceEnd.current) {
+          console.log(indx);
+          breakDrawing = true;
+          clearInterval(drawPerSec);
+          clearCanvas(canvas);
+          isForceEnd.current = false;
+          resolve("isForceEnd");
+          //정상적으로 끝나면 setInterval 멈춤
+        } else if (indx === dancerJson.length) {
+          console.log(indx);
+          breakDrawing = true;
+          clearInterval(drawPerSec);
+          clearCanvas(canvas);
+          avgCosineDistance =
+            Math.round((avgCosineDistance / indx - 1) * 100) / 100;
+          resolve([avgCosineDistance, postMessages, danceableJson]);
         }
       }
-
-      //강제 종료
-      if (isForceEnd.current) {
-        console.log("🚫 구간 연습 중지");
-        // console.log(indx);
-        breakDrawing = true;
-        clearInterval(drawPerSec);
-        clearCanvas(canvas);
-        forceCallback();
-        isForceEnd.current = false;
-        //정상적으로 끝나면 setInterval 멈춤
-      } else if (indx === dancerJson.length) {
-        console.log("🚀 구간 연습 완료");
-        // console.log(indx);
-        breakDrawing = true;
-        clearInterval(drawPerSec);
-        clearCanvas(canvas);
-        avgCosineDistance =
-          Math.round((avgCosineDistance / indx - 1) * 100) / 100;
-        updateCallback(
-          webcamRecodeFile,
-          avgCosineDistance,
-          postMessages,
-          danceableJson
-        );
-      }
-    }
-  }, 1000 / 15); //! 15 fps
+    }, 1000 / 15); //! 15 fps
+  });
 }
