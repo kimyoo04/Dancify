@@ -6,12 +6,12 @@ import { Badge } from "@components/ui/badge";
 import { Checkbox } from "@components/ui/checkbox";
 
 import { statuses } from "../data/data";
-import { Feedback } from "../data/schema";
 import { DataTableColumnHeader } from "./data-table-column-header";
 import { DataTableRowActions } from "./data-table-row-actions";
+import { IFeedback } from "@type/feedbacks";
 
 // 테이블의 컬럼과 셀 정의
-export const columns: ColumnDef<Feedback>[] = [
+export const columns: ColumnDef<IFeedback>[] = [
   {
     id: "select",
     header: ({ table }) => (

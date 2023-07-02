@@ -6,11 +6,12 @@ import AiFeedback from "./AiFeedback";
 import FeedbackRequest from "./FeedbackRequest";
 import { useEffect, useState } from "react";
 import { feedbackActions } from "@features/feedback/feedbackSlice";
-import { feedbackDetailData } from "../data/feedbackDetailData";
 import { useAppDispatch } from "@toolkit/hook";
 import FeedbackFinished from "./FeedbackFinished";
 import FeedbackWaiting from "./FeedbackWaiting";
 import Sectiontab from "./FeedbackDetailItem/SectionTab";
+import { useReadFeedback } from "@api/feedbacks/readFeedback";
+import PostNotFound from "@scenes/Posts/PostItem/PostNotFound";
 
 export default function FeedbackDetail({ id }: { id: string }) {
   const dispatch = useAppDispatch();
@@ -19,7 +20,7 @@ export default function FeedbackDetail({ id }: { id: string }) {
   }>({});
 
   // api 요청
-  const data = feedbackDetailData;
+  const { data, status, error } = useReadFeedback(id);
 
   useEffect(() => {
     if (data) {
@@ -47,20 +48,30 @@ export default function FeedbackDetail({ id }: { id: string }) {
 
   return (
     <Tabs defaultValue="aiFeedback" className="h-full w-full space-y-6">
-      <Header data={data} />
-      <NavTab status={data.status} />
-      <Sectiontab data={data} />
+      {status === "loading" ? (
+        <div />
+      ) : status === "error" ? (
+        <>{error && <p>Error: {error.message}</p>}</>
+      ) : data ? (
+        <>
+          <Header data={data} />
+          <NavTab status={data.status} />
+          <Sectiontab data={data} />
 
-      <AiFeedback data={data} />
-      {data.status === "신청 전" && <FeedbackRequest data={data} />}
-      {data.status === "대기 중" && (
-        <FeedbackWaiting
-          data={data}
-          videoFile={videoFile}
-          setVideoFile={setVideoFile}
-        />
+          <AiFeedback data={data} />
+          {data.status === "신청 전" && <FeedbackRequest data={data} />}
+          {data.status === "대기 중" && (
+            <FeedbackWaiting
+              data={data}
+              videoFile={videoFile}
+              setVideoFile={setVideoFile}
+            />
+          )}
+          {data.status === "완료" && <FeedbackFinished data={data} />}
+        </>
+      ) : (
+        <PostNotFound />
       )}
-      {data.status === "완료" && <FeedbackFinished data={data} />}
     </Tabs>
   );
 }
