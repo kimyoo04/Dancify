@@ -1,5 +1,6 @@
 import os
 import json
+import shutil
 
 from django.conf import settings
 from django.http import JsonResponse
@@ -108,6 +109,10 @@ class EndPartDanceView(APIView):
         # 오디오 입힌 댄서블 비디오 업로드
         url_data = upload_video_with_metadata_to_s3(user_id, result_video,
                                                     'danceable', is_mosaic, '.mp4')
+        shutil.rmtree(dancer_video_download_folder_path)
+        shutil.rmtree(danceable_video_download_folder_path)
+        shutil.rmtree(result_video_download_folder_path)
+
         data['video'] = url_data['video_url']
         data['thumbnail'] = url_data['thumbnail_url']
         data['keypoints'] = url_data['keypoint_url']
