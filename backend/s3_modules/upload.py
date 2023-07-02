@@ -160,7 +160,7 @@ def split_video(user_id, video_file_extension, start_timestamp, end_timestamp):
     """
     # 임시로 저장된 영상 불러올 경로 지정
     localpath = settings.BASE_DIR  # 프로젝트 최상위 폴더
-    localpath = os.path.join(localpath, user_id)
+    localpath = os.path.join(localpath, 'tmp_video')
 
     local_videopath = os.path.join(localpath,
                                    'video_original' + video_file_extension)
@@ -208,7 +208,7 @@ def upload_splitted_video_to_s3(request, user_id):
                                                        video_file_extension))
     # 편집에 사용되었던 localpath 폴더 삭제
     localpath = settings.BASE_DIR
-    shutil.rmtree(os.path.join(localpath, user_id))
+    shutil.rmtree(os.path.join(localpath, 'tmp_video'))
     return result
 
 
