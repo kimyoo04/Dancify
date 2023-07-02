@@ -40,6 +40,7 @@ export interface IFreePostDetail {
   userLike: boolean; // 미완
   nickname: TNickname;
   content: TContent;
+  profileImage: TProfileImg;
   postImage: TPostImage;
   createDate: TCreateDate;
   views: TViews;

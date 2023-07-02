@@ -18,7 +18,7 @@ export default function UpDelButton({postId}: { postId: TPostId }) {
   const { mutateAsync } = useDeleteVideoPost();
 
   return (
-    <div className="relative">
+    <div className="relative h-6">
       {/* 오버레이 */}
       {isToggle && (
         <div
@@ -31,7 +31,7 @@ export default function UpDelButton({postId}: { postId: TPostId }) {
       )}
 
       {/* 더보기 토글 버튼 */}
-      <button onClick={() => setIsToggle(!isToggle)}>
+      <button className="h-6" onClick={() => setIsToggle(!isToggle)}>
         <MoreVerticalIcon className="text-muted-foreground" />
       </button>
 
@@ -40,7 +40,10 @@ export default function UpDelButton({postId}: { postId: TPostId }) {
         <div className="absolute right-0 z-10 w-36 gap-2 rounded-md border bg-background p-2">
           {isDel ? (
             <div className="row-between w-full">
-              <Button variant={"destructive"} onClick={() => mutateAsync(postId)}>
+              <Button
+                variant={"destructive"}
+                onClick={() => mutateAsync(postId)}
+              >
                 삭제
               </Button>
               <Button variant={"outline"} onClick={() => setIsDel(false)}>
