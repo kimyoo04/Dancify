@@ -20,7 +20,9 @@ export default function FreePostItem({ data, href }: FreePostItemProps) {
       <div className="flex w-full flex-nowrap items-start justify-between">
         {/* 제목 | 내용 */}
         <div className="w-fit space-y-1">
-          <h3 className="text-lg font-medium leading-none">{data.title}</h3>
+          <span className="text-lg font-medium leading-none group-hover:border-b-2 border-black dark:border-white">
+            {data.title}
+          </span>
           <PostContent
             content={extractPTags(data.content) + "..."}
             textClassName="w-fit text-muted-foreground"

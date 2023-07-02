@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useAppDispatch } from "@toolkit/hook";
 import { likeActions } from "@features/like/likeSlice";
 import { postActions } from "@features/post/postSlice";
