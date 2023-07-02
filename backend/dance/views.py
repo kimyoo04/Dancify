@@ -67,9 +67,9 @@ class EndPartDanceView(APIView):
 
         # 댄서, 댄서블 영상 다운로드 폴더 경로 설정
         dancer_video_download_folder_path = os.path.join(settings.BASE_DIR,
-                                                  'dancer_video', user_id)
+                                                         'dancer_video', user_id)
         danceable_video_download_folder_path = os.path.join(settings.BASE_DIR,
-                                                  'danceable_video', user_id)
+                                                            'danceable_video', user_id)
         result_video_download_folder_path = os.path.join(settings.BASE_DIR,
                                                          'result_video', user_id)
         # 폴더 생성
@@ -87,9 +87,9 @@ class EndPartDanceView(APIView):
 
         # 댄서, 댄서블 영상 다운로드(로컬에 저장)
         dancer_video_url = ORIGIN_VIDEO_DOMAIN + info + dancer_video_file_extension
-        print(dancer_video_url[len(ORIGIN_VIDEO_DOMAIN): ])
-        s3.download_file('dancify-input', dancer_video_url[len(ORIGIN_VIDEO_DOMAIN): ],
-                                dancer_video_download_path)
+        print(dancer_video_url[len(ORIGIN_VIDEO_DOMAIN):])
+        s3.download_file('dancify-input', dancer_video_url[len(ORIGIN_VIDEO_DOMAIN):],
+                         dancer_video_download_path)
 
         with open(danceable_video_download_path, 'wb') as destination:
             for chunk in danceable_video.chunks():
