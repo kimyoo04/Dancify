@@ -173,10 +173,10 @@ export default function Prepare({
                 <div className="col-center w-full gap-3">
                   <Button
                     onClick={async () => {
-                      const feedbackId = await postPracticeStart(
+                      const response = await postPracticeStart(
                         data.dancerPost.postId
                       );
-                      dispatch(practiceActions.setFeedbackId(feedbackId)); // feedbackId 저장
+                      dispatch(practiceActions.setFeedbackId(response.feedbackId)); // feedbackId 저장
                       getFullScreen();
                       dispatch(practiceActions.moveNextStep());
                       // POST 요청

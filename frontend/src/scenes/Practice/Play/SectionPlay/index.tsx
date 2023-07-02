@@ -17,12 +17,14 @@ export default function SectionPlay({
   data,
   detector,
   isForceEnd,
-  webcamRecord,
+  webcamBestRecord,
+  webcamCurrentRecord,
 }: {
   data: IPractice;
   detector: poseDetection.PoseDetector;
   isForceEnd: React.MutableRefObject<boolean>;
-  webcamRecord: MutableRefObject<Blob[]>;
+  webcamBestRecord: MutableRefObject<Blob | undefined>;
+  webcamCurrentRecord: MutableRefObject<Blob | undefined>;
 }) {
   const dispatch = useAppDispatch();
 
@@ -48,6 +50,7 @@ export default function SectionPlay({
     isPlaying,
     isFinished,
     selectedSections,
+sectionPracticeArr
   } = useAppSelector((state) => state.practice); // 선택된 섹션 인덱스 배열 가져오기
 
   const sectionId = data.sections[playIndex].sectionId;
@@ -102,7 +105,7 @@ export default function SectionPlay({
 
         mediaRecorderInstance.addEventListener("stop", () => {
           const recordedBlob = new Blob(chunks, { type: "video/webm" });
-          webcamRecord.current.push(recordedBlob);
+          webcamCurrentRecord.current = recordedBlob;
         });
 
         mediaRecorderInstance.start();
@@ -119,22 +122,19 @@ export default function SectionPlay({
     }
   };
 
+
+  // 녹화된 비디오를 저장하는 배열
   useEffect(() => {
     if (isPlaying) {
       startRecording();
       console.log("💛 recording started");
     }
-  }, [isPlaying]);
 
-  useEffect(() => {
-    const handleFinishRecording = async () => {
-      if (isFinished) {
-        console.log("💛 recording ended");
-        await stopRecording();
-      }
+    if (isFinished) {
+      console.log("💛 recording ended");
+      stopRecording();
     };
-    handleFinishRecording();
-  }, [isFinished]);
+  }, [isPlaying, isFinished]);
 
   //----------------------------------------------------------------------------------
 
@@ -211,39 +211,46 @@ export default function SectionPlay({
     ) {
       const timer = setTimeout(() => {
         dispatch(practiceActions.finishSectionPlay());
-        if (webcamRecord.current) {
-          dispatch(
-            practiceActions.updateSectionPractice({
-              sectionId,
-              score: avgScore,
-              keypointJson,
-              poseMessages,
-            })
+        if (webcamCurrentRecord.current) {
+          const isFirst = sectionPracticeArr.findIndex(
+            (section) => section.sectionId === sectionId
           );
-        } else {
-          console.log("🚫 데이터 저장 시 에러 발생");
+          const data = { sectionId, score: avgScore, poseMessages, keypointJson }
+
+          if (isFirst === -1) {
+            // 첫 시도
+            webcamBestRecord.current = webcamCurrentRecord.current
+            dispatch(practiceActions.getFirstSectionPractice(data));
+          } else if (avgScore > sectionPracticeArr[playIndex].bestScore) {
+            // 갱신
+            webcamBestRecord.current = webcamCurrentRecord.current
+            dispatch(practiceActions.getBestSectionPractice(data));
+          } else {
+            // 기존 유지
+            dispatch(practiceActions.increasePlayCount(sectionId));
+          }
         }
       }, 100);
-      return () => {
-        clearTimeout(timer);
-      };
+
+      return () => clearTimeout(timer);
     }
 
     // 다음 구간으로 강제 이동 시
     function forceCallback() {
       // 첫 시도에 다음 구간으로 강제 이동했을 경우
       dispatch(practiceActions.updateSectionForce(sectionId));
-      setTimeout(() => {
-        dispatch(practiceActions.finishSectionPlay());
-      }, 100);
+      dispatch(practiceActions.finishSectionPlay());
       setTimeout(() => {
         dispatch(practiceActions.moveNextSection());
-      }, 150);
+      }, 100);
     }
 
     if (isFullBody) {
       const timer = setTimeout(async () => {
+        // 연습 시작
         dispatch(practiceActions.playVideo());
+
+        // 무브넷 실행
         const runMovenetData = await runMovenet(
           isForceEnd,
           isSkeleton,
@@ -262,7 +269,7 @@ export default function SectionPlay({
           console.log("🚫 구간 연습 중지");
           forceCallback();
         }
-      }, 5000);
+      }, 5000); // 5초 카운트 다운
 
       return () => {
         clearTimeout(timer);

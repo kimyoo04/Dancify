@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { TFeedbackId } from "@type/feedbacks";
+import { TFeedbackId, TSectionIndex } from "@type/feedbacks";
 import {
   IPracticeState,
   IUpdateSectionPractice,
@@ -11,6 +11,7 @@ const initialState: IPracticeState = {
   playIndex: 0, // 영상의 단계 인덱스
   isRealMode: false, // 실전 모드 유무
   isSkeleton: false, // 스켈레톤 매핑 유무
+  isMosaic: false, // 모자이크 유무
   isFullBody: false, // 전신 유무
   isFinished: false, // SectionResult 컴포넌트 랜더링 유무
   isPlaying: false, // react-player 재생 유무
@@ -112,43 +113,61 @@ export const practiceSlice = createSlice({
       if (sectionIndex === -1)
         state.sectionPracticeArr.push(defaultPracticeArr);
     },
-    // section의 대한 최초, 최고 점수 입력
-    updateSectionPractice: (
+
+    getFirstSectionPractice: (
       state,
       action: PayloadAction<IUpdateSectionPractice>
     ) => {
-      const { sectionId, score, poseMessages, keypointJson } =
-        action.payload;
+      const { sectionId, score, poseMessages, keypointJson } = action.payload;
+
+      const data = {
+        sectionId,
+        firstScore: score,
+        bestScore: score,
+        firstJson: keypointJson,
+        bestJson: keypointJson,
+        playCounts: 1,
+        poseMessages,
+      };
+
+      // 없으면 sectionPracticeArr에 추가
+      state.sectionPracticeArr.push(data);
+    },
+    // section의 대한 최초, 최고 점수 입력
+    getBestSectionPractice: (
+      state,
+      action: PayloadAction<IUpdateSectionPractice>
+    ) => {
+      const { sectionId, score, poseMessages, keypointJson } = action.payload;
+      // bestScore와 poseMessages 갱신 및 playCounts 증가
       const sectionIndex = state.sectionPracticeArr.findIndex(
         (section) => section.sectionId === sectionId
       );
-      if (sectionIndex === -1) {
-        // 없으면 sectionPracticeArr에 추가
-        state.sectionPracticeArr.push({
-          sectionId,
-          firstScore: score,
-          bestScore: score,
-          firstJson: keypointJson,
-          bestJson: keypointJson,
-          playCounts: 1,
-          poseMessages,
-        });
-      } else if (score > state.sectionPracticeArr[sectionIndex].bestScore) {
-        // bestScore와 poseMessages 갱신 및 playCounts 증가
-        state.sectionPracticeArr[sectionIndex] = {
-          ...state.sectionPracticeArr[sectionIndex],
-          bestScore: score,
-          bestJson: keypointJson,
-          playCounts: state.sectionPracticeArr[sectionIndex].playCounts + 1,
-          poseMessages: poseMessages,
-        };
-      } else {
-        // playCounts만 증가
-        state.sectionPracticeArr[sectionIndex] = {
-          ...state.sectionPracticeArr[sectionIndex],
-          playCounts: state.sectionPracticeArr[sectionIndex].playCounts + 1,
-        };
-      }
+
+      const bestData = {
+        ...state.sectionPracticeArr[sectionIndex],
+        bestScore: score,
+        bestJson: keypointJson,
+        playCounts: state.sectionPracticeArr[sectionIndex].playCounts + 1,
+        poseMessages: poseMessages,
+      };
+
+      // 최고 점수 갱신
+      state.sectionPracticeArr[sectionIndex] = bestData;
+    },
+    // section의 대한 최초, 최고 점수 입력
+    increasePlayCount: (state, action: PayloadAction<TSectionId>) => {
+      const sectionId =action.payload;
+      const sectionIndex = state.sectionPracticeArr.findIndex(
+        (section) => section.sectionId === sectionId
+      );
+
+      const data = {
+        ...state.sectionPracticeArr[sectionIndex],
+        playCounts: state.sectionPracticeArr[sectionIndex].playCounts + 1,
+      };
+
+      state.sectionPracticeArr[sectionIndex] = data; // playCounts만 증가
     },
 
     // 연습 초기화

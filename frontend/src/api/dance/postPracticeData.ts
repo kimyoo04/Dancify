@@ -1,13 +1,12 @@
 import axios from "@api/axiosInstance";
 import { TFeedbackId } from "@type/feedbacks";
-import { ISectionPractice, TPlayIndex } from "@type/practice";
+import { ISectionPractice } from "@type/practice";
 
 // 자유게시글 Create
 export const postsPracticeData = async (
   feedbackId: TFeedbackId,
-  playIndex: TPlayIndex,
-  sectionPracticeArr: ISectionPractice[]
-  webcamRecord: Blob[],
+  sectionPractice: ISectionPractice,
+  recordedBlob: Blob,
 ) => {
   // - feedbackId: 피드백 게시글 UUID
   // - sectionId: 댄서의 비디오 섹션
@@ -16,22 +15,21 @@ export const postsPracticeData = async (
   // - bestScore: json 파일
   // - mosaic: 'true' 'false'
 
-  const sectionId = sectionPracticeArr[playIndex]?.sectionId;
+  const sectionId = sectionPractice.sectionId;
   // JSON 문자열을 Blob 객체로 변환
   const firstJson = new Blob(
-    [JSON.stringify(sectionPracticeArr[playIndex]?.firstJson)],
+    [JSON.stringify(sectionPractice.firstJson)],
     {
       type: "application/json",
     }
   );
   const bestJson = new Blob(
-    [JSON.stringify(sectionPracticeArr[playIndex]?.bestJson)],
+    [JSON.stringify(sectionPractice.bestJson)],
     {
       type: "application/json",
     }
   );
 
-  const recordedBlob = new Blob(webcamRecord[playIndex], { type: "video/webm" });
   const video = new File([recordedBlob], "video.webm");
 
   // Blob 객체를 File 객체로 변환
