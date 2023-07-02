@@ -22,7 +22,7 @@ export default function DancerPosts() {
 
   return (
     <>
-      <div className="pt-4 bg-background">
+      <div className="bg-background">
         <SearchHeader />
 
         <GenreButtons />

@@ -23,7 +23,7 @@ export default function MainLayout({
         <div
           className={`flex min-h-screen w-full flex-col justify-between bg-background pt-[56px] ${paddingleft}`}
         >
-          <div className="w-full px-6"> {children}</div>
+          <div className="w-full px-6 py-4"> {children}</div>
           <Footer />
         </div>
       </main>
