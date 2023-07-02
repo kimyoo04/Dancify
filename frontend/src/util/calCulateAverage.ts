@@ -3,5 +3,5 @@ export default function calculateAverage(numbers: number[]): number {
 
   const sum = numbers.reduce((total, num) => total + num, 0);
   const average = sum / numbers.length;
-  return average;
+  return Math.round(average * 100) / 100;
 }
