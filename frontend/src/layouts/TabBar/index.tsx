@@ -14,7 +14,7 @@ export default function TabBar() {
       <ScrollButton />
 
       {/* 탭바 영역 */}
-      <div className="container fixed bottom-0 grid h-16 w-screen grid-cols-5 justify-between border-t bg-background md:hidden">
+      <div className="container fixed z-20 bottom-0 grid h-16 w-screen grid-cols-5 justify-between border-t bg-background md:hidden">
         <Link href="/" className="col-center">
           <Home className={`${isActive(router.pathname === "/")}`} />
           <span className={`${router.pathname === "/"} text-xs`}>홈</span>

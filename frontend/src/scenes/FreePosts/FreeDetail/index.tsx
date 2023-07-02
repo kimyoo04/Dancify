@@ -45,7 +45,7 @@ export default function FreePostDetail({ id }: { id: string }) {
 
       {/* 데이터가 있을 경우 화면 표시 */}
       {data && (
-        <div className="mx-auto w-full max-w-screen-lg rounded-2xl">
+        <div className="mx-auto w-full max-w-screen-xl">
           {/* 게시글 이미지 */}
           <PostImage src={data.postImage} />
           <Separator className="my-4" />
