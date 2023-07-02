@@ -1,6 +1,5 @@
 import { Separator } from "@components/ui/separator";
 import { ScrollArea, ScrollBar } from "@components/ui/scroll-area";
-import ViewMore from "@scenes/Posts/PostItem/ViewMore";
 
 // useInfiniteQuery
 import { useReadDancerMyPostsPerPage } from "@api/myPosts/readDancerMyPostsPerPage";
@@ -52,10 +51,6 @@ export default function MyPosts({ id }: { id: string }) {
                 댄서게시판
               </h2>
             </div>
-
-            <div>
-              <ViewMore href="/likes/dancer" />
-            </div>
           </div>
           <Separator className="my-4" />
         </div>
@@ -88,15 +83,7 @@ export default function MyPosts({ id }: { id: string }) {
         {/* //!자랑게시판 헤더 */}
         <div>
           <div className="flex items-center justify-between">
-            <div className="space-y-1">
-              <h2 className="text-xl font-semibold tracking-tight">
-                자랑게시판
-              </h2>
-            </div>
-
-            <div>
-              <ViewMore href="/likes/video" />
-            </div>
+            <h2 className="text-xl font-semibold tracking-tight">자랑게시판</h2>
           </div>
           <Separator className="my-4" />
         </div>
@@ -130,15 +117,7 @@ export default function MyPosts({ id }: { id: string }) {
         {/* //!자유게시판 헤더 */}
         <div>
           <div className="flex items-center justify-between">
-            <div className="space-y-1">
-              <h2 className="text-xl font-semibold tracking-tight">
-                자유게시판
-              </h2>
-            </div>
-
-            <div>
-              <ViewMore href="/likes/free" />
-            </div>
+            <h2 className="text-xl font-semibold tracking-tight">자유게시판</h2>
           </div>
           <Separator className="my-4" />
         </div>

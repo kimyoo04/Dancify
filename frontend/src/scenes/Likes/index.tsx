@@ -15,7 +15,6 @@ import PreviewDancerPosts from "@scenes/Posts/PostItem/PreviewDancerPosts";
 import PreviewVideoPosts from "@scenes/Posts/PostItem/PreviewVideoPosts";
 import FreePostItem from "@scenes/FreePosts/FreeItem/FreePostItem";
 
-import ViewMore from "@scenes/Posts/PostItem/ViewMore";
 import PreviewListWrapper from "@scenes/Posts/PostItem/PreviewListWrapper";
 
 export default function Likes() {
@@ -47,15 +46,7 @@ export default function Likes() {
         {/* //!댄서게시판 헤더 */}
         <div>
           <div className="flex items-center justify-between">
-            <div className="space-y-1">
-              <h2 className="text-xl font-semibold tracking-tight">
-                댄서게시판
-              </h2>
-            </div>
-
-            <div>
-              <ViewMore href="/likes/dancer" />
-            </div>
+            <h2 className="text-xl font-semibold tracking-tight">댄서게시판</h2>
           </div>
           <Separator className="my-4" />
         </div>
@@ -88,15 +79,7 @@ export default function Likes() {
         {/* //!자랑게시판 헤더 */}
         <div>
           <div className="flex items-center justify-between">
-            <div className="space-y-1">
-              <h2 className="text-xl font-semibold tracking-tight">
-                자랑게시판
-              </h2>
-            </div>
-
-            <div>
-              <ViewMore href="/likes/video" />
-            </div>
+            <h2 className="text-xl font-semibold tracking-tight">자랑게시판</h2>
           </div>
           <Separator className="my-4" />
         </div>
@@ -130,15 +113,7 @@ export default function Likes() {
         {/* //!자유게시판 헤더 */}
         <div>
           <div className="flex items-center justify-between">
-            <div className="space-y-1">
-              <h2 className="text-xl font-semibold tracking-tight">
-                자유게시판
-              </h2>
-            </div>
-
-            <div>
-              <ViewMore href="/likes/free" />
-            </div>
+            <h2 className="text-xl font-semibold tracking-tight">자유게시판</h2>
           </div>
           <Separator className="my-4" />
         </div>
