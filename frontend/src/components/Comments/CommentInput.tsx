@@ -19,12 +19,15 @@ import {
 import { useForm } from "react-hook-form";
 import { Textarea } from "@components/ui/textarea";
 import { zodResolver } from "@hookform/resolvers/zod";
+import ProfileImage from "@components/ProfileImage";
 
 export default function CommentInput({ content = "" }: { content?: string }) {
   const [isLoading] = useState<boolean>(false);
   const dispatch = useAppDispatch();
   const { isUpdate, commentId } = useAppSelector((state) => state.comment);
-  const { userId, nickname } = useAppSelector((state) => state.auth);
+  const { userId, nickname, profileImage } = useAppSelector(
+    (state) => state.auth
+  );
 
   // fetch 요청
   const router = useRouter();
@@ -61,13 +64,22 @@ export default function CommentInput({ content = "" }: { content?: string }) {
   }
 
   return (
-    <div className="px-1 py-3">
+    <div className="py-2">
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="col-center">
           {/* 댓글 입력 필드 헤더 */}
-          <div className="flex w-full items-center justify-between  pb-3">
-            {/* 작성자 이름 */}
-            <span className="border-b">{nickname}</span>
+          <div className="flex w-full items-center justify-between">
+            <div className="row-center gap-2">
+              {/* 프로필 이미지  */}
+              {profileImage ? (
+                <ProfileImage imageUrl={profileImage} />
+              ) : (
+                <ProfileImage imageUrl={"/images/avatar.jpg"} />
+              )}
+
+              {/* 작성자 이름 */}
+              <span className="border-b">{nickname}</span>
+            </div>
 
             <div className="row-center gap-2">
               {/* 등록 버튼 */}
