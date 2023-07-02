@@ -74,7 +74,7 @@ class VideoPostViewSet(BasePostViewSet):
 
         if data['video'] is not None:
             url_data = upload_video_with_metadata_to_s3(user_id, data['video'],
-                                                        'dancer', is_mosaic)
+                                                        'boast', is_mosaic)
             data['video'] = url_data['video_url']
             data['thumbnail'] = url_data['thumbnail_url']
 
