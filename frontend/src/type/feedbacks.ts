@@ -64,8 +64,8 @@ export interface IFeedbackRequest {
 }
 
 export interface IFeedbackRequestSection {
-    sectionId: TSectionId
-    message: TMessage
+  feedbackSectionId: TSectionId;
+  message: TMessage;
 }
 
 // 댄서가 댄서블에게 피드백하는 데이터

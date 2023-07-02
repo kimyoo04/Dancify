@@ -10,28 +10,21 @@ import { feedbackJsonData } from "@scenes/FeedBacks/data/feedbackJsonData";
 import { Separator } from "@components/ui/separator";
 
 export default function DanceablePlayer({ data }: { data: IFeedbackDetail }) {
+  // 동영상 및 진행 바 관련
   const playerRef = useRef<ReactPlayer>(null);
   const progressBarRef = useRef<HTMLDivElement | null>(null);
 
+  // 현재 section 동영상의 전체 길이
   const [duration, setDuration] = useState(0);
+
+  // 현재 section index
   const sectionIndex = useAppSelector((state) => state.feedback.sectionIndex);
 
+  // 동영상이 바뀔 때마다 진행 바 초기화
   useEffect(() => {
     const progressBar = progressBarRef.current;
-
-    if (progressBar) {
-      const handleTimeUpdate = () => {
-        const player = playerRef.current;
-        if (player) {
-          setDuration(player.getDuration());
-        }
-      };
-
-      const interval = setInterval(handleTimeUpdate, 1000);
-      return () => {
-        clearInterval(interval);
-      };
-    }
+    const player = playerRef.current;
+    if (progressBar && player) setDuration(player.getDuration());
   }, []);
 
   const borderColors = [
@@ -49,7 +42,7 @@ export default function DanceablePlayer({ data }: { data: IFeedbackDetail }) {
 
   return (
     <div className="space-y-4">
-      <div className="rounded-md overflow-hidden">
+      <div className="overflow-hidden rounded-md">
         <ReactPlayer
           ref={playerRef}
           url={data.sections[sectionIndex].danceablevideo}
