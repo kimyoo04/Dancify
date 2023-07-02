@@ -27,7 +27,7 @@ export default function ScrollButton() {
   return (
     <button
       onClick={() => scrollToTop()}
-      className={`col-center group fixed bottom-20 right-4 z-10 h-8 w-8 rounded-full bg-white shadow-sm shadow-gray_1 transition-all hover:scale-110 md:bottom-4 ${
+      className={`col-center dark:shadow-gray-4 group fixed bottom-20 right-4 z-10 h-8 w-8 rounded-full bg-muted shadow-sm shadow-gray_1 transition-all hover:scale-110 md:bottom-4 ${
         isTop ? "cursor-default opacity-0" : ""
       }`}
     >
