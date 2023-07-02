@@ -12,6 +12,7 @@ import {
 import { TabsContent } from "@components/ui/tabs";
 import Tiptap from "./FeedbackDetailItem/DanceableTipTap";
 
+// 1. 댄서블의 요청이 필요한 컴포넌트
 export default function FeedbackRequest({ data }: { data: IFeedbackDetail }) {
   const { sectionIndex } = useAppSelector((state) => state.feedback);
 
