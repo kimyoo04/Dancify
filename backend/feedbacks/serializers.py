@@ -66,6 +66,7 @@ class FeedbackDetailSerializer(serializers.Serializer):
     - sections: 섹션 정보 담고 있는 리스트
     isDancer, nickname, sections는 뷰에서 넣어줌
     """
+    profileImage = serializers.URLField(source='user.profile_image')
     title = serializers.CharField(source='dancer_post.title')
     createDate = serializers.CharField(source='create_date')
     userId = serializers.CharField(source='user.user_id')
@@ -73,4 +74,4 @@ class FeedbackDetailSerializer(serializers.Serializer):
 
     class Meta:
         model = DanceableFeedback
-        fields = ['title', 'createDate', 'nickname', 'userId', 'status']
+        fields = ['title', 'createDate', 'nickname', 'userId', 'profileImage', 'status']
