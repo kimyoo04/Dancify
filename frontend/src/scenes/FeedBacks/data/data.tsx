@@ -2,24 +2,12 @@ import { ArrowUpCircle, CheckCircle2, HelpCircle } from "lucide-react";
 
 export const genres = [
   {
-    value: "기본동작",
+    value: "basic",
     label: "기본동작",
   },
   {
-    value: "k-pop",
+    value: "kpop",
     label: "K-pop",
-  },
-  {
-    value: "키즈",
-    label: "키즈",
-  },
-  {
-    value: "팝핀",
-    label: "팝핀",
-  },
-  {
-    value: "뮤지컬",
-    label: "뮤지컬",
   },
 ];
 
