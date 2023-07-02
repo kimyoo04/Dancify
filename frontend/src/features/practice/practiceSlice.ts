@@ -1,6 +1,10 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { TFeedbackId } from "@type/feedbacks";
-import { IPracticeState, IUpdateSectionPractice } from "@type/practice";
+import {
+  IPracticeState,
+  IUpdateSectionPractice,
+  TSectionId,
+} from "@type/practice";
 
 const initialState: IPracticeState = {
   step: 1, // 연습의 단계 인덱스
@@ -81,6 +85,26 @@ export const practiceSlice = createSlice({
         state.selectedSections.push(sectionIndex);
       }
     },
+    // 구간 첫 시도에 다음으로 강제 이동한 경우 따로 예외처리 필요
+    updateSectionForce: (state, action: PayloadAction<TSectionId>) => {
+      const sectionId = action.payload;
+      const sectionIndex = state.sectionPracticeArr.findIndex(
+        (section) => section.sectionId === sectionId
+      );
+      const defaultPracticeArr = {
+        sectionId,
+        firstScore: 0,
+        bestScore: 0,
+        playCounts: 0,
+        poseMessages: {
+          Miss: 0,
+          Good: 0,
+          Great: 0,
+          Excellent: 0,
+        },
+      };
+      if (sectionIndex === -1) state.sectionPracticeArr.push(defaultPracticeArr);
+    },
     // section의 대한 최초, 최고 점수 입력
     updateSectionPractice: (
       state,
@@ -101,7 +125,7 @@ export const practiceSlice = createSlice({
           firstJson: keypointJson,
           bestJson: keypointJson,
           playCounts: 1,
-          poseMessages: action.payload.poseMessages,
+          poseMessages,
         });
       } else if (score > state.sectionPracticeArr[sectionIndex].bestScore) {
         // bestScore와 poseMessages 갱신 및 playCounts 증가

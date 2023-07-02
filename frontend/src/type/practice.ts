@@ -11,7 +11,7 @@ export interface IPracticeState {
   isFullBody: boolean; // 전신 유무
   isPlaying: boolean; // SectionResult 컴포넌트 랜더링 유무
   isFinished: boolean; // 안무 연습 완료 유무 or 영상 재생 유무
-  
+
   feedbackId: TFeedbackId;
   selectedSections: number[]; // 선택한 섹션 인덱스 리스트
   sectionPracticeArr: ISectionPractice[]; // 섹션별 연습 기록 리스트
@@ -19,12 +19,12 @@ export interface IPracticeState {
 
 // 구간별 평가 및 연습 정보
 export interface ISectionPractice {
-  video: TVideo;
+  video?: TVideo;
   sectionId: TSectionId;
   firstScore: TFirstScore;
   bestScore: TBestScore;
-  firstJson: Pose[][];
-  bestJson: Pose[][];
+  firstJson?: Pose[][];
+  bestJson?: Pose[][];
   playCounts: TPlayCounts;
   poseMessages: IPoseMessages;
 }
@@ -32,7 +32,7 @@ export interface ISectionPractice {
 // 구간별 첫 state 생성
 // practiceSlice.ts ~ setFirstScore
 export interface IUpdateSectionPractice {
-  video: TVideo
+  video: TVideo;
   sectionId: TSectionId;
   score: TInitScore; // 첫 점수로 firstScore와 bestScore 둘 다 전달
   poseMessages: IPoseMessages;
