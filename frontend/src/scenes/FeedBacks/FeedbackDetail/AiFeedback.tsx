@@ -28,7 +28,7 @@ export default function AiFeedback({data}: {data: IFeedbackDetail}) {
       </div>
 
       <div className="w-full rounded-md border bg-white p-4 text-black">
-        <LineChart evalPerFrameData={feedbackJsonData.data} />
+        <LineChart bestJsonData={feedbackJsonData.data} />
       </div>
     </TabsContent>
   );

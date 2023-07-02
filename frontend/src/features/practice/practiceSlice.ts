@@ -77,6 +77,11 @@ export const practiceSlice = createSlice({
       state.isSkeleton = !state.isSkeleton;
     },
 
+    // 모자이크 유무 토글
+    toggleMosaic: (state) => {
+      state.isMosaic = !state.isMosaic;
+    },
+
     // section 복수 선택 토글
     toggleSelectedSections: (state, action: PayloadAction<number>) => {
       const sectionIndex = action.payload;
@@ -157,7 +162,7 @@ export const practiceSlice = createSlice({
     },
     // section의 대한 최초, 최고 점수 입력
     increasePlayCount: (state, action: PayloadAction<TSectionId>) => {
-      const sectionId =action.payload;
+      const sectionId = action.payload;
       const sectionIndex = state.sectionPracticeArr.findIndex(
         (section) => section.sectionId === sectionId
       );

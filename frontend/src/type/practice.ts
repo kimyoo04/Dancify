@@ -1,6 +1,6 @@
 import { TThumbnail, TVideo, TViews } from "./posts";
 import { Pose } from "./moveNet";
-import { IFeedback, TFeedbackId } from "./feedbacks";
+import { TFeedbackId } from "./feedbacks";
 
 // practiceSlice.ts
 export interface IPracticeState {
@@ -8,10 +8,10 @@ export interface IPracticeState {
   playIndex: TPlayIndex; // 영상의 단계
   isRealMode: boolean; // 실전 모드 유무
   isSkeleton: boolean; // 스켈레톤 매핑 유무
+  isMosaic: boolean; // 모자이크 유무
   isFullBody: boolean; // 전신 유무
   isPlaying: boolean; // SectionResult 컴포넌트 랜더링 유무
   isFinished: boolean; // 안무 연습 완료 유무 or 영상 재생 유무
-
   feedbackId: TFeedbackId;
   selectedSections: number[]; // 선택한 섹션 인덱스 리스트
   sectionPracticeArr: ISectionPractice[]; // 섹션별 연습 기록 리스트

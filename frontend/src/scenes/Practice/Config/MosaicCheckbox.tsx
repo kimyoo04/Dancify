@@ -9,7 +9,7 @@ export default function MosaicCheckbox() {
     <div className="items-top flex space-x-2">
       <Checkbox
         id="skeleton"
-        onCheckedChange={() => dispatch(practiceActions.toggleSkeleton())}
+        onCheckedChange={() => dispatch(practiceActions.toggleMosaic())}
         className="w-5 h-5 dark:text-white"
       />
       <div className="grid gap-1.5 leading-none">
@@ -17,7 +17,7 @@ export default function MosaicCheckbox() {
           htmlFor="skeleton"
           className="font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
         >
-          관절 스켈레톤 매핑 유무
+          얼굴 모자이크 처리 유무
         </label>
       </div>
     </div>
