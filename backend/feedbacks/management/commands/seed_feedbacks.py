@@ -16,7 +16,6 @@ class Command(BaseCommand):
         seeder = Seed.seeder()
 
         danceable_ids = ['dancable1', 'dancable2', 'user1', 'user2']
-        dancer_ids = ['dancer1', 'dancer2', 'dancer3']
 
         video_urls = [
             'https://d2w69iexuycwsi.cloudfront.net/vod/danceable/danceable1/dasd22141sdd12e21a.m3u8',
@@ -76,10 +75,10 @@ class Command(BaseCommand):
         for danceable_feedback in danceable_feedbacks:
             if danceable_feedback.feedback_post.status == '완료':
                 seeder.add_entity(DancerFeedback, 1,
-                                {
-                                    'danceable_feedback': danceable_feedback,
-                                    'video': choice(video_urls)
-                                })
+                                  {
+                                      'danceable_feedback': danceable_feedback,
+                                      'video': choice(video_urls)
+                                  })
                 seeder.execute()
 
         dancer_feedbacks = DancerFeedback.objects.all()
@@ -89,9 +88,9 @@ class Command(BaseCommand):
 
             for _ in range(num_iterations):
                 seeder.add_entity(TimeStamp, 1,
-                                {
-                                    'dancer_feedback': dancer_feedback,
-                                    'timestamp': lambda x: randint(1, 10),
-                                    'message': '힘내세요'
-                                })
+                                  {
+                                      'dancer_feedback': dancer_feedback,
+                                      'timestamp': lambda x: randint(1, 10),
+                                      'message': '힘내세요'
+                                  })
             seeder.execute()
