@@ -1,23 +1,25 @@
-export const feedbackDetailData = {
+import { IFeedbackDetail } from "@type/feedbacks";
+
+export const feedbackDetailData: IFeedbackDetail = {
   feedbackId: "abc123",
   title: "Awesome Dance Performance",
   createDate: "2023-06-28",
+  profileImage:
+    "https://dancify-bucket.s3.ap-northeast-2.amazonaws.com/profile-image/user1.jpg",
   nickname: "JohnDoe",
   userId: "user123",
   status: "신청 전",
   isDancer: true,
-  firstAiFeedback:
-    "Great job on the dance performance! Your moves were on point.",
-  bestAiFeedback:
-    "You nailed every step and brought so much energy to the performance. Well done!",
   sections: [
     {
-      sectionId: "section1",
+      feedbackSectionId: "section1",
       danceablevideo:
         "http://dyago72jbsqcn.cloudfront.net/vod/dancer/dancer2/32e1209ujqwi0dj01289jd12.m3u8",
       danceablemessage:
         "I really enjoyed the choreography in this section. It was so dynamic and synchronized.",
       dancerVideo: "https://example.com/dancer1",
+      firstAiFeedback: "first json url",
+      bestAiFeedback: "best json url",
       dancerMessage: [
         {
           timeStamp: 10,
@@ -30,7 +32,9 @@ export const feedbackDetailData = {
       ],
     },
     {
-      sectionId: "section2",
+      feedbackSectionId: "section2",
+      firstAiFeedback: "first json url",
+      bestAiFeedback: "best json url",
       danceablevideo:
         "http://dyago72jbsqcn.cloudfront.net/vod/dancer/dancer3/fd32fhj890fjwefiwefjwe.m3u8",
       danceablemessage:
