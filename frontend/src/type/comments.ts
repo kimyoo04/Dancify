@@ -1,4 +1,4 @@
-import { TNickname, TUserId } from "./auth";
+import { TNickname, TProfileImg, TUserId } from "./auth";
 import { TPostId } from "./posts";
 import * as z from "zod";
 
@@ -6,6 +6,7 @@ import * as z from "zod";
 export interface IComment {
   commentId: TCommentId;
   userId: TUserId;
+  profileImage: TProfileImg;
   nickname: TNickname;
   content: TContent;
   createDate: TCreateDate;

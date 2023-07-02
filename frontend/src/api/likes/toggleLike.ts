@@ -20,6 +20,7 @@ export const useToggleLike = () => {
     mutationFn: toggleLike,
     onSuccess: async () => {
       // invalidateQueries를 안한 이유: 조회수가 같이 올라감.
+      console.log("🚀 usetoggleLike: success");
     },
     onError: (err) => {
       console.error("🚀 usetoggleLike:", err);

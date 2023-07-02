@@ -1,4 +1,4 @@
-import { TNickname, TUserId } from "./auth";
+import { TNickname, TProfileImg, TUserId } from "./auth";
 import { IComment, TCommentCount } from "./comments";
 import { TLikesCount } from "./like";
 import {
@@ -17,6 +17,7 @@ export interface IFreePost {
   nickname: TNickname;
   content: TContent;
   createDate: TCreateDate;
+  profileImage: TProfileImg;
   postImage: TPostImage;
   views: TViews;
   commentsCount: TCommentCount;
@@ -39,8 +40,9 @@ export interface IFreePostDetail {
   userLike: boolean; // 미완
   nickname: TNickname;
   content: TContent;
-  createDate: TCreateDate;
+  profileImage: TProfileImg;
   postImage: TPostImage;
+  createDate: TCreateDate;
   views: TViews;
   likesCount: TLikesCount;
   comments: IComment[];

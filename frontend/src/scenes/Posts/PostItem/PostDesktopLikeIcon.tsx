@@ -16,7 +16,7 @@ export default function PostDesktopLikeIcon() {
   return (
     <>
       <button
-        className="mb-1"
+        className="h-6 col-center"
         onClick={async () => {
           if (
             router.query.id !== undefined &&

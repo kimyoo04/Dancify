@@ -7,6 +7,7 @@ import { timeYmd } from "@util/dateTime";
 import extractPTags from "@util/extractPTags";
 import { Eye, MessageSquare, ThumbsUp } from "lucide-react";
 import PostContent from "@scenes/Posts/PostItem/PostContent";
+import ProfileImage from "@components/ProfileImage";
 
 interface FreePostItemProps {
   data: IFreePost;
@@ -19,10 +20,13 @@ export default function FreePostItem({ data, href }: FreePostItemProps) {
       <div className="flex w-full flex-nowrap items-start justify-between">
         {/* 제목 | 내용 */}
         <div className="w-fit space-y-1">
-          <h3 className="text-lg font-medium leading-none">{data.title}</h3>
+          <span className="text-lg font-medium leading-none group-hover:border-b-2 border-black dark:border-white">
+            {data.title}
+          </span>
           <PostContent
             content={extractPTags(data.content) + "..."}
-            textClassName="w-fit text-sm text-muted-foreground"
+            textClassName="w-fit text-muted-foreground"
+            className="text-sm font-thin"
           />
         </div>
 
@@ -45,12 +49,16 @@ export default function FreePostItem({ data, href }: FreePostItemProps) {
       </div>
 
       <div className="row-between">
-        {/* 날짜 | 닉네임 | 조회수 */}
-        <div className="row-center gap-3 text-sm">
-          <span className="text-sm text-muted-foreground">
-            {timeYmd(data.createDate)}
-          </span>
-          <span>{data.nickname}</span>
+        {/* 프로필 이미지 | 생성일 | 닉네임 */}
+        <div className="row-center gap-3">
+          <ProfileImage imageUrl={data.profileImage} />
+
+          <div className="col-start text-sm">
+            <span className="text-sm text-muted-foreground">
+              {timeYmd(data.createDate)}
+            </span>
+            <span>{data.nickname}</span>
+          </div>
         </div>
 
         {/* 좋아요 | 댓글 개수 */}

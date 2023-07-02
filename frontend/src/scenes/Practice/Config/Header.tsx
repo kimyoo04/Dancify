@@ -10,7 +10,7 @@ export default function ConfigHeader({
     <div>
       {/* 게시글 제목 -- 수정, 삭제 버튼 */}
       <div className="flex flex-wrap justify-between">
-        <h2 className="text-2xl font-bold">{data.title}</h2>
+        <h2 className="text-xl font-bold">{data.title}</h2>
       </div>
 
       {/* 작성자, 작성일, 조회수 */}

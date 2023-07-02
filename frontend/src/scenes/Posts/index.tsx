@@ -63,7 +63,7 @@ export default function Posts() {
                     <>{videoError && <p>Error: {videoError.message}</p>}</>
                   ) : (
                     videoData && (
-                      <ul className="flex space-x-4 pb-4">
+                      <ul className="flex space-x-4 px-0 pb-4">
                         {videoData?.pages[0].data
                           .slice(0, 10)
                           .map((videoData) => (
@@ -110,7 +110,7 @@ export default function Posts() {
                     <>{freeError && <p>Error: {freeError.message}</p>}</>
                   ) : (
                     freeData && (
-                      <ul className="col-center w-full gap-4 pb-4">
+                      <ul className="col-center w-full gap-4 px-0 pb-4">
                         {freeData?.pages[0].data
                           .slice(0, 10)
                           .map((freeData) => (

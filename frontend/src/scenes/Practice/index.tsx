@@ -87,7 +87,7 @@ export default function Practice({ postId }: { postId: TPostId }) {
         </>
       ) : (
         <div className="col-center gap-4">
-          <h2 className="text-2xl font-bold">데이터가 없습니다.</h2>
+          <h2 className="text-xl font-bold">데이터가 없습니다.</h2>
 
           <Link href="/">
             <Button>홈으로 이동</Button>

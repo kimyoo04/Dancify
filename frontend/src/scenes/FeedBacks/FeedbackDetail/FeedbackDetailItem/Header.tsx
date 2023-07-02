@@ -14,7 +14,7 @@ export default function Header({ data }: IHeaderProps) {
     <div>
       {data && <>
         {/* 게시글 제목 */}
-        <h2 className="text-2xl font-bold">{data.title}</h2>
+        <h2 className="text-xl font-bold">{data.title}</h2>
 
         {/* 작성자, 작성일, 조회수 -- 수정, 삭제 버튼 */}
         <div className="flex flex-wrap items-center justify-between">

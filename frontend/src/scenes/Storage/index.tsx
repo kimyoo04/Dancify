@@ -1,3 +1,4 @@
+import { Separator } from "@components/ui/separator";
 import Histories from "@scenes/Histories";
 import MyPosts from "@scenes/MyPosts";
 import { useAppSelector } from "@toolkit/hook";
@@ -6,10 +7,12 @@ export default function Storage() {
   const userId = useAppSelector((state) => state.auth.userId);
 
   return (
-    <div>
-      <h1>Storage</h1>
-      <Histories />
+    <div className="space-y-4">
       <MyPosts id={userId} />
+
+      <Separator className="my-4" />
+
+      <Histories />
     </div>
   );
 }

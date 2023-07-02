@@ -1,4 +1,4 @@
-import { TNickname } from "./auth";
+import { TNickname, TProfileImg } from "./auth";
 import { TCommentCount, IComment } from "./comments";
 import { TLikesCount } from "./like";
 import {
@@ -19,6 +19,7 @@ export interface IVideoPost {
   content: TContent;
   createDate: TCreateDate;
   thumbnail: TThumbnail;
+  profileImage: TProfileImg;
   video: TVideo;
   views: TViews;
   likesCount: TLikesCount;
@@ -43,6 +44,7 @@ export interface IVideoPostDetail {
   content: TContent;
   createDate: TCreateDate;
   thumbnail: TThumbnail;
+  profileImage: TProfileImg;
   video: TVideo;
   views: TViews;
   likesCount: TLikesCount;

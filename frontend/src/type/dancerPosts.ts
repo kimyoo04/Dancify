@@ -1,4 +1,4 @@
-import { TNickname, TUserId } from "./auth";
+import { TNickname, TProfileImg, TUserId } from "./auth";
 import { TCommentCount, IComment } from "./comments";
 import { TGenreValue } from "./filter";
 import { TLikesCount } from "./like";
@@ -21,6 +21,7 @@ export interface IDancerPost {
   content: TContent;
   createDate: TCreateDate;
   thumbnail: TThumbnail;
+  profileImage: TProfileImg;
   video: TVideo;
   views: TViews;
   commentsCount: TCommentCount;
@@ -47,6 +48,7 @@ export interface IDancerPostDetail {
   content: TContent;
   createDate: TCreateDate;
   thumbnail: TThumbnail;
+  profileImage: TProfileImg;
   video: TVideo;
   views: TViews;
   likesCount: TLikesCount;
@@ -69,6 +71,7 @@ export interface IDancerHistoryPost {
   content: TContent;
   createDate: TCreateDate;
   thumbnail: TThumbnail;
+  profileImage: TProfileImg;
   video: TVideo;
   views: TViews;
   feedbackPrice: TFeedbackPrice;

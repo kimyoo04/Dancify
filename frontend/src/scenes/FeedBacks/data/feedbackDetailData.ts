@@ -1,6 +1,4 @@
-import { IFeedbackDetail } from "@type/feedbacks";
-
-export const feedbackDetailData: IFeedbackDetail = {
+export const feedbackDetailData = {
   feedbackId: "abc123",
   title: "Awesome Dance Performance",
   createDate: "2023-06-28",

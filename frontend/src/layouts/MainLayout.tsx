@@ -20,8 +20,10 @@ export default function MainLayout({
         <Navigation />
 
         {/* 콘텐츠 영역 */}
-        <div className={`w-full bg-background pt-[56px] ${paddingleft}`}>
-          <div className="p-6"> {children}</div>
+        <div
+          className={`flex min-h-screen w-full flex-col justify-between bg-background pt-[56px] ${paddingleft}`}
+        >
+          <div className="w-full px-6"> {children}</div>
           <Footer />
         </div>
       </main>

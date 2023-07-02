@@ -45,7 +45,7 @@ export default function DancerPostList({
                   <DancerPostItem
                     key={indx + data.videoHistoryId}
                     data={data.dancerPost}
-                    href={`/histories/${data}`}
+                    href={`/histories/${data.dancerPost.postId}`}
                   />
                 ))}
               </Fragment>

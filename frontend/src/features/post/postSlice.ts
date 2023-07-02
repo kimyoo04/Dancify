@@ -29,9 +29,11 @@ const postSlice = createSlice({
   name: "post",
   initialState,
   reducers: {
-    // 자유 게시판데이터 적용
+    // 자유 게시판 데이터 적용
     getFreePostInfo: (state, actions: PayloadAction<IFreePostInfo>) => {
       state.postId = actions.payload.postId;
+      state.isAgree = false;
+      state.isMosaic = false;
       state.genre = "";
       state.postTitle = actions.payload.postTitle;
       state.postContent = actions.payload.postContent;
@@ -40,9 +42,11 @@ const postSlice = createSlice({
       state.feedbackPrice = 0;
     },
 
-    // 자랑 게시판만 고려
+    // 자랑 게시판 데이터 적용
     getVideoPostInfo: (state, actions: PayloadAction<IVideoPostInfo>) => {
       state.postId = actions.payload.postId;
+      state.isAgree = false;
+      state.isMosaic = false;
       state.genre = "";
       state.postTitle = actions.payload.postTitle;
       state.postContent = actions.payload.postContent;
@@ -51,9 +55,11 @@ const postSlice = createSlice({
       state.feedbackPrice = 0;
     },
 
-    // 자유 게시판만 고려
+    // 댄서 게시판 데이터 적용
     getPostDancerInfo: (state, actions: PayloadAction<IDancerPostInfo>) => {
       state.postId = actions.payload.postId;
+      state.isAgree = false;
+      state.isMosaic = false;
       state.genre = actions.payload.genre;
       state.postTitle = actions.payload.postTitle;
       state.postContent = actions.payload.postContent;
@@ -75,6 +81,7 @@ const postSlice = createSlice({
     resetPostInfo: (state) => {
       state.step = 1;
       state.isAgree = false;
+      state.isMosaic = false;
       state.genre = "";
       state.postId = "";
       state.postTitle = "";

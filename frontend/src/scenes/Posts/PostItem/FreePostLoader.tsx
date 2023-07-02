@@ -1,47 +1,45 @@
-import ContentLoader from "react-content-loader";
+import { Skeleton } from "@components/ui/Skeleton";
 
 export default function FreePostLoader() {
   const contentLoaderArr = Array.from(Array(15).keys());
 
   return (
     <ul className="grid w-full grid-cols-1 gap-4">
-      {contentLoaderArr.map((_, index) => (
-        <li
-          key={index + "dummy" + "posts"}
-          className="flex w-full flex-col gap-4 rounded-2xl bg-white p-4 shadow-md"
+      {contentLoaderArr.map((indx) => (
+        <div
+          key={indx + "dummy" + "preview"}
+          className="group w-full space-y-2 border-b pb-4"
         >
-          {/* 작성자명과 작성일자 */}
-          <div className="flex items-center justify-between">
-            <ContentLoader uniqueKey="post-nickname" width={100} height={26}>
-              <rect x="0" y="0" rx="5" ry="5" width="100%" height="100%" />
-            </ContentLoader>
-          </div>
-
-          {/* 제목과 내용 */}
-          <div className="col-start gap-2">
-            <ContentLoader uniqueKey="post-title" width={200} height={34}>
-              <rect x="0" y="0" rx="5" ry="5" width="100%" height="100%" />
-            </ContentLoader>
-            <ContentLoader uniqueKey="post-content" width={450} height={26}>
-              <rect x="0" y="0" rx="5" ry="5" width="100%" height="100%" />
-            </ContentLoader>
-          </div>
-
-          {/* 조회와 댓글 */}
-          <div className="mt-4 flex justify-between">
-            <div className="row-center gap-2">
-              <ContentLoader uniqueKey="post-hits" width={60} height={26}>
-                <rect x="0" y="0" rx="5" ry="5" width="100%" height="100%" />
-              </ContentLoader>
-              <ContentLoader uniqueKey="post-comments" width={60} height={26}>
-                <rect x="0" y="0" rx="5" ry="5" width="100%" height="100%" />
-              </ContentLoader>
+          <div className="flex w-full flex-nowrap items-start justify-between">
+            {/* 제목 | 내용 */}
+            <div className="w-fit space-y-1">
+              <Skeleton className="h-7 w-[150px] rounded-md bg-gray-200" />
+              <Skeleton className="h-5 w-[300px] rounded-md bg-gray-200" />
             </div>
-            <ContentLoader uniqueKey="post-date" width={60} height={26}>
-              <rect x="0" y="0" rx="5" ry="5" width="100%" height="100%" />
-            </ContentLoader>
+
+            {/* 포스트 이미지 */}
+            <Skeleton
+              className={`h-[70px] w-[110px] flex-shrink-0 overflow-hidden rounded-md bg-gray-200`}
+            />
           </div>
-        </li>
+
+          <div className="row-between">
+            {/* 프로필 이미지 | 생성일 | 닉네임 */}
+            <div className="row-center gap-3">
+              <Skeleton className="h-8 w-8 rounded-full bg-gray-300" />
+
+              <div className="col-start gap-1 text-sm">
+                <Skeleton className="h-3 w-16 rounded-full bg-gray-300" />
+                <Skeleton className="h-3 w-10 rounded-full bg-gray-300" />
+              </div>
+            </div>
+
+            {/* 좋아요 | 댓글 개수 */}
+            <div className="flex items-start gap-4">
+              <Skeleton className="h-3 w-[110px] rounded-full bg-gray-300" />
+            </div>
+          </div>
+        </div>
       ))}
     </ul>
   );

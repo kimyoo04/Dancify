@@ -18,7 +18,7 @@ export default function UpDelButton({postId}: { postId: TPostId }) {
   const { mutateAsync } = useDeleteDancerPost();
 
   return (
-    <div className="relative">
+    <div className="relative h-6">
       {/* 오버레이 */}
       {isToggle && (
         <div
@@ -31,7 +31,7 @@ export default function UpDelButton({postId}: { postId: TPostId }) {
       )}
 
       {/* 더보기 토글 버튼 */}
-      <button onClick={() => setIsToggle(!isToggle)}>
+      <button className="h-6" onClick={() => setIsToggle(!isToggle)}>
         <MoreVerticalIcon className="text-muted-foreground" />
       </button>
 

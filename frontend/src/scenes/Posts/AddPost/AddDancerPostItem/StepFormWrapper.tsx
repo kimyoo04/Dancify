@@ -32,7 +32,7 @@ export default function StepFormWrapper({ children }: SettingsLayoutProps) {
     <>
       <div className="space-y-6 p-10 pb-16">
         <div className="space-y-0.5">
-          <h2 className="text-2xl font-bold tracking-tight">
+          <h2 className="text-xl font-bold tracking-tight">
             댄서 게시글 작성
           </h2>
           <p className="text-muted-foreground">

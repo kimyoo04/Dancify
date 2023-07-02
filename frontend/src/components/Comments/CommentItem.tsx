@@ -15,20 +15,20 @@ export default function CommentItem({ data }: { data: IComment }) {
       {isUpdate && commentId === data.commentId ? (
         <CommentInput content={data.content} />
       ) : (
-        <div className="relative w-full border-b py-4">
+        <div className="relative w-full border-b py-1">
           <div className="flex w-full items-center justify-between">
             <div className="flex items-center gap-2">
-                {/* //! 프로필 이미지  */}
-                {/* <ProfileImage imageUrl={data.profileImage} /> */}
+              {/* 프로필 이미지  */}
+              <ProfileImage imageUrl={data.profileImage} />
 
               <div className="flex flex-col items-start justify-start">
                 {/* 작성자 이름 */}
-                <div className="w-40 overflow-hidden">
+                <div className="w-40 overflow-hidden text-sm">
                   <span className="truncate">{data.nickname}</span>
                 </div>
 
                 {/* 작성 시간 : timeYmd 함수 활용 */}
-                <span className="text-sm text-slate-400">
+                <span className="text-sm font-thin text-slate-400">
                   {timeYmd(data.createDate)}
                 </span>
               </div>

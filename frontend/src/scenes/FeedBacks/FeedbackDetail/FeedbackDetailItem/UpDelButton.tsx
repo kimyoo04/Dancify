@@ -16,7 +16,7 @@ export default function UpDelButton({feedbackId}: { feedbackId: TFeedbackId }) {
   const { mutateAsync } = useDeleteFeedback();
 
   return (
-    <div className="relative">
+    <div className="relative h-6">
       {/* 오버레이 */}
       {isToggle && (
         <div
@@ -29,7 +29,7 @@ export default function UpDelButton({feedbackId}: { feedbackId: TFeedbackId }) {
       )}
 
       {/* 더보기 토글 버튼 */}
-      <button onClick={() => setIsToggle(!isToggle)}>
+      <button className="h-6" onClick={() => setIsToggle(!isToggle)}>
         <MoreVerticalIcon className="text-muted-foreground" />
       </button>
 

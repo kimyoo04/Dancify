@@ -1,6 +1,5 @@
 import { Separator } from "@components/ui/separator";
 import { ScrollArea, ScrollBar } from "@components/ui/scroll-area";
-import ViewMore from "@scenes/Posts/PostItem/ViewMore";
 
 // useInfiniteQuery
 import { useReadDancerMyPostsPerPage } from "@api/myPosts/readDancerMyPostsPerPage";
@@ -16,6 +15,7 @@ import FreePostLoader from "@scenes/Posts/PostItem/FreePostLoader";
 import PreviewDancerPosts from "@scenes/Posts/PostItem/PreviewDancerPosts";
 import PreviewVideoPosts from "@scenes/Posts/PostItem/PreviewVideoPosts";
 import FreePostItem from "@scenes/FreePosts/FreeItem/FreePostItem";
+import PreviewListWrapper from "@scenes/Posts/PostItem/PreviewListWrapper";
 
 export default function MyPosts({ id }: { id: string }) {
   const {
@@ -51,10 +51,6 @@ export default function MyPosts({ id }: { id: string }) {
                 댄서게시판
               </h2>
             </div>
-
-            <div>
-              <ViewMore href="/likes/dancer" />
-            </div>
           </div>
           <Separator className="my-4" />
         </div>
@@ -68,15 +64,15 @@ export default function MyPosts({ id }: { id: string }) {
               <>{dancerError && <p>Error: {dancerError.message}</p>}</>
             ) : (
               dancerData && (
-                <ul className="flex space-x-4 pb-4">
+                <PreviewListWrapper>
                   {dancerData?.pages[0].data.slice(0, 10).map((dancerData) => (
                     <PreviewDancerPosts
                       key={dancerData.postId}
                       data={dancerData}
-                      href={`/posts/${dancerData.postId}`}
+                      href={`/dancer/${dancerData.postId}`}
                     />
                   ))}
-                </ul>
+                </PreviewListWrapper>
               )
             )}
             <ScrollBar orientation="horizontal" />
@@ -87,15 +83,7 @@ export default function MyPosts({ id }: { id: string }) {
         {/* //!자랑게시판 헤더 */}
         <div>
           <div className="flex items-center justify-between">
-            <div className="space-y-1">
-              <h2 className="text-xl font-semibold tracking-tight">
-                자랑게시판
-              </h2>
-            </div>
-
-            <div>
-              <ViewMore href="/likes/video" />
-            </div>
+            <h2 className="text-xl font-semibold tracking-tight">자랑게시판</h2>
           </div>
           <Separator className="my-4" />
         </div>
@@ -109,15 +97,15 @@ export default function MyPosts({ id }: { id: string }) {
               <>{videoError && <p>Error: {videoError.message}</p>}</>
             ) : (
               videoData && (
-                <ul className="flex space-x-4 pb-4">
+                <PreviewListWrapper>
                   {videoData?.pages[0].data.slice(0, 10).map((videoData) => (
                     <PreviewVideoPosts
                       key={videoData.postId}
                       data={videoData}
-                      href={`/posts/${videoData.postId}`}
+                      href={`/video/${videoData.postId}`}
                     />
                   ))}
-                </ul>
+                </PreviewListWrapper>
               )
             )}
             <ScrollBar orientation="horizontal" />
@@ -129,15 +117,7 @@ export default function MyPosts({ id }: { id: string }) {
         {/* //!자유게시판 헤더 */}
         <div>
           <div className="flex items-center justify-between">
-            <div className="space-y-1">
-              <h2 className="text-xl font-semibold tracking-tight">
-                자유게시판
-              </h2>
-            </div>
-
-            <div>
-              <ViewMore href="/likes/free" />
-            </div>
+            <h2 className="text-xl font-semibold tracking-tight">자유게시판</h2>
           </div>
           <Separator className="my-4" />
         </div>
@@ -151,12 +131,12 @@ export default function MyPosts({ id }: { id: string }) {
               <>{freeError && <p>Error: {freeError.message}</p>}</>
             ) : (
               freeData && (
-                <ul className="col-center w-full gap-4 pb-4">
+                <ul className="col-center w-full gap-4 px-0 pb-4">
                   {freeData?.pages[0].data.slice(0, 10).map((freeData) => (
                     <FreePostItem
                       key={freeData.postId}
                       data={freeData}
-                      href={`/posts/${freeData.postId}`}
+                      href={`/free/${freeData.postId}`}
                     />
                   ))}
                 </ul>
