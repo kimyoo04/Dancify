@@ -93,9 +93,9 @@ class EndPartDanceView(APIView):
 
         folder_path = f'scores/{user_id}/'
         first_score_file_key = folder_path + \
-            str(section.section_id) + '-first_score.json'
+            str(data['feedbackId']) + str(section.section_id) + '-first_score.json'
         best_score_file_key = folder_path + \
-            str(section.section_id) + '-best_score.json'
+            str(data['feedbackId']) + str(section.section_id) + '-best_score.json'
 
         upload_obj_to_s3(bucket_name, folder_path,
                          first_score_file_key, first_score)

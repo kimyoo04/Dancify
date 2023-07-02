@@ -1,5 +1,7 @@
 import re
+import os
 
+from django.conf import settings
 from django.http import JsonResponse
 from django.db import transaction
 from django.db.models import F
@@ -23,8 +25,10 @@ from .base_post_view import BasePostViewSet
 from ..models import DancerPost
 from accounts.models import User
 from accounts.authentication import get_user_info_from_token, is_logined
-from s3_modules.upload import upload_video_with_metadata_to_s3
-from s3_modules.upload import upload_splitted_video_to_s3
+from s3_modules.upload import (
+    upload_video_with_metadata_to_s3,
+    upload_splitted_video_to_s3,
+)
 from view_history.models import ViewHistory
 from search_history.models import SearchHistory
 
@@ -117,6 +121,18 @@ class DancerPostViewSet(BasePostViewSet):
         data['video'] = url_data['video_url']
         data['thumbnail'] = url_data['thumbnail_url']
         data['keypoints'] = url_data['keypoint_url']
+
+        # 동영상 분할을 위한 비디오 .mp4 파일 임시 저장
+        localpath = settings.BASE_DIR  # 프로젝트 최상위 폴더
+        localpath = os.path.join(localpath, 'tmp_video')  # 현재 폴더/tmp_video/
+        os.makedirs(localpath, exist_ok=True)  # 폴더 생성
+
+        video = request.FILES['video']
+        local_videopath = os.path.join(localpath, 'video_original.' + video.name.split('.')[-1])
+
+        with open(local_videopath, 'wb') as destination:
+            for chunk in video.chunks():
+                destination.write(chunk)
 
         try:
             serializer = self.get_serializer(data=data)
