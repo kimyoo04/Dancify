@@ -69,7 +69,7 @@ export default function MyPosts({ id }: { id: string }) {
                     <PreviewDancerPosts
                       key={dancerData.postId}
                       data={dancerData}
-                      href={`/posts/${dancerData.postId}`}
+                      href={`/dancer/${dancerData.postId}`}
                     />
                   ))}
                 </PreviewListWrapper>
@@ -102,7 +102,7 @@ export default function MyPosts({ id }: { id: string }) {
                     <PreviewVideoPosts
                       key={videoData.postId}
                       data={videoData}
-                      href={`/posts/${videoData.postId}`}
+                      href={`/video/${videoData.postId}`}
                     />
                   ))}
                 </PreviewListWrapper>
@@ -136,7 +136,7 @@ export default function MyPosts({ id }: { id: string }) {
                     <FreePostItem
                       key={freeData.postId}
                       data={freeData}
-                      href={`/posts/${freeData.postId}`}
+                      href={`/free/${freeData.postId}`}
                     />
                   ))}
                 </ul>

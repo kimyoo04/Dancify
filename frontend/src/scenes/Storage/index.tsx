@@ -8,11 +8,11 @@ export default function Storage() {
 
   return (
     <div className="space-y-4">
-      <Histories />
-
-      <Separator className="my-4"/>
-
       <MyPosts id={userId} />
+
+      <Separator className="my-4" />
+
+      <Histories />
     </div>
   );
 }
