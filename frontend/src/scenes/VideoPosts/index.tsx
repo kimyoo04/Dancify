@@ -16,7 +16,7 @@ export default function VideoPosts() {
 
   return (
     <>
-      <div className="bg-background">
+      <div className="pt-4 bg-background">
         <VideoPostHeader />
 
         {/* 자유게시판 fetch 결과 출력 */}

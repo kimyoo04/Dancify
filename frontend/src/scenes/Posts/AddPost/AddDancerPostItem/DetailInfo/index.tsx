@@ -50,7 +50,6 @@ export default function DetailInfo({
   }, [videoPreview]);
 
   const handleUpload = async () => {
-    console.log("asdasd");
     if (videoFile && genre !== "") {
       setIsLoading(true);
 

@@ -3,10 +3,11 @@ import { Button } from "@components/ui/button";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { linksData } from "./linksData";
-import { useAppSelector } from "@toolkit/hook";
+import { useAppDispatch, useAppSelector } from "@toolkit/hook";
 import { FileBarChart2, Heart, Home, Tv, User, Users } from "lucide-react";
 import { History } from "lucide-react";
 import { Separator } from "@components/ui/separator";
+import { searchActions } from "@features/search/searchSlice";
 
 export default function Navigation({
   className,
@@ -15,6 +16,11 @@ export default function Navigation({
   const pathArr = router.pathname.split("/");
   const isOpen = useAppSelector((state) => state.sideBar.isOpen);
   const userId = useAppSelector((state) => state.auth.userId);
+
+  const dispatch = useAppDispatch();
+  const handleClick = () => {
+    dispatch(searchActions.resetKeyword()); // 검색 키워드 초기화
+  };
 
   return (
     <>
@@ -26,7 +32,7 @@ export default function Navigation({
           )}
         >
           <div className="col-start w-[168px] gap-2">
-            <Link className="w-full" href={`/${linksData[0].path}`}>
+            <Link onClick={handleClick} className="w-full" href={`/${linksData[0].path}`}>
               <Button
                 variant={router.pathname === "/" || router.pathname.includes("dancer") ? "default" : "ghost"}
                 size="sm"
@@ -37,7 +43,7 @@ export default function Navigation({
               </Button>
             </Link>
 
-            <Link className="w-full" href={`/${linksData[1].path}`}>
+            <Link onClick={handleClick} className="w-full" href={`/${linksData[1].path}`}>
               <Button
                 variant={
                   pathArr.includes(linksData[1].path) ? "default" : "ghost"
@@ -50,7 +56,7 @@ export default function Navigation({
               </Button>
             </Link>
 
-            <Link className="w-full" href={`/${linksData[2].path}`}>
+            <Link onClick={handleClick} className="w-full" href={`/${linksData[2].path}`}>
               <Button
                 variant={
                   pathArr.includes(linksData[2].path) ? "default" : "ghost"
@@ -65,7 +71,7 @@ export default function Navigation({
 
             <Separator />
 
-            <Link className="w-full" href={`/${linksData[3].path}`}>
+            <Link onClick={handleClick} className="w-full" href={`/${linksData[3].path}`}>
               <Button
                 variant={
                   pathArr.includes(linksData[3].path) ? "default" : "ghost"
@@ -80,7 +86,7 @@ export default function Navigation({
 
             <Separator />
 
-            <Link className="w-full" href={`/${linksData[4].path}`}>
+            <Link onClick={handleClick} className="w-full" href={`/${linksData[4].path}`}>
               <Button
                 variant={
                   pathArr.includes(linksData[4].path) ? "default" : "ghost"
@@ -93,7 +99,7 @@ export default function Navigation({
               </Button>
             </Link>
 
-            <Link className="w-full" href={`/${linksData[5].path}`}>
+            <Link onClick={handleClick} className="w-full" href={`/${linksData[5].path}`}>
               <Button
                 variant={
                   pathArr.includes(linksData[5].path) ? "default" : "ghost"
@@ -106,7 +112,7 @@ export default function Navigation({
               </Button>
             </Link>
 
-            <Link className="w-full" href={`/${linksData[6].path}/${userId}`}>
+            <Link onClick={handleClick} className="w-full" href={`/${linksData[6].path}/${userId}`}>
               <Button
                 variant={
                   router.pathname === "/posts/[id]" ? "default" : "ghost"
@@ -128,7 +134,7 @@ export default function Navigation({
           )}
         >
           <div className="col-center w-10 gap-2">
-            <Link className="w-full" href={`/${linksData[0].path}`}>
+            <Link onClick={handleClick} className="w-full" href={`/${linksData[0].path}`}>
               <Button
                 variant={router.pathname === "/" || router.pathname.includes("dancer") ? "default" : "ghost"}
                 size="sm"
@@ -138,7 +144,7 @@ export default function Navigation({
               </Button>
             </Link>
 
-            <Link className="w-full" href={`/${linksData[1].path}`}>
+            <Link onClick={handleClick} className="w-full" href={`/${linksData[1].path}`}>
               <Button
                 variant={
                   pathArr.includes(linksData[1].path) ? "default" : "ghost"
@@ -150,7 +156,7 @@ export default function Navigation({
               </Button>
             </Link>
 
-            <Link className="w-full" href={`/${linksData[2].path}`}>
+            <Link onClick={handleClick} className="w-full" href={`/${linksData[2].path}`}>
               <Button
                 variant={
                   pathArr.includes(linksData[2].path) ? "default" : "ghost"
@@ -164,7 +170,7 @@ export default function Navigation({
 
             <Separator />
 
-            <Link className="w-full" href={`/${linksData[3].path}`}>
+            <Link onClick={handleClick} className="w-full" href={`/${linksData[3].path}`}>
               <Button
                 variant={
                   pathArr.includes(linksData[3].path) ? "default" : "ghost"
@@ -178,7 +184,7 @@ export default function Navigation({
 
             <Separator />
 
-            <Link className="w-full" href={`/${linksData[4].path}`}>
+            <Link onClick={handleClick} className="w-full" href={`/${linksData[4].path}`}>
               <Button
                 variant={
                   pathArr.includes(linksData[4].path) ? "default" : "ghost"
@@ -190,7 +196,7 @@ export default function Navigation({
               </Button>
             </Link>
 
-            <Link className="w-full" href={`/${linksData[5].path}`}>
+            <Link onClick={handleClick} className="w-full" href={`/${linksData[5].path}`}>
               <Button
                 variant={
                   pathArr.includes(linksData[5].path) ? "default" : "ghost"
@@ -202,7 +208,7 @@ export default function Navigation({
               </Button>
             </Link>
 
-            <Link className="w-full" href={`/${linksData[6].path}/${userId}`}>
+            <Link onClick={handleClick} className="w-full" href={`/${linksData[6].path}/${userId}`}>
               <Button
                 variant={
                   router.pathname === "/posts/[id]" ? "default" : "ghost"

@@ -17,7 +17,7 @@ export default function Histories() {
 
   return (
     <>
-      <div className="bg-background">
+      <div className="pt-4 bg-background">
         <DancerPostHeader />
 
         {/* 자유게시판 fetch 결과 출력 */}

@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 
-import { useAppDispatch } from "@toolkit/hook";
+import { useAppDispatch, useAppSelector } from "@toolkit/hook";
 import { likeActions } from "@features/like/likeSlice";
 import { postActions } from "@features/post/postSlice";
 import { TPostId } from "@type/posts";
@@ -18,6 +18,7 @@ import StartPracticeButton from "./DancerDetailItem/StartPracticeButton";
 
 export default function DancerPostDetail({ id }: { id: TPostId }) {
   const dispatch = useAppDispatch();
+  const isDancer = useAppSelector((state) => state.auth.isDancer);
 
   // 게시글 불어오기
   const { data, isLoading, error } = useReadDancerPost(id);
@@ -62,7 +63,7 @@ export default function DancerPostDetail({ id }: { id: TPostId }) {
           <PostContent content={data.content} className="pb-12 pt-2" />
 
           {/* 연습 시작 버튼 */}
-          <StartPracticeButton postId={id} />
+          {isDancer && <StartPracticeButton postId={id} />}
 
           {/* 댓글 영역 */}
           <Separator className="my-2" />

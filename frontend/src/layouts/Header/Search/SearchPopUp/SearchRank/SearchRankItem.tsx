@@ -17,7 +17,7 @@ export default function SearchRankItem({ keyword, index }: ISearchItemProps) {
       className="flex items-center justify-between border-b"
     >
       <Link
-        href={`/posts/${searchCategory.toLowerCase()}`}
+        href={`/${searchCategory.toLowerCase()}`}
         className="row-center group w-full gap-2 py-1.5"
         onClick={() => {
           dispatch(searchActions.clickKeyword({ searchKeyword: keyword }));

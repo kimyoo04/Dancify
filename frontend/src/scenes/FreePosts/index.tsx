@@ -16,7 +16,7 @@ export default function FreePosts() {
 
   return (
     <>
-      <div className="bg-background">
+      <div className="pt-4 bg-background">
         <FreePostHeader />
 
         {/* 자유게시판 fetch 결과 출력 */}
