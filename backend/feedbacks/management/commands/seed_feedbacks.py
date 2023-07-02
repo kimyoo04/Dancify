@@ -1,9 +1,9 @@
-from random import choice
+from random import choice, randint
 from typing import Any
 from django.core.management.base import BaseCommand
 from django_seed import Seed
 
-from ...models import FeedbackPost, DanceableFeedback
+from ...models import FeedbackPost, DanceableFeedback, DancerFeedback, TimeStamp
 from video_section.models import VideoSection
 from posts.models import DancerPost
 from accounts.models import User
@@ -16,7 +16,6 @@ class Command(BaseCommand):
         seeder = Seed.seeder()
 
         danceable_ids = ['dancable1', 'dancable2', 'user1', 'user2']
-        # dancer_ids = ['dancer1', 'dancer2', 'dancer3']
 
         video_urls = [
             'https://d2w69iexuycwsi.cloudfront.net/vod/danceable/danceable1/dasd22141sdd12e21a.m3u8',
@@ -26,12 +25,20 @@ class Command(BaseCommand):
             'https://d2w69iexuycwsi.cloudfront.net/vod/dancer/dancer3/fd32fhj890fjwefiwefjwe.m3u8',
         ]
 
-        keypoints_urls = [
-            'https://dancify-bucket.s3.ap-northeast-2.amazonaws.com/key-points/dancable1/6015493aa1cc4ff78eaaabe449cc1775.json',
-            'https://dancify-bucket.s3.ap-northeast-2.amazonaws.com/key-points/dancable1/e1a27bdfc7f445f0a15b457de5d9f427.json',
-            'https://dancify-bucket.s3.ap-northeast-2.amazonaws.com/key-points/dancable2/fc56b71542754b3bb134b065b186b1e9.json',
-            'https://dancify-bucket.s3.ap-northeast-2.amazonaws.com/key-points/dancer2/de2b6b00b3a34bd39566d8d12fa07f18.json',
-            'https://dancify-bucket.s3.ap-northeast-2.amazonaws.com/key-points/dancer3/98e64117169e4031821875021b64895d.json',
+        first_scores = [
+            'https://dancify-bucket.s3.ap-northeast-2.amazonaws.com/scores/dancer1/0c64322b-462e-47ec-a774-7908ace1cb71-first_score.json',
+            'https://dancify-bucket.s3.ap-northeast-2.amazonaws.com/scores/dancer1/1334044a-05cd-4799-b6a4-3e005beb3e16-first_score.json',
+            'https://dancify-bucket.s3.ap-northeast-2.amazonaws.com/scores/dancer1/5780d95d-985d-4133-88cd-cb09e292257a-first_score.json',
+            'https://dancify-bucket.s3.ap-northeast-2.amazonaws.com/scores/dancer3/0d499eab-11e2-42e6-a08d-8a47c9bb7704-first_score.json',
+            'https://dancify-bucket.s3.ap-northeast-2.amazonaws.com/scores/user1/0266206f-c83b-4a85-a07d-79ee69403453-first_score.json',
+        ]
+
+        best_scores = [
+            'https://dancify-bucket.s3.ap-northeast-2.amazonaws.com/scores/dancer1/0c64322b-462e-47ec-a774-7908ace1cb71-best_score.json',
+            'https://dancify-bucket.s3.ap-northeast-2.amazonaws.com/scores/dancer1/1334044a-05cd-4799-b6a4-3e005beb3e16-best_score.json',
+            'https://dancify-bucket.s3.ap-northeast-2.amazonaws.com/scores/dancer1/5780d95d-985d-4133-88cd-cb09e292257a-best_score.json',
+            'https://dancify-bucket.s3.ap-northeast-2.amazonaws.com/scores/dancer3/0d499eab-11e2-42e6-a08d-8a47c9bb7704-best_score.json',
+            'https://dancify-bucket.s3.ap-northeast-2.amazonaws.com/scores/user1/0266206f-c83b-4a85-a07d-79ee69403453-best_score.json',
         ]
 
         # 비디오 섹션이 있는 포스트 구하기
@@ -45,7 +52,7 @@ class Command(BaseCommand):
                               {
                                   'dancer_post': DancerPost.objects.get(post_id=video_sections[0].dancer_post.post_id),
                                   'user': User.objects.get(user_id=danceable_id),
-                                  'status': choice(['신청 전', '대기 중'])
+                                  'status': choice(['신청 전', '대기 중', '완료'])
                               })
             seeder.execute()
 
@@ -58,7 +65,32 @@ class Command(BaseCommand):
                                           'section': video_section,
                                           'feedback_post': feedback_post,
                                           'video': video_urls[idx],
-                                          'first_score': keypoints_urls[idx],
-                                          'best_score': keypoints_urls[idx],
+                                          'first_score': first_scores[idx],
+                                          'best_score': best_scores[idx],
                                           'message': None if feedback_post.status == '신청 전' else '어려워요'
                                       })
+                seeder.execute()
+
+        danceable_feedbacks = DanceableFeedback.objects.all()
+        for danceable_feedback in danceable_feedbacks:
+            if danceable_feedback.feedback_post.status == '완료':
+                seeder.add_entity(DancerFeedback, 1,
+                                  {
+                                      'danceable_feedback': danceable_feedback,
+                                      'video': choice(video_urls)
+                                  })
+                seeder.execute()
+
+        dancer_feedbacks = DancerFeedback.objects.all()
+        for dancer_feedback in dancer_feedbacks:
+            # 반복 횟수를 랜덤하게 결정
+            num_iterations = randint(1, 5)
+
+            for _ in range(num_iterations):
+                seeder.add_entity(TimeStamp, 1,
+                                  {
+                                      'dancer_feedback': dancer_feedback,
+                                      'timestamp': lambda x: randint(1, 10),
+                                      'message': '힘내세요'
+                                  })
+            seeder.execute()
