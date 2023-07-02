@@ -6,6 +6,7 @@ import CreateButton from "@scenes/Posts/PostItem/CreateButton";
 import { useReadDancerPostsPerPage } from "@api/posts/readDancerPostsPerPage";
 
 import { useAppSelector } from "@toolkit/hook";
+import SearchHeader from "@components/Search/SearchHeader";
 
 export default function DancerPosts() {
   const {
@@ -22,6 +23,8 @@ export default function DancerPosts() {
   return (
     <>
       <div className="bg-background">
+        <SearchHeader />
+
         <GenreButtons />
 
         <DancerPostHeader />

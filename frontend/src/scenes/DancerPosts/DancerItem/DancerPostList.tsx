@@ -35,7 +35,7 @@ export default function DancerPostList({
         <DancerPostLoader />
       ) : status === "error" ? (
         <>{error && <p>Error: {error.message}</p>}</>
-      ) : data ? (
+      ) : data && data.pages[0].data.length !== 0 ? (
         <>
           <DancerListWrapper>
             {/* //! 댄서게시판 검색결과 무한 스크롤 영역 */}
