@@ -8,7 +8,7 @@ import { useReadOtherDancerPosts } from "@api/posts/readOtherDancerPosts";
 
 export default function Finish() {
   // API GET 요청
-  const { data, isLoading, error } = useReadOtherDancerPosts();
+  const { data } = useReadOtherDancerPosts();
 
   console.log(data)
   return (

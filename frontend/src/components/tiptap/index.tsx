@@ -19,9 +19,7 @@ const Tiptap = ({ isUpdate }: { isUpdate: boolean }) => {
   const postContent = useAppSelector((state) => state.post.postContent);
 
   const onUpdate = useCallback(
-    debounce((content) => {
-      dispatch(postActions.writingContent(content));
-    }, 500),
+    debounce((content) => dispatch(postActions.writingContent(content)), 500),
     []
   );
 

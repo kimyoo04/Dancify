@@ -51,7 +51,7 @@ export default function ProfileForm() {
       const data = await readProfile();
       if (data) {
         const profileImage = data.profileImage ? data.profileImage : undefined;
-        setImageUrl(profileImage)
+        setImageUrl(profileImage);
         const { nickname, email, description } = data;
         form.setValue("nickname", nickname);
         form.setValue("email", email);
@@ -60,7 +60,7 @@ export default function ProfileForm() {
       }
     }
     getPofileInfo();
-  }, []);
+  }, [form]);
 
   const onSubmit = async (data: ProfileFormValues) => {
     try {

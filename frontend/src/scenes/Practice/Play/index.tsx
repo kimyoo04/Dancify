@@ -64,7 +64,7 @@ export default function Play({
     <div className="h-full w-screen">
       <MainWrapper>
         {!isPlaying && isFinished ? (
-          <SectionResult data={data} />
+          <SectionResult />
         ) : (
           <SectionPlay
             data={data}

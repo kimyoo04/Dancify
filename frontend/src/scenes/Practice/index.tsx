@@ -24,7 +24,6 @@ export default function Practice({ postId }: { postId: TPostId }) {
   const step = useAppSelector((state) => state.practice.step);
 
   // 페이지 관리 state
-  const [state, setState] = useState("연습설정");
   const [detector, setDetector] = useState<poseDetection.PoseDetector | null>(
     null
   );

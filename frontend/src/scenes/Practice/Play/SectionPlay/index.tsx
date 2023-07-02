@@ -154,32 +154,6 @@ sectionPracticeArr
     };
   }, []);
 
-  // 캔버스 영역에 그려주는 함수
-  // useEffect(() => {
-  //   const canvas = canvasRef.current;
-  //   if (!canvas) return;
-
-  //   const context = canvas.getContext("2d");
-  //   if (!context) return;
-
-  //   const { width, height } = webcamDimensions;
-  //   canvas.width = width;
-  //   canvas.height = height;
-
-  //   // 캔버스 크기를 비디오 크기와 동일하게 설정
-  //   const captureFrame = () => {
-  //     const video = webcamRef.current?.video;
-  //     if (video) {
-  //       if (isSkeleton) {
-  //         //* 스캘레톤 매핑을 수행하는 로직
-  //       }
-  //     }
-  //     requestAnimationFrame(captureFrame);
-  //   };
-
-  //   captureFrame();
-  // }, [webcamDimensions, isSkeleton]);
-
   //! 카운트 다운 (수정 필요)
   useEffect(() => {
     if (isFullBody) {

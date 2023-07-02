@@ -51,7 +51,7 @@ export default function EditVideoPost({ id }: { id: string }) {
         window.onbeforeunload = null;
       };
     }
-  }, []);
+  }, [router.asPath]);
 
   // 요청 함수
   const { mutateAsync, isLoading } = useUpdateVideoPost();

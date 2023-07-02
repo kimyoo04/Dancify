@@ -51,7 +51,7 @@ export default function AddFreePost() {
   // 연습 초기화
   useEffect(() => {
     dispatch(postActions.resetPostInfo());
-  }, []);
+  }, [dispatch]);
 
   // 새로고침 및 뒤로가기 방지
   useEffect(() => {
