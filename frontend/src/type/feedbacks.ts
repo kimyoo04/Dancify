@@ -11,7 +11,7 @@ export interface IFeedbackState {
 }
 
 export interface ISection {
-  sectionId: TSectionId;
+  feedbackSectionId: TSectionId;
   danceablevideo: TVideo;
   danceablemessage: TMessage;
   dancerVideo: TVideo;
@@ -20,7 +20,7 @@ export interface ISection {
 
 // 피드백 게시글 목록
 export interface IFeedback {
-  feedbackId: TFeedbackId;
+  id: TFeedbackId;
   thumbnail: TThumbnail;
   genre: TGenreValue;
   title: TTitle;
@@ -36,17 +36,17 @@ export interface IFeedbackDetail {
   title: TTitle;
   createDate: TCreateDate;
   profileImage: TProfileImg;
-  nickname: TNickname; // 댄서 닉네임
+  nickname: TNickname; // 댄서블 닉네임 or 댄서 닉네임
   userId: TUserId; // 댄서블 아이디
   status: TStatus;
   isDancer: TIsDancer;
-  firstAiFeedback: string;
-  bestAiFeedback: string;
   sections: IFeedbackSection[]; // 구간별 피드백 질문과 답변
 }
 
 export interface IFeedbackSection {
-  sectionId: TSectionId;
+  feedbackSectionId: TSectionId;
+  firstAiFeedback: string;
+  bestAiFeedback: string;
   danceablevideo: TVideo;
   danceablemessage?: TMessage;
   dancerVideo?: TVideo;

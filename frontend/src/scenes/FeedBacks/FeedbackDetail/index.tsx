@@ -25,7 +25,7 @@ export default function FeedbackDetail({ id }: { id: string }) {
     if (data) {
       const sections = data.sections.map((section) => {
         const {
-          sectionId,
+          feedbackSectionId,
           danceablevideo,
           danceablemessage,
           dancerVideo,
@@ -33,7 +33,7 @@ export default function FeedbackDetail({ id }: { id: string }) {
         } = section;
 
         return {
-          sectionId,
+          feedbackSectionId,
           danceablevideo,
           danceablemessage: danceablemessage || "",
           dancerVideo: dancerVideo || "",
