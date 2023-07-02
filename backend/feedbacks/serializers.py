@@ -4,7 +4,7 @@ from .models import DanceableFeedback, FeedbackPost
 
 
 class BaseFeedbackListSerializer(serializers.Serializer):
-    feedbackId = serializers.UUIDField(source='feedback_id')
+    id = serializers.UUIDField(source='feedback_id')
     thumbnail = serializers.URLField(source='dancer_post.thumbnail')
     genre = serializers.CharField(source='dancer_post.genre')
     title = serializers.CharField(source='dancer_post.title')
@@ -21,7 +21,7 @@ class DanceableFeedbackListSerializer(BaseFeedbackListSerializer):
 
     class Meta:
         model = FeedbackPost
-        fields = ['feedbackId', 'thumbnail', 'genre', 'title',
+        fields = ['id', 'thumbnail', 'genre', 'title',
                   'nickname', 'profileImage', 'status', 'createDate']
         ref_name = 'DanceableFeedbackPostListSerializer'
 
@@ -35,7 +35,7 @@ class DancerFeedbackListSerializer(BaseFeedbackListSerializer):
 
     class Meta:
         model = FeedbackPost
-        fields = ['feedbackId', 'thumbnail', 'genre', 'title',
+        fields = ['id', 'thumbnail', 'genre', 'title',
                   'nickname', 'profileImage', 'status', 'createDate']
         ref_name = 'DancerFeedbackListSerializer'
 

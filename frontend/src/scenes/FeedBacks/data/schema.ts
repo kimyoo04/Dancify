@@ -7,6 +7,7 @@ export const feedbackSchema = z.object({
   thumbnail: z.string(),
   genre: z.string(),
   title: z.string(),
+  profileImage: z.string(),
   nickname: z.string(),
   status: z.string(),
   createDate: z.string(),

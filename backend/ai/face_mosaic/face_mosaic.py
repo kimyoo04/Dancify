@@ -78,6 +78,7 @@ def face_mosaic(videoname):
     # 잘 열렸는지 확인
     if not cap.isOpened():
         print('Can\'t open the video (%d)' % (local_videopath))
+        shutil.rmtree(localpath)
         exit()
 
     # 재생할 파일의 넓이 얻기

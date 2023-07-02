@@ -24,7 +24,7 @@ export default function FeedbackFinished({ data }: { data: IFeedbackDetail }) {
       <TabsContent value="feedbackFinished">
         {data.sections.length > 0 &&
           data.sections.map((section, index) => (
-            <div key={section.sectionId}>
+            <div key={section.feedbackSectionId}>
               {sectionIndex === index && (
                 <Accordion type="single" collapsible className="w-full">
                   <AccordionItem value="item-1">

@@ -21,7 +21,7 @@ export default function Sectiontab({ data }: { data: IFeedbackDetail }) {
         {sections.length > 0 &&
           sections.map((section, index) => (
             <Button
-              key={section.sectionId}
+              key={section.feedbackSectionId}
               onClick={() => dispatch(feedbackActions.selectSection(index))}
               className={`${
                 sectionIndex === index
@@ -42,14 +42,14 @@ export default function Sectiontab({ data }: { data: IFeedbackDetail }) {
               !sections.some((section) => section.danceablemessage !== "")
             }
             onClick={() => {
-              const feedbackRequestData = sections.map((section) => {
-                const { sectionId, danceablemessage } = section;
+              const feedbackRequestArr = sections.map((section) => {
+                const { feedbackSectionId, danceablemessage } = section;
                 return {
-                  sectionId,
+                  feedbackSectionId,
                   message: danceablemessage,
                 };
               });
-              feedbackRequest({ sections: feedbackRequestData });
+              feedbackRequest({ sections: feedbackRequestArr });
             }}
           >
             피드백 요청 완료

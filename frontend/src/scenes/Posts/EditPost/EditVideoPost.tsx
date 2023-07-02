@@ -13,7 +13,7 @@ import { ReloadIcon } from "@radix-ui/react-icons";
 import PreviewVideoUrl from "../PostItem/PreviewVideoUrl";
 import { useRouter } from "next/router";
 
-export default function EditFreePost({ id }: { id: string }) {
+export default function EditVideoPost({ id }: { id: string }) {
   const router = useRouter();
   const [isWait, setIsWait] = useState(false);
 

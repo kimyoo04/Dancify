@@ -31,14 +31,18 @@ export default function FreePostList({ post }: { post: IUseInfniteFreePosts }) {
         <FreePostLoader />
       ) : status === "error" ? (
         <>{error && <p>Error: {error.message}</p>}</>
-      ) : data ? (
+      ) : data && data.pages[0].data.length !== 0 ? (
         <>
           <FreeListWrapper>
             {/* //! 자유게시판 검색결과 무한 스크롤 영역 */}
             {data.pages.map((group, indx) => (
               <Fragment key={indx + "page"}>
                 {group.data.map((data, indx) => (
-                  <FreePostItem key={indx + data.postId} data={data} href={`/free/${data.postId}`}/>
+                  <FreePostItem
+                    key={indx + data.postId}
+                    data={data}
+                    href={`/free/${data.postId}`}
+                  />
                 ))}
               </Fragment>
             ))}

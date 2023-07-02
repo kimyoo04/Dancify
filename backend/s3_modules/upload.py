@@ -8,6 +8,7 @@ from s3_modules.authentication import get_s3_client
 from ai.video_to_keypoint.vtk import video_to_keypoint
 from ai.face_mosaic.face_mosaic import face_mosaic
 from moviepy.editor import VideoFileClip, AudioFileClip
+from ai.shortform_generate.shortform_generator import generate_video
 
 AWS_DOMAIN = "https://dancify-bucket.s3.ap-northeast-2.amazonaws.com/"
 # CLOUDFRONT_DOMAIN = "http://dyago72jbsqcn.cloudfront.net"
@@ -129,11 +130,19 @@ def upload_video_with_metadata_to_s3(user_id, video, video_type, is_mosaic, vide
     elif not isinstance(video, bytes):
         video = video.read()
 
+    local_video_path = save_tmp_video(video, video_file_extension, video_uuid)
+
+    generate_video(local_video_path, os.path.join(os.path.dirname(local_video_path), ''))
+    with open(local_video_path, 'rb') as video_file:
+        video = video_file.read()
+
     # 영상 업로드 & 썸네일 이미지 생성, 업로드
     result['video_url'] = upload_video_to_s3(user_id, video, video_type,
                                              video_uuid, video_file_extension)
     # 썸네일 URL
     result['thumbnail_url'] = get_thumbnailURL_from_s3(user_id, video_uuid)
+
+    shutil.rmtree(os.path.dirname(local_video_path))
     return result
 
 
@@ -151,7 +160,7 @@ def split_video(user_id, video_file_extension, start_timestamp, end_timestamp):
     """
     # 임시로 저장된 영상 불러올 경로 지정
     localpath = settings.BASE_DIR  # 프로젝트 최상위 폴더
-    localpath = os.path.join(localpath, user_id)
+    localpath = os.path.join(localpath, 'tmp_video')
 
     local_videopath = os.path.join(localpath,
                                    'video_original' + video_file_extension)
@@ -199,20 +208,18 @@ def upload_splitted_video_to_s3(request, user_id):
                                                        video_file_extension))
     # 편집에 사용되었던 localpath 폴더 삭제
     localpath = settings.BASE_DIR
-    shutil.rmtree(os.path.join(localpath, user_id))
+    shutil.rmtree(os.path.join(localpath, 'tmp_video'))
     return result
 
 
-def save_tmp_video(video, user_id):
+def save_tmp_video(video, video_file_extension, video_uuid):
     localpath = settings.BASE_DIR  # 프로젝트 최상위 폴더
-    localpath = os.path.join(localpath, 'tmp_video')  # 현재 폴더/tmp_video/
-    localpath = os.path.join(localpath, user_id)  # 현재 폴더/tmp_video/user_id/
+    localpath = os.path.join(localpath, 'tmp_video', video_uuid)  # 현재 폴더/tmp_video/{video_uuid}
     os.makedirs(localpath, exist_ok=True)  # 폴더 생성
 
-    local_videopath = os.path.join(localpath, 'video_original.' + video.name.split('.')[-1])
+    local_videopath = os.path.join(localpath, 'video_original' + video_file_extension)
 
-    with open(local_videopath, 'wb') as destination:
-        for chunk in video.chunks():
-            destination.write(chunk)
+    with open(local_videopath, 'wb') as output_file:
+        output_file.write(video)
 
     return local_videopath
