@@ -25,7 +25,7 @@ export default function DonutChart() {
   // };
 
   Chart.register(ArcElement, Tooltip, Legend);
-  const dataValues = poseMessages && Object.values(poseMessages);
+  const dataValues = poseMessages && Object.values(poseMessages).reverse();
 
   const data = {
     labels: ["Excellent", "Great", "Good", "Miss"],

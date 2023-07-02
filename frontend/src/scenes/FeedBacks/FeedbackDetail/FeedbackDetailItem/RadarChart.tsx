@@ -50,6 +50,7 @@ export default function RadarChart({
       },
     ],
   };
+
   return (
     <div className="h-full w-full">
       <h2 className="mb-4 text-xl font-bold">평균 점수</h2>

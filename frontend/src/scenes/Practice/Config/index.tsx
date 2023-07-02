@@ -12,6 +12,7 @@ import SkeletonCheckBox from "./SkeletonCheckBox";
 import { ScrollArea, ScrollBar } from "@components/ui/scroll-area";
 import { practiceActions } from "@features/practice/practiceSlice";
 import { useAppDispatch, useAppSelector } from "@toolkit/hook";
+import MosaicCheckbox from "./MosaicCheckbox";
 
 export default function Config({ data }: { data: IPractice }) {
   const dispatch = useAppDispatch();
@@ -87,6 +88,9 @@ export default function Config({ data }: { data: IPractice }) {
 
             {/* 스켈레톤 유무 */}
             <SkeletonCheckBox />
+
+            {/* 모자이크 유무 */}
+            <MosaicCheckbox />
           </div>
         </div>
       </MainWrapper>

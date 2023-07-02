@@ -24,11 +24,12 @@ export default function Information({ data }: { data: IPractice }) {
         </div>
 
         {/* 구간별 반복 횟수 */}
+        <div className="text-right text-xl">총 구간 별 연습 횟수</div>
         <div className="row-center flex-wrap">
           {sectionPracticeArr.map((section, index) => (
             <div key={section.sectionId} className="flex justify-between">
-              <span className="">{index + 1}</span>
-              <span className="">{section.playCounts}</span>
+              <span className="">{index + 1}구간 - </span>
+              <span className="">{section.playCounts}회</span>
             </div>
           ))}
         </div>
@@ -37,7 +38,7 @@ export default function Information({ data }: { data: IPractice }) {
         <div className="col-end w-full">
           <p>고생하셨습니다!</p>
           <Separator className="my-3" />
-          <p className="text-xl">최종 점수 : {AvgBestScore}</p>
+          <p className="text-xl">최종 점수 : {AvgBestScore}점</p>
         </div>
       </div>
     </div>

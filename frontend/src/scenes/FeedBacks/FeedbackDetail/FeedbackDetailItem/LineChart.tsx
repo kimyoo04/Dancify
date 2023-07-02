@@ -19,7 +19,7 @@ import {
 } from "@type/feedbackJson";
 import { Separator } from "@components/ui/separator";
 
-export default function LineChart({evalPerFrameData}: {evalPerFrameData: IEvalPerFrame[]}) {
+export default function LineChart({bestJsonData}: {bestJsonData: IEvalPerFrame[]}) {
   ChartJS.register(
     CategoryScale,
     LinearScale,
@@ -32,18 +32,21 @@ export default function LineChart({evalPerFrameData}: {evalPerFrameData: IEvalPe
 
   //[1,2,3,4]구역
   const labels: number[] = Array.from(
-    { length: evalPerFrameData.length },
+    { length: bestJsonData.length },
     (_, i) => i + 1
   );
 
+  // 신체 부위 4가지
   const parts: (keyof IEvalPerFrame)[] = [
     "pelvis",
     "shoulder",
     "forearm",
     "leg",
   ];
+
+  // 신체 부위별 점수
   const result: number[][] = parts.map((part) =>
-    evalPerFrameData.flatMap(
+    bestJsonData.flatMap(
       (dataIdx: IEvalPerFrame) =>
         (dataIdx[part] as IPelvis | IShoulder | IForearm | ILeg).score
     )

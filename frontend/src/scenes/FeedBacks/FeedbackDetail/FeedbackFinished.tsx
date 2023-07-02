@@ -14,6 +14,7 @@ import { TabsContent } from "@components/ui/tabs";
 import { Separator } from "@components/ui/separator";
 import PostContent from "@scenes/Posts/PostItem/PostContent";
 
+// 3. 댄서블의 요청과 댄서의 응답이 완료됐을 경우 보여지는 컴포넌트
 export default function FeedbackFinished({ data }: { data: IFeedbackDetail }) {
   const playerRef = useRef<ReactPlayer>(null);
   const { sectionIndex } = useAppSelector((state) => state.feedback);

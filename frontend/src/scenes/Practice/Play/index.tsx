@@ -21,6 +21,7 @@ export default function Play({
 }) {
   const dispatch = useAppDispatch();
   const {
+    isPlaying,
     isFinished,
     playIndex,
     feedbackId,
@@ -28,14 +29,30 @@ export default function Play({
     sectionPracticeArr,
   } = useAppSelector((state) => state.practice);
   const isForceEnd = useRef(false);
+  const webcamBestRecord = useRef<Blob>();
+  const webcamCurrentRecord = useRef<Blob>();
 
+  // 전체 연습 완료 버튼
   const practiceEnd = async () => {
-    await postsPracticeData(feedbackId, playIndex, sectionPracticeArr);
+    const danceableVod = webcamBestRecord.current;
+    danceableVod &&
+      (await postsPracticeData(
+        feedbackId,
+        sectionPracticeArr[playIndex],
+        danceableVod
+      ));
     dispatch(practiceActions.moveNextStep());
   };
 
+  // 구간 연습 완료
   const sectionEnd = async () => {
-    await postsPracticeData(feedbackId, playIndex, sectionPracticeArr);
+    const danceableVod = webcamBestRecord.current;
+    danceableVod &&
+      (await postsPracticeData(
+        feedbackId,
+        sectionPracticeArr[playIndex],
+        danceableVod
+      ));
     dispatch(practiceActions.moveNextSection());
   };
 
@@ -46,10 +63,16 @@ export default function Play({
   return (
     <div className="h-full w-screen">
       <MainWrapper>
-        {isFinished ? (
+        {!isPlaying && isFinished ? (
           <SectionResult data={data} />
         ) : (
-          <SectionPlay data={data} detector={detector} isForceEnd={isForceEnd}/>
+          <SectionPlay
+            data={data}
+            detector={detector}
+            isForceEnd={isForceEnd}
+            webcamBestRecord={webcamBestRecord}
+            webcamCurrentRecord={webcamCurrentRecord}
+          />
         )}
       </MainWrapper>
 

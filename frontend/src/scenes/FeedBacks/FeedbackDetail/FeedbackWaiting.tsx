@@ -18,6 +18,7 @@ import UploadVideo from "./FeedbackDetailItem/UploadVideo";
 import TimeStampForm from "./FeedbackDetailItem/TimeStampForm";
 import FeedbackContent from "./FeedbackDetailItem/FeedbackContent";
 
+// 2. 댄서블의 요청과 댄서의 응답이 필요한 컴포넌트
 export default function FeedbackWaiting({
   data,
   videoFile,

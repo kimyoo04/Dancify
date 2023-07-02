@@ -22,6 +22,7 @@ export default function FeedbackDetail({ id }: { id: string }) {
   // api 요청
   const { data, status, error } = useReadFeedback(id);
 
+  // data가 변경될 때마다 dispatch
   useEffect(() => {
     if (data) {
       const sections = data.sections.map((section) => {

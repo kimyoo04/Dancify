@@ -1,12 +1,12 @@
 import axios from "@api/axiosInstance";
 import { TFeedbackId } from "@type/feedbacks";
-import { ISectionPractice, TPlayIndex } from "@type/practice";
+import { ISectionPractice } from "@type/practice";
 
 // 자유게시글 Create
 export const postsPracticeData = async (
   feedbackId: TFeedbackId,
-  playIndex: TPlayIndex,
-  sectionPracticeArr: ISectionPractice[]
+  sectionPractice: ISectionPractice,
+  recordedBlob: Blob,
 ) => {
   // - feedbackId: 피드백 게시글 UUID
   // - sectionId: 댄서의 비디오 섹션
@@ -15,31 +15,32 @@ export const postsPracticeData = async (
   // - bestScore: json 파일
   // - mosaic: 'true' 'false'
 
-  const sectionId = sectionPracticeArr[playIndex]?.sectionId;
+  const sectionId = sectionPractice.sectionId;
   // JSON 문자열을 Blob 객체로 변환
   const firstJson = new Blob(
-    [JSON.stringify(sectionPracticeArr[playIndex]?.firstJson)],
+    [JSON.stringify(sectionPractice.firstJson)],
     {
       type: "application/json",
     }
   );
   const bestJson = new Blob(
-    [JSON.stringify(sectionPracticeArr[playIndex]?.bestJson)],
+    [JSON.stringify(sectionPractice.bestJson)],
     {
       type: "application/json",
     }
   );
+
+  const video = new File([recordedBlob], "video.webm");
+
   // Blob 객체를 File 객체로 변환
   const firstScore = new File([firstJson], "firstScore.json");
   const bestScore = new File([bestJson], "bestScore.json");
-
-  const webcamRecodeFile = sectionPracticeArr[playIndex]?.video;
 
   //댄서블의 keypoint와 녹화한 댄서블 영상을 POST 요청
   const formData = new FormData();
   formData.append("feedbackId", feedbackId);
   formData.append("sectionId", sectionId);
-  formData.append("video", webcamRecodeFile);
+  formData.append("video", video);
   formData.append("firstScore", firstScore);
   formData.append("bestScore", bestScore);
   formData.append("mosaic", "false"); // "true" "false"
