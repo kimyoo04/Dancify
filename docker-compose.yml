@@ -59,6 +59,9 @@ services:
     networks:
       - server-network
 
+networks:
+  server-network:
+
   # redis:
   #   image: redis:5.0-alpine
   #   container_name: redis
@@ -92,6 +95,3 @@ services:
   #     - django
   #   networks:
   #     - server-network
-
-networks:
-  server-network:
