@@ -241,7 +241,6 @@ class Command(BaseCommand):
             ]
         ]
 
-
         musics = [basic_wave, gee, genie, I_got_a_boy, lion_heart, mrmr, party, power_up]
 
         for idx, music in enumerate(musics):
