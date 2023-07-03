@@ -1,22 +1,22 @@
+import Link from "next/link";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import * as poseDetection from "@tensorflow-models/pose-detection";
+
 import { TPostId } from "@type/posts";
+import { useAppDispatch, useAppSelector } from "@toolkit/hook";
+import { practiceActions } from "@features/practice/practiceSlice";
+import { useReadVideoSection } from "@api/videoSection/readVideoSection";
 
 import Loading from "@components/Loading";
-
 import Step from "@components/Step";
+import { Button } from "@components/ui/button";
+
 import Config from "./Config";
 import Prepare from "./Prepare";
 import Play from "./Play";
-import Finish from "./Finish";
-
-import { useReadVideoSection } from "@api/videoSection/readVideoSection";
-import Link from "next/link";
-import { Button } from "@components/ui/button";
 import Result from "./Result";
-import { practiceActions } from "@features/practice/practiceSlice";
-import { useAppDispatch, useAppSelector } from "@toolkit/hook";
-import * as poseDetection from "@tensorflow-models/pose-detection";
-import { useRouter } from "next/router";
+import Finish from "./Finish";
 
 export default function Practice({ postId }: { postId: TPostId }) {
   const router = useRouter();

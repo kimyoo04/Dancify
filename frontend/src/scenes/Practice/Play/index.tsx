@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { useAppDispatch, useAppSelector } from "@toolkit/hook";
 import { practiceActions } from "@features/practice/practiceSlice";
 import * as poseDetection from "@tensorflow-models/pose-detection";
@@ -11,6 +11,7 @@ import SectionPlay from "./SectionPlay";
 import SectionResult from "./SectionResult";
 import { Button } from "@components/ui/button";
 import { postsPracticeData } from "@api/dance/postPracticeData";
+import { ReloadIcon } from "@radix-ui/react-icons";
 
 export default function Play({
   data,
@@ -20,6 +21,7 @@ export default function Play({
   detector: poseDetection.PoseDetector;
 }) {
   const dispatch = useAppDispatch();
+  const [isLoading, setIsLoading] = useState(false);
 
   const {
     isPlaying,
@@ -88,16 +90,43 @@ export default function Play({
 
       {/* 화면에 나오는 버튼 종류 */}
       <BottomWrapper>
-        {selectedSections.length <= playIndex + 1 ? (
-          <Button disabled={!isFinished} onClick={handleMoveNextStep}>
+        {isLoading ? (
+          <Button disabled>
+            <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
+            로딩 중..
+          </Button>
+        ) : selectedSections.length <= playIndex + 1 ? (
+          <Button
+            disabled={!isFinished}
+            onClick={() => {
+              setIsLoading(true);
+              handleMoveNextStep;
+            }}
+          >
             연습 완료
           </Button>
         ) : isFinished ? (
           //구간 완료
-          <Button onClick={handleMoveNextSection}>다음 구간</Button>
+          <Button
+            disabled={isLoading}
+            onClick={() => {
+              setIsLoading(true);
+              handleMoveNextSection;
+            }}
+          >
+            다음 구간
+          </Button>
         ) : (
           //강제 이동
-          <Button onClick={handleForceEndSection}>다음 구간</Button>
+          <Button
+            disabled={isLoading}
+            onClick={() => {
+              setIsLoading(true);
+              handleForceEndSection;
+            }}
+          >
+            다음 구간
+          </Button>
         )}
       </BottomWrapper>
     </div>

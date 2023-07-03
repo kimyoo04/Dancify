@@ -148,7 +148,7 @@ export async function runMovenet(
     const drawPerSec = setInterval(async () => {
       //webcam의 video tag로 width, height 추출
       const webcam = webcamRef.current?.video as HTMLVideoElement;
-      const { webcamWidth, webcamHeight } = getWebcamDims(webcam);
+      const { webcamWidth, webcamHeight } = webcam && getWebcamDims(webcam);
 
       // 댄서블의 keypoint 추출
       const danceable = await detect(webcam, detector);
@@ -191,7 +191,7 @@ export async function runMovenet(
           }
         }
 
-        //! 리펙토링 필요 --------------
+        //! -------------- 리펙토링 필요 --------------
         // 강제 종료
         if (isForceEnd.current) {
           console.log(indx);

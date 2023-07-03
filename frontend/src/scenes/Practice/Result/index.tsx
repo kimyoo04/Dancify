@@ -7,25 +7,41 @@ import Information from "./Infomation";
 import ScoreBoard from "./ScoreBoard";
 import { practiceActions } from "@features/practice/practiceSlice";
 import { useAppDispatch } from "@toolkit/hook";
+import { useState } from "react";
+import { ReloadIcon } from "@radix-ui/react-icons";
 
 export default function Result({ data }: { data: IPractice }) {
   const dispatch = useAppDispatch();
+  const [isLoading, setIsLoading] = useState(false);
 
   return (
     <div className="h-full w-screen">
       <MainWrapper>
-        <h1 className="text-black text-2xl font-medium w-full mb-4 col-start">총 연습 결과</h1>
 
-        <div className="col-center w-full gap-6 sm:gap-10 lg:flex-row dark:text-black">
-          <ScoreBoard data={data} />
+
+        <div className="col-center w-full gap-6 dark:text-black sm:gap-10 lg:flex-row">
+          <ScoreBoard />
           <Information data={data} />
         </div>
       </MainWrapper>
 
       <BottomWrapper>
-        <Button onClick={() => dispatch(practiceActions.moveNextStep())}>
-          확인
-        </Button>
+        {isLoading ? (
+          <Button disabled>
+            <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
+            로딩 중..
+          </Button>
+        ) : (
+          <Button
+            disabled={isLoading}
+            onClick={() => {
+              setIsLoading(true);
+              dispatch(practiceActions.moveNextStep());
+            }}
+          >
+            확인
+          </Button>
+        )}
       </BottomWrapper>
     </div>
   );

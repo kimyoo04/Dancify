@@ -57,7 +57,7 @@ export default function UserSignInForm({
     } else {
       toast({
         title: "로그인 인증",
-        description: "이메일과 비밀번호를 확인해주세요.",
+        description: "아이디와 비밀번호를 확인해주세요.",
       });
       return;
     }
