@@ -19,7 +19,11 @@ export default function CommentItem({ data }: { data: IComment }) {
           <div className="flex w-full items-center justify-between">
             <div className="flex items-center gap-2">
               {/* 프로필 이미지  */}
-              <ProfileImage imageUrl={data.profileImage} />
+              {data.profileImage ? (
+                <ProfileImage imageUrl={data.profileImage} />
+              ) : (
+                <ProfileImage imageUrl={"/images/avatar.jpg"} />
+              )}
 
               <div className="flex flex-col items-start justify-start">
                 {/* 작성자 이름 */}
