@@ -9,18 +9,19 @@ import { Pose as poseType } from "@type/moveNet";
 import * as poseDetection from "@tensorflow-models/pose-detection";
 import * as tf from "@tensorflow/tfjs";
 
-export function webcamSize(webcam: HTMLVideoElement) {
+// 웹캠의 width, height 추출
+export function getWebcamDims(webcam: HTMLVideoElement) {
   const webcamWidth = webcam.videoWidth;
   const webcamHeight = webcam.videoHeight;
 
-  // Set video width
   webcam.width = webcamWidth;
   webcam.height = webcamHeight;
 
-  return { webcam, webcamWidth, webcamHeight };
+  return { webcamWidth, webcamHeight };
 }
 
-export function getCanvasContext(
+// canvas의 ctx 추출
+export function getCanvasCxt(
   webcamWidth: number,
   webcamHeight: number,
   canvas: HTMLCanvasElement
@@ -41,31 +42,6 @@ export function clearCanvas(canvas: HTMLCanvasElement) {
   const ctx = canvas.getContext("2d");
   ctx !== null && ctx.clearRect(0, 0, canvas.width, canvas.height);
 }
-
-// export async function loadMoveNetDetector2(webcamRef) {
-//   await tf.ready();
-//   const model = poseDetection.SupportedModels.MoveNet;
-//   const detector = await poseDetection.createDetector(model); // 모델 로드
-//   const webcamTag = webcamRef.current?.video as HTMLVideoElement;
-
-//   if (!isLoading) {
-//     webcamTag && detect(webcamTag, detector);
-//   } else if (!isBody && !isDevice) {
-//     await danceableBodyCheck(webcamRef, detector);
-//   }
-
-//   if (isReady) {
-//     runMovenet(
-//       sectionId,
-//       webcamRef,
-//       canvasRef,
-//       detector,
-//       dancerJson,
-//       setPoseMessage,
-//       updateCallback,
-//     )
-//   }
-// }
 
 export async function loadMoveNetDetector() {
   await tf.ready();
@@ -117,8 +93,9 @@ export async function danceableBodyCheck(
 
   const bodyCheckPerSec = setInterval(async () => {
     // 댄서블의 keypoints값 추출
-    const webcamTag = webcamRef.current?.video;
-    const danceable = webcamTag && (await detect(webcamTag, detector));
+    const webcam = webcamRef.current?.video;
+    const danceable = webcam && (await detect(webcam, detector));
+
     // 모든 부위의 confidence score가 0.5이상인지 확인
     if (danceable !== "error") {
       const scores = danceable && danceable[0].keypoints.map((kp) => kp.score);
@@ -146,19 +123,20 @@ export async function runMovenet(
   | string
   | [avgScore: number, poseMessages: IPoseMessages, keypointJson: poseType[][]]
 > {
-  //구간의 실시간 댄서블 keypoint 점수
+  // 구간의 실시간 댄서블 keypoint 점수
   const danceableJson: poseType[][] = [];
 
-  //구간의 평균 유사도 점수
+  // 구간의 평균 유사도 점수
   let avgCosineDistance = 0;
-  let oneSecCosineDistance = 0; // 1초동안의 유사도 점수(miss, good, great, excellent)
+  let oneSecCosineDistance = 0; // 1초 동안의 keypoints 유사도 점수
 
-  //반복문 실행
+  // 반복문 실행
   let indx = 1;
 
-  //강제 구간 종료 시 canvas error 방지
+  // 강제 구간 종료 시 canvas error 방지
   let breakDrawing = false;
 
+  // 각 포즈별 메세지 초기화
   const postMessages: IPoseMessages = {
     Miss: 0,
     Good: 0,
@@ -169,8 +147,8 @@ export async function runMovenet(
   return new Promise((resolve) => {
     const drawPerSec = setInterval(async () => {
       //webcam의 video tag로 width, height 추출
-      const webcamTag = webcamRef.current?.video as HTMLVideoElement;
-      const { webcam, webcamWidth, webcamHeight } = webcamSize(webcamTag);
+      const webcam = webcamRef.current?.video as HTMLVideoElement;
+      const { webcamWidth, webcamHeight } = getWebcamDims(webcam);
 
       // 댄서블의 keypoint 추출
       const danceable = await detect(webcam, detector);
@@ -181,10 +159,11 @@ export async function runMovenet(
         // canvas에 댄서블의 스켈레톤 그리기
         const canvas = canvasRef.current as HTMLCanvasElement;
         if (isSkeleton) {
-          const ctx = getCanvasContext(webcamWidth, webcamHeight, canvas);
-          if (danceable !== "error" && ctx !== null) drawCanvas(danceable, ctx);
+          const ctx = getCanvasCxt(webcamWidth, webcamHeight, canvas);
+          danceable !== "error" && ctx !== null && drawCanvas(danceable, ctx);
         }
-        //에러 안 나면 x,y의 좌표와 유사도 출력
+
+        // 에러 안 나면 x,y의 좌표와 유사도 출력
         if (danceable !== "error" && dancer !== undefined) {
           const cosineDistance = poseSimilarity(danceable[0], dancer[0], {
             strategy: "cosineDistance",
@@ -193,7 +172,7 @@ export async function runMovenet(
 
           if (cosineDistance instanceof Error) {
             console.log(
-              "🚀 ~ file: movenet.ts:138 ~ cosineDistance: error",
+              "🚀 movenet.ts ~ cosineDistance: error",
               cosineDistance
             );
           } else {
@@ -212,7 +191,8 @@ export async function runMovenet(
           }
         }
 
-        //강제 종료
+        //! 리펙토링 필요 --------------
+        // 강제 종료
         if (isForceEnd.current) {
           console.log(indx);
           breakDrawing = true;
@@ -220,7 +200,7 @@ export async function runMovenet(
           clearCanvas(canvas);
           isForceEnd.current = false;
           resolve("isForceEnd");
-          //정상적으로 끝나면 setInterval 멈춤
+          // 정상적으로 끝나면 setInterval 멈춤
         } else if (indx === dancerJson.length) {
           console.log(indx);
           breakDrawing = true;
