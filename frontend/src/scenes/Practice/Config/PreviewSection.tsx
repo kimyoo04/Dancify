@@ -46,7 +46,7 @@ export default function PreviewSection({
       {/* //? 영상 길이와 구간 번호 표시 */}
       <div className="row-center w-full">
         <span className="text-sm font-medium leading-none">
-          {index + 1} 구간
+          {index} 구간
         </span>
       </div>
     </div>

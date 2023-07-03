@@ -10,7 +10,7 @@ export default function readFeedbackJson(
     axios.get(url)
       .then((response) => {
         if (!response) throw new Error("요청 실패");
-        return response.data[0];
+        return response.data;
       })
       .then((data) => {
         setJsonData(data);

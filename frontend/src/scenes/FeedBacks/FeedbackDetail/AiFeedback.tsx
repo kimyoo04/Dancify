@@ -30,7 +30,7 @@ export default function AiFeedback({data}: {data: IFeedbackDetail}) {
     <TabsContent value="aiFeedback" className="space-y-4">
       {firstJsonData && bestJsonData && (
         <>
-          <DanceablePlayer data={data} />
+          <DanceablePlayer data={data} bestJsonData={bestJsonData} />
 
           <div className="flex w-full flex-col gap-4 lg:flex-row">
             <div className="flex flex-1 items-start justify-center rounded-md border bg-white p-4 text-black lg:w-1/2">

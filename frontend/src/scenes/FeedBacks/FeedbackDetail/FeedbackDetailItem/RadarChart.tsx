@@ -28,8 +28,8 @@ export default function RadarChart({
   firstScores: IAverageScore;
   bestScores: IAverageScore;
 }) {
-  const values1: number[] = Object.values(firstScores);
-  const values2: number[] = Object.values(bestScores);
+  const firstScoreData: number[] = Object.values(firstScores);
+  const bestScoreData: number[] = Object.values(bestScores);
 
   const labels = ["골반", "어깨", "팔", "다리"];
 
@@ -38,13 +38,13 @@ export default function RadarChart({
     datasets: [
       {
         label: "최초 점수",
-        data: values1,
+        data: firstScoreData,
         borderColor: "rgb(255, 99, 132)",
         backgroundColor: "rgba(255, 99, 132, 0.2)",
       },
       {
         label: "최고 점수",
-        data: values2,
+        data: bestScoreData,
         borderColor: "rgb(255, 159, 64)",
         backgroundColor: "rgba(255, 159, 64, 0.2)",
       },

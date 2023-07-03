@@ -17,9 +17,8 @@ import {
   ILeg,
   IEvalPerFrame,
 } from "@type/feedbackJson"
-import { feedback1 } from "@scenes/Test/feedbackData";
 
-export default function FeedbackLine() {
+export default function FeedbackLine({ evalPerFrames }: { evalPerFrames: IEvalPerFrame[] }) {
   ChartJS.register(
     CategoryScale,
     LinearScale,
@@ -43,10 +42,8 @@ export default function FeedbackLine() {
     },
   };
 
-  const feedbackData = feedback1.data;
-
   const labels: number[] = Array.from(
-    { length: feedbackData.length },
+    { length: evalPerFrames.length },
     (_, i) => i + 1
   );
 
@@ -57,7 +54,7 @@ export default function FeedbackLine() {
     "leg",
   ];
   const result: number[][] = parts.map((part) =>
-    feedbackData.flatMap(
+    evalPerFrames.flatMap(
       (dataIdx: IEvalPerFrame) =>
         (dataIdx[part] as IPelvis | IShoulder | IForearm | ILeg).score
     )
