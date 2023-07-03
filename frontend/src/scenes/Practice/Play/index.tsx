@@ -20,51 +20,61 @@ export default function Play({
   detector: poseDetection.PoseDetector;
 }) {
   const dispatch = useAppDispatch();
+
   const {
     isPlaying,
     isFinished,
+    isMosaic,
     playIndex,
     feedbackId,
     selectedSections,
     sectionPracticeArr,
   } = useAppSelector((state) => state.practice);
-  const isForceEnd = useRef(false);
-  const webcamBestRecord = useRef<Blob>();
-  const webcamCurrentRecord = useRef<Blob>();
+
+  const isForceEnd = useRef(false); // 강제 종료 여부
+  const webcamBestRecord = useRef<Blob>(); // 웹캠 최고 기록
+  const webcamCurrentRecord = useRef<Blob>(); // 웹캠 현재 기록
 
   // 전체 연습 완료 버튼
-  const practiceEnd = async () => {
+  const handleMoveNextStep = async () => {
     const danceableVod = webcamBestRecord.current;
     danceableVod &&
       (await postsPracticeData(
         feedbackId,
         sectionPracticeArr[playIndex],
-        danceableVod
+        danceableVod,
+        isMosaic
       ));
     dispatch(practiceActions.moveNextStep());
   };
 
-  // 구간 연습 완료
-  const sectionEnd = async () => {
+  // 구간 연습 완료 버튼
+  const handleMoveNextSection = async () => {
     const danceableVod = webcamBestRecord.current;
     danceableVod &&
       (await postsPracticeData(
         feedbackId,
         sectionPracticeArr[playIndex],
-        danceableVod
+        danceableVod,
+        isMosaic
       ));
     dispatch(practiceActions.moveNextSection());
   };
 
-  const sectionForceEnd = async () => {
+  // 구간 연습 강제 종료 버튼
+  const handleForceEndSection = async () => {
     isForceEnd.current = true;
   };
 
   return (
     <div className="h-full w-screen">
+      {/* SectionResult 와 SectionPlayer 컴포넌트 토글 */}
       <MainWrapper>
         {!isPlaying && isFinished ? (
-          <SectionResult />
+          <SectionResult
+            handleMoveNextStep={handleMoveNextStep}
+            handleMoveNextSection={handleMoveNextSection}
+          />
         ) : (
           <SectionPlay
             data={data}
@@ -76,17 +86,18 @@ export default function Play({
         )}
       </MainWrapper>
 
+      {/* 화면에 나오는 버튼 종류 */}
       <BottomWrapper>
         {selectedSections.length <= playIndex + 1 ? (
-          <Button disabled={!isFinished} onClick={practiceEnd}>
+          <Button disabled={!isFinished} onClick={handleMoveNextStep}>
             연습 완료
           </Button>
         ) : isFinished ? (
           //구간 완료
-          <Button onClick={sectionEnd}>다음 구간</Button>
+          <Button onClick={handleMoveNextSection}>다음 구간</Button>
         ) : (
           //강제 이동
-          <Button onClick={sectionForceEnd}>다음 구간</Button>
+          <Button onClick={handleForceEndSection}>다음 구간</Button>
         )}
       </BottomWrapper>
     </div>

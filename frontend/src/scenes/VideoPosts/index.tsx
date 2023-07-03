@@ -3,6 +3,7 @@ import VideoPostList from "@scenes/VideoPosts/VideoItem/VideoPostList";
 import CreateButton from "@scenes/Posts/PostItem/CreateButton";
 
 import { useReadVideoPostsPerPage } from "@api/posts/readVideoPostsPerPage";
+import SearchHeader from "@components/Search/SearchHeader";
 
 export default function VideoPosts() {
   const {
@@ -17,6 +18,8 @@ export default function VideoPosts() {
   return (
     <>
       <div className="bg-background">
+        <SearchHeader />
+
         <VideoPostHeader />
 
         {/* 자유게시판 fetch 결과 출력 */}

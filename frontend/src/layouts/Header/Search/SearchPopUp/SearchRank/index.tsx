@@ -25,7 +25,7 @@ export default function SearchRank() {
         ) : null}
 
         {/* 인기 검색어 리스트 */}
-        <ol className="m-0 px-4 py-3">
+        <ol className="m-0 px-4 py-3 list-none">
           {data && (
             <>
               {/* 댄서게시판 인기 검색어 5개 */}

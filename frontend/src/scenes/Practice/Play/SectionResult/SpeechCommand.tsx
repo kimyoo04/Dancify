@@ -9,7 +9,15 @@ import { Button } from "@components/ui/button";
 import ButtonWrapper from "@components/Animation/ButtonWrapper";
 import SpeechLoading from "./SpeechLoading";
 
-export default function SpeechCommand() {
+interface SpeechCommandProps {
+  handleMoveNextStep: () => void;
+  handleMoveNextSection: () => void;
+}
+
+export default function SpeechCommand({
+  handleMoveNextStep,
+  handleMoveNextSection,
+}: SpeechCommandProps) {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const { playIndex, selectedSections } = useAppSelector(
@@ -28,9 +36,9 @@ export default function SpeechCommand() {
 
     // 명령어 처리
     if (text === "완료" && playIndex === selectedSections.length - 1)
-      dispatch(practiceActions.moveNextStep());
+      handleMoveNextStep();
     if (text === "다음" && playIndex < selectedSections.length - 1)
-      dispatch(practiceActions.moveNextSection());
+      handleMoveNextSection();
     if (text === "한번더") dispatch(practiceActions.showSectionPlay());
     if (text === "종료") router.replace("/");
     return;

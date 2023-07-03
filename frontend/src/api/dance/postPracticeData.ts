@@ -7,6 +7,7 @@ export const postsPracticeData = async (
   feedbackId: TFeedbackId,
   sectionPractice: ISectionPractice,
   recordedBlob: Blob,
+  isMosaic: boolean
 ) => {
   // - feedbackId: 피드백 게시글 UUID
   // - sectionId: 댄서의 비디오 섹션
@@ -43,7 +44,7 @@ export const postsPracticeData = async (
   formData.append("video", video);
   formData.append("firstScore", firstScore);
   formData.append("bestScore", bestScore);
-  formData.append("mosaic", "false"); // "true" "false"
+  formData.append("mosaic", `${isMosaic}`); // "true" "false"
 
   try {
     await axios.post(`/dance`, formData, {

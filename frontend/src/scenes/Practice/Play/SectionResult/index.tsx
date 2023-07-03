@@ -4,7 +4,15 @@ import ScoreBoard from "./ScoreBoard";
 import SpeechCommand from "./SpeechCommand";
 import convertToOrdinal from "@util/convertToOrdinal";
 
-export default function SectionResult() {
+interface SectionResultProps {
+  handleMoveNextStep: () => void;
+  handleMoveNextSection: () => void;
+}
+
+export default function SectionResult({
+  handleMoveNextStep,
+  handleMoveNextSection,
+}: SectionResultProps) {
   const { playIndex } = useAppSelector((state) => state.practice);
 
   return (
@@ -17,7 +25,10 @@ export default function SectionResult() {
 
       <div className="col-center w-full gap-6 sm:gap-10 lg:flex-row">
         <ScoreBoard />
-        <SpeechCommand />
+        <SpeechCommand
+          handleMoveNextStep={handleMoveNextStep}
+          handleMoveNextSection={handleMoveNextSection}
+        />
       </div>
     </div>
   );

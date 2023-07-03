@@ -3,6 +3,7 @@ import FreePostList from "@scenes/FreePosts/FreeItem/FreePostList";
 import CreateButton from "@scenes/Posts/PostItem/CreateButton";
 
 import { useReadFreePostsPerPage } from "@api/posts/readFreePostsPerPage";
+import SearchHeader from "@components/Search/SearchHeader";
 
 export default function FreePosts() {
   const {
@@ -17,6 +18,8 @@ export default function FreePosts() {
   return (
     <>
       <div className="bg-background">
+        <SearchHeader />
+
         <FreePostHeader />
 
         {/* 자유게시판 fetch 결과 출력 */}

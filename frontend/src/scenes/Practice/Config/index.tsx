@@ -65,7 +65,7 @@ export default function Config({ data }: { data: IPractice }) {
                 <div className="w-full">
                   {/* 연습 모드 설정 영역 */}
                   <ScrollArea>
-                    <ul className="flex space-x-4 m-0 px-0 py-3 mb-2">
+                    <ul className="m-0 mb-2 flex space-x-4 px-0 py-3">
                       {data.sections.map((data, index) => (
                         <PreviewSection
                           key={data.sectionId}
@@ -86,11 +86,13 @@ export default function Config({ data }: { data: IPractice }) {
               )}
             </div>
 
-            {/* 스켈레톤 유무 */}
-            <SkeletonCheckBox />
+            <div className="row-between">
+              {/* 스켈레톤 유무 */}
+              <SkeletonCheckBox />
 
-            {/* 모자이크 유무 */}
-            <MosaicCheckbox />
+              {/* 모자이크 유무 */}
+              <MosaicCheckbox />
+            </div>
           </div>
         </div>
       </MainWrapper>
