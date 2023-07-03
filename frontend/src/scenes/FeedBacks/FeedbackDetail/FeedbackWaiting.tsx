@@ -66,7 +66,7 @@ export default function FeedbackWaiting({
                     </AccordionTrigger>
                     <AccordionContent className="overflow-hidden rounded-md">
                       <ReactPlayer
-                        url={section.danceablevideo}
+                        url={section.danceableVideo}
                         controls
                         width={"100%"}
                         height={"100%"}

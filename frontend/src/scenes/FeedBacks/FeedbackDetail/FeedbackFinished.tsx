@@ -48,7 +48,7 @@ export default function FeedbackFinished({ data }: { data: IFeedbackDetail }) {
                     <AccordionContent className="overflow-hidden rounded-md">
                       <ReactPlayer
                         ref={playerRef}
-                        url={section.danceablevideo}
+                        url={section.danceableVideo}
                         controls
                         width={"100%"}
                         height={"100%"}

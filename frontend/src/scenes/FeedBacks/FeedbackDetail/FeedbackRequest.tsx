@@ -30,7 +30,7 @@ export default function FeedbackRequest({ data }: { data: IFeedbackDetail }) {
                     </AccordionTrigger>
                     <AccordionContent className="overflow-hidden rounded-md">
                       <ReactPlayer
-                        url={section.danceablevideo}
+                        url={section.danceableVideo}
                         controls
                         width={"100%"}
                         height={"100%"}

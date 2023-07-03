@@ -13,7 +13,7 @@ export const feedbackDetailData: IFeedbackDetail = {
   sections: [
     {
       feedbackSectionId: "section1",
-      danceablevideo:
+      danceableVideo:
         "http://dyago72jbsqcn.cloudfront.net/vod/dancer/dancer2/32e1209ujqwi0dj01289jd12.m3u8",
       danceablemessage:
         "I really enjoyed the choreography in this section. It was so dynamic and synchronized.",
@@ -35,7 +35,7 @@ export const feedbackDetailData: IFeedbackDetail = {
       feedbackSectionId: "section2",
       firstAiFeedback: "first json url",
       bestAiFeedback: "best json url",
-      danceablevideo:
+      danceableVideo:
         "http://dyago72jbsqcn.cloudfront.net/vod/dancer/dancer3/fd32fhj890fjwefiwefjwe.m3u8",
       danceablemessage:
         "The second section had a great mix of different dance styles. It kept the performance interesting.",
