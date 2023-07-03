@@ -29,7 +29,9 @@ jobs:
           script_stop: true
           script: |
             cd dancify
-            git pull --rebase
+            git stash
+            git pull
+            git stash pop
             sudo docker-compose stop
             sudo docker-compose -f docker-compose-front.yml down
             sudo docker system prune -af --volumes
@@ -58,7 +60,9 @@ jobs:
             script_stop: true
             script: |
               cd dancify
-              git pull --rebase
+              git stash
+              git pull
+              git stash pop
               sudo docker-compose stop
               sudo docker-compose -f docker-compose-back.yml down
               sudo docker system prune -af --volumes
