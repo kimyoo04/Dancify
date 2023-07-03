@@ -307,7 +307,7 @@ class Command(BaseCommand):
             except DancerPost.DoesNotExist:
                 continue
 
-            for i in range(len(music)):
+            for i in range(len(music[0])):
                 seeder.add_entity(VideoSection, 1,
                                   {
                                       'dancer_post': post,
