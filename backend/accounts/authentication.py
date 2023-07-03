@@ -8,7 +8,7 @@ from rest_framework import status
 from accounts.models import User
 
 REFRESH_TOKEN_EXP = 60 * 60 * 24 * 30
-ACCESS_TOKEN_EXP = 60 * 15
+ACCESS_TOKEN_EXP = 60 * 60 * 2
 
 """
 토큰을 생성할 때는 userId로 DB에 접근해서 정보들을 만든다
