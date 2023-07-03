@@ -8,23 +8,21 @@ export default function OtherDancerPostItem({ data }: { data: IDancerPost }) {
   return (
     <Link
       href={`/dancer/${data.postId}`}
-      className="flex-shrink-0 space-y-3 shadow-md rounded-md"
+      className="group w-[250px] -space-y-2 transition-all hover:-translate-y-2"
     >
-      {/* //? 영상으로 대체 가능하면 대체할 것 */}
-      {data.thumbnail && (
-        <div className={`cursor-pointer overflow-hidden rounded-md`}>
+      <div className="relative overflow-hidden rounded-md">
+        {data.thumbnail && (
           <Image
             src={data.thumbnail}
-            alt={data.title + data.nickname}
+            alt={data.title}
             width={250}
             height={330}
             className={cn(
-              "h-auto w-auto scale-105 object-cover transition-all hover:scale-110"
+              "aspect-[9/16] w-full rounded-md bg-muted object-cover transition-all group-hover:scale-105"
             )}
-            style={{ width: `220px`, height: `300px` }}
           />
-        </div>
-      )}
+        )}
+      </div>
 
       <div className="flex items-start justify-start gap-3 rounded-b-md bg-muted px-3 pb-3 pt-5 group-hover:shadow-md">
         <ProfileImage imageUrl={data.profileImage} />
