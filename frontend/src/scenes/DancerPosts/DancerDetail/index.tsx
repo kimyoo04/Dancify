@@ -63,7 +63,7 @@ export default function DancerPostDetail({ id }: { id: TPostId }) {
           <PostContent content={data.content} className="pb-12 pt-2" />
 
           {/* 연습 시작 버튼 */}
-          {isDancer && <StartPracticeButton postId={id} />}
+          {!isDancer && <StartPracticeButton postId={id} />}
 
           {/* 댓글 영역 */}
           <Separator className="my-2" />
