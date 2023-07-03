@@ -68,7 +68,7 @@ def merge_audio(video_file: str, audio_file: str, output_file: str) -> bool:
         audio = audio.subclip(0, video.duration)
 
         video = video.set_audio(audio)
-        video.write_videofile(output_file, codec='libx264')
+        video.write_videofile(output_file, codec='mpeg4')
         return True                         # 합성이 성공적으로 완료됨을 나타내기 위해 True 반환
 
     except Exception as e:
@@ -228,7 +228,7 @@ def crop_video(video_path: str, x_centers: ndarray, output_path: str) -> None:
         height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
         fps = cap.get(cv2.CAP_PROP_FPS)
 
-        fourcc = cv2.VideoWriter_fourcc(*"avc1")
+        fourcc = cv2.VideoWriter_fourcc(*"mp4v")
         out = cv2.VideoWriter(output_path, fourcc, fps,
                               (int(height * (9 / 16)), height))
 
@@ -267,6 +267,9 @@ def generate_video(video_path: str, output_path: str) -> None:
         video_path (str): 입력 비디오 파일의 경로입니다.
         output_path (str): 생성된 비디오를 저장할 경로입니다.
     """
+    audio_path = ""
+    temp_path = ""
+
     try:
         # 폴더 경로
         audio_folder_path = "./audio_video"
