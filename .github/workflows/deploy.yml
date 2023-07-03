@@ -3,7 +3,7 @@ name: Deploy to EC2
 on:
   push:
     branches:
-      - develop
+      - main
 
 jobs:
   frontend-deploy:
@@ -63,4 +63,4 @@ jobs:
               sudo docker-compose -f docker-compose-back.yml down
               sudo docker system prune -af --volumes
               sudo rm -rf ./mysqldb/db
-              sudo docker-compose -f docker-compose-back.yml up
+              sudo docker-compose -f docker-compose-back.yml up -d
