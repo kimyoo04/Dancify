@@ -5,6 +5,7 @@ import { TabsContent } from "@components/ui/tabs";
 import { feedbackActions } from "@features/feedback/feedbackSlice";
 import { useAppDispatch, useAppSelector } from "@toolkit/hook";
 import { IFeedbackDetail } from "@type/feedbacks";
+import convertISectionToFormData from "@util/convertISectionToFormData";
 
 export default function Sectiontab({ data }: { data: IFeedbackDetail }) {
   const dispatch = useAppDispatch();
@@ -17,6 +18,7 @@ export default function Sectiontab({ data }: { data: IFeedbackDetail }) {
 
   return (
     <div className="flex w-full items-center justify-between gap-5">
+      {/* 구간 선택 버튼들 */}
       <div className="space-x-3">
         {sections.length > 0 &&
           sections.map((section, index) => (
@@ -65,16 +67,7 @@ export default function Sectiontab({ data }: { data: IFeedbackDetail }) {
               !sections.some((section) => section.danceablemessage !== "")
             }
             onClick={() => {
-              const formData = new FormData();
-              // "sectionId1": string,
-              // "timeStamp1": int`int
-              // "feedbacks1": string`string
-              // "video1": 동영상
-              // "sectionId2": string,
-              // "timeStamp2": int`int
-              // "feedbacks2": string`string
-              // "video2": 동영상
-
+              const formData = convertISectionToFormData(sections)
               feedbackResponse(formData);
             }}
           >
