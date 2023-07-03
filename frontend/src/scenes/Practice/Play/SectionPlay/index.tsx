@@ -16,8 +16,7 @@ import Webcam from "react-webcam";
 import * as poseDetection from "@tensorflow-models/pose-detection";
 import { danceableBodyCheck, runMovenet } from "@ai/movenet";
 import { Button } from "@components/ui/button";
-
-import { dancer_json } from "@ai/dancer_json_list";
+import readDancerJson from "@api/feedbacks/readDancerJson";
 
 export default function SectionPlay({
   data,
@@ -49,6 +48,7 @@ export default function SectionPlay({
 
   const [count, setCount] = useState(5); // 카운트 다운 5초
   const [poseMessage, setPoseMessage] = useState(""); //? 1초 마다 동작 평가를 저장
+
   const {
     playIndex,
     isRealMode,
@@ -61,6 +61,15 @@ export default function SectionPlay({
   } = useAppSelector((state) => state.practice); // 선택된 섹션 인덱스 배열 가져오기
 
   const sectionId = data.sections[playIndex].sectionId;
+
+  const [dancerJsonData, setDancerJsonData] = useState<Pose[][] | null>();
+  useEffect(() => {
+    // 데이터를 가져올 URL 설정
+    const firstJsonUrl = data.sections[playIndex].keypoints;
+
+    // 최초, 최고 JSON 데이터 받기
+    readDancerJson(firstJsonUrl, setDancerJsonData);
+  }, [playIndex, data.sections]);
 
   // 연습 모드 or 실전 모드 구분 후 선택된 섹션의 url 배열 가져오기
   const selectedSectionUrls = isRealMode
@@ -200,7 +209,9 @@ export default function SectionPlay({
   }, [isPlaying, isFinished, startRecording, stopRecording]);
 
   useEffect(() => {
-    if (isFullBody) {
+    if (isFullBody && dancerJsonData) {
+      console.log("🚀 ~ file: index.tsx:213 ~ useEffect ~ dancerJsonData:", dancerJsonData)
+
       const timer = setTimeout(async () => {
         // 연습 시작
         dispatch(practiceActions.playVideo());
@@ -212,7 +223,7 @@ export default function SectionPlay({
           webcamRef,
           canvasRef,
           detector,
-          dancer_json,
+          dancerJsonData,
           setPoseMessage
         );
 
@@ -230,7 +241,15 @@ export default function SectionPlay({
         console.log("unmount");
       };
     }
-  }, [isFullBody, isSkeleton, detector, sectionId, dispatch, isForceEnd]);
+  }, [
+    isFullBody,
+    dancerJsonData,
+    isSkeleton,
+    detector,
+    sectionId,
+    dispatch,
+    isForceEnd,
+  ]);
 
   return (
     <div className="row-center w-full gap-10">

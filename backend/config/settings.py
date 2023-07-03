@@ -26,7 +26,6 @@ INSTALLED_APPS = [
     # !apps
     'accounts',
     'posts',
-    'dance',
     'like',
     'comments',
     'view_history',
