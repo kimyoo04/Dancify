@@ -20,7 +20,7 @@ export default function SkeletonCheckBox() {
             isSkeleton ? "font-medium" : "text-muted-foreground"
           }`}
         >
-          관절 스켈레톤 매핑 유무
+          관절 스켈레톤 매핑 표시
         </label>
       </div>
     </div>

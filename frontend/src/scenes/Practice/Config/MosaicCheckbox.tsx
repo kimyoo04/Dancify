@@ -20,7 +20,7 @@ export default function MosaicCheckbox() {
             isMosaic ? "font-medium" : "text-muted-foreground"
           }`}
         >
-          얼굴 모자이크 처리 유무
+          얼굴 모자이크 처리 표시
         </label>
       </div>
     </div>

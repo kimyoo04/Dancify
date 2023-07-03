@@ -19,7 +19,7 @@ export default function MosaicCheckBox() {
           htmlFor="skeleton"
           className={`text-sm leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 ${isMosaic ? "font-medium" : "text-muted-foreground"}`}
         >
-          얼굴 모자이크 처리 유무
+          얼굴 모자이크 처리 표현
         </label>
       </div>
     </div>
