@@ -23,7 +23,7 @@ const StreamCapture = () => {
     if (webcamRef.current !== null && webcamRef.current.stream !== null) {
       // 1. MediaStream을 매개변수로 MediaRecorder 생성자 호출
       mediaRecorderRef.current = new MediaRecorder(webcamRef.current.stream, {
-        mimeType: "video/webm",
+        mimeType: "video/mp4",
       });
 
       if (mediaRecorderRef.current !== null) {
@@ -50,7 +50,7 @@ const StreamCapture = () => {
     if (recordedChunks.length) {
       // 파일 형식 지정
       const blob = new Blob(recordedChunks, {
-        type: "video/webm",
+        type: "video/mp4",
       });
 
       // 임시 a 태그를 만들어서 다운로드
@@ -59,7 +59,7 @@ const StreamCapture = () => {
       document.body.appendChild(a);
       a.setAttribute("style", "display: none");
       a.href = url;
-      a.download = "react-webcam-stream-record.webm";
+      a.download = "react-webcam-stream-record.mp4";
       a.click();
       window.URL.revokeObjectURL(url);
 

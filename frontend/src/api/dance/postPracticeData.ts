@@ -31,7 +31,7 @@ export const postsPracticeData = async (
     }
   );
 
-  const video = new File([recordedBlob], "video.webm");
+  const video = new File([recordedBlob], "video.mp4");
 
   // Blob 객체를 File 객체로 변환
   const firstScore = new File([firstJson], "firstScore.json");
