@@ -22,7 +22,7 @@ export default function CommentItem({ data }: { data: IComment }) {
               {data.profileImage ? (
                 <ProfileImage imageUrl={data.profileImage} />
               ) : (
-                <ProfileImage imageUrl={"/images/avatar.jpg"} />
+                <ProfileImage imageUrl={"/images/avatar.png"} />
               )}
 
               <div className="flex flex-col items-start justify-start">

@@ -21,7 +21,7 @@ import { useRouter } from "next/router";
 
 export function UserNav() {
   const { nickname, profileImage } = useAppSelector((state) => state.auth);
-  const imageUrl = profileImage ? profileImage : "/images/avatar.jpg";
+  const imageUrl = profileImage ? profileImage : "/images/avatar.png";
   const router = useRouter();
 
   return (

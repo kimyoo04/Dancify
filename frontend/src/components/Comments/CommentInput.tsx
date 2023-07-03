@@ -74,7 +74,7 @@ export default function CommentInput({ content = "" }: { content?: string }) {
               {profileImage ? (
                 <ProfileImage imageUrl={profileImage} />
               ) : (
-                <ProfileImage imageUrl={"/images/avatar.jpg"} />
+                <ProfileImage imageUrl={"/images/avatar.png"} />
               )}
 
               {/* 작성자 이름 */}

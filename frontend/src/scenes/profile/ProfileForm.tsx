@@ -97,7 +97,7 @@ export default function ProfileForm() {
             <Image src={imageUrl} alt="preview" width={80} height={80} />
           ) : (
             <Image
-              src={"/images/avatar.jpg"}
+              src={"/images/avatar.png"}
               alt="profile_image"
               width={80}
               height={80}
