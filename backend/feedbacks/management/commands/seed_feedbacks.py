@@ -26,19 +26,13 @@ class Command(BaseCommand):
         ]
 
         first_scores = [
-            'https://dancify-bucket.s3.ap-northeast-2.amazonaws.com/scores/dancer1/0c64322b-462e-47ec-a774-7908ace1cb71-first_score.json',
-            'https://dancify-bucket.s3.ap-northeast-2.amazonaws.com/scores/dancer1/1334044a-05cd-4799-b6a4-3e005beb3e16-first_score.json',
-            'https://dancify-bucket.s3.ap-northeast-2.amazonaws.com/scores/dancer1/5780d95d-985d-4133-88cd-cb09e292257a-first_score.json',
-            'https://dancify-bucket.s3.ap-northeast-2.amazonaws.com/scores/dancer3/0d499eab-11e2-42e6-a08d-8a47c9bb7704-first_score.json',
-            'https://dancify-bucket.s3.ap-northeast-2.amazonaws.com/scores/user1/0266206f-c83b-4a85-a07d-79ee69403453-first_score.json',
+            'https://dancify-bucket.s3.ap-northeast-2.amazonaws.com/scores/user1/28ba495f-074c-4813-9ccc-228e699f6a2266d6d455-d5b0-4662-8716-1562982ae8b7-first_score.json',
+            'https://dancify-bucket.s3.ap-northeast-2.amazonaws.com/scores/user1/7fae1130-bf6e-4e20-8d7e-4be7b44e46f2642f8fa3-bbd8-43e5-b186-32209bdb160b-first_score.json',
         ]
 
         best_scores = [
-            'https://dancify-bucket.s3.ap-northeast-2.amazonaws.com/scores/dancer1/0c64322b-462e-47ec-a774-7908ace1cb71-best_score.json',
-            'https://dancify-bucket.s3.ap-northeast-2.amazonaws.com/scores/dancer1/1334044a-05cd-4799-b6a4-3e005beb3e16-best_score.json',
-            'https://dancify-bucket.s3.ap-northeast-2.amazonaws.com/scores/dancer1/5780d95d-985d-4133-88cd-cb09e292257a-best_score.json',
-            'https://dancify-bucket.s3.ap-northeast-2.amazonaws.com/scores/dancer3/0d499eab-11e2-42e6-a08d-8a47c9bb7704-best_score.json',
-            'https://dancify-bucket.s3.ap-northeast-2.amazonaws.com/scores/user1/0266206f-c83b-4a85-a07d-79ee69403453-best_score.json',
+            'https://dancify-bucket.s3.ap-northeast-2.amazonaws.com/scores/user1/28ba495f-074c-4813-9ccc-228e699f6a2266d6d455-d5b0-4662-8716-1562982ae8b7-best_score.json',
+            'https://dancify-bucket.s3.ap-northeast-2.amazonaws.com/scores/user1/7fae1130-bf6e-4e20-8d7e-4be7b44e46f2642f8fa3-bbd8-43e5-b186-32209bdb160b-best_score.json',
         ]
 
         # 비디오 섹션이 있는 포스트 구하기
@@ -65,8 +59,8 @@ class Command(BaseCommand):
                                           'section': video_section,
                                           'feedback_post': feedback_post,
                                           'video': video_urls[idx],
-                                          'first_score': first_scores[idx],
-                                          'best_score': best_scores[idx],
+                                          'first_score': first_scores[idx % 2],
+                                          'best_score': best_scores[idx % 2],
                                           'message': None if feedback_post.status == '신청 전' else '어려워요'
                                       })
                 seeder.execute()
