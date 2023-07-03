@@ -14,14 +14,16 @@ export default function Finish() {
   return (
     <div className="-mb-[7%] w-full space-y-20 px-6 dark:text-black">
       <section className="space-y-4">
-
-        <div className="w-full px-2 col-center">
+        <div className="col-center w-full px-2">
           <ScrollArea>
-        <p className="w-full col-start text-2xl font-medium mb-4">다른 영상을 연습해보시겠어요?</p>
-            <ul className="mt-0 flex gap-8 space-x-4 pb-4 pl-0">
-              {data && data.map((data) => (
-                <OtherDancerPostItem key={data.postId} data={data} />
-              ))}
+            <p className="col-start mb-4 w-full text-2xl font-medium">
+              다른 영상을 연습해보시겠어요?
+            </p>
+            <ul className="mt-0 flex gap-6 pb-4 pl-0">
+              {data &&
+                data.map((data) => (
+                  <OtherDancerPostItem key={data.postId} data={data} />
+                ))}
             </ul>
             <ScrollBar orientation="horizontal" />
           </ScrollArea>
