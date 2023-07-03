@@ -7,8 +7,6 @@ from numpy import ndarray
 from moviepy.editor import VideoFileClip, AudioFileClip
 from typing import Optional
 
-from celery import shared_task
-
 
 # 현재 스크립트의 절대 경로를 얻음
 abs_path = os.path.abspath(__file__)
@@ -256,7 +254,6 @@ def crop_video(video_path: str, x_centers: ndarray, output_path: str) -> None:
 
 
 # 결과 영상 생성
-@shared_task
 def generate_video(video_path: str, output_path: str) -> None:
     """
     주어진 비디오에서 키포인트를 추출하고, 이를 기준으로 비디오를 자르고,

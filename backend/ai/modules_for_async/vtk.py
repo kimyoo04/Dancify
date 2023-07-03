@@ -13,10 +13,7 @@ import os
 import tensorflow as tf
 import json
 
-from celery import shared_task
 
-
-@shared_task
 def video_to_keypoint(local_videopath):
     '''
     ---------------함수 설명---------------

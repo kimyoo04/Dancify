@@ -20,10 +20,8 @@ import string
 from .drawing_utils import draw_detection
 
 import moviepy.editor as mvp
-from celery import shared_task
 
 
-@shared_task
 def face_mosaic(local_videopath):
     '''
     ---------------함수 설명---------------
