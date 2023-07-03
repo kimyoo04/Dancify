@@ -125,6 +125,6 @@ class Command(BaseCommand):
                                   "genre": 'kpop' if i != 0 else 'basic',
                                   "feedback_price": lambda x: randint(10, 99) * 1000,
                                   "views": lambda x: randint(0, 999)
-                                })
+                              })
 
         seeder.execute()

@@ -260,10 +260,10 @@ class Command(BaseCommand):
             ],
             # 썸네일
             [
-                 "https://dancify-bucket.s3.ap-northeast-2.amazonaws.com/thumbnail/dancer7/4f41bc8e0c24408db493e31c783f4f84-thumbnail.0000000.jpg",
-                 "https://dancify-bucket.s3.ap-northeast-2.amazonaws.com/thumbnail/dancer7/5c31c2de96b64dc3955f7affd5abbc64-thumbnail.0000000.jpg",
-                 "https://dancify-bucket.s3.ap-northeast-2.amazonaws.com/thumbnail/dancer7/707e5d5a5689439d98f23ff989da385b-thumbnail.0000000.jpg",
-                 "https://dancify-bucket.s3.ap-northeast-2.amazonaws.com/thumbnail/dancer7/96b3f6fc3d184f7c95d9e9b7aa5e02d4-thumbnail.0000000.jpg",
+                "https://dancify-bucket.s3.ap-northeast-2.amazonaws.com/thumbnail/dancer7/4f41bc8e0c24408db493e31c783f4f84-thumbnail.0000000.jpg",
+                "https://dancify-bucket.s3.ap-northeast-2.amazonaws.com/thumbnail/dancer7/5c31c2de96b64dc3955f7affd5abbc64-thumbnail.0000000.jpg",
+                "https://dancify-bucket.s3.ap-northeast-2.amazonaws.com/thumbnail/dancer7/707e5d5a5689439d98f23ff989da385b-thumbnail.0000000.jpg",
+                "https://dancify-bucket.s3.ap-northeast-2.amazonaws.com/thumbnail/dancer7/96b3f6fc3d184f7c95d9e9b7aa5e02d4-thumbnail.0000000.jpg",
             ],
             # 키포인트
             [
@@ -296,26 +296,25 @@ class Command(BaseCommand):
                 "https://dancify-bucket.s3.ap-northeast-2.amazonaws.com/key-points/dancer7/0c3870b624354df2b77ef0d7589a434b.json",
                 "https://dancify-bucket.s3.ap-northeast-2.amazonaws.com/key-points/dancer7/56f423b912d340beb7d78cabd3427161.json",
                 "https://dancify-bucket.s3.ap-northeast-2.amazonaws.com/key-points/dancer7/794c71a4a4fa4bddb3b97e1f0125a52a.json",
-
             ]
         ]
 
         musics = [basic_wave, love_me_right, gee, genie, I_got_a_boy, lion_heart, mrmr, party, power_up, red_flavor]
 
         for idx, music in enumerate(musics):
-                try:
-                    post = DancerPost.objects.get(title=texts[idx])
-                except DancerPost.DoesNotExist:
-                     continue
+            try:
+                post = DancerPost.objects.get(title=texts[idx])
+            except DancerPost.DoesNotExist:
+                continue
 
-                for i in range(len(music)):
-                    seeder.add_entity(VideoSection, 1,
-                                        {
-                                            "dancer_post": post,
-                                            'video': music[0][i],
-                                            'thumbnail': music[1][i],
-                                            'keypoints': music[2][i],
-                                            'section_number': i,
-                                        })
+            for i in range(len(music)):
+                seeder.add_entity(VideoSection, 1,
+                                  {
+                                      'dancer_post': post,
+                                      'video': music[0][i],
+                                      'thumbnail': music[1][i],
+                                      'keypoints': music[2][i],
+                                      'section_number': i,
+                                  })
 
         seeder.execute()
