@@ -58,6 +58,8 @@ services:
       TZ: "Asia/Seoul"
     networks:
       - server-network
+networks:
+  server-network:
 
   # redis:
   #   image: redis:5.0-alpine
@@ -92,6 +94,3 @@ services:
   #     - django
   #   networks:
   #     - server-network
-
-networks:
-  server-network:
