@@ -22,12 +22,12 @@ export default function PreviewSection({
       {data.thumbnail && (
         <div
           className={`${
-            selectedSections.includes(index)
+            selectedSections.includes(data.sectionId)
               ? "border-2 border-primary opacity-100"
               : "border-2 opacity-60"
           } cursor-pointer overflow-hidden rounded-md`}
           onClick={() =>
-            dispatch(practiceActions.toggleSelectedSections(index))
+            dispatch(practiceActions.toggleSelectedSections(data.sectionId))
           }
         >
           <Image
@@ -44,8 +44,10 @@ export default function PreviewSection({
       )}
 
       {/* //? 영상 길이와 구간 번호 표시 */}
-      <div className="w-full row-center">
-        <span className="text-sm font-medium leading-none">{index + 1} 구간</span>
+      <div className="row-center w-full">
+        <span className="text-sm font-medium leading-none">
+          {index + 1} 구간
+        </span>
       </div>
     </div>
   );

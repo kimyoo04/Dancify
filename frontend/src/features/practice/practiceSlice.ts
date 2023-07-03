@@ -83,18 +83,18 @@ export const practiceSlice = createSlice({
     },
 
     // section 복수 선택 토글
-    toggleSelectedSections: (state, action: PayloadAction<number>) => {
-      const sectionIndex = action.payload;
-      const isSection = state.selectedSections.includes(sectionIndex);
+    toggleSelectedSections: (state, action: PayloadAction<string>) => {
+      const sectionId = action.payload;
+      const isSection = state.selectedSections.includes(sectionId);
 
       if (isSection) {
         // 선택된 section이 이미 있으면 제거
         state.selectedSections = state.selectedSections.filter(
-          (section) => section !== sectionIndex
+          (section) => section !== sectionId
         );
       } else {
         // 선택된 section이 없으면 추가
-        state.selectedSections.push(sectionIndex);
+        state.selectedSections.push(sectionId);
       }
     },
     // 구간 첫 시도에 다음으로 강제 이동한 경우 따로 예외처리 필요

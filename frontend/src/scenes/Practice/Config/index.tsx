@@ -66,13 +66,16 @@ export default function Config({ data }: { data: IPractice }) {
                   {/* 연습 모드 설정 영역 */}
                   <ScrollArea>
                     <ul className="m-0 mb-2 flex space-x-4 px-0 py-3">
-                      {data.sections.map((data, index) => (
-                        <PreviewSection
-                          key={data.sectionId}
-                          data={data}
-                          index={index}
-                        />
-                      ))}
+                      {data.sections.map((data, index) => {
+                        if (index === 0) return null;
+                        return (
+                          <PreviewSection
+                            key={data.sectionId}
+                            data={data}
+                            index={index}
+                          />
+                        );
+                      })}
                     </ul>
 
                     <ScrollBar orientation="horizontal" className="bg-white" />
@@ -81,7 +84,7 @@ export default function Config({ data }: { data: IPractice }) {
               ) : (
                 <div className="max-w-2xl">
                   {/* 실전 모드 설정 영역 */}
-                  <NormalPlayer url={data.dancerPost.video} />
+                  <NormalPlayer url={data.sections[0].video} />
                 </div>
               )}
             </div>

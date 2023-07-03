@@ -97,6 +97,7 @@ export default function Play({
             로딩 중..
           </Button>
         ) : selectedSections.length <= playIndex + 1 ? (
+          // 전체 완료
           <Button
             disabled={!isFinished}
             onClick={async () => {
@@ -108,7 +109,7 @@ export default function Play({
             연습 완료
           </Button>
         ) : isFinished ? (
-          //구간 완료
+          // 구간 완료
           <Button
             disabled={isLoading}
             onClick={async () => {
@@ -120,7 +121,7 @@ export default function Play({
             다음 구간
           </Button>
         ) : (
-          //강제 이동
+          // 넘어가기
           <ForceEndButton
             setIsLoading={setIsLoading}
             handleForceEndSection={handleForceEndSection}
