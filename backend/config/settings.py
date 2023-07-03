@@ -20,7 +20,7 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt.token_blacklist',
     'boto3',
     'django_seed',
-    'django_celery_results',
+    # 'django_celery_results',
     # 'django_extensions',
 
     # !apps
@@ -185,20 +185,20 @@ CSRF_TRUSTED_ORIGINS = ['http://localhost', 'http://127.0.0.1',
 # 사용자 정의 User 모델 사용
 AUTH_USER_MODEL = 'accounts.User'
 
-# CELERY SETTINGS
-CELERY_TIMEZONE = 'Asia/Seoul'
-CELERY_BROKER_URL = 'redis://redis:6379/1'
-CELERY_RESULT_BACKEND = 'redis://redis:6379/1'
-CELERY_ACCEPT_CONTENT = ["json"]
-CELERY_TASK_SERIALIZER = "json"
-CELERY_RESULT_SERIALIZER = "json"
+# # CELERY SETTINGS
+# CELERY_TIMEZONE = 'Asia/Seoul'
+# CELERY_BROKER_URL = 'redis://redis:6379/1'
+# CELERY_RESULT_BACKEND = 'redis://redis:6379/1'
+# CELERY_ACCEPT_CONTENT = ["json"]
+# CELERY_TASK_SERIALIZER = "json"
+# CELERY_RESULT_SERIALIZER = "json"
 
-CACHES = {
-    'default': {
-        'BACKEND': 'django_redis.cache.RedisCache',
-        'LOCATION': 'redis://redis:6379/1',
-        'OPTIONS': {
-            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
-        }
-    }
-}
+# CACHES = {
+#     'default': {
+#         'BACKEND': 'django_redis.cache.RedisCache',
+#         'LOCATION': 'redis://redis:6379/1',
+#         'OPTIONS': {
+#             'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+#         }
+#     }
+# }
