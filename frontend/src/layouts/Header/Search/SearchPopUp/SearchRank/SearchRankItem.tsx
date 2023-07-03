@@ -1,6 +1,5 @@
 import { searchActions } from "@features/search/searchSlice";
-import { useAppDispatch, useAppSelector } from "@toolkit/hook";
-import Link from "next/link";
+import { useAppDispatch } from "@toolkit/hook";
 
 interface ISearchItemProps {
   keyword: string;
@@ -9,20 +8,15 @@ interface ISearchItemProps {
 
 export default function SearchRankItem({ keyword, index }: ISearchItemProps) {
   const dispatch = useAppDispatch();
-  const searchCategory = useAppSelector((state) => state.search.searchCategory);
 
   return (
     <li
       key={keyword + index}
-      className="flex items-center justify-between border-b"
+      className="group flex cursor-pointer gap-2 border-b py-1.5"
+      onClick={() => {
+        dispatch(searchActions.clickKeyword({ searchKeyword: keyword }));
+      }}
     >
-      <Link
-        href={`/${searchCategory.toLowerCase()}`}
-        className="row-center group w-full gap-2 py-1.5"
-        onClick={() => {
-          dispatch(searchActions.clickKeyword({ searchKeyword: keyword }));
-        }}
-      >
         {/* 인기 검색어 순위 */}
         <span className="group-hover:font-medium group-hover:text-primary">
           {index + 1}.
@@ -32,7 +26,6 @@ export default function SearchRankItem({ keyword, index }: ISearchItemProps) {
         <button className="flex w-full items-start group-hover:font-medium group-hover:text-primary">
           {keyword}
         </button>
-      </Link>
     </li>
   );
 }
