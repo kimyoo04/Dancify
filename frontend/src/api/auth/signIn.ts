@@ -30,7 +30,7 @@ export const signIn = async (data: ISignInForm) => {
     }
 
     return true;
-  } catch (err) {
+  } catch (err: any) {
     console.log("🚀 signIn.tsx", err);
     return err;
   }
