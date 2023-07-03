@@ -24,8 +24,8 @@ def extract_file_key_from_url(url):
     Raises:
         ValueError: 유효하지 않은 S3 URL인 경우 발생합니다.
     """
-    if url.startswith(CLOUDFRONT_DOMAIN):
-        return url[len(CLOUDFRONT_DOMAIN):]
+    if url.startswith(AWS_DOMAIN):
+        return url[len(AWS_DOMAIN):]
     else:
         raise ValueError("Invalid S3 URL")
 
