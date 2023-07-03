@@ -142,17 +142,15 @@ export default function Prepare({
             <div className="col-center h-full w-full">
               <div className="col-between h-[80%] w-full">
                 <div>
-                  <div>
-                    <div className="space-x-2">
-                      {isDevice ? (
-                        <span className="font-bold text-green-500">✓</span>
-                      ) : (
-                        <span className="font-bold text-red-500">✕</span>
-                      )}
-                      <span>웹캠 유무 확인</span>
-                    </div>
+                  <div className="space-x-2 text-xl font-medium">
+                    {isDevice ? (
+                      <span className="font-bold text-green-500">✓</span>
+                    ) : (
+                      <span className="font-bold text-red-500">✕</span>
+                    )}
+                    <span>웹캠 유무 확인</span>
                   </div>
-                  <div className="space-x-2">
+                  <div className="space-x-2 text-xl font-medium">
                     {isDetector ? (
                       <span className="font-bold text-green-500">✓</span>
                     ) : (
@@ -165,11 +163,11 @@ export default function Prepare({
                 <div className="col-center">
                   {/* //? 연습과 실전 모드 변수 필요 */}
                   {isDevice && isDetector ? (
-                    <p className="text-mediu,">
+                    <p className="text-lg font-medium">
                       연습 모드 준비가 완료되었습니다.
                     </p>
                   ) : (
-                    <p className="text-medium">
+                    <p className="text-lg font-medium">
                       연습 모드 조건에 부합하지 않습니다.
                     </p>
                   )}
@@ -224,7 +222,7 @@ export default function Prepare({
 
       <BottomWrapper>
         <p className="md:text-lg md:font-medium">
-          연습 완료 후, AI와 댄서의 피드백 서비스를 이용 가능 합니다.
+          연습 완료 후, AI와 댄서의 피드백 서비스를 이용할 수 있습니다.
         </p>
       </BottomWrapper>
     </div>
