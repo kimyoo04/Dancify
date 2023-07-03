@@ -256,7 +256,7 @@ class Command(BaseCommand):
                                       'video': music[0][i],
                                       'thumbnail': music[1][i],
                                       'keypoints': music[2][i],
-                                      'section_number': i,
+                                      'section_number': i + 1,
                                   })
 
         seeder.execute()
