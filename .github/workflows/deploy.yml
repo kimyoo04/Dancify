@@ -29,9 +29,8 @@ jobs:
           script_stop: true
           script: |
             cd dancify
-            git stash
             git pull
-            git stash pop
+            git checkout origin/main
             sudo docker-compose stop
             sudo docker-compose -f docker-compose-front.yml down
             sudo docker system prune -af --volumes
