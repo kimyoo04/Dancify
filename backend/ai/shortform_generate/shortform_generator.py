@@ -267,6 +267,9 @@ def generate_video(video_path: str, output_path: str) -> None:
         video_path (str): 입력 비디오 파일의 경로입니다.
         output_path (str): 생성된 비디오를 저장할 경로입니다.
     """
+    audio_path = ""
+    temp_path = ""
+
     try:
         # 폴더 경로
         audio_folder_path = "./audio_video"

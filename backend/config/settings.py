@@ -26,6 +26,7 @@ INSTALLED_APPS = [
     # !apps
     'accounts',
     'posts',
+    'dance',
     'like',
     'comments',
     'view_history',
@@ -62,10 +63,19 @@ CORS_ALLOW_CREDENTIALS = True
 CSRF_TRUSTED_ORIGINS = (
     'localhost:8000',
     '127.0.0.1:8000',
+    '3.37.111.238:80',
+    '3.37.111.238:443',
+    '3.38.69.148:8000',
+    'dancify.site'
 )
 CORS_ORIGIN_WHITELIST = (
     'http://localhost:8000',
     'http://127.0.0.1:8000',
+    'http://3.37.111.238:80',
+    'https://3.37.111.238:443',
+    'http://3.38.69.148:8000',
+    'http://dancify.site',
+    'https://dancify.site'
 )
 CORS_ALLOW_HEADERS = (
     'access-control-allow-credentials',
@@ -167,8 +177,11 @@ APPEND_SLASH = False
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
-CSRF_TRUSTED_ORIGINS = ['http://localhost', 'http://127.0.0.1']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost',
+                 '3.37.111.238', '3.38.69.148', 'dancify.site']
+CSRF_TRUSTED_ORIGINS = ['http://localhost', 'http://127.0.0.1',
+                        'http://3.37.111.238', 'https://3.37.111.238',
+                        'http://dancify.site', 'https://dancify.site']
 
 # 사용자 정의 User 모델 사용
 AUTH_USER_MODEL = 'accounts.User'
