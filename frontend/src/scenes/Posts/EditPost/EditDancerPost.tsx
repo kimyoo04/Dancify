@@ -10,7 +10,7 @@ import { useRouter } from "next/router";
 
 import SelectGenres from "../AddPost/AddDancerPostItem/DetailInfo/SelectGenre";
 import FeedbackPrice from "../AddPost/AddDancerPostItem/DetailInfo/FeedbackPrice";
-import Title from "../AddPost/AddDancerPostItem/DetailInfo/Title";
+import Title from "../PostItem/TitleForm";
 
 export default function EditDancerPost({ id }: { id: string }) {
   const router = useRouter();

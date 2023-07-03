@@ -1,10 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
 
-import { useAppDispatch, useAppSelector } from "@toolkit/hook";
-import { postActions } from "@features/post/postSlice";
+import { useAppSelector } from "@toolkit/hook";
 
 import Tiptap from "@components/tiptap";
-import TitleForm from "@components/tiptap/TitleForm";
 import { Button } from "@components/ui/button";
 import UploadVideo from "@components/UploadVideo";
 import MosaicCheckBox from "@components/MosaicCheckBox";
@@ -12,10 +10,10 @@ import MosaicCheckBox from "@components/MosaicCheckBox";
 import { useCreateVideoPostMutation } from "@api/posts/createVideoPost";
 import PreviewVideoUrl from "../PostItem/PreviewVideoUrl";
 import { ReloadIcon } from "@radix-ui/react-icons";
+import TitleForm from "@scenes/Posts/PostItem/TitleForm";
 
 
 export default function AddVideoPost() {
-  const dispatch = useAppDispatch();
   const [isWait, setIsWait] = useState(false);
 
   // 동영상
@@ -38,11 +36,6 @@ export default function AddVideoPost() {
       if (videoPreview) URL.revokeObjectURL(videoPreview);
     };
   }, [videoPreview]);
-
-  // 연습 초기화
-  useEffect(() => {
-    dispatch(postActions.resetPostInfo());
-  }, []);
 
   // 요청 함수
   const { mutateAsync, isLoading } = useCreateVideoPostMutation();
@@ -72,7 +65,7 @@ export default function AddVideoPost() {
   return (
     <div className="mx-auto max-w-2xl space-y-4">
       {/* 제목 텍스트 필드 */}
-      <TitleForm isUpdate={false} />
+      <TitleForm />
 
       {/* 내용 작성 에디터 */}
       <Tiptap isUpdate={false} />

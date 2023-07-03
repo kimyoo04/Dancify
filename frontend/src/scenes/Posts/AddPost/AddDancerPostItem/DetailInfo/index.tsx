@@ -11,7 +11,7 @@ import PreviewVideoUrl from "@scenes/Posts/PostItem/PreviewVideoUrl";
 import { useEffect, useMemo, useState } from "react";
 import { ReloadIcon } from "@radix-ui/react-icons";
 import FeedbackPrice from "./FeedbackPrice";
-import Title from "./Title";
+import TitleForm from "@scenes/Posts/PostItem/TitleForm";
 import checkS3Url from "@util/checkS3Url";
 import { useToast } from "@components/ui/use-toast";
 
@@ -89,11 +89,14 @@ export default function DetailInfo({
         <SelectGenres />
 
         {/* 피드백 가격 책정 */}
-        <FeedbackPrice feedbackPriceText={feedbackPriceText} setFeedbackPriceText={setFeedbackPriceText} />
+        <FeedbackPrice
+          feedbackPriceText={feedbackPriceText}
+          setFeedbackPriceText={setFeedbackPriceText}
+        />
       </div>
 
       {/* 제목 입력 */}
-      <Title />
+      <TitleForm />
 
       {/* 내용 입력 */}
       <Tiptap isUpdate={true} />
@@ -116,7 +119,7 @@ export default function DetailInfo({
 
         {/* 왼료 버튼 */}
         {isLoading ? (
-          <Button disabled >
+          <Button disabled>
             <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
             잠시만 기다려주세요.
           </Button>

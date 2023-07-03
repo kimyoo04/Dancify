@@ -2,7 +2,6 @@ import {  useEffect, useMemo, useState } from "react";
 import {useAppSelector } from "@toolkit/hook";
 
 import Tiptap from "@components/tiptap";
-import TitleForm from "@components/tiptap/TitleForm";
 
 import { Button } from "@components/ui/button";
 
@@ -12,6 +11,7 @@ import MosaicCheckBox from "@components/MosaicCheckBox";
 import { ReloadIcon } from "@radix-ui/react-icons";
 import PreviewVideoUrl from "../PostItem/PreviewVideoUrl";
 import { useRouter } from "next/router";
+import TitleForm from "../PostItem/TitleForm";
 
 export default function EditVideoPost({ id }: { id: string }) {
   const router = useRouter();
@@ -83,7 +83,7 @@ export default function EditVideoPost({ id }: { id: string }) {
   return (
     <div className="mx-auto max-w-2xl space-y-4">
       {/* 제목 텍스트 필드 */}
-      <TitleForm isUpdate={true} />
+      <TitleForm />
 
       {/* 내용 작성 에디터 */}
       <Tiptap isUpdate={true} />

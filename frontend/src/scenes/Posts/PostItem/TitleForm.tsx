@@ -5,9 +5,9 @@ import { postActions } from "@features/post/postSlice";
 
 import debounce from "@util/debounce";
 
-export default function Title() {
+export default function TitleForm() {
   const dispatch = useAppDispatch();
-  const postTitle = useAppSelector(state => state.post.postTitle)
+  const postTitle = useAppSelector((state) => state.post.postTitle);
 
   const onUpdate = useCallback(
     debounce((content) => {

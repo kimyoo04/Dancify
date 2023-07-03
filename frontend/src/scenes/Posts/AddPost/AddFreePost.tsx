@@ -1,18 +1,16 @@
 import { useCreateFreePostMutation } from "@api/posts/createFreePost";
 import Tiptap from "@components/tiptap";
-import TitleForm from "@components/tiptap/TitleForm";
-import { useAppDispatch, useAppSelector } from "@toolkit/hook";
+import { useAppSelector } from "@toolkit/hook";
 import { useEffect, useState } from "react";
 import { Button } from "@components/ui/button";
 import UploadImage from "@components/UploadImage";
-import { postActions } from "@features/post/postSlice";
 import PreviewImageUrl from "../PostItem/PreviewImageUrl";
 import { ReloadIcon } from "@radix-ui/react-icons";
 import { useRouter } from "next/router";
+import TitleForm from "@scenes/Posts/PostItem/TitleForm";
 
 export default function AddFreePost() {
   const router = useRouter();
-  const dispatch = useAppDispatch();
   const [fileName, setFileName] = useState<string>("");
   const [imageFile, setImageFile] = useState<File>();
   const { postTitle, postContent } = useAppSelector((state) => state.post);
@@ -48,11 +46,6 @@ export default function AddFreePost() {
     return;
   };
 
-  // 연습 초기화
-  useEffect(() => {
-    dispatch(postActions.resetPostInfo());
-  }, [dispatch]);
-
   // 새로고침 및 뒤로가기 방지
   useEffect(() => {
     if (window) {
@@ -71,7 +64,7 @@ export default function AddFreePost() {
   return (
     <div className="mx-auto max-w-2xl space-y-4">
       {/* 제목 텍스트 필드 */}
-      <TitleForm isUpdate={false} />
+      <TitleForm />
 
       {/* 내용 작성 에디터 */}
       <Tiptap isUpdate={false} />
