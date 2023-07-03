@@ -50,7 +50,7 @@ class EndPartDanceView(APIView):
 
         section = VideoSection.objects.get(section_id=data['sectionId'])
         dancer_part_video = section.video
-        info = '/'.join(dancer_part_video.rstrip('.m3u8').split('/')[3:])
+        info = '/'.join(dancer_part_video[:-5].split('/')[3:])
 
         dancer_video_file_extension = ''
         s3 = get_s3_client()
