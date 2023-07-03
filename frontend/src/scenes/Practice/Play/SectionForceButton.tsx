@@ -22,7 +22,7 @@ export default function ForceEndButton({
   return (
     <AlertDialog>
       <Button>
-        <AlertDialogTrigger>Open</AlertDialogTrigger>
+        <AlertDialogTrigger>넘어가기</AlertDialogTrigger>
       </Button>
       <AlertDialogContent>
         <AlertDialogHeader>
