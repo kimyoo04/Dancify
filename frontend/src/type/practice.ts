@@ -59,6 +59,7 @@ export interface IDancerPost {
   userId: string;
   nickname: string;
   content: string;
+  thumbnail: TThumbnail;
   profileImage: string;
   createDate: string;
   views: TViews;
