@@ -44,6 +44,11 @@ export default function ProfileForm() {
 
   const form = useForm<ProfileFormValues>({
     resolver: zodResolver(profileFormSchema),
+    defaultValues: {
+      nickname: "",
+      email: "",
+      description: "",
+    }
   });
 
   useEffect(() => {
@@ -55,7 +60,7 @@ export default function ProfileForm() {
         const { nickname, email, description } = data;
         form.setValue("nickname", nickname);
         form.setValue("email", email);
-        form.setValue("description", description);
+       {description ?  form.setValue("description", description): form.setValue("description", undefined)}
         return;
       }
     }
