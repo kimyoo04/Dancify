@@ -9,6 +9,7 @@ import { statuses } from "../data/data";
 import { DataTableColumnHeader } from "./data-table-column-header";
 import { DataTableRowActions } from "./data-table-row-actions";
 import { IFeedback } from "@type/feedbacks";
+import { timeYmd } from "@util/dateTime";
 
 // 테이블의 컬럼과 셀 정의
 export const columns: ColumnDef<IFeedback>[] = [
@@ -139,7 +140,7 @@ export const columns: ColumnDef<IFeedback>[] = [
     cell: ({ row }) => {
       return (
         <div className="flex space-x-2">
-          <span>{row.getValue("createDate")}</span>
+          <span>{timeYmd(row.getValue("createDate"))}</span>
         </div>
       );
     },
