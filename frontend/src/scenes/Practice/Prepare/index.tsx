@@ -129,6 +129,7 @@ export default function Prepare({
                     잠시만 기다려주세요.
                   </p>
                   <p>연습을 위한 환경을 확인 중입니다.</p>
+                  <p>웹캠에 얼굴이 나오도록 해주세요.</p>
                 </div>
 
                 <div>

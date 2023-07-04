@@ -13,6 +13,7 @@ import {
 import { TabsContent } from "@components/ui/tabs";
 import { Separator } from "@components/ui/separator";
 import PostContent from "@scenes/Posts/PostItem/PostContent";
+import TogglePlayer from "@components/VideoPlayer/TogglePlayer";
 
 // 3. 댄서블의 요청과 댄서의 응답이 완료됐을 경우 보여지는 컴포넌트
 export default function FeedbackFinished({ data }: { data: IFeedbackDetail }) {
@@ -46,13 +47,9 @@ export default function FeedbackFinished({ data }: { data: IFeedbackDetail }) {
                       · 댄서블 영상 및 피드백 내용
                     </AccordionTrigger>
                     <AccordionContent className="overflow-hidden rounded-md">
-                      <ReactPlayer
-                        ref={playerRef}
-                        url={section.danceableVideo}
-                        controls
-                        width={"100%"}
-                        height={"100%"}
-                      />
+                      {section.danceableVideo && (
+                        <TogglePlayer videoUrl={section.danceableVideo} />
+                      )}
 
                       <Separator className="my-4" />
 
@@ -91,12 +88,9 @@ export default function FeedbackFinished({ data }: { data: IFeedbackDetail }) {
                         · 댄서 피드백 영상
                       </AccordionTrigger>
                       <AccordionContent className="overflow-hidden rounded-md">
-                        <ReactPlayer
-                          url={section.dancerVideo}
-                          controls
-                          width={"100%"}
-                          height={"100%"}
-                        />
+                        {section.dancerVideo && (
+                          <TogglePlayer videoUrl={section.dancerVideo} />
+                        )}
                       </AccordionContent>
                     </AccordionItem>
                   )}

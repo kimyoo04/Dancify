@@ -1,6 +1,6 @@
 import { practiceActions } from "@features/practice/practiceSlice";
 import { useAppDispatch, useAppSelector } from "@toolkit/hook";
-import { IPoseMessages, IPractice } from "@type/practice";
+import { IPoseMessages, IPractice, TPoseMessage } from "@type/practice";
 import { Pose } from "@type/moveNet";
 
 import { motion } from "framer-motion";
@@ -40,7 +40,7 @@ export default function SectionPlay({
   });
 
   const [count, setCount] = useState(5);
-  const [poseMessage, setPoseMessage] = useState(""); //? 1초 마다 동작 평가를 저장
+  const [poseMessage, setPoseMessage] = useState<TPoseMessage>(""); //? 1초 마다 동작 평가를 저장
   // const [countDown, setCountDown] = useState(5);
   const {
     playIndex,

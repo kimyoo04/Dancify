@@ -31,7 +31,7 @@ export default function EditVideoPost({ id }: { id: string }) {
     return videoFile ? URL.createObjectURL(videoFile) : undefined;
   }, [videoFile]);
 
-  // 이미지 메모리 누수 처리
+  // 동영상 메모리 누수 처리
   useEffect(() => {
     return () => {
       if (videoPreview) URL.revokeObjectURL(videoPreview);

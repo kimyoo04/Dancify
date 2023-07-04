@@ -54,7 +54,7 @@ export default function MakeSections({
   return (
     <div className="w-full space-y-5">
       <div className="w-full sm:flex sm:h-[520px] sm:gap-5 lg:h-[610px] ">
-        {/* 영상 영역 영역 */}
+        {/* 영상 영역 */}
         <div className="relative mx-auto w-3/4 overflow-hidden rounded-md border sm:w-1/2 sm:flex-grow">
           {hasWindow && (
             <ReactPlayer

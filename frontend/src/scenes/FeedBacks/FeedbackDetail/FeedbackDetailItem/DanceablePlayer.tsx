@@ -1,6 +1,9 @@
-import { useAppSelector } from "@toolkit/hook";
-import ReactPlayer from "react-player";
 import { useEffect, useRef, useState } from "react";
+import { useAppSelector } from "@toolkit/hook";
+
+import ReactPlayer from "react-player";
+import { Separator } from "@components/ui/separator";
+
 import {
   convertKey,
   preprocessErrorTimeData,
@@ -8,8 +11,6 @@ import {
 
 import { IFeedbackDetail, TError } from "@type/feedbacks";
 import { FeedbackJsonData } from "@type/feedbackJson";
-
-import { Separator } from "@components/ui/separator";
 
 export default function DanceablePlayer({
   data,
@@ -35,8 +36,10 @@ export default function DanceablePlayer({
     if (progressBar) {
       const handleTimeUpdate = () => {
         const player = playerRef.current;
+        console.log(player)
         if (player) {
-          setDuration(player.getDuration())
+          console.log("player.getDuration()", player.getDuration());
+          setDuration(player.getDuration());
         }
       };
 
@@ -58,19 +61,34 @@ export default function DanceablePlayer({
     "rgba(54, 162, 235, 0.2)",
   ];
 
-  console.log(sectionIndex);
-  console.log(data.sections[sectionIndex].danceableVideo);
-
   return (
     <div className="space-y-4">
-      <div className="overflow-hidden rounded-md">
-        <ReactPlayer
-          ref={playerRef}
-          url={data.sections[sectionIndex].danceableVideo}
-          controls
-          width={"100%"}
-          height={"100%"}
-        />
+      <div className="space-y-4">
+        {/* 원본 비율로 세로로 길게 영상 노출 */}
+        <div className="overflow-hidden rounded-md sm:hidden">
+          <ReactPlayer
+            ref={playerRef}
+            url={data.sections[sectionIndex].danceableVideo}
+            controls
+            width={"100%"}
+            height={"100%"}
+          />
+        </div>
+
+        {/* 세로로 길어지는 것을 줄여서 영상 노출 */}
+        <div className="hidden overflow-hidden rounded-md sm:block">
+          <div className="relative pt-[56.25%]">
+            <ReactPlayer
+              ref={playerRef}
+              url={data.sections[sectionIndex].danceableVideo}
+              playing={true}
+              controls
+              width="100%"
+              height="100%"
+              className="absolute left-0 top-0 h-full w-full"
+            />
+          </div>
+        </div>
       </div>
 
       <div className="w-full space-y-1 rounded-md border bg-white p-4 text-black">

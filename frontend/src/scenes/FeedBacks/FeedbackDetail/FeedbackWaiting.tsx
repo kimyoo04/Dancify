@@ -1,4 +1,4 @@
-import { Dispatch, SetStateAction, useRef, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import ReactPlayer from "react-player";
 
 import { useAppDispatch, useAppSelector } from "@toolkit/hook";
@@ -17,6 +17,7 @@ import { Separator } from "@components/ui/separator";
 import UploadVideo from "./FeedbackDetailItem/UploadVideo";
 import TimeStampForm from "./FeedbackDetailItem/TimeStampForm";
 import FeedbackContent from "./FeedbackDetailItem/FeedbackContent";
+import TogglePlayer from "@components/VideoPlayer/TogglePlayer";
 
 // 2. 댄서블의 요청과 댄서의 응답이 필요한 컴포넌트
 export default function FeedbackWaiting({
@@ -38,6 +39,18 @@ export default function FeedbackWaiting({
   const { sectionIndex } = useAppSelector((state) => state.feedback);
   const videoRef = useRef<HTMLVideoElement>(null);
   const [timeStamp, setTimeStamp] = useState<number>(0);
+
+  const videoPreview = videoFile
+    ? URL.createObjectURL(videoFile[String(sectionIndex)].file)
+    : undefined;
+
+  // 동영상 메모리 누수 처리
+  useEffect(() => {
+    return () => {
+      if (videoPreview) URL.revokeObjectURL(videoPreview);
+    };
+  }, [videoPreview]);
+
 
   return (
     <div>
@@ -74,6 +87,9 @@ export default function FeedbackWaiting({
                           setTimeStamp(state.playedSeconds);
                         }}
                       />
+                      {section.danceableVideo && (
+                        <TogglePlayer videoUrl={section.danceableVideo} />
+                      )}
 
                       <Separator className="mb-4 mt-8" />
 
@@ -116,18 +132,12 @@ export default function FeedbackWaiting({
 
                           <div className="my-4"></div>
 
-                          {/* 영상 미리보기 */}
+                          {/* 동영상 미리보기 */}
                           <div className="overflow-hidden rounded-md">
-                            {String(sectionIndex) in videoFile && (
-                              <ReactPlayer
-                                url={URL.createObjectURL(
-                                  videoFile[String(sectionIndex)].file
-                                )}
-                                controls
-                                width={"100%"}
-                                height={"100%"}
-                              />
-                            )}
+                            {String(sectionIndex) in videoFile &&
+                              videoPreview && (
+                                <TogglePlayer videoUrl={videoPreview} />
+                              )}
                           </div>
                         </AccordionContent>
                       </AccordionItem>
