@@ -32,19 +32,24 @@ class FeedbackListAPIView(ListAPIView):
             user_info = get_user_info_from_token(request)
 
             user_id = user_info['userId']
+            is_dancer = user_info['isDancer']
         except (TokenError, KeyError):
             return Response(status=status.HTTP_401_UNAUTHORIZED)
 
         user = User.objects.get(user_id=user_id)
 
         # 로그인한 유저가 댄서인 경우
-        if user.is_dancer:
+        if is_dancer:
+            self.serializer_class = DancerFeedbackListSerializer
             self.queryset = FeedbackPost.objects.filter(dancer_post__user=user)
             self.queryset = self.queryset.exclude(status='신청 전')
-            self.serializer_class = DancerFeedbackListSerializer
         else:
-            self.queryset = FeedbackPost.objects.filter(user=user)
             self.serializer_class = DanceableFeedbackListSerializer
+            self.queryset = FeedbackPost.objects.filter(user=user)
+
+        for feedback_post in self.queryset:
+            if not DanceableFeedback.objects.filter(feedback_post=feedback_post).exists():
+                self.queryset = self.queryset.exclude(feedback_id=feedback_post.feedback_id)
 
         return super().list(request, *args, **kwargs)
 
