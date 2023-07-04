@@ -31,9 +31,19 @@ export default function DanceablePlayer({
   // 동영상이 바뀔 때마다 진행 바 초기화
   useEffect(() => {
     const progressBar = progressBarRef.current;
-    const player = playerRef.current;
-    if (progressBar && player) setDuration(player.getDuration());
-  }, []);
+
+    if (progressBar) {
+      const handleTimeUpdate = () => {
+        const player = playerRef.current;
+        if (player) {
+          setDuration(player.getDuration())
+        }
+      };
+
+      const interval = setInterval(handleTimeUpdate, 1000);
+      return () => clearInterval(interval);
+    }
+  }, [sectionIndex]);
 
   const borderColors = [
     "rgb(255, 99, 132)",
