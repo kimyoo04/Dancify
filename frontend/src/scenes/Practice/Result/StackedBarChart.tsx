@@ -44,9 +44,17 @@ export default function StackedBarChart() {
       x: {
         stacked: true,
         reverse: true,
+        title: {
+          display: true,
+          text: "점수",
+        },
       },
       y: {
         stacked: true,
+        title: {
+          display: true,
+          text: "구간",
+        },
       },
     },
   };
