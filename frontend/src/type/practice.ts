@@ -88,3 +88,4 @@ export type TPlayOrdinal =
   | "세번째"
   | "네번째"
   | "다섯번째";
+export type TPoseMessage = "Excellent" | "Great" | "Good" | "Miss" | "";

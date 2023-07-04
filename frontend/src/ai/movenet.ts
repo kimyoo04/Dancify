@@ -3,7 +3,7 @@ import React from "react";
 import { poseSimilarity } from "@ai/utils/posesim";
 import { drawKeypoints, drawSkeleton } from "@ai/utilities";
 
-import { IPoseMessages } from "@type/practice";
+import { IPoseMessages, TPoseMessage } from "@type/practice";
 import { Pose as poseType } from "@type/moveNet";
 
 import * as poseDetection from "@tensorflow-models/pose-detection";
@@ -118,7 +118,7 @@ export async function runMovenet(
   canvasRef: React.RefObject<HTMLCanvasElement>,
   detector: poseDetection.PoseDetector,
   dancerJson: poseType[][],
-  setPoseMessage: React.Dispatch<React.SetStateAction<string>>
+  setPoseMessage: React.Dispatch<React.SetStateAction<TPoseMessage>>
 ): Promise<
   | string
   | [avgScore: number, poseMessages: IPoseMessages, keypointJson: poseType[][]]

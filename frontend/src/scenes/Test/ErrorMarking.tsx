@@ -3,7 +3,6 @@ import ReactPlayer from "react-player";
 
 type ErrorData = { start: number; end?: number }[];
 
-
 const ErrorMarking = () => {
   const errorData: ErrorData = [
     { start: 2 },
@@ -22,15 +21,12 @@ const ErrorMarking = () => {
       const handleTimeUpdate = () => {
         const player = playerRef.current;
         if (player) {
-          setDuration(player.getDuration())
+          setDuration(player.getDuration());
         }
       };
 
       const interval = setInterval(handleTimeUpdate, 1000);
-
-      return () => {
-        clearInterval(interval);
-      };
+      return () => clearInterval(interval);
     }
   }, []);
 
@@ -67,6 +63,5 @@ const ErrorMarking = () => {
     </div>
   );
 };
-
 
 export default ErrorMarking;

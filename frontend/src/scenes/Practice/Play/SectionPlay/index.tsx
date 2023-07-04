@@ -1,9 +1,8 @@
 import { practiceActions } from "@features/practice/practiceSlice";
 import { useAppDispatch, useAppSelector } from "@toolkit/hook";
-import { IPoseMessages, IPractice } from "@type/practice";
+import { IPoseMessages, IPractice, TPoseMessage } from "@type/practice";
 import { Pose } from "@type/moveNet";
 
-import { motion } from "framer-motion";
 import {
   useEffect,
   useRef,
@@ -17,6 +16,7 @@ import * as poseDetection from "@tensorflow-models/pose-detection";
 import { danceableBodyCheck, runMovenet } from "@ai/movenet";
 import { Button } from "@components/ui/button";
 import readDancerJson from "@api/feedbacks/readDancerJson";
+import { cn } from "@lib/utils";
 
 export default function SectionPlay({
   data,
@@ -47,7 +47,7 @@ export default function SectionPlay({
   });
 
   const [count, setCount] = useState(5); // 카운트 다운 5초
-  const [poseMessage, setPoseMessage] = useState(""); //? 1초 마다 동작 평가를 저장
+  const [poseMessage, setPoseMessage] = useState<TPoseMessage>(""); //? 1초 마다 동작 평가를 저장
 
   const {
     playIndex,
@@ -265,42 +265,45 @@ export default function SectionPlay({
     isForceEnd,
   ]);
 
+  const messageColor = {
+    Excellent: "rgb(54, 162, 235)",
+    Great: "rgb(75, 192, 192)",
+    Good: "rgb(255, 159, 64)",
+    Miss: "rgb(255, 99, 132)",
+  };
+
   return (
     <div className="row-center w-full gap-10">
-      <div className="row-center h-80 w-full">
+      <div className="row-center h-[700px] w-full">
         {/* //! 숏폼 UI 구현 필요 */}
         {/* 스트리밍 영역 */}
-        <motion.section
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.5 }}
+        <section
           className={`relative h-0 overflow-hidden rounded-md`}
           style={{
-            width: `${videoDims.width}px`,
+            width: `${videoDims.width / 2}px`,
             aspectRatio: `${videoDims.width / videoDims.height}`,
             paddingBottom: `${webcamDims.height}px`,
           }}
         >
           <ReactPlayer
-            url={selectedSectionsData.map((section) => section.video)[playIndex]}
+            ref={playerRef}
+            url={
+              selectedSectionsData.map((section) => section.video)[playIndex]
+            }
             playing={isPlaying}
             width={"100%"}
             height={"100%"}
             className="absolute left-0 top-0 h-full w-full"
             muted
           />
-          <div
-            ref={progressBarRef}
-            className="relative h-4 w-full"
-          >
-            <div className="absolute bottom-0 h-full w-full bg-gray-300"></div>
-          </div>
-        </motion.section>
+        </section>
 
         <section className="relative overflow-hidden rounded-md">
           {/* 웹캠 영상 */}
-          <Webcam ref={webcamRef} mirrored={true} />
+          <Webcam
+            ref={webcamRef}
+            mirrored={true}
+          />
 
           {/* 스캘레톤 매핑 */}
           <canvas
@@ -333,7 +336,12 @@ export default function SectionPlay({
           {/* 평가 UI 영역 */}
           <div className="col-center absolute bottom-4 left-4 z-10">
             {poseMessage !== "" && (
-              <span className="text-lg font-medium">{poseMessage}</span>
+              <span
+                className={`text-lg font-medium`}
+                style={{ color: messageColor[poseMessage] }}
+              >
+                {poseMessage}
+              </span>
             )}
           </div>
         </section>
