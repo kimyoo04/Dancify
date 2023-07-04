@@ -19,7 +19,11 @@ import {
 } from "@type/feedbackJson";
 import { Separator } from "@components/ui/separator";
 
-export default function LineChart({bestJsonData}: {bestJsonData: IEvalPerFrame[]}) {
+export default function LineChart({
+  bestJsonData,
+}: {
+  bestJsonData: IEvalPerFrame[];
+}) {
   ChartJS.register(
     CategoryScale,
     LinearScale,
@@ -57,6 +61,20 @@ export default function LineChart({bestJsonData}: {bestJsonData: IEvalPerFrame[]
     plugins: {
       legend: {
         position: "top" as const,
+      },
+    },
+    scales: {
+      y: {
+        title: {
+          display: true,
+          text: "점수",
+        },
+      },
+      x: {
+        title: {
+          display: true,
+          text: "초",
+        },
       },
     },
   };
