@@ -71,11 +71,7 @@ export default function CommentInput({ content = "" }: { content?: string }) {
           <div className="flex w-full items-center justify-between">
             <div className="row-center gap-2">
               {/* 프로필 이미지  */}
-              {profileImage ? (
-                <ProfileImage imageUrl={profileImage} />
-              ) : (
-                <ProfileImage imageUrl={"/images/avatar.png"} />
-              )}
+              <ProfileImage imageUrl={profileImage} />
 
               {/* 작성자 이름 */}
               <span className="border-b">{nickname}</span>

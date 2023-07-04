@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { TFeedbackId, TSectionIndex } from "@type/feedbacks";
+import { TFeedbackId } from "@type/feedbacks";
 import {
   IPracticeState,
   IUpdateSectionPractice,
@@ -97,6 +97,7 @@ export const practiceSlice = createSlice({
         state.selectedSections.push(sectionId);
       }
     },
+
     // 구간 첫 시도에 다음으로 강제 이동한 경우 따로 예외처리 필요
     updateSectionForce: (state, action: PayloadAction<TSectionId>) => {
       const sectionId = action.payload;
