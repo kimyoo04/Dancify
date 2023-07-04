@@ -1,6 +1,7 @@
 import os
 import json
 import shutil
+import subprocess
 
 from django.conf import settings
 from django.http import JsonResponse
@@ -53,6 +54,7 @@ class EndPartDanceView(APIView):
         info = '/'.join(dancer_part_video[:-5].split('/')[3:])
 
         dancer_video_file_extension = ''
+        danceable_video_file_extension = '.' + data['video'].name.split('.')[-1]
         s3 = get_s3_client()
 
         # 버킷 내의 객체 목록 가져오기
@@ -94,6 +96,15 @@ class EndPartDanceView(APIView):
         with open(danceable_video_download_path, 'wb') as destination:
             for chunk in danceable_video.chunks():
                 destination.write(chunk)
+
+        if dancer_video_file_extension != '.mp4':
+            print('댄서 비디오 확장자: ', dancer_video_file_extension)
+            subprocess.run(['ffmpeg', '-i', dancer_video_download_path, dancer_video_download_path.replace(danceable_video_file_extension, '.mp4')])
+            dancer_video_download_path = dancer_video_download_path.replace(danceable_video_file_extension, '.mp4')
+        if danceable_video_file_extension != '.mp4':
+            print('댄서브 비디오 확장자: ', danceable_video_file_extension)
+            subprocess.run(['ffmpeg', '-i', danceable_video_download_path, danceable_video_download_path.replace(danceable_video_file_extension, '.mp4')])
+            danceable_video_download_path = danceable_video_download_path.replace(danceable_video_file_extension, '.mp4')
 
         # 댄서의 오디오 추출, 댄서블의 비디오 추출
         audio = AudioFileClip(dancer_video_download_path)
