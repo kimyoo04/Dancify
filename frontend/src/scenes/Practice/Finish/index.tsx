@@ -14,7 +14,7 @@ export default function Finish() {
   return (
     <div className="-mb-[7%] w-full space-y-20 px-6 dark:text-black">
       <section className="space-y-4">
-        <div className="relative col-center w-full px-2">
+        <div className="relative row-center w-full px-2">
           <ScrollArea>
             <p className="col-start mb-4 w-full text-2xl font-medium">
               다른 영상을 연습해보시겠어요?
