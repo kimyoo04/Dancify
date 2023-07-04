@@ -64,7 +64,7 @@ class DanceableFeedbackRequestView(UpdateAPIView):
     serializer_class = DanceableFeedbackRequestSerializer
 
     @transaction.atomic
-    def update(self, request, *args, **kwargs):
+    def partial_update(self, request, *args, **kwargs):
         try:
             user_info = get_user_info_from_token(request)
 
