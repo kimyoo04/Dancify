@@ -7,8 +7,8 @@ from rest_framework import status
 
 from accounts.models import User
 
-REFRESH_TOKEN_EXP = 60 * 60 * 24 * 30
-ACCESS_TOKEN_EXP = 60 * 60 * 24 * 30
+REFRESH_TOKEN_EXP = 60 * 60 * 24 * 7
+ACCESS_TOKEN_EXP = 60 * 60 * 24 * 1
 
 """
 토큰을 생성할 때는 userId로 DB에 접근해서 정보들을 만든다
@@ -46,13 +46,12 @@ def decode_access_token(access_token):
 def create_jwt_token(user_id, token_type, user_info):
     token = None
     try:
-        if not user_info:
-            user = User.objects.get(user_id=user_id)
-            user_info['userId'] = user.user_id
-            user_info['nickname'] = user.nickname
-            user_info['isDancer'] = user.is_dancer
-            user_info['profileImage'] = user.profile_image
-            user_info['description'] = user.description
+        user = User.objects.get(user_id=user_id)
+        user_info['userId'] = user.user_id
+        user_info['nickname'] = user.nickname
+        user_info['isDancer'] = user.is_dancer
+        user_info['profileImage'] = user.profile_image
+        user_info['description'] = user.description
 
         if token_type == 'refresh':
             print('리프레쉬 토큰 발급')
@@ -63,7 +62,7 @@ def create_jwt_token(user_id, token_type, user_info):
                 token[key] = value
 
             # 만료 시간 설정 (예: 30일)
-            token.set_exp(lifetime=timezone.timedelta(days=30))
+            token.set_exp(lifetime=timezone.timedelta(days=7))
 
         elif token_type == 'access':
             print('엑세스 토큰 발급')
@@ -71,7 +70,7 @@ def create_jwt_token(user_id, token_type, user_info):
 
             for key, value in user_info.items():
                 token[key] = value
-            token.set_exp(lifetime=timezone.timedelta(minutes=15))
+            token.set_exp(lifetime=timezone.timedelta(days=1))
 
         return str(token)
     except TokenError:
