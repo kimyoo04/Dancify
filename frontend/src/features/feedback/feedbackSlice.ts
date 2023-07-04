@@ -23,9 +23,9 @@ export const feedbackSlice = createSlice({
       state.sectionIndex = actions.payload;
     },
 
-    // section.danceablemessage 작성
+    // section.danceableMessage 작성
     writingDanceableMessage: (state, actions: PayloadAction<string>) => {
-      state.sections[state.sectionIndex].danceablemessage = actions.payload;
+      state.sections[state.sectionIndex].danceableMessage = actions.payload;
     },
 
     writingDancerMessage: (state, actions: PayloadAction<IDancerMessage>) => {

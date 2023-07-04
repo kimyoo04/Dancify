@@ -41,17 +41,18 @@ export default function Sectiontab({ data }: { data: IFeedbackDetail }) {
         <TabsContent value="feedbackRequest" className="m-0">
           <Button
             disabled={
-              !sections.some((section) => section.danceablemessage !== "")
+              !sections.some((section) => section.danceableMessage !== "")
             }
-            onClick={() => {
+            onClick={async () => {
               const feedbackRequestArr = sections.map((section) => {
-                const { feedbackSectionId, danceablemessage } = section;
+                const { feedbackSectionId, danceableMessage } = section;
                 return {
                   feedbackSectionId,
-                  message: danceablemessage,
+                  message: danceableMessage,
                 };
               });
-              feedbackRequest({ sections: feedbackRequestArr });
+              await feedbackRequest({ sections: feedbackRequestArr });
+
             }}
           >
             피드백 요청 완료
@@ -64,11 +65,11 @@ export default function Sectiontab({ data }: { data: IFeedbackDetail }) {
         {data.isDancer && (
           <Button
             disabled={
-              !sections.some((section) => section.danceablemessage !== "")
+              !sections.some((section) => section.danceableMessage !== "")
             }
-            onClick={() => {
+            onClick={async () => {
               const formData = convertISectionToFormData(sections)
-              feedbackResponse(formData);
+              await feedbackResponse(formData);
             }}
           >
             피드백 완료

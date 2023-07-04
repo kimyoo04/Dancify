@@ -13,7 +13,7 @@ export interface IFeedbackState {
 export interface ISection {
   feedbackSectionId: TSectionId;
   danceableVideo: TVideo;
-  danceablemessage: TMessage;
+  danceableMessage: TMessage;
   dancerVideo: TVideo;
   dancerMessage: IDancerMessage[]; // 기본 값으로 인해 따로 분리
 }
@@ -48,7 +48,7 @@ export interface IFeedbackSection {
   firstAiFeedback: string;
   bestAiFeedback: string;
   danceableVideo: TVideo;
-  danceablemessage?: TMessage;
+  danceableMessage?: TMessage;
   dancerVideo?: TVideo;
   dancerMessage?: IDancerMessage[]; // 타임스탬프와 메시지
 }

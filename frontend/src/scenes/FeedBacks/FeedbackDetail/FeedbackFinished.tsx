@@ -33,9 +33,9 @@ export default function FeedbackFinished({ data }: { data: IFeedbackDetail }) {
                       · 피드백 요청 사항
                     </AccordionTrigger>
                     <AccordionContent>
-                      {section.danceablemessage && (
+                      {section.danceableMessage && (
                         <PostContent
-                          content={section.danceablemessage}
+                          content={section.danceableMessage}
                           textClassName="w-fit text-sm text-muted-foreground"
                         />
                       )}

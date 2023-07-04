@@ -36,9 +36,7 @@ export default function DanceablePlayer({
     if (progressBar) {
       const handleTimeUpdate = () => {
         const player = playerRef.current;
-        console.log(player)
         if (player) {
-          console.log("player.getDuration()", player.getDuration());
           setDuration(player.getDuration());
         }
       };
@@ -81,7 +79,6 @@ export default function DanceablePlayer({
             <ReactPlayer
               ref={playerRef}
               url={data.sections[sectionIndex].danceableVideo}
-              playing={true}
               controls
               width="100%"
               height="100%"

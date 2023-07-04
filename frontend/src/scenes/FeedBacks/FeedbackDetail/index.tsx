@@ -29,7 +29,7 @@ export default function FeedbackDetail({ id }: { id: string }) {
         const {
           feedbackSectionId,
           danceableVideo,
-          danceablemessage,
+          danceableMessage,
           dancerVideo,
           dancerMessage,
         } = section;
@@ -37,7 +37,7 @@ export default function FeedbackDetail({ id }: { id: string }) {
         return {
           feedbackSectionId,
           danceableVideo,
-          danceablemessage: danceablemessage || "",
+          danceableMessage: danceableMessage || "",
           dancerVideo: dancerVideo || "",
           dancerMessage: dancerMessage || [],
         };

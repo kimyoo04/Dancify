@@ -11,6 +11,7 @@ import {
 } from "@components/ui/accordion";
 import { TabsContent } from "@components/ui/tabs";
 import Tiptap from "./FeedbackDetailItem/DanceableTipTap";
+import TogglePlayer from "@components/VideoPlayer/TogglePlayer";
 
 // 1. 댄서블의 요청이 필요한 컴포넌트
 export default function FeedbackRequest({ data }: { data: IFeedbackDetail }) {
@@ -29,11 +30,8 @@ export default function FeedbackRequest({ data }: { data: IFeedbackDetail }) {
                       · 나의 영상
                     </AccordionTrigger>
                     <AccordionContent className="overflow-hidden rounded-md">
-                      <ReactPlayer
-                        url={section.danceableVideo}
-                        controls
-                        width={"100%"}
-                        height={"100%"}
+                      <TogglePlayer
+                        videoUrl={section.danceableVideo}
                       />
                     </AccordionContent>
                   </AccordionItem>

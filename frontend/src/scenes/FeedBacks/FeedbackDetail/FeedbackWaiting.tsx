@@ -1,6 +1,4 @@
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
-import ReactPlayer from "react-player";
-
 import { useAppDispatch, useAppSelector } from "@toolkit/hook";
 import { feedbackActions } from "@features/feedback/feedbackSlice";
 import { IFeedbackDetail } from "@type/feedbacks";
@@ -27,11 +25,11 @@ export default function FeedbackWaiting({
 }: {
   data: IFeedbackDetail;
   videoFile: {
-    [key: string]: { file: File; filename: string };
+    [key: string]: { file: File ; filename: string };
   };
   setVideoFile: Dispatch<
     SetStateAction<{
-      [key: string]: { file: File; filename: string };
+      [key: string]: { file: File ; filename: string };
     }>
   >;
 }) {
@@ -40,7 +38,7 @@ export default function FeedbackWaiting({
   const videoRef = useRef<HTMLVideoElement>(null);
   const [timeStamp, setTimeStamp] = useState<number>(0);
 
-  const videoPreview = videoFile
+  const videoPreview = videoFile[String(sectionIndex)]
     ? URL.createObjectURL(videoFile[String(sectionIndex)].file)
     : undefined;
 
@@ -50,7 +48,6 @@ export default function FeedbackWaiting({
       if (videoPreview) URL.revokeObjectURL(videoPreview);
     };
   }, [videoPreview]);
-
 
   return (
     <div>
@@ -65,9 +62,9 @@ export default function FeedbackWaiting({
                       · 피드백 요청 사항
                     </AccordionTrigger>
                     <AccordionContent>
-                      {section.danceablemessage && (
+                      {section.danceableMessage && (
                         <FeedbackContent
-                          content={section.danceablemessage}
+                          content={section.danceableMessage}
                           textClassName="w-fit text-sm text-muted-foreground"
                         />
                       )}
@@ -78,23 +75,14 @@ export default function FeedbackWaiting({
                       {data.isDancer ? "· 댄서블 영상" : "· 나의 영상"}
                     </AccordionTrigger>
                     <AccordionContent className="overflow-hidden rounded-md">
-                      <ReactPlayer
-                        url={section.danceableVideo}
-                        controls
-                        width={"100%"}
-                        height={"100%"}
-                        onProgress={(state) => {
-                          setTimeStamp(state.playedSeconds);
-                        }}
-                      />
                       {section.danceableVideo && (
                         <TogglePlayer videoUrl={section.danceableVideo} />
                       )}
 
-                      <Separator className="mb-4 mt-8" />
-
                       {data.isDancer && (
                         <>
+                          <Separator className="mb-4 mt-8" />
+
                           {/* 입력필드 추가 버튼 */}
                           <Button
                             className="w-full"
