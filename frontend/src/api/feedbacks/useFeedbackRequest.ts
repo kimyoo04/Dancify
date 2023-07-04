@@ -5,7 +5,7 @@ import { IFeedbackRequest, TFeedbackId } from "@type/feedbacks";
 // 자유 게시판 댓글
 export const feedbackRequest = async (data: IFeedbackRequest) => {
   try {
-    await axios.post(`/feedbacks/danceable`, data);
+    await axios.patch(`/feedbacks/danceable`, data);
     return true;
   } catch (err) {
     return err;
