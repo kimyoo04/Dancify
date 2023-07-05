@@ -31,6 +31,7 @@ from s3_modules.upload import (
 )
 from view_history.models import ViewHistory
 from search_history.models import SearchHistory
+from s3_modules.delete import delete_video_from_s3
 
 
 class DancerPostViewSet(BasePostViewSet):
@@ -186,6 +187,16 @@ class DancerPostViewSet(BasePostViewSet):
         return Response(status=status.HTTP_200_OK)
 
     def destroy(self, request, *args, **kwargs):
+        post_id = kwargs.get('post_id')
+        post = DancerPost.objects.get(post_id=post_id)
+        video_url = post.video
+
+        # url에서 확장자 .m3u8 제거한 video_uuid 추출
+        video_uuid = video_url.split('/')[-1][:-5]
+
+        if video_url is not None:
+            delete_video_from_s3(video_uuid)
+
         return super().destroy(request, *args, **kwargs)
 
 

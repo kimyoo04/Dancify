@@ -124,8 +124,6 @@ class JWTRefreshView(APIView):
 
             # 그 외의 경우에는 토큰 재발급 진행
             user_info = decode_refresh_token(refresh_token)
-            print('토큰 재발급 진행')
-            print(user_info)
 
             new_refresh_token, new_access_token = \
                 generate_token(user_info['userId'], user_info)
@@ -138,7 +136,6 @@ class JWTRefreshView(APIView):
 
         except KeyError:
             if refresh_token is None:
-                print('리프레쉬 토큰x')
                 response_data = {'user': False,
                                  'message': 'Refresh-Token이 존재하지 않습니다!'}
                 response = JsonResponse(response_data,
@@ -146,9 +143,7 @@ class JWTRefreshView(APIView):
 
             # 쿠키가 만료되어 access_token이 지워졌으므로 재발급 진행
             elif access_token is None:
-                print('엑세스 토큰x 재발급 진행')
                 user_info = decode_refresh_token(refresh_token)
-                print(user_info)
 
                 new_refresh_token, new_access_token =\
                     generate_token(user_info['userId'], user_info)

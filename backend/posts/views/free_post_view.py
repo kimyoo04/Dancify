@@ -18,6 +18,9 @@ from accounts.authentication import get_user_info_from_token
 from .base_post_view import BasePostViewSet
 from ..models import FreePost
 from search_history.models import SearchHistory
+from s3_modules.authentication import get_s3_client
+
+AWS_DOMAIN = "https://dancify-bucket.s3.ap-northeast-2.amazonaws.com/"
 
 
 class FreePostViewSet(BasePostViewSet):
@@ -101,4 +104,18 @@ class FreePostViewSet(BasePostViewSet):
         return Response(status=status.HTTP_200_OK)
 
     def destroy(self, request, *args, **kwargs):
+        post_id = kwargs.get('post_id')
+        post = FreePost.objects.get(post_id=post_id)
+        image_url = post.post_image
+
+        # 해당 게시글이 이미지가 있는 경우
+        if image_url is not None:
+            file_key = image_url[len(AWS_DOMAIN):]
+            bucket_name = 'dancify-bucket'
+            try:
+                s3 = get_s3_client()
+                s3.delete_object(Bucket=bucket_name, Key=file_key)
+            except Exception as e:
+                print(f's3파일 삭제 실패: {e}')
+
         return super().destroy(request, *args, **kwargs)

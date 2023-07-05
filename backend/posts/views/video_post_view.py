@@ -20,6 +20,9 @@ from accounts.authentication import get_user_info_from_token
 from s3_modules.upload import upload_video_with_metadata_to_s3
 
 from search_history.models import SearchHistory
+from s3_modules.delete import delete_video_from_s3
+
+AWS_DOMAIN = "https://dancify-bucket.s3.ap-northeast-2.amazonaws.com/"
 
 
 class VideoPostViewSet(BasePostViewSet):
@@ -113,4 +116,14 @@ class VideoPostViewSet(BasePostViewSet):
         return Response(status=status.HTTP_200_OK)
 
     def destroy(self, request, *args, **kwargs):
+        post_id = kwargs.get('post_id')
+        post = VideoPost.objects.get(post_id=post_id)
+        video_url = post.video
+
+        # url에서 확장자 .m3u8 제거한 video_uuid 추출
+        video_uuid = video_url.split('/')[-1][:-5]
+
+        if video_url is not None:
+            delete_video_from_s3(video_uuid)
+
         return super().destroy(request, *args, **kwargs)

@@ -18,6 +18,7 @@ from .serializers import (
 from accounts.models import User
 from accounts.authentication import get_user_info_from_token
 from s3_modules.upload import upload_video_with_metadata_to_s3
+from s3_modules.delete import delete_video_from_s3
 
 
 class FeedbackListAPIView(ListAPIView):
@@ -321,6 +322,14 @@ class FeedbackDetailRetrieveDestoryView(RetrieveDestroyAPIView):
         queryset |= Q(pk__in=danceable_feedbacks.values('pk'))
         queryset |= Q(pk__in=dancer_feedbacks.values('pk'))
         queryset |= Q(pk__in=timestamps.values('pk'))
+
+        # 댄서가 춘 부분 동영상들을 s3 버킷에서 삭제합니다.
+        for danceable_feedback in danceable_feedbacks:
+            video_url = danceable_feedback.video
+            video_uuid = video_url.split('/')[-1][:-5]
+
+            if video_url is not None:
+                delete_video_from_s3(video_uuid)
 
         # 객체들을 삭제합니다.
         FeedbackPost.objects.filter(queryset).delete()
