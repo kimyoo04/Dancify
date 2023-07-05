@@ -127,9 +127,6 @@ class EndPartDanceView(APIView):
         # 오디오 입힌 댄서블 비디오 업로드
         url_data = upload_video_with_metadata_to_s3(user_id, result_video,
                                                     'danceable', is_mosaic, '.mp4')
-        shutil.rmtree(dancer_video_download_folder_path)
-        shutil.rmtree(danceable_video_download_folder_path)
-        shutil.rmtree(result_video_download_folder_path)
 
         data['video'] = url_data['video_url']
         data['thumbnail'] = url_data['thumbnail_url']
@@ -137,9 +134,9 @@ class EndPartDanceView(APIView):
 
         # 로컬에 json 파일 저장
         # 폴더가 존재하지 않으면 생성
-        path = os.path.join(settings.BASE_DIR, 'temp')
-        if not os.path.exists(path):
-            os.makedirs(path)
+        temp_path = os.path.join(settings.BASE_DIR, 'temp')
+        if not os.path.exists(temp_path):
+            os.makedirs(temp_path)
 
         # AWS 정보
         bucket_name = 'dancify-bucket'
@@ -147,12 +144,12 @@ class EndPartDanceView(APIView):
         # 댄서 json 로컬에 저장
         dancer_json_path = download_json_from_s3(aws_bucket=bucket_name,
                                                  url=section.dancer_post.keypoints,
-                                                 local_path=path)
+                                                 local_path=temp_path)
         if dancer_json_path is None:
             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-        first_score_file_path = os.path.join(path, 'first.json')
-        best_score_file_path = os.path.join(path, 'best.json')
+        first_score_file_path = os.path.join(temp_path, 'first.json')
+        best_score_file_path = os.path.join(temp_path, 'best.json')
 
         if 'firstScore' in request.FILES:
             file = request.FILES['firstScore']
@@ -192,6 +189,12 @@ class EndPartDanceView(APIView):
         serializer.is_valid(raise_exception=True)
         serializer.save(feedback_post=FeedbackPost.objects.get(feedback_id=data['feedbackId']),
                         section=section)
+
+        # 로컬에 생긴 폴더 삭제
+        shutil.rmtree(dancer_video_download_folder_path)
+        shutil.rmtree(danceable_video_download_folder_path)
+        shutil.rmtree(result_video_download_folder_path)
+        shutil.rmtree(temp_path)
 
         return Response(status=status.HTTP_200_OK)
 
