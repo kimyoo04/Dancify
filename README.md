@@ -1,8 +1,7 @@
 # 🕺 Dancify
 
 ### 춤을 배우고 싶은 케이팝(K-POP) 팬들을 위한 안무연습도움 서비스
-
-![포스터_최종](https://github.com/AIVLE-School-Third-Big-Project/dancify/assets/124374862/05f88211-d989-4a66-a56f-0cbf9188d598)
+![포스터_최종](https://github.com/AIVLE-School-Third-Big-Project/dancify/assets/124374862/92631c40-9a87-4c6a-adbb-a074aeab4229)
 
 <br>
 
@@ -10,8 +9,8 @@
 1. [프로젝트 소개](#1-프로젝트-소개)
 2. [서비스 주요 기능](#2-서비스-주요-기능)
 3. [프로젝트 아키텍처](#3-프로젝트-아키텍처)
-4. [기술 스택](#4-기술-스택)
-5. [데이터셋](#5-데이터셋)
+4. [데이터셋](#4-데이터셋)
+5. [기술 스택](#5-기술-스택)
 6. [프로젝트 팀원 소개](#6-프로젝트-팀원-소개)
 7. [실행 방법](#7-실행-방법)
 
@@ -48,46 +47,55 @@
 - AI를 통해 실시간 점수와 구간별 점수를 제공받을 수 있습니다.
 - 음성 조작을 통해 보다 편리한 사용자 경험을 제공합니다.
 
-![댄서 게시판 1](https://github.com/Yujun-Won/temp/assets/124374862/25da79e9-ef63-4675-a087-b3219df0e688)
-![댄서 게시판 2](https://github.com/Yujun-Won/temp/assets/124374862/415c4483-b721-4059-8b24-9737153e9643)
-![댄서 게시판 3](https://github.com/Yujun-Won/temp/assets/124374862/bc8d622c-4a59-4c8d-b4e4-eabdda559c46)
-![댄서 게시판 4](https://github.com/Yujun-Won/temp/assets/124374862/5552c922-f950-4960-964a-624f980b756c)
+<img width="2044" alt="댄서게시판1" src="https://github.com/AIVLE-School-Third-Big-Project/dancify/assets/124374862/628803df-67ca-40e8-b293-a7f5ebecadff">
+<img width="2044" alt="댄서게시판2" src="https://github.com/AIVLE-School-Third-Big-Project/dancify/assets/124374862/ce140a06-47bc-4c87-9f46-ef7ae8f1dbc9">
+<img width="2044" alt="댄서게시판3" src="https://github.com/AIVLE-School-Third-Big-Project/dancify/assets/124374862/a0c186a1-00c0-4815-bdf3-45ca3415eefa">
+<img width="2044" alt="댄서게시판4" src="https://github.com/AIVLE-School-Third-Big-Project/dancify/assets/124374862/42bccfe2-0ba8-4000-b3b1-08a90dd4c6bb">
 
 ### **2.2 자랑 게시판**
 
 - 자랑 게시판을 통해 자신이 춘 춤 영상을 공유할 수 있습니다.
 
-![자랑 게시판 1](https://github.com/Yujun-Won/temp/assets/124374862/185c33ee-ffd1-4207-bef2-e3aa2c2f0755)
-![자랑 게시판 2](https://github.com/Yujun-Won/temp/assets/124374862/19c50c3d-a0d5-4814-8a50-f814e874401a)
+<img width="2044" alt="자랑게시판1" src="https://github.com/AIVLE-School-Third-Big-Project/dancify/assets/124374862/2d63b539-7ba9-4a75-8ab0-cbe9cf032510">
+<img width="2044" alt="자랑게시판2" src="https://github.com/AIVLE-School-Third-Big-Project/dancify/assets/124374862/72bdc06f-3d37-4754-95c0-63e1430ebf61">
+
 
 ### **2.3 자유 게시판**
 
 - 자유 게시판을 통해 사람들과 소통할 수 있습니다.
 
-![자유 게시판 1](https://github.com/Yujun-Won/temp/assets/124374862/e3ab3520-9158-42e6-9c14-3b7493348488)
-![자유 게시판 2](https://github.com/Yujun-Won/temp/assets/124374862/8faa7678-e44c-4ce3-b727-485ab7b23be8)
+<img width="2044" alt="자유게시판1" src="https://github.com/AIVLE-School-Third-Big-Project/dancify/assets/124374862/79c8a62e-e195-4efc-838d-672d6fe3813b">
+<img width="2044" alt="자유게시판2" src="https://github.com/AIVLE-School-Third-Big-Project/dancify/assets/124374862/feb06802-c04c-4f0d-b625-b1b201147bd7">
+
 
 ### **2.4 피드백 동영상**
 
 - 자신이 춘 춤 영상을 관리하고 댄서에게 피드백을 요청할 수 있습니다.
 - 신체 부위별 AI 피드백을 받을 수 있습니다.
 
-![피드백 게시판](https://github.com/Yujun-Won/temp/assets/124374862/7a0bedb9-8128-4119-ac47-6fd4066b24c3)
+<img width="2044" alt="피드백게시판1" src="https://github.com/AIVLE-School-Third-Big-Project/dancify/assets/124374862/77f7416d-1ee7-4074-bfa9-7b02c37fc865">
 
 <br>
 
 ## **3. 프로젝트 아키텍처**
 
 ### Infrastructure
-![image](https://github.com/Yujun-Won/temp/assets/124374862/9197c142-218e-410b-b141-463b2536ebe4)
-
+![인프라](https://github.com/AIVLE-School-Third-Big-Project/dancify/assets/124374862/1ad1ec13-5500-43fd-b791-edd9c838adba)
 
 ### ERD
-![image](https://github.com/AIVLE-School-Third-Big-Project/dancify/assets/124374862/38937624-2a60-4f79-85c9-6f95425797ab)
+![ERD](https://github.com/AIVLE-School-Third-Big-Project/dancify/assets/124374862/ab4db85e-9287-44f5-852c-1b9327d72e89)
 
 <br>
 
-## **4. 기술 스택**
+## **4. 데이터셋**
+
+<img width="869" alt="데이터셋" src="https://github.com/AIVLE-School-Third-Big-Project/dancify/assets/124374862/744a3d41-4574-40a0-8ecd-5a5eee11827d">
+
+[데이터셋 페이지로 이동 🚀](https://aihub.or.kr/aihubdata/data/view.do?currMenu=115&topMenu=100&aihubDataSe=realm&dataSetSn=52)
+
+<br>
+
+## **5. 기술 스택**
 
 | 영역 | 기술 |
 | :-: | :-: |
@@ -97,13 +105,6 @@
 | **인프라** | ![Docker](https://img.shields.io/badge/-Docker-2496ED?style=flat-square&logo=Docker&logoColor=white) ![AWS EC2](https://img.shields.io/badge/-AWS%20EC2-232F3E?style=flat-square&logo=Amazon%20AWS&logoColor=white) ![Nginx](https://img.shields.io/badge/-Nginx-009639?style=flat-square&logo=Nginx&logoColor=white) ![AWS Lambda](https://img.shields.io/badge/-AWS%20Lambda-FF9900?style=flat-square&logo=Amazon%20AWS&logoColor=white) |
 | **UI/UX** | ![Figma](https://img.shields.io/badge/-Figma-F24E1E?style=flat-square&logo=Figma&logoColor=white) |
 | **협업** | ![Github](https://img.shields.io/badge/-Github-181717?style=flat-square&logo=GitHub&logoColor=white) ![Discord](https://img.shields.io/badge/-Discord-7289DA?style=flat-square&logo=Discord&logoColor=white) ![Microsoft Teams](https://img.shields.io/badge/-Microsoft%20Teams-6264A7?style=flat-square&logo=Microsoft%20Teams&logoColor=white) |
-
-
-<br>
-
-## **5. 데이터셋**
-![K-POP 안무 영상](https://github.com/AIVLE-School-Third-Big-Project/dancify/assets/124374862/054e2b24-fb6d-43fd-a520-b4ac7fdc9e1b)
-[데이터셋 페이지로 이동 🚀](https://aihub.or.kr/aihubdata/data/view.do?currMenu=115&topMenu=100&aihubDataSe=realm&dataSetSn=52)
 
 <br>
 
