@@ -272,14 +272,12 @@ const selectedSectionsData = isRealMode
   };
 
   return (
-    <div className="row-center w-full gap-10">
-      <div className="row-center h-[700px] w-full">
+      <div className="row-center h-full w-full">
         {/* //! 숏폼 UI 구현 필요 */}
         {/* 스트리밍 영역 */}
         <section
           className={`relative h-0 overflow-hidden rounded-md`}
           style={{
-            width: `${videoDims.width / 2}px`,
             aspectRatio: `${videoDims.width / videoDims.height}`,
             paddingBottom: `${webcamDims.height}px`,
           }}
@@ -292,7 +290,6 @@ const selectedSectionsData = isRealMode
             playing={isPlaying}
             width={"100%"}
             height={"100%"}
-            className="absolute left-0 top-0 h-full w-full"
           />
         </section>
 
@@ -301,6 +298,8 @@ const selectedSectionsData = isRealMode
           <Webcam
             ref={webcamRef}
             mirrored={true}
+            width={"100%"}
+            height={"100%"}
           />
 
           {/* 스캘레톤 매핑 */}
@@ -323,9 +322,9 @@ const selectedSectionsData = isRealMode
               </Button>
             </div>
           ) : count > -1 ? (
-            <div className="absolute bottom-0 z-10 h-full w-full">
+            <div className="col-center absolute top-0 z-10 h-full w-full">
               {/* 카운트 다운 */}
-              <div className="h-32 w-32 rounded-full bg-background">
+              <div className="col-center h-32 w-32 rounded-full bg-background">
                 <span className="text-5xl font-medium">{count}</span>
               </div>
             </div>
@@ -344,6 +343,5 @@ const selectedSectionsData = isRealMode
           </div>
         </section>
       </div>
-    </div>
   );
 }
