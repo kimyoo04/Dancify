@@ -144,7 +144,7 @@ class DancerFeedbackResponseView(APIView):
         for i in range(1, feedback_post_count + 1):
             danceable_feedback_section_id = request.data.get('danceableSectionId{}'.format(i), None)
             if danceable_feedback_section_id is None:
-                return Response( status=status.HTTP_400_BAD_REQUEST)
+                return Response(status=status.HTTP_400_BAD_REQUEST)
             danceable_feedback_section_ids.append(danceable_feedback_section_id)
 
             timestamp = request.data.get('timeStamps{}'.format(i), None)
