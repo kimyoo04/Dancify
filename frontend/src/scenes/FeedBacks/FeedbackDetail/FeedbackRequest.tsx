@@ -1,5 +1,3 @@
-import ReactPlayer from "react-player";
-
 import { useAppSelector } from "@toolkit/hook";
 import { IFeedbackDetail } from "@type/feedbacks";
 

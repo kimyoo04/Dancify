@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import ReactPlayer from "react-player";
 
 import { useAppSelector } from "@toolkit/hook";
@@ -19,6 +19,7 @@ import TogglePlayer from "@components/VideoPlayer/TogglePlayer";
 export default function FeedbackFinished({ data }: { data: IFeedbackDetail }) {
   const playerRef = useRef<ReactPlayer>(null);
   const { sectionIndex } = useAppSelector((state) => state.feedback);
+  const isDancer = useAppSelector(state => state.auth.isDancer)
 
   return (
     <div>
@@ -44,11 +45,52 @@ export default function FeedbackFinished({ data }: { data: IFeedbackDetail }) {
 
                   <AccordionItem value="item-2">
                     <AccordionTrigger className="text-xl">
-                      · 댄서블 영상 및 피드백 내용
+                      {isDancer ? "· 댄서블 영상 및 피드백 내용": "· 나의 영상 및 댄서의 피드백 내용"}
                     </AccordionTrigger>
                     <AccordionContent className="overflow-hidden rounded-md">
                       {section.danceableVideo && (
-                        <TogglePlayer videoUrl={section.danceableVideo} />
+                        <div className="space-y-4">
+                          {/* 원본 비율로 세로로 길게 영상 노출 */}
+                          <div className="overflow-hidden rounded-md sm:hidden">
+                            <ReactPlayer
+                              ref={playerRef}
+                              url={section.danceableVideo}
+                              controls
+                              width={"100%"}
+                              height={"100%"}
+                            />
+                          </div>
+
+                          {/* 세로로 길어지는 것을 줄여서 영상 노출 */}
+                          <div className="space-y-4">
+                            {/* 원본 비율로 세로로 길게 영상 노출 */}
+                            <div className="overflow-hidden rounded-md sm:hidden">
+                              <ReactPlayer
+                                ref={playerRef}
+                                url={data.sections[sectionIndex].danceableVideo}
+                                controls
+                                width={"100%"}
+                                height={"100%"}
+                              />
+                            </div>
+
+                            {/* 세로로 길어지는 것을 줄여서 영상 노출 */}
+                            <div className="hidden overflow-hidden rounded-md sm:block">
+                              <div className="relative pt-[56.25%]">
+                                <ReactPlayer
+                                  ref={playerRef}
+                                  url={
+                                    data.sections[sectionIndex].danceableVideo
+                                  }
+                                  controls
+                                  width="100%"
+                                  height="100%"
+                                  className="absolute left-0 top-0 h-full w-full"
+                                />
+                              </div>
+                            </div>
+                          </div>
+                        </div>
                       )}
 
                       <Separator className="my-4" />
