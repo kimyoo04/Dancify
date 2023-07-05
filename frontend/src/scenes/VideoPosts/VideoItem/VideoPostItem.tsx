@@ -11,8 +11,6 @@ interface VideoPostsProps {
 }
 
 export default function VideoPostItem({ data, href }: VideoPostsProps) {
-  console.log(data.profileImage);
-
   return (
     <Link href={href} className="group transition-all hover:-translate-y-3 ">
       <div className="-space-y-2 rounded-md group-hover:shadow-md">

@@ -46,7 +46,7 @@ export default function Sectiontab({
       </div>
 
       {/* 댄서블인 경우 피드백 요청 완료 버튼 활성화 */}
-      {isDancer && (
+      {!isDancer && (
         <TabsContent value="feedbackRequest" className="m-0">
           <Button
             disabled={
