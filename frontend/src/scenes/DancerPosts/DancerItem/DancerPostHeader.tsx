@@ -8,7 +8,7 @@ export default function DancerPostHeader() {
         <div className="space-y-1">
           <h2 className="text-2xl font-semibold tracking-tight">댄서게시판</h2>
           <p className="text-sm text-muted-foreground">
-            댄서의 안무를 따라하고, 교정받을 수 있습니다.
+            댄서의 안무를 연습하고, 피드백을 받을 수 있습니다.
           </p>
         </div>
 

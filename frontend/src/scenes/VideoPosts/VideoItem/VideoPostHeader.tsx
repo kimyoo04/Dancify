@@ -8,7 +8,7 @@ export default function VideoPostHeader() {
         <div className="space-y-1">
           <h2 className="text-2xl font-semibold tracking-tight">자랑게시판</h2>
           <p className="text-sm text-muted-foreground">
-            동영상을 업로드하여 자랑하는 곳입니다.
+            동영상을 업로드하여 춤을 춘 것을 자랑할 수 있습니다.
           </p>
         </div>
 

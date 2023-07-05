@@ -9,13 +9,20 @@ export default function Feedbacks() {
   const { data, status, error  } = useReadFeedbacks();
 
   return (
-    <div>
+    <div className="space-y-5">
+      <div className="space-y-1">
+        <h2 className="text-xl font-semibold tracking-tight">피드백 동영상</h2>
+        <p className="text-sm text-muted-foreground">
+          Dancify에서 안무 연습한 것을 피드백받으실 수 있습니다.
+        </p>
+      </div>
+
       {status === "loading" ? (
         <div />
       ) : status === "error" ? (
         <>{error && <p>Error: {error.message}</p>}</>
       ) : data ? (
-          <DataTable data={data} columns={columns} />
+        <DataTable data={data} columns={columns} />
       ) : (
         <PostNotFound />
       )}
