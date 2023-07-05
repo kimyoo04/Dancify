@@ -104,32 +104,38 @@ class Command(BaseCommand):
                               "views": lambda x: randint(0, 999)
                           })
 
+        danceable_ids = ['dancable1', 'dancable2', 'user1', 'user2']
+        users = User.objects.filter(user_id__in=danceable_ids)
+
         # 영상 자랑 게시판 더미데이터 생성
         for i in range(2):
             for j in range(9):
                 seeder.add_entity(VideoPost, 1,
                                   {
-                                      "user": lambda x: choice(users),
-                                      "title": lambda x: texts[i],
-                                      "content": texts[i],
-                                      "video": video_urls[i],
-                                      "thumbnail": thumbnail_urls[i],
-                                      "views": lambda x: randint(0, 999)
+                                      "user": choice(users),
+                                      "title": texts[j],
+                                      "content": texts[j],
+                                      "video": video_urls[j],
+                                      "thumbnail": thumbnail_urls[j],
+                                      "views": randint(0, 999)
                                   })
+
+        dancer_ids = ['dancer1', 'dancer2', 'dancer3']
+        users = User.objects.filter(user_id__in=dancer_ids)
 
         # 댄서 게시판 더미데이터 생성
         for i in range(9):
             seeder.add_entity(DancerPost, 1,
                               {
-                                  "user": lambda x: choice(users),
+                                  "user": choice(users),
                                   "title": texts[i],
                                   "content": texts[i],
                                   "video": video_urls[i],
                                   "thumbnail": thumbnail_urls[i],
                                   "keypoints": keypoints_urls[0],
                                   "genre": 'kpop' if i != 0 else 'basic',
-                                  "feedback_price": lambda x: randint(10, 99) * 1000,
-                                  "views": lambda x: randint(0, 999)
+                                  "feedback_price": randint(10, 99) * 1000,
+                                  "views": randint(0, 999)
                               })
 
         seeder.execute()
