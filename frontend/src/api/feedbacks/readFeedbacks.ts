@@ -17,7 +17,8 @@ export const useReadFeedbacks = () => {
   return useQuery<IFeedback[], AxiosError>({
     queryKey: [`/feedbacks`],
     queryFn: readFeedbacks,
-    staleTime: 1000 * 60 * 15, // 15분
+    staleTime: 1000 * 60 * 5, // 5분
+    refetchOnMount: "always",
     onError: (err) => {
       console.error("🚀 useReadFeedbacks.ts", err);
     },

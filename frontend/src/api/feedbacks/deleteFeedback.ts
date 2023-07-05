@@ -27,9 +27,7 @@ export const useDeleteFeedback = () => {
         queryKey: [`/feedbacks/${feedbackId}`],
       });
       await queryClient.invalidateQueries({
-        queryKey: [
-          `/feedbacks`,
-        ],
+        queryKey: [`/feedbacks`],
       });
 
       router.push(`/feedbacks`);

@@ -8,12 +8,29 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
-  DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from "@components/ui/dropdown-menu";
 
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@components/ui/alert-dialog";
+import { useDeleteFeedback } from "@api/feedbacks/deleteFeedback";
+import { TFeedbackId } from "@type/feedbacks";
+
 // 더보기 버튼의 구성요소
-export function DataTableRowActions() {
+export function DataTableRowActions({ feedbackId }: { feedbackId : TFeedbackId}) {
+  const { mutateAsync } = useDeleteFeedback()
+
+
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -26,24 +43,29 @@ export function DataTableRowActions() {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-[160px]">
-        <DropdownMenuItem>
-          <Pen className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
-          Edit
-        </DropdownMenuItem>
-        <DropdownMenuItem>
-          <Copy className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
-          Make a copy
-        </DropdownMenuItem>
-        <DropdownMenuItem>
-          <Star className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
-          Favorite
-        </DropdownMenuItem>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem>
-          <Trash className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
-          Delete
-          <DropdownMenuShortcut>⌘⌫</DropdownMenuShortcut>
-        </DropdownMenuItem>
+        <AlertDialog>
+          <AlertDialogTrigger className="relative flex w-full cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none transition-colors hover:bg-muted focus:bg-accent focus:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
+            <Trash className="mr-2 h-3.5 w-3.5 text-muted-foreground/70" />
+            피드백 삭제
+          </AlertDialogTrigger>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>정말로 삭제하시겠습니까?</AlertDialogTitle>
+              <AlertDialogDescription>
+                피드백을 삭제하면 복구할 수 없습니다.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>취소</AlertDialogCancel>
+              <AlertDialogAction
+                className="bg-destructive"
+                onClick={async () => await mutateAsync(feedbackId)}
+              >
+                삭제
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
       </DropdownMenuContent>
     </DropdownMenu>
   );

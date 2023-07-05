@@ -1,4 +1,5 @@
 import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
+
 import { useAppDispatch, useAppSelector } from "@toolkit/hook";
 import { feedbackActions } from "@features/feedback/feedbackSlice";
 import { IFeedbackDetail } from "@type/feedbacks";
@@ -16,30 +17,32 @@ import UploadVideo from "./FeedbackDetailItem/UploadVideo";
 import TimeStampForm from "./FeedbackDetailItem/TimeStampForm";
 import FeedbackContent from "./FeedbackDetailItem/FeedbackContent";
 import TogglePlayer from "@components/VideoPlayer/TogglePlayer";
+import ReactPlayer from "react-player";
 
 // 2. 댄서블의 요청과 댄서의 응답이 필요한 컴포넌트
 export default function FeedbackWaiting({
   data,
-  videoFile,
-  setVideoFile,
+  videoFileArr,
+  setVideoFileArr,
 }: {
   data: IFeedbackDetail;
-  videoFile: {
+  videoFileArr: {
     [key: string]: { file: File ; filename: string };
   };
-  setVideoFile: Dispatch<
+  setVideoFileArr: Dispatch<
     SetStateAction<{
       [key: string]: { file: File ; filename: string };
     }>
   >;
 }) {
   const dispatch = useAppDispatch();
+  const isDancer = useAppSelector((state) => state.auth.isDancer);
   const { sectionIndex } = useAppSelector((state) => state.feedback);
   const videoRef = useRef<HTMLVideoElement>(null);
   const [timeStamp, setTimeStamp] = useState<number>(0);
 
-  const videoPreview = videoFile[String(sectionIndex)]
-    ? URL.createObjectURL(videoFile[String(sectionIndex)].file)
+  const videoPreview = videoFileArr[String(sectionIndex)]
+    ? URL.createObjectURL(videoFileArr[String(sectionIndex)].file)
     : undefined;
 
   // 동영상 메모리 누수 처리
@@ -72,14 +75,45 @@ export default function FeedbackWaiting({
                   </AccordionItem>
                   <AccordionItem value="item-2">
                     <AccordionTrigger className="text-xl">
-                      {data.isDancer ? "· 댄서블 영상" : "· 나의 영상"}
+                      {isDancer
+                        ? "· 댄서블 영상에 타임스탬프 입력"
+                        : "· 나의 영상"}
                     </AccordionTrigger>
                     <AccordionContent className="overflow-hidden rounded-md">
                       {section.danceableVideo && (
-                        <TogglePlayer videoUrl={section.danceableVideo} />
+                        <div className="space-y-4">
+                          {/* 원본 비율로 세로로 길게 영상 노출 */}
+                          <div className="overflow-hidden rounded-md sm:hidden">
+                            <ReactPlayer
+                              url={section.danceableVideo}
+                              controls
+                              width={"100%"}
+                              height={"100%"}
+                              onProgress={(state) => {
+                                setTimeStamp(state.playedSeconds);
+                              }}
+                            />
+                          </div>
+
+                          {/* 세로로 길어지는 것을 줄여서 영상 노출 */}
+                          <div className="hidden overflow-hidden rounded-md sm:block">
+                            <div className="relative pt-[56.25%]">
+                              <ReactPlayer
+                                url={section.danceableVideo}
+                                controls
+                                width="100%"
+                                height="100%"
+                                className="absolute left-0 top-0 h-full w-full"
+                                onProgress={(state) => {
+                                  setTimeStamp(state.playedSeconds);
+                                }}
+                              />
+                            </div>
+                          </div>
+                        </div>
                       )}
 
-                      {data.isDancer && (
+                      {isDancer && (
                         <>
                           <Separator className="mb-4 mt-8" />
 
@@ -104,7 +138,7 @@ export default function FeedbackWaiting({
                   </AccordionItem>
 
                   {/* //! 댄서인 경우에만 노출 */}
-                  {data.isDancer && (
+                  {isDancer && (
                     <>
                       <AccordionItem value="item-4">
                         <AccordionTrigger className="text-xl">
@@ -114,15 +148,15 @@ export default function FeedbackWaiting({
                           {/* 영상 드롭 영역 */}
                           <UploadVideo
                             videoRef={videoRef}
-                            videoFile={videoFile}
-                            setVideoFile={setVideoFile}
+                            videoFileArr={videoFileArr}
+                            setVideoFileArr={setVideoFileArr}
                           />
 
                           <div className="my-4"></div>
 
                           {/* 동영상 미리보기 */}
                           <div className="overflow-hidden rounded-md">
-                            {String(sectionIndex) in videoFile &&
+                            {String(sectionIndex) in videoFileArr &&
                               videoPreview && (
                                 <TogglePlayer videoUrl={videoPreview} />
                               )}

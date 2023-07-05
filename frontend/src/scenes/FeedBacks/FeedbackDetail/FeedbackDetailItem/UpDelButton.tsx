@@ -35,7 +35,7 @@ export default function UpDelButton({feedbackId}: { feedbackId: TFeedbackId }) {
 
       {/* 수정 삭제 버튼 */}
       {isToggle ? (
-        <div className="absolute right-0 z-10 w-36 gap-2 rounded-md border bg-background p-2">
+        <div className="absolute right-0 z-10 rounded-md border bg-background p-2">
           {isDel ? (
             <div className="row-between w-full">
               <Button variant={"destructive"} onClick={() => mutateAsync(feedbackId)}>
@@ -46,14 +46,9 @@ export default function UpDelButton({feedbackId}: { feedbackId: TFeedbackId }) {
               </Button>
             </div>
           ) : (
-            <div className="row-between w-full">
-              <Link href={`/feedbacks/modify/${feedbackId}`}>
-                <Button variant={"outline"}>수정</Button>
-              </Link>
               <Button variant={"destructive"} onClick={() => setIsDel(true)}>
                 삭제
               </Button>
-            </div>
           )}
         </div>
       ) : null}

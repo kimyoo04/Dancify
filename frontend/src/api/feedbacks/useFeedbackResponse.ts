@@ -3,9 +3,9 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { TFeedbackId } from "@type/feedbacks";
 
 // 자유 게시판 댓글
-export const feedbackResponse = async (formData: FormData) => {
+export const feedbackResponse = async ({ feedbackId, formData }: {feedbackId: TFeedbackId, formData: FormData}) => {
   try {
-    await axios.post(`/feedbacks/danceable`, formData);
+    await axios.post(`/feedbacks/dancer/${feedbackId}`, formData);
     return true;
   } catch (err) {
     return false;
@@ -13,14 +13,14 @@ export const feedbackResponse = async (formData: FormData) => {
 };
 
 // 자유 게시판 댓글 Mutation
-export const useFeedbackResponse = (feedbackId: TFeedbackId) => {
+export const useFeedbackResponse = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: feedbackResponse,
-    onSuccess: async () => {
+    onSuccess: async (_, variables) => {
       await queryClient.invalidateQueries({
-        queryKey: [`/feedbacks/${feedbackId}`],
+        queryKey: [`/feedbacks/${variables.feedbackId}`],
       });
     },
     onError: (err) => {

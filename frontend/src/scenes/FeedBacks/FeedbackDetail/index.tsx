@@ -15,7 +15,7 @@ import PostNotFound from "@scenes/Posts/PostItem/PostNotFound";
 
 export default function FeedbackDetail({ id }: { id: string }) {
   const dispatch = useAppDispatch();
-  const [videoFile, setVideoFile] = useState<{
+  const [videoFileArr, setVideoFileArr] = useState<{
     [key: string]: { file: File; filename: string };
   }>({});
 
@@ -55,17 +55,19 @@ export default function FeedbackDetail({ id }: { id: string }) {
         <>{error && <p>Error: {error.message}</p>}</>
       ) : data ? (
         <>
+          {/* 상단 영역 */}
           <Header data={data} />
           <NavTab status={data.status} />
-          <Sectiontab data={data} />
+          <Sectiontab data={data} feedbackId={id} videoFileArr={videoFileArr} />
 
+          {/* 내용 영역 */}
           <AiFeedback data={data} />
           {data.status === "신청 전" && <FeedbackRequest data={data} />}
           {data.status === "대기 중" && (
             <FeedbackWaiting
               data={data}
-              videoFile={videoFile}
-              setVideoFile={setVideoFile}
+              videoFileArr={videoFileArr}
+              setVideoFileArr={setVideoFileArr}
             />
           )}
           {data.status === "완료" && <FeedbackFinished data={data} />}

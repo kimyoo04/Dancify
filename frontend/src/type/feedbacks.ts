@@ -7,7 +7,6 @@ import { TSectionId } from "./practice";
 export interface IFeedbackState {
   sectionIndex: TSectionIndex;
   sections: ISection[];
-  dancerMessage: IDancerMessage[]; // 기본 값으로 인해 따로 분리
 }
 
 export interface ISection {
@@ -15,7 +14,7 @@ export interface ISection {
   danceableVideo: TVideo;
   danceableMessage: TMessage;
   dancerVideo: TVideo;
-  dancerMessage: IDancerMessage[]; // 기본 값으로 인해 따로 분리
+  dancerMessage: IDancerMessage[];
 }
 
 // 피드백 게시글 목록
@@ -39,7 +38,6 @@ export interface IFeedbackDetail {
   nickname: TNickname; // 댄서블 닉네임 or 댄서 닉네임
   userId: TUserId; // 댄서블 아이디
   status: TStatus;
-  isDancer: TIsDancer;
   sections: IFeedbackSection[]; // 구간별 피드백 질문과 답변
 }
 

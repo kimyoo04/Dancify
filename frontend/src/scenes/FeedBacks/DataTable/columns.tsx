@@ -10,6 +10,8 @@ import { DataTableColumnHeader } from "./data-table-column-header";
 import { DataTableRowActions } from "./data-table-row-actions";
 import { IFeedback } from "@type/feedbacks";
 import { timeYmd } from "@util/dateTime";
+import { store } from "@toolkit/store";
+import Link from "next/link";
 
 // 테이블의 컬럼과 셀 정의
 export const columns: ColumnDef<IFeedback>[] = [
@@ -40,7 +42,7 @@ export const columns: ColumnDef<IFeedback>[] = [
       <DataTableColumnHeader column={column} title="썸네일" />
     ),
     cell: ({ row }) => (
-      <div className="w-[80px]">
+      <div className="w-[50px]">
         <picture>
           <source srcSet={row.getValue("thumbnail")} type="image/jpg" />
           <img
@@ -62,11 +64,11 @@ export const columns: ColumnDef<IFeedback>[] = [
     ),
     cell: ({ row }) => {
       return (
-        <div className="flex space-x-2">
+        <Link href={`/feedbacks/${row.original.id}`} className="flex space-x-2">
           <Badge variant="outline" className="flex-shrink-0">
             {row.getValue("genre")}
           </Badge>
-        </div>
+        </Link>
       );
     },
     filterFn: (row, id, value) => {
@@ -81,25 +83,32 @@ export const columns: ColumnDef<IFeedback>[] = [
     ),
     cell: ({ row }) => {
       return (
-        <div className="flex space-x-2">
+        <Link href={`/feedbacks/${row.original.id}`} className="flex space-x-2">
           <span className="min-w-[160px] max-w-[500px] font-medium">
             {row.getValue("title")}
           </span>
-        </div>
+        </Link>
       );
     },
     enableSorting: false,
   },
   {
     accessorKey: "nickname",
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="댄서" />
-    ),
+    header: ({ column }) => {
+      const isDancer = store.getState().auth.isDancer;
+
+      return (
+        <DataTableColumnHeader
+          column={column}
+          title={isDancer ? "댄서블" : "댄서"}
+        />
+      );
+    },
     cell: ({ row }) => {
       return (
-        <div className="flex w-[80px] items-center">
+        <Link href={`/feedbacks/${row.original.id}`} className="flex w-[80px] items-center">
           <span>{row.getValue("nickname")}</span>
-        </div>
+        </Link>
       );
     },
     enableSorting: false,
@@ -119,12 +128,12 @@ export const columns: ColumnDef<IFeedback>[] = [
       }
 
       return (
-        <div className="flex w-[80px] items-center">
+        <Link href={`/feedbacks/${row.original.id}`} className="flex w-[80px] items-center">
           {status.icon && (
             <status.icon className="mr-2 h-4 w-4 text-muted-foreground" />
           )}
           <span>{status.label}</span>
-        </div>
+        </Link>
       );
     },
     filterFn: (row, id, value) => {
@@ -139,15 +148,17 @@ export const columns: ColumnDef<IFeedback>[] = [
     ),
     cell: ({ row }) => {
       return (
-        <div className="flex space-x-2">
+        <Link href={`/feedbacks/${row.original.id}`} className="flex space-x-2">
           <span>{timeYmd(row.getValue("createDate"))}</span>
-        </div>
+        </Link>
       );
     },
   },
   // 더보기 버튼의 구성요소
   {
     id: "actions",
-    cell: () => <DataTableRowActions />,
+    cell: ({ row }) => (
+      <DataTableRowActions feedbackId={row.original.id} />
+    )
   },
 ];
