@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 export default function SpeechLoading() {
   return (
     <motion.div
-      className="flex h-10 w-32 justify-around"
+      className="flex h-4 w-32 justify-around"
       variants={dotContainerVariants}
       initial="initial"
       animate="animate"

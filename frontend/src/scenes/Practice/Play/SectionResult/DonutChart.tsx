@@ -69,7 +69,7 @@ export default function DonutChart() {
       const scoreText = bestScore;
       const xCoor = chart.getDatasetMeta(0)?.data[0].x;
       const yCoor = chart.getDatasetMeta(0)?.data[0].y;
-      const fontSize = (yCoor / 50).toFixed(2); // 동적 폰트사이즈 조절
+      const fontSize = (yCoor / 60).toFixed(2); // 동적 폰트사이즈 조절
       ctx.font = `bold ${fontSize}em sans-serif`;
       ctx.fillStyle = "black";
       ctx.textAlign = "center";
