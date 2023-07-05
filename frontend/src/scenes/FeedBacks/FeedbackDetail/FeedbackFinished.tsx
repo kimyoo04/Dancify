@@ -19,6 +19,7 @@ import TogglePlayer from "@components/VideoPlayer/TogglePlayer";
 export default function FeedbackFinished({ data }: { data: IFeedbackDetail }) {
   const playerRef = useRef<ReactPlayer>(null);
   const { sectionIndex } = useAppSelector((state) => state.feedback);
+  const isDancer = useAppSelector(state => state.auth.isDancer)
 
   return (
     <div>
@@ -44,7 +45,7 @@ export default function FeedbackFinished({ data }: { data: IFeedbackDetail }) {
 
                   <AccordionItem value="item-2">
                     <AccordionTrigger className="text-xl">
-                      · 댄서블 영상 및 피드백 내용
+                      {isDancer ? "· 댄서블 영상 및 피드백 내용": "· 나의 영상 및 댄서의 피드백 내용"}
                     </AccordionTrigger>
                     <AccordionContent className="overflow-hidden rounded-md">
                       {section.danceableVideo && (
