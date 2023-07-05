@@ -1,7 +1,7 @@
 # 🕺 Dancify
 
-### 춤을 배우고 싶은 케이팝(K-POP) 팬들을 위한 안무연습도움 서비스
-![포스터_최종](https://github.com/AIVLE-School-Third-Big-Project/dancify/assets/124374862/92631c40-9a87-4c6a-adbb-a074aeab4229)
+### 춤을 배우고 싶은 케이팝(K-POP) 팬들을 위한 안무 연습 도움 서비스
+![포스터_최종](https://github.com/AIVLE-School-Third-Big-Project/dancify/assets/124374862/4f6c64a1-10a8-4ba6-b58b-3491d4c676ca)
 
 <br>
 
@@ -13,6 +13,8 @@
 5. [기술 스택](#5-기술-스택)
 6. [프로젝트 팀원 소개](#6-프로젝트-팀원-소개)
 7. [실행 방법](#7-실행-방법)
+
+<br>
 
 ## **1. 프로젝트 소개**
 
@@ -93,6 +95,7 @@
 
 [데이터셋 페이지로 이동 🚀](https://aihub.or.kr/aihubdata/data/view.do?currMenu=115&topMenu=100&aihubDataSe=realm&dataSetSn=52)
 
+
 <br>
 
 ## **5. 기술 스택**
@@ -121,13 +124,13 @@
     <td align="center"><a href="https://github.com/Leechansol"><img src="https://avatars.githubusercontent.com/u/18729932?v=4" width="100px;"></td>
   </tr>
   <tr>
-    <td align="center"><b>김유 (팀장)</b></td>
-    <td align="center"><b>박수민</b></td>
-    <td align="center"><b>장혁</b></td>
-    <td align="center"><b>조해민</b></td>
-    <td align="center"><b>박희원</b></td>
-    <td align="center"><b>원유준</b></td>
-    <td align="center"><b>이찬솔</b></td>
+    <td align="center"><b><a href="https://github.com/kimyoo04">김유 (팀장)</a></b></td>
+    <td align="center"><b><a href="https://github.com/bfmeef">박수민</a></b></td>
+    <td align="center"><b><a href="https://github.com/wath1457">장혁</a></b></td>
+    <td align="center"><b><a href="https://github.com/dptcldpa">조해민</a></b></td>
+    <td align="center"><b><a href="https://github.com/heewon00">박희원</a></b></td>
+    <td align="center"><b><a href="https://github.com/Yujun-Won">원유준</a></b></td>
+    <td align="center"><b><a href="https://github.com/Leechansol">이찬솔</a></b></td>
   </tr>
   <tr>
     <td align="center"><b>FE</b></td>
