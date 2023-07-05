@@ -9,37 +9,7 @@ services:
     volumes:
       - ./backend:/usr/src/django
     command: >
-      sh -c "rm -rf /usr/src/django/accounts/migrations/* &&
-            touch /usr/src/django/accounts/migrations/__init__.py &&
-            rm -rf /usr/src/django/comments/migrations/* &&
-            touch /usr/src/django/comments/migrations/__init__.py &&
-            rm -rf /usr/src/django/dance/migrations/* &&
-            touch /usr/src/django/dance/migrations/__init__.py &&
-            rm -rf /usr/src/django/feedbacks/migrations/* &&
-            touch /usr/src/django/feedbacks/migrations/__init__.py &&
-            rm -rf /usr/src/django/like/migrations/* &&
-            touch /usr/src/django/like/migrations/__init__.py &&
-            rm -rf /usr/src/django/posts/migrations/* &&
-            touch /usr/src/django/posts/migrations/__init__.py &&
-            rm -rf /usr/src/django/search_history/migrations/* &&
-            touch /usr/src/django/search_history/migrations/__init__.py &&
-            rm -rf /usr/src/django/video_section/migrations/* &&
-            touch /usr/src/django/video_section/migrations/__init__.py &&
-            rm -rf /usr/src/django/videos/migrations/* &&
-            touch /usr/src/django/videos/migrations/__init__.py &&
-            rm -rf /usr/src/django/view_history/migrations/* &&
-            touch /usr/src/django/view_history/migrations/__init__.py &&
-            python manage.py makemigrations &&
-            python manage.py migrate &&
-            python manage.py flush --no-input &&
-            python manage.py seed_users &&
-            python manage.py seed_posts &&
-            python manage.py seed_comments &&
-            python manage.py seed_like &&
-            python manage.py seed_view_history &&
-            python manage.py seed_video_section &&
-            python manage.py seed_search &&
-            python manage.py runserver 0.0.0.0:8000"
+      sh -c "python manage.py runserver 0.0.0.0:8000"
     environment:
       DJANGO_SECRET_KEY: ${DJANGO_SECRET_KEY}
       DJANGO_TIME_ZONE: ${DJANGO_TIME_ZONE}
