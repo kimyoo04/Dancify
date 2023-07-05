@@ -91,7 +91,7 @@ export default function DanceablePlayer({
       <div className="w-full space-y-1 rounded-md border bg-white p-4 text-black">
         <div>
           <h2 className="mb-4 text-xl font-bold">
-            신체부위 별 댄서와 다른 구간
+            신체 부위별 댄서와 다른 구간
           </h2>
           <Separator className="mb-3" />
         </div>

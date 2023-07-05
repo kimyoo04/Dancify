@@ -284,7 +284,6 @@ const selectedSectionsData = isRealMode
           onProgress={(state) => {
             setProgress(state.played);
           }}
-          muted
         />
 
         {/* 진행 바 영역 */}
