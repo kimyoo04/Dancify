@@ -1,4 +1,3 @@
-import { Separator } from "@components/ui/separator";
 import StackedBarChart from "./StackedBarChart";
 import { useAppSelector } from "@toolkit/hook";
 
@@ -17,7 +16,7 @@ export default function ScoreBoard() {
           <StackedBarChart />
         </div>
 
-        <ul className="row-center m-0 h-full w-full p-2 md:w-1/3 md:flex-col md:items-start">
+        <ul className="col-center sm:flex-row gap-2 m-0 h-full w-full p-2 md:w-1/3 md:flex-col md:items-start">
           {sectionPracticeArr.length > 0 ? (
             sectionPracticeArr.map((section, index) => {
               return (
@@ -25,7 +24,7 @@ export default function ScoreBoard() {
                   key={section.sectionId}
                   className="col-start w-full rounded-md border px-4 py-2"
                 >
-                  <span className="font-bold">- {index + 1} 구간 </span>
+                  <span className="font-bold">{index + 1} 구간 </span>
                   <span className="text-sm">
                     최초 점수 : {section.firstScore}
                   </span>
