@@ -43,7 +43,6 @@ class TokenValidateMiddleware(MiddlewareMixin):
                     return response
 
                 elif refresh_token is None:
-                    print('리프레쉬 토큰x')
                     return JsonResponse({'messsage':
                                          '리프레쉬 토큰이 존재하지 않아 요청이 거절되었습니다.'})
 
@@ -68,16 +67,11 @@ class TokenRefreshMiddleware(MiddlewareMixin):
                 refresh_token = request.COOKIES['Refresh-Token']
 
                 user_info = decode_refresh_token(refresh_token)
-                print('토큰 재발급 진행')
-                print(user_info)
 
                 new_refresh_token, new_access_token = \
                     generate_token(user_info['userId'], user_info)
 
                 response = set_cookies_to_response(response, new_refresh_token, new_access_token)
-
-                print('발급된 리프레쉬 토큰: ', new_refresh_token)
-                print('발급된 엑세스 토큰', new_access_token)
 
             except KeyError:
                 # 쿠키와 토큰의 만료시간이 같으므로
