@@ -33,7 +33,7 @@ export function cosineDistanceMatching(
   const cosSimilarity = cosineSimilarity(vectorPose1XY, vectorPose2XY);
   const score = Math.sqrt(2 * (1 - cosSimilarity));
   const scaledScore = 100 - (Math.round((score / Math.sqrt(2)) * 10000) / 100);
-  console.log('점수',scaledScore);
+  // console.log('점수',scaledScore);
   return scaledScore;
 }
 
