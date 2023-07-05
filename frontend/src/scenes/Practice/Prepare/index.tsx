@@ -29,6 +29,7 @@ import StandByModal from "./StandByModal";
 import { Expand } from "lucide-react";
 import Loading from "@components/Loading";
 import Logo from "@components/Logo";
+import Image from "next/image";
 
 export default function Prepare({
   data,
@@ -121,7 +122,7 @@ export default function Prepare({
             <div className="col-center h-full w-full">
               <div className="col-between h-[80%] w-full">
                 <div>
-                  <Loading />
+                  <Image src={"/images/character.png"} width={200} height={200}  alt="character"/>
                 </div>
 
                 <div className="col-center">
