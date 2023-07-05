@@ -13,8 +13,8 @@ export const updateProfile = async (data: IProfileInfoForm) => {
     if (data.profileImage) profileData.profileImage = data.profileImage;
 
     const response = await axios.patch("/auth/profile", profileData);
-    console.log(response.data);
-    return response.data;
+    console.log("🚀 profileInfo.tsx", response.data);
+    return true;
   } catch (err) {
     console.log("🚀 profileInfo.tsx", err);
     return false;

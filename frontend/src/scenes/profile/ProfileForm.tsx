@@ -17,16 +17,19 @@ import {
 import { Button } from "@components/ui/button";
 import { Input } from "@components/ui/input";
 import { Textarea } from "@components/ui/textarea";
-
 import { useToast } from "@components/ui/use-toast";
-import { readProfile } from "@api/auth/readProfile";
-import { useEffect, useState } from "react";
-import Image from "next/image";
-import { updateProfile } from "@api/auth/updateProfile";
+
 import { useAppSelector } from "@toolkit/hook";
+import { readProfile } from "@api/auth/readProfile";
+import { updateProfile } from "@api/auth/updateProfile";
 import encodeFileToBase64 from "@util/encodeFileToBase64";
 
+import Image from "next/image";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+
 export default function ProfileForm() {
+  const router = useRouter()
   const [isLoading] = useState<boolean>(false);
   const [imageUrl, setImageUrl] = useState<string | undefined>("");
   const [imageFile, setImageFile] = useState<File | undefined>();
@@ -60,7 +63,7 @@ export default function ProfileForm() {
         const { nickname, email, description } = data;
         form.setValue("nickname", nickname);
         form.setValue("email", email);
-       {description ?  form.setValue("description", description): form.setValue("description", undefined)}
+        {description ?  form.setValue("description", description): form.setValue("description", undefined)}
         return;
       }
     }
@@ -80,10 +83,9 @@ export default function ProfileForm() {
       if (data.profileImage)
         profileData.profileImage = await encodeFileToBase64(data.profileImage);
 
-      console.log(profileData);
       // 프로필 정보 수정 요청
-      await updateProfile(profileData);
-
+      const isUpdated = await updateProfile(profileData);
+      isUpdated && router.reload()
       toast({
         title: "Success",
         description: "성공적으로 프로필 정보가 수정되었습니다.",
@@ -98,9 +100,10 @@ export default function ProfileForm() {
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
         {/* 프로필 이미지 미리보기 */}
         <div className="relative h-20 w-20 overflow-hidden rounded-full">
+          {/* 프로필 이미지가 있을 때 프로필이미지 */}
           {!imagePreview && imageUrl ? (
             <Image src={imageUrl} alt="preview" width={80} height={80} />
-          ) : (
+          ) :  !imagePreview ? (
             <Image
               src={"/images/avatar.png"}
               alt="profile_image"
@@ -108,11 +111,7 @@ export default function ProfileForm() {
               height={80}
               priority
             />
-          )}
-
-          {imagePreview && (
-            <Image src={imagePreview} alt="preview" width={80} height={80} />
-          )}
+          ): <Image src={imagePreview} alt="preview" width={80} height={80} />}
         </div>
 
         <div className="h-20 w-80 cursor-pointer">
