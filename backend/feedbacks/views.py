@@ -136,24 +136,34 @@ class DancerFeedbackResponseView(APIView):
         if not is_dancer:
             return Response(status=status.HTTP_403_FORBIDDEN)
 
+        # 구간 개수 구하기
+        feedback_post_count = DanceableFeedback.objects.filter(feedback_post__feedback_id=feedback_id).count()
+
         # 폼 데이터에서 데이터를 꺼내 리스트에 저장
         danceable_feedback_section_ids, timestamps, feedbacks, videos = [], [], [], []
-        for i in range(1, 6):
+        for i in range(1, feedback_post_count + 1):
             danceable_feedback_section_id = request.data.get('danceableSectionId{}'.format(i), None)
-            if danceable_feedback_section_id is not None:
-                danceable_feedback_section_ids.append(danceable_feedback_section_id)
+            if danceable_feedback_section_id is None:
+                return Response(status=status.HTTP_400_BAD_REQUEST)
+            danceable_feedback_section_ids.append(danceable_feedback_section_id)
 
             timestamp = request.data.get('timeStamps{}'.format(i), None)
-            if timestamp is not None:
-                timestamps.append(timestamp)
+            if timestamp is None:
+                return Response(status=status.HTTP_400_BAD_REQUEST)
+            timestamps.append(timestamp)
 
             feedback = request.data.get('feedbacks{}'.format(i), None)
-            if feedback is not None:
-                feedbacks.append(feedback)
+            if feedback is None:
+                return Response(status=status.HTTP_400_BAD_REQUEST)
+            feedbacks.append(feedback)
 
             video = request.data.get('video{}'.format(i), None)
-            if video is not None:
-                videos.append(video)
+            if video is None:
+                return Response(status=status.HTTP_400_BAD_REQUEST)
+            videos.append(video)
+
+        if feedback_post_count != len(danceable_feedback_section_ids):
+            return Response(len(danceable_feedback_section_ids), status=status.HTTP_400_BAD_REQUEST)
 
         for i in range(len(danceable_feedback_section_ids)):
             # 타임스탬프 값과 피드백 값이 구분자로 한꺼번에 전달되므로
