@@ -16,6 +16,7 @@ import * as poseDetection from "@tensorflow-models/pose-detection";
 import { danceableBodyCheck, runMovenet } from "@ai/movenet";
 import { Button } from "@components/ui/button";
 import readDancerJson from "@api/feedbacks/readDancerJson";
+import {motion } from "framer-motion";
 
 export default function SectionPlay({
   data,
@@ -223,6 +224,7 @@ const selectedSectionsData = isRealMode
     if (isFinished) stopRecording();
   }, [isPlaying, isFinished, startRecording, stopRecording]);
 
+  // movenet 실행
   useEffect(() => {
     if (isFullBody && dancerJsonData) {
       const timer = setTimeout(async () => {
@@ -272,76 +274,77 @@ const selectedSectionsData = isRealMode
   };
 
   return (
-      <div className="row-center h-full w-full">
-        {/* //! 숏폼 UI 구현 필요 */}
-        {/* 스트리밍 영역 */}
-        <section
-          className={`relative h-0 overflow-hidden rounded-md`}
+    <div className="row-center h-[700px] w-full gap-4">
+      {/* //! 숏폼 UI 구현 필요 */}
+      {/* 스트리밍 영역 */}
+      <section
+        className={`relative h-0 overflow-hidden rounded-md`}
+        style={{
+          width: `${webcamDims.height * (9 / 16)}px`,
+          aspectRatio: `${9 / 16}`,
+          paddingBottom: `${webcamDims.height}px`,
+        }}
+      >
+        <ReactPlayer
+          ref={playerRef}
+          url={selectedSectionsData.map((section) => section.video)[playIndex]}
+          playing={isPlaying}
+          width={"100%"}
+          height={"100%"}
+          className="absolute left-0 top-0 h-full w-full"
+        />
+      </section>
+
+      <section className="relative overflow-hidden rounded-md">
+        {/* 웹캠 영상 */}
+        <Webcam ref={webcamRef} mirrored={true} />
+
+        {/* 스캘레톤 매핑 */}
+        <canvas
+          ref={canvasRef}
           style={{
-            aspectRatio: `${videoDims.width / videoDims.height}`,
-            paddingBottom: `${webcamDims.height}px`,
+            transform: `scaleX(-1)`, // 거울모드
           }}
-        >
-          <ReactPlayer
-            ref={playerRef}
-            url={
-              selectedSectionsData.map((section) => section.video)[playIndex]
-            }
-            playing={isPlaying}
-            width={"100%"}
-            height={"100%"}
-          />
-        </section>
+          className={`absolute top-0 z-10 h-full w-full`}
+        />
 
-        <section className="relative overflow-hidden rounded-md">
-          {/* 웹캠 영상 */}
-          <Webcam
-            ref={webcamRef}
-            mirrored={true}
-            width={"100%"}
-            height={"100%"}
-          />
-
-          {/* 스캘레톤 매핑 */}
-          <canvas
-            ref={canvasRef}
-            style={{
-              transform: `scaleX(-1)`, // 거울모드
-            }}
-            className={`absolute top-0 z-10 h-full w-full`}
-          />
-
-          {!isFullBody ? (
-            <div className="absolute top-0 z-10 flex h-full w-full items-end justify-end gap-2 pb-3 pr-3">
-              {/* 전신 메시지 */}
-              <p className="col-center rounded-md bg-background px-4 py-2">
-                전신이 보이도록 뒤로 이동해주세요.
-              </p>
-              <Button onClick={() => dispatch(practiceActions.checkFullBody())}>
-                강제 시작
-              </Button>
-            </div>
-          ) : count > -1 ? (
-            <div className="col-center absolute top-0 z-10 h-full w-full">
-              {/* 카운트 다운 */}
-              <div className="col-center h-32 w-32 rounded-full bg-background">
-                <span className="text-5xl font-medium">{count}</span>
-              </div>
-            </div>
-          ) : null}
-
-          {/* 평가 UI 영역 */}
-          <div className="col-center absolute bottom-4 left-4 z-10">
-            {poseMessage !== "" && (
-              <span
-                className={`text-lg font-medium`}
-                style={{ color: messageColor[poseMessage] }}
-              >
-                {poseMessage}
-              </span>
-            )}
+        {!isFullBody ? (
+          <div className="absolute top-0 z-10 flex h-full w-full items-end justify-end gap-2 pb-3 pr-3">
+            {/* 전신 메시지 */}
+            <p className="col-center rounded-md bg-background px-4 py-2">
+              전신이 보이도록 뒤로 이동해주세요.
+            </p>
+            <Button onClick={() => dispatch(practiceActions.checkFullBody())}>
+              강제 시작
+            </Button>
           </div>
-        </section>
-      </div>
+        ) : count > -1 ? (
+          <div className="col-center absolute top-0 z-10 h-full w-full">
+            {/* 카운트 다운 */}
+            <div className="col-center h-32 w-32 rounded-full bg-background">
+              <span className="text-5xl font-medium">{count}</span>
+            </div>
+          </div>
+        ) : null}
+
+        {/* 평가 UI 영역 */}
+        <div className="col-center absolute bottom-4 left-4 z-10">
+          {poseMessage !== "" && (
+            <motion.span
+              initial={{ opacity: 0, y: 50 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{
+                repeat: Infinity, // 무한 반복
+                duration: 1, // 애니메이션 이동 시간 (1초)
+              }}
+              className={`text-lg font-medium`}
+              style={{ color: messageColor[poseMessage] }}
+            >
+              {poseMessage}
+            </motion.span>
+          )}
+        </div>
+      </section>
+    </div>
   );
 }
