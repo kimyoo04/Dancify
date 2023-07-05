@@ -20,7 +20,6 @@ from accounts.authentication import get_user_info_from_token
 from s3_modules.upload import upload_video_with_metadata_to_s3
 
 from search_history.models import SearchHistory
-from s3_modules.authentication import get_s3_client
 from s3_modules.delete import delete_video_from_s3
 
 AWS_DOMAIN = "https://dancify-bucket.s3.ap-northeast-2.amazonaws.com/"
