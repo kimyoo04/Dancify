@@ -33,15 +33,11 @@ export default function SectionPlay({
 }) {
   const dispatch = useAppDispatch();
 
-  const webcamRef = useRef<Webcam>(null); // 댄서블 영상을 위한 웹캠
   const canvasRef = useRef<HTMLCanvasElement>(null); // 스캘레톤 매핑을 위한 캔버스
   const mediaRecorder = useRef<MediaRecorder | null>(null); // 녹화 객체
 
+  const webcamRef = useRef<Webcam>(null); // 댄서블 영상을 위한 웹캠
   const [webcamDims, setWebcamDims] = useState({
-    width: 0,
-    height: 0,
-  });
-  const [videoDims, setVideoDims] = useState({
     width: 0,
     height: 0,
   });
@@ -85,12 +81,12 @@ const selectedSectionsData = isRealMode
   // 동영상 및 진행 바 관련
   const playerRef = useRef<ReactPlayer>(null);
   const progressBarRef = useRef<HTMLDivElement | null>(null);
-  const [duration, setDuration] = useState(0);
+  const [progress, setProgress] = useState<number>(0);
 
   const getVideoDuration = useCallback(() => {
     const progressBar = progressBarRef.current;
     const player = playerRef.current;
-    if (progressBar && player) setDuration(player.getDuration());
+    if (progressBar && player) setProgress(player.getDuration());
   }, []);
 
   // 댄서와 웹캠 화면 사이즈 조정
@@ -100,13 +96,6 @@ const selectedSectionsData = isRealMode
     if (webcam) {
       const { clientWidth, clientHeight } = webcam;
       setWebcamDims({ width: clientWidth, height: clientHeight });
-    }
-
-    // 창 크기가 변경될 때마다 웹캠의 크기를 변경하는 함수
-    const video = webcamRef.current?.video;
-    if (video) {
-      const { clientWidth, clientHeight } = video;
-      setVideoDims({ width: clientWidth, height: clientHeight });
     }
   };
 
@@ -292,7 +281,25 @@ const selectedSectionsData = isRealMode
           width={"100%"}
           height={"100%"}
           className="absolute left-0 top-0 h-full w-full"
+          onProgress={(state) => {
+            setProgress(state.played);
+          }}
+          muted
         />
+
+        {/* 진행 바 영역 */}
+        <div className="absolute bottom-0 left-0 w-full overflow-hidden">
+          {/* 전체 진행 영역 표시 */}
+          <div className="relative h-2 w-full bg-muted">
+            {/* 현재 진행 시점 표시 */}
+            <div
+              style={{
+                width: `${progress * 100}%`,
+              }}
+              className="h-full bg-primary"
+            />
+          </div>
+        </div>
       </section>
 
       <section className="relative overflow-hidden rounded-md">
