@@ -194,7 +194,7 @@ export async function runMovenet(
         //! -------------- 리펙토링 필요 --------------
         // 강제 종료
         if (isForceEnd.current) {
-          console.log(indx);
+          // console.log(indx);
           breakDrawing = true;
           clearInterval(drawPerSec);
           clearCanvas(canvas);
@@ -202,7 +202,7 @@ export async function runMovenet(
           resolve("isForceEnd");
           // 정상적으로 끝나면 setInterval 멈춤
         } else if (indx === dancerJson.length) {
-          console.log(indx);
+          // console.log(indx);
           breakDrawing = true;
           clearInterval(drawPerSec);
           clearCanvas(canvas);

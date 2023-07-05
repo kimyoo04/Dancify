@@ -51,11 +51,19 @@ export default function RadarChart({
     ],
   };
 
+  const options = {
+    scales: {
+      r: {
+        beginAtZero: true,
+      },
+    },
+  };
+
   return (
     <div className="h-full w-full">
       <h2 className="mb-4 text-xl font-bold">평균 점수</h2>
       <Separator className="mb-3" />
-      <Radar data={data} />
+      <Radar data={data} options={options} />
     </div>
   );
 }
