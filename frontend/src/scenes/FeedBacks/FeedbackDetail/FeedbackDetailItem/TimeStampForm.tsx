@@ -6,12 +6,12 @@ import DancerTipTap from "./DancerTipTap";
 
 export default function TimeStampForm() {
   const dispatch = useAppDispatch();
-  const { sectionIndex, dancerMessage } = useAppSelector(
+  const { sectionIndex, sections } = useAppSelector(
     (state) => state.feedback
   );
 
-  const dancerMsgLen = dancerMessage.length;
-  const reversedMsg = [...dancerMessage].reverse();
+  const dancerMsgLen = sections[sectionIndex].dancerMessage.length;
+  const reversedMsg = [...sections[sectionIndex].dancerMessage].reverse();
 
   return (
     <div className="space-y-2">

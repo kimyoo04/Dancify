@@ -5,10 +5,10 @@ import { useAppSelector } from "@toolkit/hook";
 
 interface IUploadVideoProps {
   videoRef: RefObject<HTMLVideoElement>;
-  videoFile: {
+  videoFileArr: {
     [key: string]: { file: File; filename: string };
   };
-  setVideoFile: Dispatch<
+  setVideoFileArr: Dispatch<
     SetStateAction<{
       [key: string]: { file: File; filename: string };
     }>
@@ -17,8 +17,8 @@ interface IUploadVideoProps {
 
 export default function UploadVideo({
   videoRef,
-  videoFile,
-  setVideoFile,
+  videoFileArr,
+  setVideoFileArr,
 }: IUploadVideoProps) {
   const sectionIndex = useAppSelector(state => state.feedback.sectionIndex)
 
@@ -28,8 +28,8 @@ export default function UploadVideo({
       return file.name;
     });
     //
-    setVideoFile({
-      ...videoFile,
+    setVideoFileArr({
+      ...videoFileArr,
       [sectionIndex]: { file: acceptedFiles[0], filename: videoName },
     });
   }, []);
@@ -44,13 +44,13 @@ export default function UploadVideo({
   });
 
   const onReset = () => {
-    setVideoFile(
-      Object.keys(videoFile).reduce((acc, cur) => {
+    setVideoFileArr(
+      Object.keys(videoFileArr).reduce((acc, cur) => {
         if (Number(cur) !== sectionIndex) {
-          acc[cur] = videoFile[cur];
+          acc[cur] = videoFileArr[cur];
         }
         return acc;
-      }, {} as { [key: string]: { file: File; filename: string} })
+      }, {} as { [key: string]: { file: File; filename: string } })
     );
   };
 
@@ -76,8 +76,8 @@ export default function UploadVideo({
       <div className="row-center w-full gap-2 rounded-xl">
         <div className="col-end h-10 w-full overflow-hidden rounded-md border border-muted-foreground bg-muted">
           <span className="mr-3">
-            {String(sectionIndex) in videoFile
-              ? videoFile[String(sectionIndex)].filename
+            {String(sectionIndex) in videoFileArr
+              ? videoFileArr[String(sectionIndex)].filename
               : "동영상 파일을 선택해주세요."}
           </span>
         </div>

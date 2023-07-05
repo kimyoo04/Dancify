@@ -42,7 +42,7 @@ const DanceableTipTap = ({isUpdate}: {isUpdate:boolean}) => {
         placeholder: "내용을 입력해주세요.",
       }),
     ],
-    content: isUpdate ? sections[sectionIndex].danceablemessage : "",
+    content: isUpdate ? sections[sectionIndex].danceableMessage : "",
     onUpdate: ({ editor }) => onUpdate(editor.getHTML()),
   });
 

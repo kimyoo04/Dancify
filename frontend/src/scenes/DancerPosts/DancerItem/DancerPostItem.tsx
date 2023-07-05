@@ -11,7 +11,6 @@ interface DancerPostsProps {
 }
 
 export default function DancerPostItem({ data, href }: DancerPostsProps) {
-  console.log(data.profileImage);
 
   return (
     <Link href={href} className="group transition-all hover:-translate-y-3 ">

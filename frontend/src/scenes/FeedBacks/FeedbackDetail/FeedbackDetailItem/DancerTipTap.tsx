@@ -13,9 +13,9 @@ import debounce from "@util/debounce";
 
 const DancerTipTap = ({ timeStamp }: { timeStamp: number }) => {
   const dispatch = useAppDispatch();
-  const { dancerMessage } = useAppSelector((state) => state.feedback);
+  const {sectionIndex, sections} = useAppSelector((state) => state.feedback);
 
-  const index = dancerMessage.findIndex(
+  const index = sections[sectionIndex].dancerMessage.findIndex(
     (msg) => msg.timeStamp === timeStamp
   );
 
@@ -44,7 +44,7 @@ const DancerTipTap = ({ timeStamp }: { timeStamp: number }) => {
         placeholder: "내용을 입력해주세요.",
       }),
     ],
-    content: dancerMessage[index].message && "",
+    content: sections[sectionIndex].dancerMessage[index].message !== "" ? sections[sectionIndex].dancerMessage[index].message: "",
     onUpdate: ({ editor }) =>
       onUpdate({
         timeStamp,

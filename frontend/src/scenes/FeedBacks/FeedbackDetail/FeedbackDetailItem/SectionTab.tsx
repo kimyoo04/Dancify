@@ -4,17 +4,26 @@ import { Button } from "@components/ui/button";
 import { TabsContent } from "@components/ui/tabs";
 import { feedbackActions } from "@features/feedback/feedbackSlice";
 import { useAppDispatch, useAppSelector } from "@toolkit/hook";
-import { IFeedbackDetail } from "@type/feedbacks";
+import { IFeedbackDetail, TFeedbackId } from "@type/feedbacks";
 import convertISectionToFormData from "@util/convertISectionToFormData";
 
-export default function Sectiontab({ data }: { data: IFeedbackDetail }) {
+export default function Sectiontab({
+  data,
+  feedbackId,
+  videoFileArr,
+}: {
+  data: IFeedbackDetail;
+  feedbackId: TFeedbackId;
+  videoFileArr: {
+    [key: string]: { file: File; filename: string };
+  };
+}) {
   const dispatch = useAppDispatch();
+  const isDancer = useAppSelector((state) => state.auth.isDancer);
   const { sectionIndex, sections } = useAppSelector((state) => state.feedback);
 
   const { mutateAsync: feedbackRequest } = useFeedbackRequest(data.feedbackId);
-  const { mutateAsync: feedbackResponse } = useFeedbackResponse(
-    data.feedbackId
-  );
+  const { mutateAsync: feedbackResponse } = useFeedbackResponse();
 
   return (
     <div className="flex w-full items-center justify-between gap-5">
@@ -37,21 +46,21 @@ export default function Sectiontab({ data }: { data: IFeedbackDetail }) {
       </div>
 
       {/* 댄서블인 경우 피드백 요청 완료 버튼 활성화 */}
-      {!data.isDancer && (
+      {isDancer && (
         <TabsContent value="feedbackRequest" className="m-0">
           <Button
             disabled={
-              !sections.some((section) => section.danceablemessage !== "")
+              !sections.some((section) => section.danceableMessage !== "")
             }
-            onClick={() => {
+            onClick={async () => {
               const feedbackRequestArr = sections.map((section) => {
-                const { feedbackSectionId, danceablemessage } = section;
+                const { feedbackSectionId, danceableMessage } = section;
                 return {
                   feedbackSectionId,
-                  message: danceablemessage,
+                  message: danceableMessage,
                 };
               });
-              feedbackRequest({ sections: feedbackRequestArr });
+              await feedbackRequest({ sections: feedbackRequestArr });
             }}
           >
             피드백 요청 완료
@@ -61,14 +70,21 @@ export default function Sectiontab({ data }: { data: IFeedbackDetail }) {
 
       {/* 댄서인 경우 피드백 완료 버튼 활성화 */}
       <TabsContent value="feedbackWaiting">
-        {data.isDancer && (
+        {isDancer && (
           <Button
             disabled={
-              !sections.some((section) => section.danceablemessage !== "")
+              !sections.some((section) => section.danceableMessage !== "")
             }
-            onClick={() => {
-              const formData = convertISectionToFormData(sections)
-              feedbackResponse(formData);
+            onClick={async () => {
+              const formData = convertISectionToFormData(
+                sections,
+                videoFileArr
+              );
+              const dancerResponseData = {
+                feedbackId,
+                formData,
+              };
+              await feedbackResponse(dancerResponseData);
             }}
           >
             피드백 완료

@@ -13,8 +13,13 @@ export interface IPracticeState {
   isPlaying: boolean; // SectionResult 컴포넌트 랜더링 유무
   isFinished: boolean; // 안무 연습 완료 유무 or 영상 재생 유무
   feedbackId: TFeedbackId;
-  selectedSections: TSectionId[]; // 선택한 섹션 인덱스 리스트
+  selectedSections: ISelectedSections[]; // 선택한 섹션 인덱스 리스트
   sectionPracticeArr: ISectionPractice[]; // 섹션별 연습 기록 리스트
+}
+
+export interface ISelectedSections {
+  index: number
+  sectionId: TSectionId
 }
 
 // 구간별 평가 및 연습 정보

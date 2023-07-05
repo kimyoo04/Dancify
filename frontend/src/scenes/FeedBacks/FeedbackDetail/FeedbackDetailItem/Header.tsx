@@ -1,15 +1,11 @@
-import { useAppSelector } from "@toolkit/hook";
 import { IFeedbackDetail } from "@type/feedbacks";
 import { timeYmd } from "@util/dateTime";
-import UpDelButton from "./UpDelButton";
 
 interface IHeaderProps {
   data: IFeedbackDetail;
 }
 
 export default function Header({ data }: IHeaderProps) {
-  const userId = useAppSelector((state) => state.auth.userId);
-
   return (
     <div>
       {data && <>
@@ -26,12 +22,6 @@ export default function Header({ data }: IHeaderProps) {
             <span className="text-sm text-muted-foreground">
               {timeYmd(data.createDate)}
             </span>
-          </div>
-
-          <div className="row-center gap-2">
-            {data.userId === userId && (
-              <UpDelButton feedbackId={data.feedbackId} />
-            )}
           </div>
         </div>
       </>}

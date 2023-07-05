@@ -98,12 +98,10 @@ export function DataTable<TData, TValue>({
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
-                      <Link href={`/feedbacks/${row.original.id}`}>
                         {flexRender(
                           cell.column.columnDef.cell,
                           cell.getContext()
                         )}
-                      </Link>
                     </TableCell>
                   ))}
                 </TableRow>

@@ -16,18 +16,27 @@ export default function PreviewSection({
     (state) => state.practice.selectedSections
   );
 
+  const isSelected = selectedSections.findIndex(
+    (selected) => selected.sectionId === data.sectionId
+  );
+
   return (
     <div className="flex-shrink-0 space-y-3">
       {/* //? 영상으로 대체 가능하면 대체할 것 */}
       {data.thumbnail && (
         <div
           className={`${
-            selectedSections.includes(data.sectionId)
+            isSelected !== -1
               ? "border-2 border-primary opacity-100"
               : "border-2 opacity-60"
           } cursor-pointer overflow-hidden rounded-md`}
           onClick={() =>
-            dispatch(practiceActions.toggleSelectedSections(data.sectionId))
+            dispatch(
+              practiceActions.toggleSelectedSections({
+                index,
+                sectionId: data.sectionId,
+              })
+            )
           }
         >
           <Image
@@ -45,9 +54,7 @@ export default function PreviewSection({
 
       {/* //? 영상 길이와 구간 번호 표시 */}
       <div className="row-center w-full">
-        <span className="text-sm font-medium leading-none">
-          {index} 구간
-        </span>
+        <span className="text-sm font-medium leading-none">{index} 구간</span>
       </div>
     </div>
   );

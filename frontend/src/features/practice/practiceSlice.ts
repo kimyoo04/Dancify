@@ -83,18 +83,22 @@ export const practiceSlice = createSlice({
     },
 
     // section 복수 선택 토글
-    toggleSelectedSections: (state, action: PayloadAction<string>) => {
-      const sectionId = action.payload;
-      const isSection = state.selectedSections.includes(sectionId);
+    toggleSelectedSections: (state, action: PayloadAction<{index: number, sectionId: TSectionId}>) => {
+      const {index, sectionId} = action.payload;
+      const isSelected = state.selectedSections.findIndex(
+        (section) => section.sectionId === sectionId
+      );
 
-      if (isSection) {
+      if (isSelected !== -1) {
         // 선택된 section이 이미 있으면 제거
         state.selectedSections = state.selectedSections.filter(
-          (section) => section !== sectionId
+          (section) => section.sectionId !== sectionId
         );
       } else {
         // 선택된 section이 없으면 추가
-        state.selectedSections.push(sectionId);
+        state.selectedSections.push({ index, sectionId });
+        // 선택된 section을 index 값을 기준으로 정렬하기
+        state.selectedSections.sort((a, b) => a.index - b.index);
       }
     },
 

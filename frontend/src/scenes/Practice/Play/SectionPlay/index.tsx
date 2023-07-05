@@ -16,7 +16,6 @@ import * as poseDetection from "@tensorflow-models/pose-detection";
 import { danceableBodyCheck, runMovenet } from "@ai/movenet";
 import { Button } from "@components/ui/button";
 import readDancerJson from "@api/feedbacks/readDancerJson";
-import { cn } from "@lib/utils";
 
 export default function SectionPlay({
   data,
@@ -62,7 +61,7 @@ export default function SectionPlay({
 
   // 선택된 구간의 인덱스
   const sectionIndex = data.sections.findIndex(
-    (section) => section.sectionId === selectedSections[playIndex]
+    (section) => section.sectionId === selectedSections[playIndex].sectionId
   );
   const sectionId = data.sections[sectionIndex].sectionId;
 
@@ -73,14 +72,12 @@ export default function SectionPlay({
     const firstJsonUrl = data.sections[sectionIndex].keypoints;
     // 최초, 최고 JSON 데이터 받기
     readDancerJson(firstJsonUrl, setDancerJsonData);
-  }, [playIndex, data.sections]);
+  }, [playIndex, data.sections, sectionIndex]);
 
   // 연습 모드 or 실전 모드 구분 후 선택된 섹션의 url 배열 가져오기
   const selectedSectionsData = isRealMode
     ? [data.sections[0]]
-    : data.sections.filter((section) =>
-        selectedSections.includes(section.sectionId)
-      );
+    : data.sections.filter((section) => section.sectionId === sectionId);
 
   // 동영상 및 진행 바 관련
   const playerRef = useRef<ReactPlayer>(null);

@@ -19,7 +19,6 @@ export default function TogglePlayer({ videoUrl }: { videoUrl: TVideo }) {
         <div className="relative pt-[56.25%]">
           <ReactPlayer
             url={videoUrl}
-            playing={true}
             controls
             width="100%"
             height="100%"
