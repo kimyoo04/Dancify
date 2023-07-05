@@ -20,7 +20,7 @@ export default function PostHeader() {
         <Link href={"/storage"} className="ml-auto">
           <Button className="row-center gap-2">
             <ShoppingBag className="h-4 w-4 dark:text-white" />
-            내 보관함
+            <span className="hidden sm:block">내 보관함</span>
           </Button>
         </Link>
       </div>
