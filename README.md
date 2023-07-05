@@ -1,9 +1,7 @@
 # 🕺 Dancify
 
 ### 춤을 배우고 싶은 케이팝(K-POP) 팬들을 위한 안무 연습 도움 서비스
-![포스터_최종](https://github.com/AIVLE-School-Third-Big-Project/dancify/assets/124374862/4f6c64a1-10a8-4ba6-b58b-3491d4c676ca)
-
-<br>
+![포스터_최종](https://github.com/AIVLE-School-Third-Big-Project/dancify/assets/124374862/070c9340-09a1-4089-bed5-3ec692ead3dd)
 
 ## 목차
 1. [프로젝트 소개](#1-프로젝트-소개)
