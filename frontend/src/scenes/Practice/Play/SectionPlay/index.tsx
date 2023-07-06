@@ -271,7 +271,7 @@ const selectedSectionsData = isRealMode
         style={{
           width: `${webcamDims.height * (9 / 16)}px`,
           aspectRatio: `${9 / 16}`,
-          paddingBottom: `${webcamDims.height}px`,
+          paddingBottom: `${webcamDims.height + 12}px`,
         }}
       >
         <ReactPlayer
@@ -289,7 +289,7 @@ const selectedSectionsData = isRealMode
         {/* 진행 바 영역 */}
         <div className="absolute bottom-0 left-0 w-full overflow-hidden">
           {/* 전체 진행 영역 표시 */}
-          <div className="relative h-2 w-full bg-muted">
+          <div className="relative h-1.5 w-full bg-foreground">
             {/* 현재 진행 시점 표시 */}
             <div
               style={{
@@ -303,7 +303,16 @@ const selectedSectionsData = isRealMode
 
       <section className="relative overflow-hidden rounded-md">
         {/* 웹캠 영상 */}
-        <Webcam ref={webcamRef} mirrored={true} />
+        <Webcam
+          ref={webcamRef}
+          mirrored={true}
+          className="border-box border-[6px]"
+          style={{
+            boxSizing: "border-box",
+            borderColor:
+              poseMessage !== "" ? messageColor[poseMessage] : "gray",
+          }}
+        />
 
         {/* 스캘레톤 매핑 */}
         <canvas
@@ -334,16 +343,16 @@ const selectedSectionsData = isRealMode
         ) : null}
 
         {/* 평가 UI 영역 */}
-        <div className="col-center absolute bottom-4 left-4 z-10">
+        <div className="absolute left-4 right-0 top-4 z-10 mx-auto">
           {poseMessage !== "" && (
             <motion.span
-              initial={{ opacity: 0, y: 50 }}
+              initial={{ opacity: 0, y: -50 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{
                 repeat: Infinity, // 무한 반복
                 duration: 1, // 애니메이션 이동 시간 (1초)
               }}
-              className={`text-lg font-medium`}
+              className={`text-3xl font-medium`}
               style={{ color: messageColor[poseMessage] }}
             >
               {poseMessage}
