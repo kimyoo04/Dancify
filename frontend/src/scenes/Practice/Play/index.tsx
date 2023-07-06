@@ -40,6 +40,7 @@ export default function Play({
 
   // 전체 연습 완료 버튼
   const handleMoveNextStep = async () => {
+    setIsLoading(true);
     const danceableVod = webcamBestRecord.current;
     danceableVod &&
       (await postsPracticeData(
@@ -48,11 +49,13 @@ export default function Play({
         danceableVod,
         isMosaic
       ));
+    setIsLoading(false);
     dispatch(practiceActions.moveNextStep());
   };
 
   // 구간 연습 완료 버튼
   const handleMoveNextSection = async () => {
+    setIsLoading(true);
     const danceableVod = webcamBestRecord.current;
     danceableVod &&
       (await postsPracticeData(
@@ -61,6 +64,7 @@ export default function Play({
         danceableVod,
         isMosaic
       ));
+    setIsLoading(false);
     dispatch(practiceActions.moveNextSection());
   };
 
@@ -101,9 +105,7 @@ export default function Play({
           <Button
             disabled={!isFinished}
             onClick={async () => {
-              setIsLoading(true);
               await handleMoveNextStep();
-              setIsLoading(false);
             }}
           >
             연습 완료
@@ -113,9 +115,7 @@ export default function Play({
           <Button
             disabled={isLoading}
             onClick={async () => {
-              setIsLoading(true);
               await handleMoveNextSection();
-              setIsLoading(false);
             }}
           >
             다음 구간
