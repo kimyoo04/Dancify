@@ -36,9 +36,12 @@ export default function PreviewVideoPosts({
       <div className="flex items-start justify-start gap-3 rounded-b-md bg-muted px-3 pb-3 pt-5 group-hover:shadow-md">
         <ProfileImage imageUrl={data.profileImage} />
 
-        <div className="space-y-1 text-sm">
-          <h3 className="font-medium leading-none">{data.title}</h3>
-          <p className="text-xs text-muted-foreground">{data.nickname}</p>
+        <div className="space-y-1 ">
+          <p className="text-sm font-medium leading-none">{data.title}</p>
+          <p className="text-xs">{data.nickname}</p>
+          <p className="text-xs text-muted-foreground">
+            조회수 {data.views}회 · 댓글 {data.commentsCount}개
+          </p>
         </div>
       </div>
     </Link>

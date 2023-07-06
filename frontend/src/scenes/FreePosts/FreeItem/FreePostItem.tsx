@@ -19,10 +19,16 @@ export default function FreePostItem({ data, href }: FreePostItemProps) {
     <Link href={href} className="group w-full space-y-2 border-b pb-4">
       <div className="flex w-full flex-nowrap items-start justify-between">
         {/* 제목 | 내용 */}
-        <div className="w-fit space-y-1">
-          <span className="text-lg font-medium leading-none group-hover:border-b-2 border-black dark:border-white">
-            {data.title}
-          </span>
+        <div className="w-fit space-y-2">
+          <div className="col-start gap-1">
+            <p className="border-black text-lg font-medium leading-none group-hover:border-b-2 dark:border-white">
+              {data.title}
+            </p>
+            <span className="text-xs text-muted-foreground">
+              {timeYmd(data.createDate)}
+            </span>
+          </div>
+
           <PostContent
             content={extractPTags(data.content) + "..."}
             textClassName="w-fit text-muted-foreground"
@@ -52,11 +58,7 @@ export default function FreePostItem({ data, href }: FreePostItemProps) {
         {/* 프로필 이미지 | 생성일 | 닉네임 */}
         <div className="row-center gap-3">
           <ProfileImage imageUrl={data.profileImage} />
-
           <div className="col-start text-sm">
-            <span className="text-sm text-muted-foreground">
-              {timeYmd(data.createDate)}
-            </span>
             <span>{data.nickname}</span>
           </div>
         </div>

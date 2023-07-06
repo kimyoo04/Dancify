@@ -16,8 +16,11 @@ import PreviewDancerPosts from "@scenes/Posts/PostItem/PreviewDancerPosts";
 import PreviewVideoPosts from "@scenes/Posts/PostItem/PreviewVideoPosts";
 import FreePostItem from "@scenes/FreePosts/FreeItem/FreePostItem";
 import PreviewListWrapper from "@scenes/Posts/PostItem/PreviewListWrapper";
+import { useAppSelector } from "@toolkit/hook";
 
 export default function MyPosts({ id }: { id: string }) {
+  const nickname = useAppSelector((state) => state.auth.nickname);
+
   const {
     data: dancerData,
     error: dancerError,
@@ -38,9 +41,10 @@ export default function MyPosts({ id }: { id: string }) {
 
   return (
     <div className="space-y-10 border-none p-0 outline-none">
-      <h1 className="text-2xl font-semibold tracking-tight">
-        {id} 님의 게시글
-      </h1>
+      <div className="flex items-end gap-2">
+        <h1 className="text-2xl font-semibold tracking-tight">{nickname}</h1>
+        <span>님의 게시글</span>
+      </div>
 
       <div>
         {/* //!댄서게시판 헤더 */}
