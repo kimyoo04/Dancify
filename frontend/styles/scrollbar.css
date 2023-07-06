@@ -1,5 +1,5 @@
 body::-webkit-scrollbar {
-    @apply sm:w-2 /* 스크롤바의 폭 */
+    @apply sm:w-2 h-2 /* 스크롤바의 폭 */
 }
 
 body::-webkit-scrollbar-thumb {
