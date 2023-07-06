@@ -106,7 +106,7 @@ const selectedSectionsData = isRealMode
   useEffect(() => {
     handleScreenResize();
     getVideoDuration();
-    danceableBodyCheck(webcamRef, bodyCheckCallback); // 전신 체크 함수 실행
+    if (!isFullBody) danceableBodyCheck(webcamRef, bodyCheckCallback); // 전신 체크 함수 실행
     window.addEventListener("resize", handleScreenResize);
     const tick = setTimeout(() => handleScreenResize(), 3000);
     return () => clearTimeout(tick);
