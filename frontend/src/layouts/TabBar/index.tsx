@@ -1,6 +1,6 @@
 import ScrollButton from "@components/ScrollButton";
-import { FileBarChart2 } from "lucide-react";
-import { Book, Heart, Home, ShoppingBagIcon } from "lucide-react";
+import { FileBarChart2, Users } from "lucide-react";
+import { Heart, Home, ShoppingBagIcon } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
@@ -20,7 +20,7 @@ export default function TabBar() {
           <span className={`${router.pathname === "/"} text-xs`}>홈</span>
         </Link>
         <Link href="/posts" className="col-center">
-          <Book
+          <Users
             className={`${isActive(
               pathArr.includes("dancer") ||
                 pathArr.includes("video") ||
@@ -36,7 +36,7 @@ export default function TabBar() {
                 pathArr.includes("posts")
             )} text-xs`}
           >
-            게시글
+            커뮤니티
           </span>
         </Link>
         <Link href="/feedbacks" className="col-center">

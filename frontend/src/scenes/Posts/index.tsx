@@ -26,7 +26,7 @@ export default function Posts() {
   } = useReadFreePostsPerPage();
 
   return (
-    <div className="container bg-background">
+    <div className="bg-background">
       <div className="h-full py-6 lg:px-8">
         <div className="h-full space-y-6">
           {/* 게시판 네비게이션 해더 */}
