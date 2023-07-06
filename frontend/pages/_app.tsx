@@ -3,6 +3,7 @@ import "../styles/button.css";
 import "../styles/chat.css";
 import "../styles/tiptap.css";
 import "../styles/logo.css";
+import "../styles/scrollbar.css";
 import "regenerator-runtime/runtime.js";
 
 import Head from "next/head";
