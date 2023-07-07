@@ -1,6 +1,6 @@
 # 🕺 Dancify
 
-### 춤을 배우고 싶은 모두를 위한 안무 연습 도움 서비스
+### 춤을 배우고 싶은 모두를 위한 AI 안무 연습 서비스
 ![포스터_최종](https://github.com/AIVLE-School-Third-Big-Project/dancify/assets/124374862/070c9340-09a1-4089-bed5-3ec692ead3dd)
 
 ## 목차
