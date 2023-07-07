@@ -301,18 +301,15 @@ const selectedSectionsData = isRealMode
         </div>
       </section>
 
-      <section className="relative overflow-hidden rounded-md">
+      <section
+        className="border-box relative overflow-hidden rounded-md border-[6px]"
+        style={{
+          boxSizing: "border-box",
+          borderColor: poseMessage !== "" ? messageColor[poseMessage] : "gray",
+        }}
+      >
         {/* 웹캠 영상 */}
-        <Webcam
-          ref={webcamRef}
-          mirrored={true}
-          className="border-box border-[6px]"
-          style={{
-            boxSizing: "border-box",
-            borderColor:
-              poseMessage !== "" ? messageColor[poseMessage] : "gray",
-          }}
-        />
+        <Webcam ref={webcamRef} mirrored={true} />
 
         {/* 스캘레톤 매핑 */}
         <canvas

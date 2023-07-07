@@ -15,9 +15,14 @@ export default function Information({ data }: { data: IPractice }) {
   return (
     <div className="h-[500px] w-full flex-shrink-0 rounded-md bg-background p-6 shadow-md dark:bg-white lg:w-[360px] xl:w-[440px]">
       <div className="flex h-full flex-col justify-between">
-        <h1 className="col-start w-full text-xl font-medium text-black">
-          총 연습 결과
-        </h1>
+        <div className="w-full space-y-1">
+          <h2 className="text-xl font-medium tracking-tight text-black">
+            총 연습 결과
+          </h2>
+          <p className="text-sm text-muted-foreground">
+            구간별 연습 횟수와 최종 점수를 확인할 수 있습니다.
+          </p>
+        </div>
 
         {/* 제목과 댄서 이름 */}
         <div className="col-end">
