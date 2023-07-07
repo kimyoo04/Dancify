@@ -28,6 +28,9 @@ export const useFeedbackResponse = () => {
       await queryClient.invalidateQueries({
         queryKey: [`/feedbacks/${variables.feedbackId}`],
       });
+      await queryClient.invalidateQueries({
+        queryKey: [`/feedbacks`],
+      });
       // 현 페이지 새로고침
       router.reload();
     },

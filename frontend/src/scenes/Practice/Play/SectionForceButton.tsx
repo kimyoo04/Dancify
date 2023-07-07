@@ -10,13 +10,10 @@ import {
   AlertDialogTrigger,
 } from "@components/ui/alert-dialog";
 import { Button } from "@components/ui/button";
-import { Dispatch, SetStateAction } from "react";
 
 export default function ForceEndButton({
-  setIsLoading,
   handleForceEndSection,
 }: {
-  setIsLoading: Dispatch<SetStateAction<boolean>>;
   handleForceEndSection: () => Promise<void>;
 }) {
   return (
@@ -35,9 +32,7 @@ export default function ForceEndButton({
           <AlertDialogCancel>취소</AlertDialogCancel>
           <AlertDialogAction
             onClick={async () => {
-              setIsLoading(true);
               await handleForceEndSection();
-              setIsLoading(false);
             }}
           >
             넘어가기

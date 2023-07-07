@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useRef} from "react";
 import { useAppDispatch, useAppSelector } from "@toolkit/hook";
 import { practiceActions } from "@features/practice/practiceSlice";
 import * as poseDetection from "@tensorflow-models/pose-detection";
@@ -10,7 +10,7 @@ import BottomWrapper from "../Wrapper/BottomWrapper";
 import SectionPlay from "./SectionPlay";
 import SectionResult from "./SectionResult";
 import { Button } from "@components/ui/button";
-import { postsPracticeData } from "@api/dance/postPracticeData";
+import { usePostsPracticeDataMutation } from "@api/dance/postPracticeData";
 import { ReloadIcon } from "@radix-ui/react-icons";
 import ForceEndButton from "./SectionForceButton";
 
@@ -22,7 +22,6 @@ export default function Play({
   detector: poseDetection.PoseDetector;
 }) {
   const dispatch = useAppDispatch();
-  const [isLoading, setIsLoading] = useState(false);
 
   const {
     isPlaying,
@@ -38,33 +37,32 @@ export default function Play({
   const webcamBestRecord = useRef<Blob>(); // 웹캠 최고 기록
   const webcamCurrentRecord = useRef<Blob>(); // 웹캠 현재 기록
 
+  // 구간 연습 결과 POST 요청
+  const { mutateAsync, isLoading } = usePostsPracticeDataMutation();
+
   // 전체 연습 완료 버튼
   const handleMoveNextStep = async () => {
-    setIsLoading(true);
     const danceableVod = webcamBestRecord.current;
     danceableVod &&
-      (await postsPracticeData(
+      (await mutateAsync({
         feedbackId,
-        sectionPracticeArr[playIndex],
-        danceableVod,
-        isMosaic
-      ));
-    setIsLoading(false);
+        sectionPractice: sectionPracticeArr[playIndex],
+        recordedBlob: danceableVod,
+        isMosaic,
+      }));
     dispatch(practiceActions.moveNextStep());
   };
 
   // 구간 연습 완료 버튼
   const handleMoveNextSection = async () => {
-    setIsLoading(true);
     const danceableVod = webcamBestRecord.current;
     danceableVod &&
-      (await postsPracticeData(
+      (await mutateAsync({
         feedbackId,
-        sectionPracticeArr[playIndex],
-        danceableVod,
-        isMosaic
-      ));
-    setIsLoading(false);
+        sectionPractice: sectionPracticeArr[playIndex],
+        recordedBlob: danceableVod,
+        isMosaic,
+      }));
     dispatch(practiceActions.moveNextSection());
   };
 
@@ -123,7 +121,6 @@ export default function Play({
         ) : (
           // 넘어가기
           <ForceEndButton
-            setIsLoading={setIsLoading}
             handleForceEndSection={handleForceEndSection}
           />
         )}
