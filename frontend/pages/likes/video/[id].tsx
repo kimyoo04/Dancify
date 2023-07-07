@@ -3,16 +3,24 @@ import MainLayout from "@layouts/MainLayout";
 import VideoPostDetail from "@scenes/VideoPosts/VideoDetail";
 import { GetServerSideProps } from "next";
 import { verify } from "jsonwebtoken";
+import { useEffect } from "react";
+import verifyUser from "@api/auth/verifyUser";
 
-export default function VideoPostDetailPage() {
+export default function VideoPostDetailPage({
+  isJwtVerified,
+}: {
+  isJwtVerified: boolean;
+}) {
   const router = useRouter();
   const { id } = router.query;
 
+  useEffect(() => {
+    if (!isJwtVerified) router.push("/signin");
+  }, [isJwtVerified, router]);
+
   if (typeof id === "string") {
     return (
-      <MainLayout>
-        <VideoPostDetail id={id} />
-      </MainLayout>
+      <MainLayout>{isJwtVerified && <VideoPostDetail id={id} />}</MainLayout>
     );
   }
 }
@@ -25,25 +33,33 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     if (token && secret) {
       verify(token, secret);
     } else {
-      // Sign In 페이지로 리다이렉트
       return {
-        redirect: {
-          permanent: false,
-          destination: "/signin",
+        props: {
+          isJwtVerified: false,
         },
       };
     }
 
-    // 정상
+    // JWT 정상
     return {
-      props: {},
+      props: {
+        isJwtVerified: true,
+      },
     };
   } catch (error) {
+    const isVerified = await verifyUser();
+    if (isVerified) {
+    } else {
+      return {
+        props: {
+          isJwtVerified: true,
+        },
+      };
+    }
+    // JWT 비정상
     return {
-      // Sign In 페이지로 리다이렉트
-      redirect: {
-        permanent: false,
-        destination: "/signin",
+      props: {
+        isJwtVerified: false,
       },
     };
   }

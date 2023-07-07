@@ -2,13 +2,21 @@ import AuthLayout from "@layouts/AuthLayout";
 import SignUp from "@scenes/SignUp";
 import { GetServerSideProps } from "next";
 import { verify } from "jsonwebtoken";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
 
-export default function SignUpPage() {
-  return (
-    <AuthLayout>
-      <SignUp />
-    </AuthLayout>
-  );
+export default function SignUpPage({
+  isJwtVerified,
+}: {
+  isJwtVerified: boolean;
+}) {
+  const router = useRouter();
+
+  useEffect(() => {
+    if (isJwtVerified) router.push("/");
+  }, [isJwtVerified, router]);
+
+  return <AuthLayout>{!isJwtVerified && <SignUp />}</AuthLayout>;
 }
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
@@ -19,23 +27,26 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     if (token && secret) {
       verify(token, secret);
     } else {
-      // 정상
+      // JWT 정상
       return {
-        props: {},
+        props: {
+          isJwtVerified: true,
+        },
       };
     }
 
     // Home 페이지로 리다이렉트
     return {
-      redirect: {
-        permanent: false,
-        destination: "/",
+      props: {
+        isJwtVerified: false,
       },
     };
   } catch (error) {
-    // 정상
+    // JWT 정상
     return {
-      props: {},
+      props: {
+        isJwtVerified: true,
+      },
     };
   }
 };

@@ -25,8 +25,11 @@ export default async function verifyUser() {
         }
       }
     }
+
+    return true;
   } catch (error) {
     console.error(error);
     store.dispatch(authActions.stopIsLoading());
+    return false;
   }
 }

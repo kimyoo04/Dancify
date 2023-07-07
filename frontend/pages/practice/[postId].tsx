@@ -1,17 +1,27 @@
+import verifyUser from "@api/auth/verifyUser";
 import PracticeLayout from "@layouts/PracticeLayout";
 import Practice from "@scenes/Practice";
 import { TPostId } from "@type/posts";
 import { verify } from "jsonwebtoken";
 import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
+import { useEffect } from "react";
 
-export default function CreatePostPage() {
+export default function CreatePostPage({
+  isJwtVerified,
+}: {
+  isJwtVerified: boolean;
+}) {
   const router = useRouter();
   const { postId } = router.query;
 
+  useEffect(() => {
+    if (!isJwtVerified) router.push("/signin");
+  }, [isJwtVerified, router]);
+
   return (
     <PracticeLayout>
-      <Practice postId={postId as TPostId} />
+      {isJwtVerified && <Practice postId={postId as TPostId} />}
     </PracticeLayout>
   );
 }
@@ -24,25 +34,33 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
     if (token && secret) {
       verify(token, secret);
     } else {
-      // Sign In 페이지로 리다이렉트
       return {
-        redirect: {
-          permanent: false,
-          destination: "/signin",
+        props: {
+          isJwtVerified: false,
         },
       };
     }
 
-    // 정상
+    // JWT 정상
     return {
-      props: {},
+      props: {
+        isJwtVerified: true,
+      },
     };
   } catch (error) {
+    const isVerified = await verifyUser();
+    if (isVerified) {
+    } else {
+      return {
+        props: {
+          isJwtVerified: true,
+        },
+      };
+    }
+    // JWT 비정상
     return {
-      // Sign In 페이지로 리다이렉트
-      redirect: {
-        permanent: false,
-        destination: "/signin",
+      props: {
+        isJwtVerified: false,
       },
     };
   }
