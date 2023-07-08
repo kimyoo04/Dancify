@@ -1,6 +1,6 @@
 from random import choice
 from typing import Any
-from django.core.management.base import BaseCommand, CommandParser
+from django.core.management.base import BaseCommand
 from django_seed import Seed
 
 from accounts.models import User
@@ -19,9 +19,9 @@ class Command(BaseCommand):
 
         for dancer_post in dancer_posts:
             seeder.add_entity(ViewHistory, 1,
-                            {
-                                "user": lambda x: choice(users),
-                                "dancer_post": dancer_post
-                            })
+                              {
+                                  "user": lambda x: choice(users),
+                                  "dancer_post": dancer_post
+                              })
 
         seeder.execute()
