@@ -53,6 +53,7 @@ export const useReadVideoPostsPerPage = () => {
         return undefined;
       }
     },
+    cacheTime: 15000, // 15초
     refetchOnMount: true, //페이지 재방문시 refetch 적용
     refetchOnWindowFocus: false, // 브라우저 포커징시 refetch 금지
   });
