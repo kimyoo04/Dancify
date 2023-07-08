@@ -8,6 +8,7 @@ import { IComment } from "@type/comments";
 import { useAppDispatch } from "@toolkit/hook";
 import { useDeleteComment } from "@api/comment/deleteComment";
 import { useRouter } from "next/router";
+import { TPostCategoryLower } from "@type/like";
 
 export default function UpDelButton({ data }: { data: IComment }) {
   const dispatch = useAppDispatch();
@@ -15,7 +16,11 @@ export default function UpDelButton({ data }: { data: IComment }) {
 
   const router = useRouter();
   const postId = router.query.id;
-  const { mutateAsync } = useDeleteComment(postId as string);
+  const pathsArr = router.asPath.split("/");
+  const { mutateAsync } = useDeleteComment(
+    postId as string,
+    pathsArr[1] as TPostCategoryLower
+  );
 
   // 더보기 버튼 클릭
   const [isToggle, setIsToggle] = useState(false);

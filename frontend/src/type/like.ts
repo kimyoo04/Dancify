@@ -7,13 +7,14 @@ export interface ILikeState {
 export interface ILikeAction {
   userLike: boolean;
   postId: TPostId;
-  postCategory: TPostCategory;
+  postCategory: TPostCategoryUpper;
 }
 
 export interface ILikeToggle {
   postId: TPostId;
-  postCategory: TPostCategory;
+  postCategory: TPostCategoryUpper;
 }
 
 export type TLikesCount = number;
-export type TPostCategory = "FREE" | "VIDEO" | "DANCER" | "";
+export type TPostCategoryUpper = "FREE" | "VIDEO" | "DANCER" | "";
+export type TPostCategoryLower = "free" | "video" | "dancer" | "";

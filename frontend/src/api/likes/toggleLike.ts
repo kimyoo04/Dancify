@@ -1,6 +1,6 @@
 import axios from "@api/axiosInstance";
 import { ILikeToggle } from "@type/like";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export const toggleLike = async (data: ILikeToggle) => {
   try {
@@ -16,10 +16,18 @@ export const toggleLike = async (data: ILikeToggle) => {
 
 // useMutation
 export const useToggleLike = () => {
+  const queryClient = useQueryClient();
+
   return useMutation({
     mutationFn: toggleLike,
-    onSuccess: async () => {
-      // invalidateQueries를 안한 이유: 조회수가 같이 올라감.
+    onSuccess: async (_, variable) => {
+      await queryClient.invalidateQueries({
+        queryKey: [
+          `/likes/${variable.postCategory.toLowerCase()}`,
+        ],
+      });
+
+      // 상세페이지 invalidateQueries를 안한 이유: 조회수가 같이 올라감.
       console.log("🚀 usetoggleLike: success");
     },
     onError: (err) => {

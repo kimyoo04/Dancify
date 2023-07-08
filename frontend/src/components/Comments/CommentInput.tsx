@@ -20,10 +20,12 @@ import { useForm } from "react-hook-form";
 import { Textarea } from "@components/ui/textarea";
 import { zodResolver } from "@hookform/resolvers/zod";
 import ProfileImage from "@components/ProfileImage";
+import { TPostCategoryLower } from "@type/like";
 
 export default function CommentInput({ content = "" }: { content?: string }) {
-  const [isLoading] = useState<boolean>(false);
+
   const dispatch = useAppDispatch();
+  const [isLoading] = useState<boolean>(false);
   const { isUpdate, commentId } = useAppSelector((state) => state.comment);
   const { userId, nickname, profileImage } = useAppSelector(
     (state) => state.auth
@@ -31,8 +33,12 @@ export default function CommentInput({ content = "" }: { content?: string }) {
 
   // fetch 요청
   const router = useRouter();
-  const postId = router.query.id;
-  const { mutateAsync: createMutateAsync } = useCreateComment();
+    const pathsArr = router.asPath.split("/");
+    const postId = router.query.id;
+  const { mutateAsync: createMutateAsync } = useCreateComment(
+    pathsArr[1] as TPostCategoryLower
+  );
+
   const { mutateAsync: updateMutateAsync } = useUpdateComment(postId as string);
 
   const form = useForm<CommentFormValues>({

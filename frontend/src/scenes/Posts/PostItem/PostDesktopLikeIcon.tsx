@@ -1,7 +1,7 @@
 import { useToggleLike } from "@api/likes/toggleLike";
 import { likeActions } from "@features/like/likeSlice";
 import { useAppDispatch, useAppSelector } from "@toolkit/hook";
-import { TPostCategory } from "@type/like";
+import { TPostCategoryUpper } from "@type/like";
 import { useRouter } from "next/router";
 
 export default function PostDesktopLikeIcon() {
@@ -24,7 +24,7 @@ export default function PostDesktopLikeIcon() {
           ) {
             await mutateAsync({
               postId: router.query.id,
-              postCategory: pathsArr[1].toUpperCase() as TPostCategory,
+              postCategory: pathsArr[1].toUpperCase() as TPostCategoryUpper,
             });
           }
           dispatch(likeActions.toggleUserLike());
