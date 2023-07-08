@@ -9,7 +9,7 @@ export default function AuthLayout({
   return (
     <>
       <main>
-        <div className="col-center container h-screen w-full">{children}</div>
+        <div className="col-center container min-h-screen w-full">{children}</div>
       </main>
 
       {/* 레이아웃 요소 */}
