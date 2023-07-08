@@ -1,6 +1,12 @@
 import MainWrapper from "../Wrapper/MainWarpper";
 import BottomWrapper from "../Wrapper/BottomWrapper";
 
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@components/ui/tooltip";
 import { Button } from "@components/ui/button";
 import { IPractice } from "@type/practice";
 import PreviewSection from "./PreviewSection";
@@ -16,7 +22,9 @@ import MosaicCheckbox from "./MosaicCheckbox";
 
 export default function Config({ data }: { data: IPractice }) {
   const dispatch = useAppDispatch();
-  const isRealMode = useAppSelector((state) => state.practice.isRealMode);
+  const { isRealMode, selectedSections } = useAppSelector(
+    (state) => state.practice
+  );
 
   return (
     <div className="h-full w-screen">
@@ -40,24 +48,46 @@ export default function Config({ data }: { data: IPractice }) {
               {/* 연습 모드 실전 모드 토글 영역 */}
               <div className="w-full">
                 <div className="row-center w-full overflow-hidden rounded-lg border-2 border-primary">
-                  <Button
-                    variant={!isRealMode ? "default" : "ghost"}
-                    onClick={() => dispatch(practiceActions.toggleReal())}
-                    className={`${
-                      !isRealMode ? "" : "bg-white"
-                    } w-full rounded-none`}
-                  >
-                    연습 모드
-                  </Button>
-                  <Button
-                    variant={isRealMode ? "default" : "ghost"}
-                    onClick={() => dispatch(practiceActions.toggleReal())}
-                    className={`${
-                      isRealMode ? "" : "bg-white"
-                    } w-full rounded-none`}
-                  >
-                    실전 모드
-                  </Button>
+                  <TooltipProvider>
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Button
+                          variant={!isRealMode ? "default" : "ghost"}
+                          onClick={() =>
+                            isRealMode && dispatch(practiceActions.toggleReal())
+                          }
+                          className={`${
+                            !isRealMode ? "" : "bg-white"
+                          } w-full rounded-none`}
+                        >
+                          연습 모드
+                        </Button>
+                      </TooltipTrigger>
+                      <TooltipContent className="text-sm">
+                        <p>구간 별 복수 선택해서 연습할 수 있습니다.</p>
+                      </TooltipContent>
+                    </Tooltip>
+
+                    <Tooltip>
+                      <TooltipTrigger asChild>
+                        <Button
+                          variant={isRealMode ? "default" : "ghost"}
+                          onClick={() =>
+                            !isRealMode &&
+                            dispatch(practiceActions.toggleReal())
+                          }
+                          className={`${
+                            isRealMode ? "" : "bg-white"
+                          } w-full rounded-none`}
+                        >
+                          실전 모드
+                        </Button>
+                      </TooltipTrigger>
+                      <TooltipContent className="text-sm">
+                        <p>안무 전체를 한 번에 연습할 수 있습니다.</p>
+                      </TooltipContent>
+                    </Tooltip>
+                  </TooltipProvider>
                 </div>
               </div>
 
@@ -82,7 +112,7 @@ export default function Config({ data }: { data: IPractice }) {
                   </ScrollArea>
                 </div>
               ) : (
-                <div className="max-w-2xl">
+                <div className="max-w-2xl py-6">
                   {/* 실전 모드 설정 영역 */}
                   <NormalPlayer url={data.sections[0].video} />
                 </div>
@@ -101,7 +131,10 @@ export default function Config({ data }: { data: IPractice }) {
       </MainWrapper>
 
       <BottomWrapper>
-        <Button onClick={() => dispatch(practiceActions.moveNextStep())}>
+        <Button
+          disabled={selectedSections.length === 0 && !isRealMode}
+          onClick={() => dispatch(practiceActions.moveNextStep())}
+        >
           다음
         </Button>
       </BottomWrapper>

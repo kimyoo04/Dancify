@@ -42,12 +42,12 @@ export default function PreviewSection({
           <Image
             src={data.thumbnail}
             alt={index + "-thumbnail-" + data.sectionId}
-            width={250}
-            height={330}
+            width={190}
+            height={300}
             className={cn(
               "h-auto w-auto scale-105 object-cover transition-all hover:scale-110"
             )}
-            style={{ width: `250px`, height: `330px` }}
+            style={{ width: `190px`, height: `300px` }}
           />
         </div>
       )}
