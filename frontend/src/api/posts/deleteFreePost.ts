@@ -28,7 +28,7 @@ export const useDeleteFreePost = () => {
   return useMutation({
     mutationFn: deleteFreePost,
     onSuccess: async (_, postId) => {
-      await queryClient.removeQueries({
+      queryClient.removeQueries({
         queryKey: [`/postDetail/${postId}`],
       });
       await queryClient.invalidateQueries({

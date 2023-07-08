@@ -29,7 +29,7 @@ export const useDeleteDancerPost = () => {
   return useMutation({
     mutationFn: deleteDancerPost,
     onSuccess: async (_, postId) => {
-      await queryClient.removeQueries({
+      queryClient.removeQueries({
         queryKey: [`/postDetail/${postId}`],
       });
       await queryClient.invalidateQueries({

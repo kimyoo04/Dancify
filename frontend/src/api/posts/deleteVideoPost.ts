@@ -28,7 +28,7 @@ export const useDeleteVideoPost = () => {
   return useMutation({
     mutationFn: deleteVideoPost,
     onSuccess: async (_, postId) => {
-      await queryClient.removeQueries({
+      queryClient.removeQueries({
         queryKey: [`/postDetail/${postId}`],
       });
       await queryClient.invalidateQueries({
