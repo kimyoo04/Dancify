@@ -32,7 +32,7 @@ class GetListViewHistroyView(ListAPIView):
             user_id = user_info['userId']
             user = User.objects.get(user_id=user_id)
 
-            self.queryset = ViewHistory.objects.filter(user=user)
+            self.queryset = ViewHistory.objects.filter(user=user).order_by('-view_date')
             return super().list(request, *args, **kwargs)
         except (TokenError, KeyError, User.DoesNotExist):
             return Response(status=status.HTTP_401_UNAUTHORIZED)
