@@ -24,7 +24,6 @@ class Command(BaseCommand):
 
         texts = [
             'basic_wave',
-            '엑소 - Love me right(럽미라잇)',
             '소녀시대 - gee',
             '소녀시대 - 소원을 말해봐',
             '소녀시대 - I got a boy',
@@ -32,7 +31,6 @@ class Command(BaseCommand):
             '소녀시대 - Mr.Mr',
             '소녀시대 - 파티',
             '레드벨벳 - 파워 업',
-            '레드벨벳 - 빨간 맛',
         ]
 
         # 이미지/비디오 링크
@@ -47,7 +45,6 @@ class Command(BaseCommand):
 
         thumbnail_urls = [
             'https://dancify-bucket.s3.ap-northeast-2.amazonaws.com/thumbnail/dancer7/ef4b1b41e5834548aff789689a37d730-thumbnail.0000000.jpg',  # basic_wave
-            'https://dancify-bucket.s3.ap-northeast-2.amazonaws.com/thumbnail/dancer7/9814d274b1e04064959eb66780e1074c-thumbnail.0000000.jpg',  # 엑소 - 럽미라잇
             'https://dancify-bucket.s3.ap-northeast-2.amazonaws.com/thumbnail/dancer7/08630a5c5ab44f098358eb43a3fe9d9b-thumbnail.0000000.jpg',  # 소녀시대 - gee
             'https://dancify-bucket.s3.ap-northeast-2.amazonaws.com/thumbnail/dancer7/d6be40e4d7984156bc64138e636ae36d-thumbnail.0000000.jpg',  # 소녀시대 - 소원을 말해봐
             'https://dancify-bucket.s3.ap-northeast-2.amazonaws.com/thumbnail/dancer7/2f5403d3b27944d2822072b570cf6fbd-thumbnail.0000000.jpg',  # 소녀시대 - I got a boy
@@ -55,12 +52,10 @@ class Command(BaseCommand):
             'https://dancify-bucket.s3.ap-northeast-2.amazonaws.com/thumbnail/dancer7/2438e723ed0c4b7ca73c15cada13fddf-thumbnail.0000000.jpg',  # 소녀시대 - Mr.Mr
             'https://dancify-bucket.s3.ap-northeast-2.amazonaws.com/thumbnail/dancer7/b3565aa599a94b058c051301f94c9469-thumbnail.0000000.jpg',  # 소녀시대 - 파티
             'https://dancify-bucket.s3.ap-northeast-2.amazonaws.com/thumbnail/dancer7/fdf1074b1e024384be7b1dd8c71979ee-thumbnail.0000000.jpg',  # 레드벨벳 - 파워 업
-            'https://dancify-bucket.s3.ap-northeast-2.amazonaws.com/thumbnail/dancer7/2407abf515f54ff58423d2af9e66a919-thumbnail.0000000.jpg',  # 레드벨벳 - 빨간 맛
         ]
 
         video_urls = [
             'https://d2w69iexuycwsi.cloudfront.net/vod/dancer/dancer7/ef4b1b41e5834548aff789689a37d730.m3u8',  # basic_wave
-            'https://d2w69iexuycwsi.cloudfront.net/vod/dancer/dancer7/9814d274b1e04064959eb66780e1074c.m3u8',  # 엑소 - 럽미라잇
             'https://d2w69iexuycwsi.cloudfront.net/vod/dancer/dancer7/08630a5c5ab44f098358eb43a3fe9d9b.m3u8',  # 소녀시대 - gee
             'https://d2w69iexuycwsi.cloudfront.net/vod/dancer/dancer7/d6be40e4d7984156bc64138e636ae36d.m3u8',  # 소녀시대 - 소원을 말해봐
             'https://d2w69iexuycwsi.cloudfront.net/vod/dancer/dancer7/2f5403d3b27944d2822072b570cf6fbd.m3u8',  # 소녀시대 - I got a boy
@@ -68,12 +63,10 @@ class Command(BaseCommand):
             'https://d2w69iexuycwsi.cloudfront.net/vod/dancer/dancer7/2438e723ed0c4b7ca73c15cada13fddf.m3u8',  # 소녀시대 - Mr.Mr
             'https://d2w69iexuycwsi.cloudfront.net/vod/dancer/dancer7/b3565aa599a94b058c051301f94c9469.m3u8',  # 소녀시대 - 파티
             'https://d2w69iexuycwsi.cloudfront.net/vod/dancer/dancer7/fdf1074b1e024384be7b1dd8c71979ee.m3u8',  # 레드벨벳 - 파워 업
-            'https://d2w69iexuycwsi.cloudfront.net/vod/dancer/dancer7/2407abf515f54ff58423d2af9e66a919.m3u8',  # 레드벨벳 - 빨간 맛
         ]
 
         keypoints_urls = [
             'https://dancify-bucket.s3.ap-northeast-2.amazonaws.com/key-points/dancer7/65254fa3c7c845e2b51c8f0d1af99c34.json',  # basic_wave
-            'https://dancify-bucket.s3.ap-northeast-2.amazonaws.com/key-points/dancer7/1d5ad90d4eda4ac382514d9112a93e30.json',  # 엑소 - 럽미라잇
             "https://dancify-bucket.s3.ap-northeast-2.amazonaws.com/key-points/dancer7/e4089a07f4f247ba9c34f71553ed3f2b.json",  # 소녀시대 - gee
             "https://dancify-bucket.s3.ap-northeast-2.amazonaws.com/key-points/dancer7/cfb250a5406c477cb8ca8fbb1a94b5e9.json",  # 소녀시대 - 소원을 말해봐
             "https://dancify-bucket.s3.ap-northeast-2.amazonaws.com/key-points/dancer7/c30076d55f044a9b947e6c4a1530ed2b.json",  # 소녀시대 - I got a boy
@@ -81,7 +74,6 @@ class Command(BaseCommand):
             "https://dancify-bucket.s3.ap-northeast-2.amazonaws.com/key-points/dancer7/4065037e84544eabb2c70ffdf3a710f0.json",  # 소녀시대 - Mr.Mr
             "https://dancify-bucket.s3.ap-northeast-2.amazonaws.com/key-points/dancer7/03b8c61845174e4c8842ef1099025d7c.json",  # 소녀시대 - 파티
             "https://dancify-bucket.s3.ap-northeast-2.amazonaws.com/key-points/dancer7/4f41bc8e0c24408db493e31c783f4f84.json",  # 레드벨벳 - 파워 업
-            "https://dancify-bucket.s3.ap-northeast-2.amazonaws.com/key-points/dancer7/832a395a882d4fef9cc3f4f5a0a16fa8.json",  # 레드벨벳 - 빨간 맛
         ]
 
         group_names = ['르세라핌', '유키스', '아이브', '(여자)아이들',
@@ -109,7 +101,7 @@ class Command(BaseCommand):
 
         # 영상 자랑 게시판 더미데이터 생성
         for i in range(2):
-            for j in range(9):
+            for j in range(7):
                 seeder.add_entity(VideoPost, 1,
                                   {
                                       "user": choice(users),
@@ -124,7 +116,7 @@ class Command(BaseCommand):
         users = User.objects.filter(user_id__in=dancer_ids)
 
         # 댄서 게시판 더미데이터 생성
-        for i in range(9):
+        for i in range(7):
             seeder.add_entity(DancerPost, 1,
                               {
                                   "user": choice(users),
