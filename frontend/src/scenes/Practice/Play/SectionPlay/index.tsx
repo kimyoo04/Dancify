@@ -57,7 +57,7 @@ export default function SectionPlay({
   } = useAppSelector((state) => state.practice); // 선택된 섹션 인덱스 배열 가져오기
 
   // 선택된 구간의 인덱스
-  const sectionIndex = data.sections.findIndex(
+  const sectionIndex = isRealMode ? 0 : data.sections.findIndex(
     (section) => section.sectionId === selectedSections[playIndex].sectionId
   );
   const sectionId = data.sections[sectionIndex].sectionId;
