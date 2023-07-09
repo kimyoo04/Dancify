@@ -13,12 +13,12 @@ export default function SectionResult({
   handleMoveNextStep,
   handleMoveNextSection,
 }: SectionResultProps) {
-  const { playIndex } = useAppSelector((state) => state.practice);
+  const { playIndex, isRealMode } = useAppSelector((state) => state.practice);
 
   return (
     <div className="h-full w-full space-y-5 dark:text-black">
       <h1 className="text-2xl font-black">
-        {convertToOrdinal(playIndex)} 구간 연습 결과
+        {isRealMode ? "실전 모드 결과" : `${convertToOrdinal(playIndex)} 구간 연습 결과`}
       </h1>
 
       <ProgressBar />

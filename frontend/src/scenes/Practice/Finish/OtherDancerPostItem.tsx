@@ -18,18 +18,20 @@ export default function OtherDancerPostItem({ data }: { data: IDancerPost }) {
             width={250}
             height={330}
             className={cn(
-              "aspect-[9/16] w-full rounded-md bg-muted object-cover transition-all group-hover:scale-105"
+              "aspect-[9/16] w-full rounded-md bg-[#dee5ee] object-cover transition-all group-hover:scale-105"
             )}
           />
         )}
       </div>
 
-      <div className="flex items-start justify-start gap-3 rounded-b-md bg-muted px-3 pb-3 pt-5 group-hover:shadow-md">
+      <div className="flex items-start justify-start gap-3 rounded-b-md bg-[#dee5ee] px-3 pb-3 pt-5 group-hover:shadow-md">
         <ProfileImage imageUrl={data.profileImage} />
 
-        <div className="space-y-1 text-sm">
+        <div className="space-y-1 text-sm text-black dark:text-black">
           <h3 className="font-medium leading-none">{data.title}</h3>
-          <p className="text-xs text-muted-foreground">{data.nickname}</p>
+          <p className="text-xs text-gray-500 dark:text-gray-500">
+            {data.nickname}
+          </p>
         </div>
       </div>
     </Link>
