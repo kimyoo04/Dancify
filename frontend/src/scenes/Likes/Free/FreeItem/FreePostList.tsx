@@ -34,7 +34,7 @@ export default function FreePostList({ post }: { post: IUseInfniteFreePosts }) {
       ) : data ? (
         <>
           <FreeListWrapper>
-            {/* //! 자유게시판 검색결과 무한 스크롤 영역 */}
+            {/* //! 자유 게시판 검색결과 무한 스크롤 영역 */}
             {data.pages.map((group, indx) => (
               <Fragment key={indx + "page"}>
                 {group.data.map((data, indx) => (

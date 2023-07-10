@@ -47,19 +47,19 @@ export default function MyPosts({ id }: { id: string }) {
       </div>
 
       <div>
-        {/* //!댄서게시판 헤더 */}
+        {/* //!댄서 게시판 헤더 */}
         <div>
           <div className="flex items-center justify-between">
             <div className="space-y-1">
               <h2 className="text-xl font-semibold tracking-tight">
-                댄서게시판
+                댄서 게시판
               </h2>
             </div>
           </div>
           <Separator className="my-4" />
         </div>
 
-        {/* //!댄서게시판 미리보기 영역 */}
+        {/* //!댄서 게시판 미리보기 영역 */}
         <div className="relative">
           <ScrollArea>
             {dancerStatus === "loading" ? (
@@ -84,15 +84,15 @@ export default function MyPosts({ id }: { id: string }) {
         </div>
       </div>
       <div>
-        {/* //!자랑게시판 헤더 */}
+        {/* //!자랑 게시판 헤더 */}
         <div>
           <div className="flex items-center justify-between">
-            <h2 className="text-xl font-semibold tracking-tight">자랑게시판</h2>
+            <h2 className="text-xl font-semibold tracking-tight">자랑 게시판</h2>
           </div>
           <Separator className="my-4" />
         </div>
 
-        {/* //!자랑게시판 미리보기 영역 */}
+        {/* //!자랑 게시판 미리보기 영역 */}
         <div className="relative">
           <ScrollArea>
             {videoStatus === "loading" ? (
@@ -118,15 +118,15 @@ export default function MyPosts({ id }: { id: string }) {
       </div>
 
       <div>
-        {/* //!자유게시판 헤더 */}
+        {/* //!자유 게시판 헤더 */}
         <div>
           <div className="flex items-center justify-between">
-            <h2 className="text-xl font-semibold tracking-tight">자유게시판</h2>
+            <h2 className="text-xl font-semibold tracking-tight">자유 게시판</h2>
           </div>
           <Separator className="my-4" />
         </div>
 
-        {/* //!자유게시판 미리보기 영역 */}
+        {/* //!자유 게시판 미리보기 영역 */}
         <div className="w-full">
           <ScrollArea>
             {freeStatus === "loading" ? (

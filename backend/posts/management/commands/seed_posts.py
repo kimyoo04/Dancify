@@ -83,10 +83,10 @@ class Command(BaseCommand):
                        '빅스타', '라붐', '브레이브걸스', '에이스',
                        'EXID', '스테이씨', '티아라', '미쓰에이']
 
-        # 전체 유저 리스트 (자유게시판 작성용)
+        # 전체 유저 리스트 (자유 게시판 작성용)
         users = User.objects.all()
 
-        # 자유게시판 더미데이터 생성
+        # 자유 게시판 더미데이터 생성
         seeder.add_entity(FreePost, number,
                           {
                               "user": lambda x: choice(users),

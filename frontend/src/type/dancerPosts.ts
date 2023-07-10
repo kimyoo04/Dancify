@@ -12,7 +12,7 @@ import {
   TCreateDate,
 } from "./posts";
 
-// 댄서게시판의 1개 게시글
+// 댄서 게시판의 1개 게시글
 export interface IDancerPost {
   postId: TPostId;
   genre: TGenreValue;
@@ -29,7 +29,7 @@ export interface IDancerPost {
   feedbackPrice: TFeedbackPrice;
 }
 
-// 댄서게시판의 무한스크롤 데이터
+// 댄서 게시판의 무한스크롤 데이터
 export interface IDancerPostsPerPage {
   data: IDancerPost[];
   totalPages: number;
@@ -56,7 +56,7 @@ export interface IDancerPostDetail {
   comments: IComment[];
 }
 
-// 댄서게시판의 1개 게시글
+// 댄서 게시판의 1개 게시글
 export interface IHistory {
   videoHistoryId: string;
   viewDate: string;
@@ -77,7 +77,7 @@ export interface IDancerHistoryPost {
   feedbackPrice: TFeedbackPrice;
 };
 
-// 댄서게시판의 무한스크롤 데이터
+// 댄서 게시판의 무한스크롤 데이터
 export interface IHistoriesPerPage {
   data: IHistory[];
   totalPages: number;

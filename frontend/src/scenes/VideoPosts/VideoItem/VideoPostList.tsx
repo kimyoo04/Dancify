@@ -38,7 +38,7 @@ export default function VideoPostList({
       ) : data && data.pages[0].data.length !== 0 ? (
         <>
           <VideoListWrapper>
-            {/* //! 자유게시판 검색결과 무한 스크롤 영역 */}
+            {/* //! 자유 게시판 검색결과 무한 스크롤 영역 */}
             {data.pages.map((group, indx) => (
               <Fragment key={indx + "page"}>
                 {group.data.map((data, indx) => (

@@ -22,7 +22,7 @@ export default function FreePosts() {
 
         <FreePostHeader />
 
-        {/* 자유게시판 fetch 결과 출력 */}
+        {/* 자유 게시판 fetch 결과 출력 */}
         <FreePostList
           post={{
             data,

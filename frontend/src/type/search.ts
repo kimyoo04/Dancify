@@ -1,5 +1,5 @@
 export type TSearchCategoryEnglish = "FREE" | "VIDEO" | "DANCER";
-export type TSearchCategoryKorean = "댄서게시판" | "자랑게시판" | "자유게시판";
+export type TSearchCategoryKorean = "댄서 게시판" | "자랑 게시판" | "자유 게시판";
 export type TSearchKeyword = string;
 // 검색 react-hook-form에 사용
 

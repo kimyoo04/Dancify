@@ -22,7 +22,7 @@ export default function VideoPosts() {
 
         <VideoPostHeader />
 
-        {/* 자유게시판 fetch 결과 출력 */}
+        {/* 자유 게시판 fetch 결과 출력 */}
         <VideoPostList
           post={{
             data,

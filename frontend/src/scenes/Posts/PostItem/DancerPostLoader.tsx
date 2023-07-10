@@ -7,7 +7,7 @@ export default function DancerPostLoader() {
 
   return (
     <DancerListWrapper>
-      {/* //! 댄서게시판 검색결과 무한 스크롤 영역 */}
+      {/* //! 댄서 게시판 검색결과 무한 스크롤 영역 */}
       {contentLoaderArr.map((data, indx) => (
         <div
           key={indx + "dummy" + "posts"}

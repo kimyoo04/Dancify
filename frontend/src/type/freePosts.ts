@@ -10,7 +10,7 @@ import {
   TCreateDate,
 } from "./posts";
 
-//! 자유게시판의 1개 게시글 (확정)
+//! 자유 게시판의 1개 게시글 (확정)
 export interface IFreePost {
   postId: TPostId;
   title: TTitle;
@@ -24,7 +24,7 @@ export interface IFreePost {
   likesCount: TLikesCount;
 }
 
-//! 자유게시판의 무한스크롤 데이터 (확정)
+//! 자유 게시판의 무한스크롤 데이터 (확정)
 export interface IFreePostsPerPage {
   data: IFreePost[];
   totalPages: number;

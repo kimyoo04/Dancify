@@ -11,7 +11,7 @@ import {
   TCreateDate,
 } from "./posts";
 
-//! 자랑게시판의 1개 게시글 (확정)
+//! 자랑 게시판의 1개 게시글 (확정)
 export interface IVideoPost {
   postId: TPostId;
   title: TTitle;
@@ -26,7 +26,7 @@ export interface IVideoPost {
   commentsCount: TCommentCount;
 }
 
-//! 자랑게시판의 무한스크롤 데이터 (확정)
+//! 자랑 게시판의 무한스크롤 데이터 (확정)
 export interface IVideoPostsPerPage {
   data: IVideoPost[];
   totalPages: number;

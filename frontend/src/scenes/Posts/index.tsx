@@ -35,12 +35,12 @@ export default function Posts() {
           {/* 게시판 미리보기 영역 */}
           <div className="space-y-10 border-none p-0 outline-none">
             <div>
-              {/* //!자랑게시판 헤더 */}
+              {/* //!자랑 게시판 헤더 */}
               <div>
                 <div className="flex items-center justify-between">
                   <div className="space-y-1">
                     <h2 className="text-xl font-semibold tracking-tight">
-                      자랑게시판
+                      자랑 게시판
                     </h2>
                     <p className="text-sm text-muted-foreground">
                       동영상을 업로드하여 자랑하는 곳입니다.
@@ -54,7 +54,7 @@ export default function Posts() {
                 <Separator className="my-4" />
               </div>
 
-              {/* //!자랑게시판 미리보기 영역 */}
+              {/* //!자랑 게시판 미리보기 영역 */}
               <div className="relative">
                 <ScrollArea>
                   {videoStatus === "loading" ? (
@@ -82,12 +82,12 @@ export default function Posts() {
             </div>
 
             <div>
-              {/* //!자유게시판 헤더 */}
+              {/* //!자유 게시판 헤더 */}
               <div>
                 <div className="flex items-center justify-between">
                   <div className="space-y-1">
                     <h2 className="text-xl font-semibold tracking-tight">
-                      자유게시판
+                      자유 게시판
                     </h2>
                     <p className="text-sm text-muted-foreground">
                       자유롭게 글을 올리고, 댓글을 달아주세요.
@@ -101,7 +101,7 @@ export default function Posts() {
                 <Separator className="my-4" />
               </div>
 
-              {/* //!자유게시판 미리보기 영역 */}
+              {/* //!자유 게시판 미리보기 영역 */}
               <div className="w-full">
                 <ScrollArea>
                   {freeStatus === "loading" ? (

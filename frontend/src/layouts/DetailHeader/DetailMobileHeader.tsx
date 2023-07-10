@@ -11,11 +11,11 @@ export default function DetailMobileHeader() {
 
   const pathsArr = router.asPath.split("/");
   const currentPage = pathsArr.includes("free")
-    ? "자유게시판"
+    ? "자유 게시판"
     : pathsArr.includes("video")
-    ? "자랑게시판"
+    ? "자랑 게시판"
     : pathsArr.includes("dancer")
-    ? "댄서게시판"
+    ? "댄서 게시판"
     : pathsArr.includes("likes")
     ? "좋아요 게시글 목록"
     : "";

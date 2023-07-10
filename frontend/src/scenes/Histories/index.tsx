@@ -20,7 +20,7 @@ export default function Histories() {
       <div className="bg-background">
         <DancerPostHeader />
 
-        {/* 자유게시판 fetch 결과 출력 */}
+        {/* 자유 게시판 fetch 결과 출력 */}
         <DancerPostList
           post={{
             data,

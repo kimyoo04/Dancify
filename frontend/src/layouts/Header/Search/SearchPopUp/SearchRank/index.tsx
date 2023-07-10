@@ -28,7 +28,7 @@ export default function SearchRank() {
         <ol className="m-0 px-4 py-3 list-none">
           {data && (
             <>
-              {/* 댄서게시판 인기 검색어 5개 */}
+              {/* 댄서 게시판 인기 검색어 5개 */}
               {searchCategory === "DANCER" && (
                 <>
                   {data.DANCER.length > 0 ? (
@@ -46,7 +46,7 @@ export default function SearchRank() {
                   )}
                 </>
               )}
-              {/* 자랑게시판 인기 검색어 5개 */}
+              {/* 자랑 게시판 인기 검색어 5개 */}
               {searchCategory === "VIDEO" && (
                 <>
                   {data.VIDEO.length > 0 ? (
@@ -64,7 +64,7 @@ export default function SearchRank() {
                   )}
                 </>
               )}
-              {/* 자유게시판 인기 검색어 5개 */}
+              {/* 자유 게시판 인기 검색어 5개 */}
               {searchCategory === "FREE" && (
                 <>
                   {data.FREE.length > 0 ? (
