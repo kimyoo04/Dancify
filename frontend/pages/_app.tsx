@@ -19,6 +19,7 @@ import { ThemeProvider } from "next-themes";
 import { Toaster } from "@components/ui/toaster";
 
 import verifyUser from "@api/auth/verifyUser";
+import { TooltipProvider } from "@components/ui/tooltip";
 
 export default function App({ Component, pageProps }: AppProps) {
   const [queryClient] = useState(
@@ -50,15 +51,17 @@ export default function App({ Component, pageProps }: AppProps) {
       </Head>
 
       <ThemeProvider attribute="class">
-        <Provider store={store}>
-          <QueryClientProvider client={queryClient}>
-            <main>
-              <Component {...pageProps} />
-              <ReactQueryDevtools initialIsOpen={true} />
-              <Toaster />
-            </main>
-          </QueryClientProvider>
-        </Provider>
+        <TooltipProvider>
+          <Provider store={store}>
+            <QueryClientProvider client={queryClient}>
+              <main>
+                <Component {...pageProps} />
+                <ReactQueryDevtools initialIsOpen={true} />
+                <Toaster />
+              </main>
+            </QueryClientProvider>
+          </Provider>
+        </TooltipProvider>
       </ThemeProvider>
     </>
   );

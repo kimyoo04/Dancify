@@ -4,7 +4,6 @@ import BottomWrapper from "../Wrapper/BottomWrapper";
 import {
   Tooltip,
   TooltipContent,
-  TooltipProvider,
   TooltipTrigger,
 } from "@components/ui/tooltip";
 import { Button } from "@components/ui/button";
@@ -48,46 +47,43 @@ export default function Config({ data }: { data: IPractice }) {
               {/* 연습 모드 실전 모드 토글 영역 */}
               <div className="w-full">
                 <div className="row-center w-full overflow-hidden rounded-lg border-2 border-primary">
-                  <TooltipProvider>
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <Button
-                          variant={!isRealMode ? "default" : "ghost"}
-                          onClick={() =>
-                            isRealMode && dispatch(practiceActions.toggleReal())
-                          }
-                          className={`${
-                            !isRealMode ? "" : "bg-white"
-                          } w-full rounded-none`}
-                        >
-                          연습 모드
-                        </Button>
-                      </TooltipTrigger>
-                      <TooltipContent className="text-sm">
-                        <p>구간 별 복수 선택해서 연습할 수 있습니다.</p>
-                      </TooltipContent>
-                    </Tooltip>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Button
+                        variant={!isRealMode ? "default" : "ghost"}
+                        onClick={() =>
+                          isRealMode && dispatch(practiceActions.toggleReal())
+                        }
+                        className={`${
+                          !isRealMode ? "" : "bg-white"
+                        } w-full rounded-none`}
+                      >
+                        연습 모드
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent className="text-sm text-white">
+                      <p>구간 별 복수 선택해서 연습할 수 있습니다.</p>
+                    </TooltipContent>
+                  </Tooltip>
 
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <Button
-                          variant={isRealMode ? "default" : "ghost"}
-                          onClick={() =>
-                            !isRealMode &&
-                            dispatch(practiceActions.toggleReal())
-                          }
-                          className={`${
-                            isRealMode ? "" : "bg-white"
-                          } w-full rounded-none`}
-                        >
-                          실전 모드
-                        </Button>
-                      </TooltipTrigger>
-                      <TooltipContent className="text-sm">
-                        <p>안무 전체를 한 번에 연습할 수 있습니다.</p>
-                      </TooltipContent>
-                    </Tooltip>
-                  </TooltipProvider>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Button
+                        variant={isRealMode ? "default" : "ghost"}
+                        onClick={() =>
+                          !isRealMode && dispatch(practiceActions.toggleReal())
+                        }
+                        className={`${
+                          isRealMode ? "" : "bg-white"
+                        } w-full rounded-none`}
+                      >
+                        실전 모드
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent className="text-sm text-white">
+                      <p>안무 전체를 한 번에 연습할 수 있습니다.</p>
+                    </TooltipContent>
+                  </Tooltip>
                 </div>
               </div>
 
