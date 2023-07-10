@@ -27,7 +27,7 @@ export default function ExitEndButton() {
         <AlertDialogHeader>
           <AlertDialogTitle>정말로 그만하시겠습니까?</AlertDialogTitle>
           <AlertDialogDescription>
-            강제로 연습을 그만두면 기록이 남지 않습니다.
+            강제로 연습을 그만두시면 기록이 남지 않습니다.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>

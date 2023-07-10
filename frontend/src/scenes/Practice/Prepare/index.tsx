@@ -210,8 +210,8 @@ export default function Prepare({
                         isDevice && isDetector ? "default" : "destructive"
                       }
                     >
-                      <span className="text-lg">연습 시작</span>
-                      <Expand />
+                      <span className="text-lg mb-0.5">연습 시작</span>
+                          <Expand size={20} />
                     </Button>
                   )}
 
