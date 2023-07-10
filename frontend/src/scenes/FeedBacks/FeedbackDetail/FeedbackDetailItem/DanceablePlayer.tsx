@@ -121,8 +121,8 @@ export default function DanceablePlayer({
                   }}
                   className="absolute top-0 h-full"
                   onClick={() => {
-                    const player = playerRef.current
-                    player && player.seekTo(error.start)
+                    const player = playerRef.current;
+                    player && player.seekTo(error.start);
                   }}
                 />
               ))}

@@ -17,6 +17,6 @@ export const signUp = async (data: ISignUpForm) => {
     return true;
   } catch (err: any) {
     console.log("🚀 signup.tsx", err);
-    return err
+    return err.response.data;
   }
 };
