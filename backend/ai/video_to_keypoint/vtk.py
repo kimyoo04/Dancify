@@ -157,7 +157,7 @@ def dancer_x_y(interpreter, image):
         total_score += keypoint[2]
 
         yc = round(keypoint[0] * y, 3)
-        xc = x - round(keypoint[1] * x, 3)
+        xc = round(keypoint[1] * x, 3)
         score = round(keypoint[2], 3)
 
         data = {"y": yc,

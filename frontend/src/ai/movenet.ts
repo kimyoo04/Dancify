@@ -74,7 +74,7 @@ export async function detect(
 export function scoreToMessage(score: number) {
   if (score < 60) {
     return "Miss";
-  } else if (score >= 65 && score < 70) {
+  } else if (score >= 60 && score < 70) {
     return "Good";
   } else if (score >= 70 && score < 85) {
     return "Great";
