@@ -5,6 +5,7 @@ import { useAppSelector } from "@toolkit/hook";
 import SignInButton from "@layouts/Header/SignInButton";
 import SearchToggle from "../SearchToggle";
 import SearchOverlay from "../SearchToggle/SearchOverlay";
+import DarkToggle from "@components/ui/darkToggle";
 
 export default function MobileHeader() {
   const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
@@ -20,6 +21,8 @@ export default function MobileHeader() {
           </div>
 
           <div className="ml-auto flex items-center space-x-4">
+            <DarkToggle />
+
             {isAuthenticated ? (
               <>
                 <SearchToggle />

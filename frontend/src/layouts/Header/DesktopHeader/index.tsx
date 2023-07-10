@@ -5,6 +5,7 @@ import { useAppSelector } from "@toolkit/hook";
 import SignInButton from "@layouts/Header/SignInButton";
 import SideBar from "@layouts/SideBar";
 import Search from "../Search";
+import DarkToggle from "@components/ui/darkToggle";
 
 export default function DesktopHeader() {
   const isAuthenticated = useAppSelector((state) => state.auth.isAuthenticated);
@@ -27,6 +28,8 @@ export default function DesktopHeader() {
         </div>
 
         <div className="ml-auto flex items-center space-x-4">
+          <DarkToggle />
+
           {isAuthenticated ? (
             <>
               <UserNav />
