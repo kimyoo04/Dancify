@@ -66,14 +66,14 @@ class Command(BaseCommand):
         ]
 
         keypoints_urls = [
-            'https://dancify-bucket.s3.ap-northeast-2.amazonaws.com/key-points/dancer7/65254fa3c7c845e2b51c8f0d1af99c34.json',  # basic_wave
-            "https://dancify-bucket.s3.ap-northeast-2.amazonaws.com/key-points/dancer7/e4089a07f4f247ba9c34f71553ed3f2b.json",  # 소녀시대 - gee
-            "https://dancify-bucket.s3.ap-northeast-2.amazonaws.com/key-points/dancer7/cfb250a5406c477cb8ca8fbb1a94b5e9.json",  # 소녀시대 - 소원을 말해봐
-            "https://dancify-bucket.s3.ap-northeast-2.amazonaws.com/key-points/dancer7/c30076d55f044a9b947e6c4a1530ed2b.json",  # 소녀시대 - I got a boy
-            "https://dancify-bucket.s3.ap-northeast-2.amazonaws.com/key-points/dancer7/ca82e863cda44e13a809c9751179c670.json",  # 소녀시대 - 라이온 하트
-            "https://dancify-bucket.s3.ap-northeast-2.amazonaws.com/key-points/dancer7/4065037e84544eabb2c70ffdf3a710f0.json",  # 소녀시대 - Mr.Mr
-            "https://dancify-bucket.s3.ap-northeast-2.amazonaws.com/key-points/dancer7/03b8c61845174e4c8842ef1099025d7c.json",  # 소녀시대 - 파티
-            "https://dancify-bucket.s3.ap-northeast-2.amazonaws.com/key-points/dancer7/4f41bc8e0c24408db493e31c783f4f84.json",  # 레드벨벳 - 파워 업
+            'https://dancify-bucket.s3.ap-northeast-2.amazonaws.com/key-points/dancer7/basic_wave.json',  # basic_wave
+            "https://dancify-bucket.s3.ap-northeast-2.amazonaws.com/key-points/dancer7/gg-gee.json",  # 소녀시대 - gee
+            "https://dancify-bucket.s3.ap-northeast-2.amazonaws.com/key-points/dancer7/gg-genie.json",  # 소녀시대 - 소원을 말해봐
+            "https://dancify-bucket.s3.ap-northeast-2.amazonaws.com/key-points/dancer7/gg-i_got_a_boy.json",  # 소녀시대 - I got a boy
+            "https://dancify-bucket.s3.ap-northeast-2.amazonaws.com/key-points/dancer7/gg-lion_heart.json",  # 소녀시대 - 라이온 하트
+            "https://dancify-bucket.s3.ap-northeast-2.amazonaws.com/key-points/dancer7/gg-mrmr.json",  # 소녀시대 - Mr.Mr
+            "https://dancify-bucket.s3.ap-northeast-2.amazonaws.com/key-points/dancer7/gg-party.json",  # 소녀시대 - 파티
+            "https://dancify-bucket.s3.ap-northeast-2.amazonaws.com/key-points/dancer7/red_velvet-power_up.json",  # 레드벨벳 - 파워 업
         ]
 
         group_names = ['르세라핌', '유키스', '아이브', '(여자)아이들',
