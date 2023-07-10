@@ -299,12 +299,48 @@ const selectedSectionsData = isRealMode
             />
           </div>
         </div>
+
+        {/* 전신 메시지 와 강제 시작 버튼 -- 카운트 다운 */}
+        {!isFullBody ? (
+          <div className="col-center absolute top-0 z-10 h-full w-full gap-2 px-2 sm:hidden">
+            <p className="col-center rounded-md bg-background px-4 py-2 text-xs">
+              전신이 보이도록 해주세요.
+            </p>
+            <Button onClick={() => dispatch(practiceActions.checkFullBody())}>
+              강제 시작
+            </Button>
+          </div>
+        ) : count > -1 ? (
+          <div className="col-center absolute top-0 z-10 h-full w-full  sm:hidden">
+            {/* 카운트 다운 */}
+            <div className="col-center h-32 w-32 rounded-full bg-background">
+              <span className="text-5xl font-medium">{count}</span>
+            </div>
+          </div>
+        ) : null}
+
+        {/* 평가 UI 영역 */}
+        <div className="absolute left-4 right-0 top-4 z-10 mx-auto  sm:hidden">
+          {poseMessage !== "" && (
+            <motion.span
+              initial={{ opacity: 0, y: -50 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{
+                repeat: Infinity, // 무한 반복
+                duration: 1, // 애니메이션 이동 시간 (1초)
+              }}
+              className={`text-3xl font-medium`}
+              style={{ color: messageColor[poseMessage] }}
+            >
+              {poseMessage}
+            </motion.span>
+          )}
+        </div>
       </section>
 
       <section
-        className="border-box relative overflow-hidden rounded-md border-[6px]"
+        className="fixed -z-10 w-[200%] overflow-hidden rounded-md border-[6px] sm:relative sm:w-auto md:z-0"
         style={{
-          boxSizing: "border-box",
           borderColor:
             poseMessage !== "" ? messageColor[poseMessage] : "rgb(107 114 128)",
         }}
@@ -326,9 +362,9 @@ const selectedSectionsData = isRealMode
           className={`absolute top-0 z-10 h-full w-full`}
         />
 
+        {/* 전신 메시지 와 강제 시작 버튼 -- 카운트 다운 */}
         {!isFullBody ? (
           <div className="absolute top-0 z-10 flex h-full w-full items-end justify-end gap-2 pb-3 pr-3">
-            {/* 전신 메시지 */}
             <p className="col-center rounded-md bg-background px-4 py-2">
               전신이 보이도록 뒤로 이동해주세요.
             </p>
@@ -338,7 +374,6 @@ const selectedSectionsData = isRealMode
           </div>
         ) : count > -1 ? (
           <div className="col-center absolute top-0 z-10 h-full w-full">
-            {/* 카운트 다운 */}
             <div className="col-center h-32 w-32 rounded-full bg-background">
               <span className="text-5xl font-medium">{count}</span>
             </div>
