@@ -6,9 +6,7 @@ from rest_framework.response import Response
 
 from s3_modules.authentication import get_s3_client
 
-AWS_DOMAIN = "https://dancify-bucket.s3.ap-northeast-2.amazonaws.com/"
-# CLOUDFRONT_DOMAIN = "http://dyago72jbsqcn.cloudfront.net"
-CLOUDFRONT_DOMAIN = "https://d2w69iexuycwsi.cloudfront.net"
+AWS_DOMAIN = os.getenv('AWS_DOMAIN')
 
 
 def extract_file_key_from_url(url):

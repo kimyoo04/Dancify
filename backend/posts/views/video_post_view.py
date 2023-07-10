@@ -1,4 +1,5 @@
 import re
+import os
 
 from django.db import transaction
 from django.db.models import F
@@ -22,7 +23,7 @@ from s3_modules.upload import upload_video_with_metadata_to_s3
 from search_history.models import SearchHistory
 from s3_modules.delete import delete_video_from_s3
 
-AWS_DOMAIN = "https://dancify-bucket.s3.ap-northeast-2.amazonaws.com/"
+AWS_DOMAIN = os.getenv('AWS_DOMAIN')
 
 
 class VideoPostViewSet(BasePostViewSet):

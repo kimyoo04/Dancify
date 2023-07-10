@@ -26,8 +26,8 @@ from s3_modules.upload import upload_obj_to_s3
 from s3_modules.download import download_json_from_s3
 from moviepy.editor import VideoFileClip, AudioFileClip
 
-AWS_DOMAIN = "https://dancify-bucket.s3.ap-northeast-2.amazonaws.com/"
-ORIGIN_VIDEO_DOMAIN = "https://dancify-input.s3.ap-northeast-2.amazonaws.com/"
+AWS_DOMAIN = os.getenv('AWS_DOMAIN')
+ORIGIN_VIDEO_DOMAIN = os.getenv('ORIGIN_VIDEO_DOMAIN')
 
 
 class EndPartDanceView(APIView):

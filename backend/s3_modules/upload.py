@@ -10,9 +10,8 @@ from ai.face_mosaic.face_mosaic import face_mosaic
 from moviepy.editor import VideoFileClip, AudioFileClip
 from ai.shortform_generate.shortform_generator import generate_video
 
-AWS_DOMAIN = "https://dancify-bucket.s3.ap-northeast-2.amazonaws.com/"
-# CLOUDFRONT_DOMAIN = "http://dyago72jbsqcn.cloudfront.net"
-CLOUDFRONT_DOMAIN = "https://d2w69iexuycwsi.cloudfront.net"
+AWS_DOMAIN = os.getenv('AWS_DOMAIN')
+CLOUDFRONT_DOMAIN = os.getenv('CLOUDFRONT_DOMAIN')
 
 
 def upload_obj_to_s3(bucket_name, folder_path, file_key, object):
