@@ -103,7 +103,7 @@ export default function Document() {
       <body>
         <Main />
         <NextScript />
-        <div className="fixed left-0 top-0 z-40 " id="alert"></div>
+        <div className="fixed right-0 top-0 z-40" id="guide"></div>
       </body>
     </Html>
   );

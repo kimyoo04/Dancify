@@ -3,12 +3,13 @@ import Footer from "./Footer";
 import TabBar from "./TabBar";
 import Navigation from "./SideBar/Navigation";
 import { useAppSelector } from "@toolkit/hook";
+import GuideModal from "@components/GuideModal";
 
 export default function MainLayout({
   children,
 }: {
   children: React.ReactNode;
-}) {
+  }) {
   const isOpen = useAppSelector((state) => state.sideBar.isOpen);
   const paddingleft = isOpen ? "md:pl-[200px]" : "md:pl-[72px]";
 
@@ -31,6 +32,7 @@ export default function MainLayout({
       {/* 레이아웃 요소 */}
       <TabBar />
       <Header />
+      <GuideModal />
     </>
   );
 }
