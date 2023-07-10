@@ -17,6 +17,9 @@ import Prepare from "./Prepare";
 import Play from "./Play";
 import Result from "./Result";
 import Finish from "./Finish";
+import { X } from "lucide-react";
+import ButtonWrapper from "@components/Animation/ButtonWrapper";
+import ExitEndButton from "./ExitForceButton";
 
 export default function Practice({ postId }: { postId: TPostId }) {
   const router = useRouter();
@@ -83,6 +86,11 @@ export default function Practice({ postId }: { postId: TPostId }) {
           <Step isActive={step === 5}>
             <Finish />
           </Step>
+
+          {/* 강제 연습 종료 버튼 */}
+          <div className="fixed top-12 right-12 md:right-10 md:top-10 text-black">
+            <ExitEndButton />
+          </div>
         </>
       ) : (
         <div className="col-center gap-4">
