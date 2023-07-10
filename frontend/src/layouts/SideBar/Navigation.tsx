@@ -32,9 +32,19 @@ export default function Navigation({
           )}
         >
           <div className="col-start w-[168px] gap-2">
-            <Link onClick={handleClick} className="w-full" href={`/${linksData[0].path}`}>
+            <Link
+              onClick={handleClick}
+              className="w-full"
+              href={`/${linksData[0].path}`}
+            >
               <Button
-                variant={router.pathname === "/" || router.pathname.includes("dancer") ? "default" : "ghost"}
+                variant={
+                  router.pathname === "/" ||
+                  (router.pathname.includes("dancer") &&
+                    !router.pathname.includes("likes"))
+                    ? "default"
+                    : "ghost"
+                }
                 size="sm"
                 className="h-10 w-full items-center justify-start pl-2"
               >
@@ -43,10 +53,17 @@ export default function Navigation({
               </Button>
             </Link>
 
-            <Link onClick={handleClick} className="w-full" href={`/${linksData[1].path}`}>
+            <Link
+              onClick={handleClick}
+              className="w-full"
+              href={`/${linksData[1].path}`}
+            >
               <Button
                 variant={
-                  pathArr.includes(linksData[1].path) ? "default" : "ghost"
+                  pathArr.includes(linksData[1].path) &&
+                  !router.pathname.includes("likes")
+                    ? "default"
+                    : "ghost"
                 }
                 size="sm"
                 className="h-10 w-full items-center justify-start pl-2"
@@ -56,10 +73,17 @@ export default function Navigation({
               </Button>
             </Link>
 
-            <Link onClick={handleClick} className="w-full" href={`/${linksData[2].path}`}>
+            <Link
+              onClick={handleClick}
+              className="w-full"
+              href={`/${linksData[2].path}`}
+            >
               <Button
                 variant={
-                  pathArr.includes(linksData[2].path) ? "default" : "ghost"
+                  pathArr.includes(linksData[2].path) &&
+                  !router.pathname.includes("likes")
+                    ? "default"
+                    : "ghost"
                 }
                 size="sm"
                 className="h-10 w-full items-center justify-start pl-2"
@@ -71,7 +95,11 @@ export default function Navigation({
 
             <Separator />
 
-            <Link onClick={handleClick} className="w-full" href={`/${linksData[3].path}`}>
+            <Link
+              onClick={handleClick}
+              className="w-full"
+              href={`/${linksData[3].path}`}
+            >
               <Button
                 variant={
                   pathArr.includes(linksData[3].path) ? "default" : "ghost"
@@ -86,7 +114,11 @@ export default function Navigation({
 
             <Separator />
 
-            <Link onClick={handleClick} className="w-full" href={`/${linksData[4].path}`}>
+            <Link
+              onClick={handleClick}
+              className="w-full"
+              href={`/${linksData[4].path}`}
+            >
               <Button
                 variant={
                   pathArr.includes(linksData[4].path) ? "default" : "ghost"
@@ -99,7 +131,11 @@ export default function Navigation({
               </Button>
             </Link>
 
-            <Link onClick={handleClick} className="w-full" href={`/${linksData[5].path}`}>
+            <Link
+              onClick={handleClick}
+              className="w-full"
+              href={`/${linksData[5].path}`}
+            >
               <Button
                 variant={
                   pathArr.includes(linksData[5].path) ? "default" : "ghost"
@@ -112,7 +148,11 @@ export default function Navigation({
               </Button>
             </Link>
 
-            <Link onClick={handleClick} className="w-full" href={`/${linksData[6].path}/${userId}`}>
+            <Link
+              onClick={handleClick}
+              className="w-full"
+              href={`/${linksData[6].path}/${userId}`}
+            >
               <Button
                 variant={
                   router.pathname === "/posts/[id]" ? "default" : "ghost"
@@ -134,9 +174,19 @@ export default function Navigation({
           )}
         >
           <div className="col-center w-10 gap-2">
-            <Link onClick={handleClick} className="w-full" href={`/${linksData[0].path}`}>
+            <Link
+              onClick={handleClick}
+              className="w-full"
+              href={`/${linksData[0].path}`}
+            >
               <Button
-                variant={router.pathname === "/" || router.pathname.includes("dancer") ? "default" : "ghost"}
+                variant={
+                  router.pathname === "/" ||
+                  (router.pathname.includes("dancer") &&
+                    !router.pathname.includes("likes"))
+                    ? "default"
+                    : "ghost"
+                }
                 size="sm"
                 className="col-center h-10 w-10"
               >
@@ -144,10 +194,17 @@ export default function Navigation({
               </Button>
             </Link>
 
-            <Link onClick={handleClick} className="w-full" href={`/${linksData[1].path}`}>
+            <Link
+              onClick={handleClick}
+              className="w-full"
+              href={`/${linksData[1].path}`}
+            >
               <Button
                 variant={
-                  pathArr.includes(linksData[1].path) ? "default" : "ghost"
+                  pathArr.includes(linksData[1].path) &&
+                  !router.pathname.includes("likes")
+                    ? "default"
+                    : "ghost"
                 }
                 size="sm"
                 className="col-center h-10 w-10"
@@ -156,10 +213,17 @@ export default function Navigation({
               </Button>
             </Link>
 
-            <Link onClick={handleClick} className="w-full" href={`/${linksData[2].path}`}>
+            <Link
+              onClick={handleClick}
+              className="w-full"
+              href={`/${linksData[2].path}`}
+            >
               <Button
                 variant={
-                  pathArr.includes(linksData[2].path) ? "default" : "ghost"
+                  pathArr.includes(linksData[2].path) &&
+                  !router.pathname.includes("likes")
+                    ? "default"
+                    : "ghost"
                 }
                 size="sm"
                 className="col-center h-10 w-10"
@@ -170,7 +234,11 @@ export default function Navigation({
 
             <Separator />
 
-            <Link onClick={handleClick} className="w-full" href={`/${linksData[3].path}`}>
+            <Link
+              onClick={handleClick}
+              className="w-full"
+              href={`/${linksData[3].path}`}
+            >
               <Button
                 variant={
                   pathArr.includes(linksData[3].path) ? "default" : "ghost"
@@ -184,7 +252,11 @@ export default function Navigation({
 
             <Separator />
 
-            <Link onClick={handleClick} className="w-full" href={`/${linksData[4].path}`}>
+            <Link
+              onClick={handleClick}
+              className="w-full"
+              href={`/${linksData[4].path}`}
+            >
               <Button
                 variant={
                   pathArr.includes(linksData[4].path) ? "default" : "ghost"
@@ -196,7 +268,11 @@ export default function Navigation({
               </Button>
             </Link>
 
-            <Link onClick={handleClick} className="w-full" href={`/${linksData[5].path}`}>
+            <Link
+              onClick={handleClick}
+              className="w-full"
+              href={`/${linksData[5].path}`}
+            >
               <Button
                 variant={
                   pathArr.includes(linksData[5].path) ? "default" : "ghost"
@@ -208,7 +284,11 @@ export default function Navigation({
               </Button>
             </Link>
 
-            <Link onClick={handleClick} className="w-full" href={`/${linksData[6].path}/${userId}`}>
+            <Link
+              onClick={handleClick}
+              className="w-full"
+              href={`/${linksData[6].path}/${userId}`}
+            >
               <Button
                 variant={
                   router.pathname === "/posts/[id]" ? "default" : "ghost"
