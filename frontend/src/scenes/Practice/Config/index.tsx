@@ -61,8 +61,8 @@ export default function Config({ data }: { data: IPractice }) {
                         연습 모드
                       </Button>
                     </TooltipTrigger>
-                    <TooltipContent className="text-sm text-white">
-                      <p>구간 별 복수 선택해서 연습할 수 있습니다.</p>
+                    <TooltipContent>
+                      <p>구간별 복수 선택해서 연습할 수 있습니다.</p>
                     </TooltipContent>
                   </Tooltip>
 
@@ -80,8 +80,8 @@ export default function Config({ data }: { data: IPractice }) {
                         실전 모드
                       </Button>
                     </TooltipTrigger>
-                    <TooltipContent className="text-sm text-white">
-                      <p>안무 전체를 한 번에 연습할 수 있습니다.</p>
+                    <TooltipContent>
+                      <p>안무 전체를 한번에 연습할 수 있습니다.</p>
                     </TooltipContent>
                   </Tooltip>
                 </div>

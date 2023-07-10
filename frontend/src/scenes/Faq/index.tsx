@@ -29,7 +29,7 @@ export default function Faq() {
       <div>
         <Accordion type="single" collapsible className="w-full">
           <AccordionItem value="item-1">
-            <AccordionTrigger className="text-lg font-normal">
+            <AccordionTrigger className="text-[16px] md:text-lg font-normal">
               · Dancify는 어떤 서비스인가요?
             </AccordionTrigger>
             <AccordionContent className="overflow-hidden rounded-md">
@@ -41,7 +41,7 @@ export default function Faq() {
           </AccordionItem>
 
           <AccordionItem value="item-2">
-            <AccordionTrigger className="text-lg font-normal">
+            <AccordionTrigger className="text-[16px] md:text-lg font-normal">
               · 어떤 사람이 이용하면 좋을까요?
             </AccordionTrigger>
             <AccordionContent className="max-w-3xl px-2">
@@ -55,7 +55,7 @@ export default function Faq() {
           </AccordionItem>
 
           <AccordionItem value="item-3">
-            <AccordionTrigger className="text-lg font-normal">
+            <AccordionTrigger className="text-[16px] md:text-lg font-normal">
               · 어떻게 연습을 할 수 있나요?
             </AccordionTrigger>
             <AccordionContent className="max-w-3xl px-2">
@@ -70,7 +70,7 @@ export default function Faq() {
           </AccordionItem>
 
           <AccordionItem value="item-4">
-            <AccordionTrigger className="text-lg font-normal">
+            <AccordionTrigger className="text-[16px] md:text-lg font-normal">
               · 웹캠을 켰는데 모델이 불러와지지 않습니다.
             </AccordionTrigger>
             <AccordionContent className="max-w-3xl px-2">
@@ -79,7 +79,7 @@ export default function Faq() {
           </AccordionItem>
 
           <AccordionItem value="item-5">
-            <AccordionTrigger className="text-lg font-normal">
+            <AccordionTrigger className="text-[16px] md:text-lg font-normal">
               · 점수 그래프를 신체 부위별로 하나씩만 볼 수 있나요?
             </AccordionTrigger>
             <AccordionContent className="max-w-3xl px-2">
@@ -88,7 +88,7 @@ export default function Faq() {
           </AccordionItem>
 
           <AccordionItem value="item-6">
-            <AccordionTrigger className="text-lg font-normal">
+            <AccordionTrigger className="text-[16px] md:text-lg font-normal">
               · 가만히 있어도 점수가 잘 나옵니다.
             </AccordionTrigger>
             <AccordionContent className="max-w-3xl px-2">
@@ -101,7 +101,7 @@ export default function Faq() {
           </AccordionItem>
 
           <AccordionItem value="item-7">
-            <AccordionTrigger className="text-lg font-normal">
+            <AccordionTrigger className="text-[16px] md:text-lg font-normal">
               · 댄서블로 가입 후, 댄서로 가입하고자 하는데 어떻게 해야하나요?
             </AccordionTrigger>
             <AccordionContent className="max-w-3xl px-2">
@@ -110,7 +110,7 @@ export default function Faq() {
           </AccordionItem>
 
           <AccordionItem value="item-8">
-            <AccordionTrigger className="text-lg font-normal">
+            <AccordionTrigger className="text-[16px] md:text-lg font-normal">
               · 회원탈퇴는 불가한건가요?
             </AccordionTrigger>
             <AccordionContent className="max-w-3xl px-2">
@@ -119,7 +119,7 @@ export default function Faq() {
           </AccordionItem>
 
           <AccordionItem value="item-9">
-            <AccordionTrigger className="text-lg font-normal">
+            <AccordionTrigger className="text-[16px] md:text-lg font-normal">
               · 점수 산출 기준이 궁금합니다.
             </AccordionTrigger>
             <AccordionContent className="max-w-3xl px-2">
