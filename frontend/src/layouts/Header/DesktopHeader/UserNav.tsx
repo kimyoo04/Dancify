@@ -43,15 +43,15 @@ export function UserNav() {
       </DropdownMenuTrigger>
 
       {/* 드롭다운 메뉴 */}
-      <DropdownMenuContent className="w-44" align="end" forceMount>
+      <DropdownMenuContent className="min-w-44" align="end" forceMount>
         {/* 유저 정보 */}
         <DropdownMenuLabel className="font-normal">
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between space-x-2">
             <div className="flex flex-col space-y-1">
               <p className="text-sm font-medium leading-none">{nickname}</p>
             </div>
 
-            <span>{isDancer ? "Dancer": "Danceable"}</span>
+            <span>{isDancer ? "Dancer" : "Danceable"}</span>
           </div>
         </DropdownMenuLabel>
 
@@ -61,8 +61,7 @@ export function UserNav() {
         {/* 메뉴 목록 */}
         <DropdownMenuGroup>
           <Link href="/profile">
-            <DropdownMenuItem
-            className="cursor-pointer hover:text-foreground">
+            <DropdownMenuItem className="cursor-pointer hover:text-foreground">
               <User className="mr-2 h-4 w-4" />
               <span>Profile</span>
             </DropdownMenuItem>
@@ -74,7 +73,7 @@ export function UserNav() {
 
         {/* 로그아웃 버튼 */}
         <DropdownMenuItem
-        className="cursor-pointer hover:text-foreground"
+          className="cursor-pointer hover:text-foreground"
           onClick={async () => {
             const response = await logOut();
             if (response === true) {

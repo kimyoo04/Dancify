@@ -1,4 +1,4 @@
-import { LogOut, User } from "lucide-react";
+import { HelpCircleIcon, LogOut, User } from "lucide-react";
 
 import { Avatar } from "@components/ui/avatar";
 import { Button } from "@components/ui/button";
@@ -40,10 +40,10 @@ export function UserNav() {
       </DropdownMenuTrigger>
 
       {/* 드롭다운 메뉴 */}
-      <DropdownMenuContent className="w-44" align="end" forceMount>
+      <DropdownMenuContent className="min-w-44" align="end" forceMount>
         {/* 유저 정보 */}
         <DropdownMenuLabel className="font-normal">
-          <div className="flex items-center justify-between">
+          <div className="flex items-center space-x-2">
             <div className="flex flex-col space-y-1">
               <p className="text-sm font-medium leading-none">{nickname}</p>
             </div>
