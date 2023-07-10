@@ -23,7 +23,7 @@ export default function Loading() {
       animate="end"
       initial="start"
     >
-      <div className="h-10 w-10 rounded-full border-4 border-t-4 border-gray-200 border-t-blue-500"></div>
+      <div className="h-6 w-6 rounded-full border-4 border-t-4 border-gray-200 border-t-primary"></div>
     </motion.div>
   );
 }

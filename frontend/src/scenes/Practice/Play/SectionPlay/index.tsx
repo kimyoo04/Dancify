@@ -267,11 +267,11 @@ const selectedSectionsData = isRealMode
       {/* //! 숏폼 UI 구현 필요 */}
       {/* 스트리밍 영역 */}
       <section
-        className={`relative h-0 overflow-hidden rounded-md`}
+        className={`relative h-0 w-full overflow-hidden rounded-md border-[6px] border-gray-500`}
         style={{
-          width: `${webcamDims.height * (9 / 16)}px`,
+          width: `${webcamDims.height * (9 / 16) + 12}px`,
           aspectRatio: `${9 / 16}`,
-          paddingBottom: `${webcamDims.height + 12}px`,
+          paddingBottom: `${webcamDims.height}px`,
         }}
       >
         <ReactPlayer
@@ -289,7 +289,7 @@ const selectedSectionsData = isRealMode
         {/* 진행 바 영역 */}
         <div className="absolute bottom-0 left-0 w-full overflow-hidden">
           {/* 전체 진행 영역 표시 */}
-          <div className="relative h-1.5 w-full bg-foreground">
+          <div className="relative h-1.5 w-full bg-gray-400">
             {/* 현재 진행 시점 표시 */}
             <div
               style={{
@@ -305,11 +305,17 @@ const selectedSectionsData = isRealMode
         className="border-box relative overflow-hidden rounded-md border-[6px]"
         style={{
           boxSizing: "border-box",
-          borderColor: poseMessage !== "" ? messageColor[poseMessage] : "gray",
+          borderColor:
+            poseMessage !== "" ? messageColor[poseMessage] : "rgb(107 114 128)",
         }}
       >
         {/* 웹캠 영상 */}
-        <Webcam ref={webcamRef} mirrored={true} />
+        <Webcam
+          ref={webcamRef}
+          mirrored={true}
+          width={"100%"}
+          height={"100%"}
+        />
 
         {/* 스캘레톤 매핑 */}
         <canvas

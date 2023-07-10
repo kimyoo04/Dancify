@@ -122,13 +122,22 @@ export default function Prepare({
             <div className="col-center h-full w-full">
               <div className="col-between h-[80%] w-full">
                 <div>
-                  <Image src={"/images/character.png"} width={200} height={200}  alt="character"/>
+                  <Image
+                    src={"/images/character.png"}
+                    width={200}
+                    height={200}
+                    alt="character"
+                  />
+                </div>
+
+                <div className="row-center gap-1">
+                  <Loading />
+                  <p className="text-xl font-bold text-primary">
+                    잠시만 기다려주세요.
+                  </p>
                 </div>
 
                 <div className="col-center">
-                  <p className="text-xl font-medium text-secondary">
-                    잠시만 기다려주세요.
-                  </p>
                   <p>연습을 위한 환경을 확인 중입니다.</p>
                   <p>웹캠에 얼굴이 나오도록 해주세요.</p>
                 </div>
