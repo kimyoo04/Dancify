@@ -1,8 +1,10 @@
 import { useMotionValueEvent, useScroll } from "framer-motion";
 import { ChevronUp } from "lucide-react";
+import { useRouter } from "next/router";
 import { useState } from "react";
 
 export default function ScrollButton() {
+  const router = useRouter();
   const [isTop, setIsTop] = useState(true);
   const { scrollY } = useScroll();
 
@@ -27,8 +29,12 @@ export default function ScrollButton() {
   return (
     <button
       onClick={() => scrollToTop()}
-      className={`col-center dark:shadow-gray-4 group fixed bottom-20 right-4 z-10 h-8 w-8 rounded-full bg-muted shadow-sm shadow-gray_1 transition-all hover:scale-110 md:bottom-4 ${
+      className={`col-center dark:shadow-gray-4 group fixed  right-4 z-10 h-8 w-8 rounded-full bg-muted shadow-sm shadow-gray_1 transition-all hover:scale-110  ${
         isTop ? "cursor-default opacity-0" : ""
+      } ${
+        router.asPath === "/"
+          ? "bottom-32 md:bottom-16"
+          : "bottom-20 md:bottom-4"
       }`}
     >
       <ChevronUp />

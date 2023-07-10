@@ -3,6 +3,7 @@ import { FileBarChart2, Users } from "lucide-react";
 import { Heart, Home, ShoppingBagIcon } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import FAQButton from "./FAQButton";
 
 export default function TabBar() {
   const router = useRouter();
@@ -12,9 +13,10 @@ export default function TabBar() {
     <>
       {/* 최상단 이동 버튼 */}
       <ScrollButton />
+      <FAQButton />
 
       {/* 탭바 영역 */}
-      <div className="container fixed z-20 bottom-0 grid h-16 w-screen grid-cols-5 justify-between border-t bg-background md:hidden">
+      <div className="container fixed bottom-0 z-20 grid h-16 w-screen grid-cols-5 justify-between border-t bg-background md:hidden">
         <Link href="/" className="col-center">
           <Home className={`${isActive(router.pathname === "/")}`} />
           <span className={`${router.pathname === "/"} text-xs`}>홈</span>
