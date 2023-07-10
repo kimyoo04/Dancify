@@ -110,10 +110,9 @@ export function convertPoseToVectors(
             );
         }
       }
-
-      vectorScoresSum += score;
-      vectorScores.push(score);
     }
+    vectorScoresSum += score;
+    vectorScores.push(score);
   });
   vectorScores.push(vectorScoresSum);
 

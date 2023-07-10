@@ -72,11 +72,11 @@ export async function detect(
 }
 
 export function scoreToMessage(score: number) {
-  if (score < 60) {
+  if (score < 65) {
     return "Miss";
-  } else if (score >= 65 && score < 70) {
+  } else if (score >= 65 && score < 75) {
     return "Good";
-  } else if (score >= 70 && score < 85) {
+  } else if (score >= 75 && score < 85) {
     return "Great";
   } else {
     return "Excellent";
@@ -110,7 +110,6 @@ export async function danceableBodyCheck(
   }, 1000);
 }
 
-
 export async function runMovenet(
   isForceEnd: React.MutableRefObject<boolean>,
   isSkeleton: boolean,
@@ -127,11 +126,11 @@ export async function runMovenet(
   const danceableJson: poseType[][] = [];
 
   // 구간의 평균 유사도 점수
-  let avgCosineDistance = 0;
+  let resultScore = 0;
   let oneSecCosineDistance = 0; // 1초 동안의 keypoints 유사도 점수
 
   // 반복문 실행
-  let indx = 1;
+  let indx = 0;
 
   // 강제 구간 종료 시 canvas error 방지
   let breakDrawing = false;
@@ -169,7 +168,7 @@ export async function runMovenet(
             strategy: "cosineDistance",
           });
           danceableJson.push(danceable); //댄서블 실시간 keypoint 저장
-
+          // console.log(cosineDistance);
           if (cosineDistance instanceof Error) {
             console.log(
               "🚀 movenet.ts ~ cosineDistance: error",
@@ -180,11 +179,10 @@ export async function runMovenet(
 
             //1초 지나면 avgCosineDistance에 더해주고 점수 메세지 출력한 뒤, oneSecCosineDistance 초기화
             if (indx % 15 === 0) {
-              avgCosineDistance += oneSecCosineDistance;
               const poseMessage = scoreToMessage(oneSecCosineDistance / 15);
               setPoseMessage(poseMessage);
               postMessages[poseMessage] += 1; // 동작 평가 메시지 누적
-              oneSecCosineDistance = 0; // 1분동안의 유사도 점수 초기화
+              oneSecCosineDistance = 0; // 1초 동안의 유사도 점수 초기화
             }
             // console.log('current',indx);
             indx += 1; //다음 이미지 비교
@@ -206,9 +204,20 @@ export async function runMovenet(
           breakDrawing = true;
           clearInterval(drawPerSec);
           clearCanvas(canvas);
-          avgCosineDistance =
-            Math.round((avgCosineDistance / indx - 1) * 100) / 100;
-          resolve([avgCosineDistance, postMessages, danceableJson]);
+
+          // 점수 계산
+          const totalcnt =
+            Object.values(postMessages).reduce((sum, value) => sum + value) * 3;
+          resultScore =
+            Math.round(
+              (10000 *
+                (postMessages["Good"] +
+                  postMessages["Great"] * 2 +
+                  postMessages["Excellent"] * 3)) /
+                totalcnt
+            ) / 100;
+          // console.log(resultScore, postMessages);
+          resolve([resultScore, postMessages, danceableJson]);
         }
       }
     }, 1000 / 15); //! 15 fps
