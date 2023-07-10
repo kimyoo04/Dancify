@@ -12,7 +12,7 @@ export default function VideoPostDetailPage() {
   useEffect(() => {
     verifyUser().then((res) => {
       if (res) setJwtVerified(res);
-      else router.push("/signin");
+      else router.replace("/signin");
     });
   }, []);
 

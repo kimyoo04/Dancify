@@ -11,7 +11,7 @@ export default function HistoriesPage() {
   useEffect(() => {
     verifyUser().then((res) => {
       if (res) setJwtVerified(res);
-      else router.push("/signin");
+      else router.replace("/signin");
     });
   }, []);
 
