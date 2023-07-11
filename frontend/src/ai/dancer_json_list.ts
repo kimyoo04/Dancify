@@ -38,7 +38,7 @@ export const dancer_json = [
                 "name": "left_shoulder"
             },
             {
-                "y": 393.298,
+                "y": 0,
                 "x": 0,
                 "score": 0,
                 "name": "right_shoulder"
