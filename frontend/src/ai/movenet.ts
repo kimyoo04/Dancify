@@ -5,6 +5,7 @@ import { drawKeypoints, drawSkeleton } from "@ai/utilities";
 
 import { IPoseMessages, TPoseMessage } from "@type/practice";
 import { Pose as poseType } from "@type/moveNet";
+import { dancer_json } from "./dancer_json_list";
 
 import * as poseDetection from "@tensorflow-models/pose-detection";
 import * as tf from "@tensorflow/tfjs";
@@ -124,6 +125,7 @@ export async function runMovenet(
 > {
   // 구간의 실시간 댄서블 keypoint 점수
   const danceableJson: poseType[][] = [];
+  let prevdanceabledata = dancer_json;
 
   // 구간의 평균 유사도 점수
   let resultScore = 0;
@@ -151,7 +153,11 @@ export async function runMovenet(
 
       // 댄서블의 keypoint 추출
       const danceable = await detect(webcam, detector);
+      if (danceable !== "error") {
+        prevdanceabledata = danceable;
+      }
       const dancer = dancerJson[indx];
+
       if (breakDrawing) {
         console.log("🚫 breakDrawing");
       } else {
@@ -161,7 +167,6 @@ export async function runMovenet(
           const ctx = getCanvasCxt(webcamWidth, webcamHeight, canvas);
           danceable !== "error" && ctx !== null && drawCanvas(danceable, ctx);
         }
-
         // 에러 안 나면 x,y의 좌표와 유사도 출력
         if (danceable !== "error" && dancer !== undefined) {
           const cosineDistance = poseSimilarity(danceable[0], dancer[0], {
@@ -187,6 +192,19 @@ export async function runMovenet(
             // console.log('current',indx);
             indx += 1; //다음 이미지 비교
           }
+
+          // 얼굴 인식이 안 된 경우 이전 정보 가져다 씀
+        } else {
+          // console.log('얼굴인식안됨');
+          danceableJson.push(prevdanceabledata);
+
+          if (indx % 15 === 0) {
+            const poseMessage = scoreToMessage(oneSecCosineDistance / 15);
+            setPoseMessage(poseMessage);
+            postMessages[poseMessage] += 1; // 동작 평가 메시지 누적
+            oneSecCosineDistance = 0; // 1초 동안의 유사도 점수 초기화
+          }
+          indx += 1; //다음 이미지 비교
         }
 
         //! -------------- 리펙토링 필요 --------------
