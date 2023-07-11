@@ -74,6 +74,18 @@ class EndPartDanceView(APIView):
                                                             'danceable_video', user_id)
         result_video_download_folder_path = os.path.join(settings.BASE_DIR,
                                                          'result_video', user_id)
+        # 로컬에 json 파일 저장
+        # json 폴더가 존재하지 않으면 생성
+        temp_path = os.path.join(settings.BASE_DIR, 'json', user_id)
+
+        tmp_folders = [dancer_video_download_folder_path, danceable_video_download_folder_path,
+                       result_video_download_folder_path, temp_path]
+
+        # 앞서 비정상적인 종료로 인해 남아있는 찌꺼기 파일들 제거(이후의 ffmpeg 오류발생 방지)
+        for tmp_folder in tmp_folders:
+            if os.path.exists(tmp_folder):
+                shutil.rmtree(tmp_folder)
+
         # 폴더 생성
         os.makedirs(dancer_video_download_folder_path, exist_ok=True)
         os.makedirs(danceable_video_download_folder_path, exist_ok=True)
@@ -134,7 +146,7 @@ class EndPartDanceView(APIView):
 
         # 로컬에 json 파일 저장
         # 폴더가 존재하지 않으면 생성
-        temp_path = os.path.join(settings.BASE_DIR, 'temp')
+        temp_path = os.path.join(settings.BASE_DIR, 'json', user_id)
         if not os.path.exists(temp_path):
             os.makedirs(temp_path)
 
@@ -191,10 +203,9 @@ class EndPartDanceView(APIView):
                         section=section)
 
         # 로컬에 생긴 폴더 삭제
-        shutil.rmtree(dancer_video_download_folder_path)
-        shutil.rmtree(danceable_video_download_folder_path)
-        shutil.rmtree(result_video_download_folder_path)
-        shutil.rmtree(temp_path)
+        for tmp_folder in tmp_folders:
+            if os.path.exists(tmp_folder):
+                shutil.rmtree(tmp_folder)
 
         return Response(status=status.HTTP_200_OK)
 
