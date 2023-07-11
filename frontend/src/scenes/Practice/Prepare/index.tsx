@@ -186,7 +186,7 @@ export default function Prepare({
 
                 <div className="col-center w-full gap-3">
                   {isLoading ? (
-                    <Button disabled>
+                    <Button disabled className="w-full">
                       <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
                       로딩 중..
                     </Button>
