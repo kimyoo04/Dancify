@@ -13,6 +13,12 @@ const nextConfig = (phase) => {
             port: "",
             pathname: "/**",
           },
+          {
+            protocol: "https",
+            hostname: "dancify-bucket2.s3.ap-northeast-2.amazonaws.com",
+            port: "",
+            pathname: "/**",
+          },
         ],
       },
     };
@@ -26,6 +32,12 @@ const nextConfig = (phase) => {
         {
           protocol: "https",
           hostname: "dancify-bucket.s3.ap-northeast-2.amazonaws.com",
+          port: "",
+          pathname: "/**",
+        },
+        {
+          protocol: "https",
+          hostname: "dancify-bucket2.s3.ap-northeast-2.amazonaws.com",
           port: "",
           pathname: "/**",
         },
